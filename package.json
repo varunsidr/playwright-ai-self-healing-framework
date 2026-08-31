@@ -1,0 +1,26 @@
+{
+  "name": "playwright-ai-self-healing-framework",
+  "version": "1.0.0",
+  "description": "AI-assisted Playwright TypeScript framework for the Expand Testing inputs page with self-healing-friendly test structure.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report",
+    "record": "playwright codegen https://practice.expandtesting.com/inputs"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "testing",
+    "mcp",
+    "self-healing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.3.0"
+  }
+}
