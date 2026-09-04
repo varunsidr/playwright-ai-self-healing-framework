@@ -41,10 +41,13 @@ pw-mcp-demo/
 │   ├── base.ts
 │   └── test-data.ts
 ├── flows/
+│   ├── home-flow.ts
 │   └── inputs-flow.ts
 ├── pages/
+│   ├── home-page.ts
 │   └── inputs-page.ts
 ├── tests/
+│   ├── home.spec.ts
 │   ├── demo-inputs.spec.ts
 │   └── seed.spec.ts
 ├── roadmap/
@@ -84,6 +87,12 @@ Start a codegen session for the inputs page:
 npm run record
 ```
 
+Run the custom static analysis rules:
+
+```powershell
+npm run analyze
+```
+
 If `npx` gives PowerShell execution-policy trouble on your machine, use `npx.cmd` instead.
 
 ---
@@ -94,6 +103,17 @@ If `npx` gives PowerShell execution-policy trouble on your machine, use `npx.cmd
 - Failure artifacts are written to `test-results/`.
 - Traces, screenshots, and videos are retained on failure so regressions are easier to diagnose.
 - The GitHub Actions workflow uploads both the report and the test-results folder as artifacts.
+
+### Publish HTML report to GitHub Pages
+
+- Optionally publish the `playwright-report/` folder to GitHub Pages for easy viewing. The repository includes a ready-to-run workflow `.github/workflows/deploy-report.yml` that:
+	- runs the test suite,
+	- generates the HTML report, and
+	- publishes `playwright-report/` to the `gh-pages` branch.
+
+- To trigger the deploy workflow manually from the Actions tab, use the `Run workflow` (workflow_dispatch) button. The published report will be available at `https://<owner>.github.io/<repo>/` after Pages is enabled for the `gh-pages` branch.
+
+If you prefer to just download the report from CI, the main workflow already uploads `playwright-report` as an artifact you can download from the workflow run details.
 
 ---
 
@@ -129,12 +149,14 @@ The seed spec and architecture document give automation agents a stable starting
 
 - GitHub Actions workflow: [.github/workflows/playwright.yml](.github/workflows/playwright.yml)
 - Architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)
+- Static analysis rules: [docs/static-analysis.md](docs/static-analysis.md)
 - Roadmap: [roadmap/FUTURE_ENHANCEMENTS.md](roadmap/FUTURE_ENHANCEMENTS.md)
 
 ---
 
 ## Current Coverage Snapshot
 
+- Homepage navigation into the inputs demo.
 - Inputs page happy-path test with fill, display, and clear validation.
 - Minimal seed navigation test for tooling and repair workflows.
 - Browser coverage across Chromium, Firefox, and WebKit.

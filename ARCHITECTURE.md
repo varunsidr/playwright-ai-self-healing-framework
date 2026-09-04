@@ -25,6 +25,7 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 
 ### Test Layer
 
+- [tests/home.spec.ts](tests/home.spec.ts) is the homepage entry scenario that opens the inputs demo.
 - [tests/demo-inputs.spec.ts](tests/demo-inputs.spec.ts) is the canonical real scenario.
 - [tests/seed.spec.ts](tests/seed.spec.ts) is a minimal navigation seed used for tooling and quick smoke coverage.
 
@@ -32,7 +33,9 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 
 - [fixtures/base.ts](fixtures/base.ts) defines the custom `test` and `expect` exports.
 - [fixtures/test-data.ts](fixtures/test-data.ts) stores shared test data objects.
+- [pages/home-page.ts](pages/home-page.ts) contains the page object for the homepage.
 - [pages/inputs-page.ts](pages/inputs-page.ts) contains the page object for the inputs page.
+- [flows/home-flow.ts](flows/home-flow.ts) contains scenario-level orchestration for the homepage.
 - [flows/inputs-flow.ts](flows/inputs-flow.ts) contains scenario-level orchestration above the page object.
 
 ### Runtime / Config Layer
@@ -46,7 +49,7 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 The practical flow in this repo is:
 
 1. The spec imports `test` and `expect` from `fixtures/base.ts`.
-2. The fixture creates `inputsPage`, and now also `inputsFlow`.
+2. The fixture creates `homePage`, `homeFlow`, `inputsPage`, and `inputsFlow`.
 3. The flow object uses the page object for scenario orchestration.
 4. The page object owns locators and low-level page actions.
 5. Assertions happen in the spec and in page-object helper assertions.
