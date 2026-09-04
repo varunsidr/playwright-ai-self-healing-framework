@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('TodoMVC Tests @smoke', () => {
-  const TODO_URL = 'https://todomvc.com/examples/react/#/';
+  const TODO_URL = 'https://todomvc.com/examples/react/dist/';
 
   test('add, complete and delete todos', async ({ page }) => {
     await page.goto(TODO_URL);
