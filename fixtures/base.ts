@@ -42,6 +42,18 @@ const BLOCKED_AD_DOMAINS = [
   '**://*.bidswitch.net/**',
   '**://*.mgid.com/**',
   '**://*.connatix.com/**',
+  '**://*.pagead2.googlesyndication.com/**',
+  '**://*.adservice.google.com/**',
+  '**://*.ads.google.com/**',
+  '**://*.securepubads.g.doubleclick.net/**',
+  '**://*.static.doubleclick.net/**',
+  '**://*.doubleverify.com/**',
+  '**://*.adroll.com/**',
+  '**://*.connect.facebook.net/**',
+  '**://*.pixel.facebook.com/**',
+  '**://*.static.ads-twitter.com/**',
+  '**://*.ads-twitter.com/**',
+  '**://*.adition.com/**',
 ];
 
 export const test = base.extend<{
