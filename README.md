@@ -184,3 +184,45 @@ Current CI behavior:
 - Uploads the HTML report and test artifacts after every run.
 
 If you want to extend this repository later, the safest path is to keep the same layering and add new abstractions only when a real repeated problem appears.
+
+---
+
+## Contributing & Push Checklist
+
+Follow this quick checklist before pushing changes to the repository to keep CI green and make reviews easy.
+
+- **Create a branch:** `git checkout -b feat/<short-descriptor>`
+- **Install & build locally:**
+
+```powershell
+npm ci
+npx playwright install
+```
+
+- **Run the full suite:** `npm test` (use `npm run test:headed` to run in headed mode)
+- **Open the HTML report locally (optional):** `npm run report` then open the generated report in `playwright-report/`
+- **Verify artifacts:** confirm `test-results/` contains any new traces/screenshots/videos you expect on failures
+- **Stage and commit:**
+
+```powershell
+git add -A
+git commit -m "<type>: short description of change"
+```
+
+- **Push branch and open PR:**
+
+```powershell
+git push --set-upstream origin feat/<short-descriptor>
+# optionally: gh pr create --fill
+```
+
+- **CI requirements:** ensure the GitHub Actions run shows a green check (tests passing) before merging.
+
+### PR Checklist
+
+- All tests pass locally and in CI.
+- Updated or added documentation for new behavior.
+- Descriptive commit and PR title.
+- Small, focused changes per PR whenever possible.
+
+If you'd like, I can create a `CONTRIBUTING.md` with these rules and a simple PR template.
