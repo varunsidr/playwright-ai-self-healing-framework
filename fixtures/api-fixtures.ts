@@ -273,7 +273,7 @@ export const test = base.extend<{
 
       const ensureUser = async (prefix = 'default-user-seed', forceRefresh = false): Promise<ApiSeedUser> => {
         if (forceRefresh) {
-          const { clearStateCache } = await import('../utils/api-state-cache');
+          const { clearStateCache } = await import('../utils/api-state-cache.js');
           clearStateCache('api-users');
           return withSharedState(prefix, 'api-users', buildSeedUser);
         }
@@ -282,7 +282,7 @@ export const test = base.extend<{
         const staleAfterMs = 15 * 60 * 1000;
 
         if (!user?.token || Date.now() - (user.createdAt || 0) > staleAfterMs) {
-          const { clearStateCache } = await import('../utils/api-state-cache');
+          const { clearStateCache } = await import('../utils/api-state-cache.js');
           clearStateCache('api-users');
           return withSharedState(prefix, 'api-users', buildSeedUser);
         }
