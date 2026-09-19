@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playwright API Test Blueprint</title>
+<style>
+:root{
+  --bg:#11161a;
+  --ink:#f3e8dc;
+  --soft:#d8d0c8;
+  --muted:#aeb7bd;
+  --line:#687177;
+  --panel:#273039;
+  --panel-hi:#3a464f;
+  --blue:#9bc8ef;
+  --green:#9ee278;
+  --orange:#f2a241;
+  --warm:#efc5b2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 18% 2%,rgba(255,255,255,.045),transparent 30%),
+    radial-gradient(circle at 88% 46%,rgba(92,123,141,.035),transparent 34%),
+    var(--bg);
+  font-family:Georgia,"Times New Roman",serif;
+}
+img{max-width:100%}
+.shell{width:min(1440px,calc(100% - 64px));margin:0 auto}
+.hero{padding:62px 0 54px;border-bottom:1px solid var(--line)}
+.kicker,.eyebrow,.toc-title{
+  font-family:"Courier New",monospace;
+  font-size:15px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+.kicker{color:var(--blue)}
+.hero h1{
+  margin:25px 0 22px;
+  font:700 clamp(52px,6vw,86px)/.98 Arial,Helvetica,sans-serif;
+  letter-spacing:-.045em;
+  color:#fff4ea;
+}
+.hero .sub{
+  max-width:920px;
+  margin:0 0 28px;
+  font-size:27px;
+  line-height:1.43;
+  font-weight:600;
+}
+.meta{
+  font:700 16px "Courier New",monospace;
+  color:#d6cdc4;
+  word-spacing:9px;
+}
+.layout{
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr);
+  gap:60px;
+  padding-top:48px;
+}
+.toc{position:sticky;top:24px;align-self:start}
+.toc-title{margin-bottom:16px;color:#d5c9c0}
+.toc a{
+  display:block;
+  padding:8px 0;
+  color:#e1d9d2;
+  font:16px "Courier New",monospace;
+  text-decoration:none;
+}
+.toc a:hover{color:var(--blue)}
+main{min-width:0}
+.section{padding:0 0 58px;margin-bottom:56px;border-bottom:1px solid #3c464d}
+.eyebrow{color:#c5ccd1;margin-bottom:12px}
+h2{
+  margin:0 0 18px;
+  font:700 clamp(34px,4vw,50px)/1.08 Arial,Helvetica,sans-serif;
+  letter-spacing:-.035em;
+  color:#fff2e7;
+}
+h3{
+  margin:28px 0 11px;
+  font:700 25px/1.2 Arial,Helvetica,sans-serif;
+  color:#fff0e4;
+}
+p{margin:0 0 22px;font-size:21px;line-height:1.55;max-width:1140px}
+em{font-style:italic}
+strong{font-weight:700}
+code{
+  font:inherit;
+  font-family:"Courier New",monospace;
+  font-size:.88em;
+  background:#555d63;
+  border-radius:4px;
+  padding:2px 6px;
+  color:#f7eee7;
+}
+.panel{
+  background:linear-gradient(135deg,rgba(61,74,83,.9),rgba(34,42,48,.95));
+  border:1px solid #7b858c;
+  box-shadow:inset 0 1px rgba(255,255,255,.08);
+  border-radius:3px;
+}
+.glossary{
+  padding:28px 30px;
+  display:grid;
+  grid-template-columns:112px 1fr;
+  column-gap:26px;
+  row-gap:9px;
+}
+.glossary .term{
+  color:var(--blue);
+  font:700 17px "Courier New",monospace;
+}
+.glossary .desc{font-size:19px;line-height:1.45}
+.diagram{
+  padding:0;
+  overflow:hidden;
+}
+.diagram svg{display:block;width:100%;height:auto}
+.diagram text{font-family:"Courier New",monospace}
+.job-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:2px;
+}
+.job-table th{
+  padding:0 0 15px;
+  text-align:left;
+  font:700 15px "Courier New",monospace;
+  letter-spacing:.13em;
+  color:#d7cec6;
+  text-transform:uppercase;
+}
+.job-table td{
+  padding:22px 13px 22px 0;
+  vertical-align:top;
+  border-top:1px solid #5a636a;
+  font-size:20px;
+  line-height:1.48;
+}
+.tag{
+  display:inline-block;
+  padding:5px 11px;
+  border-radius:3px;
+  font:700 15px "Courier New",monospace;
+  letter-spacing:.04em;
+}
+.tag.blue{background:#557aa0;color:#e8f3ff}
+.tag.green{background:#466f40;color:#dcffd2}
+.callout{
+  margin:28px 0 0;
+  padding:24px 28px;
+  background:linear-gradient(90deg,#80511a,#a2691d);
+  border-left:4px solid #ffab31;
+}
+.callout p{margin:0;font-size:20px;font-weight:700}
+.bullets{margin:0;padding-left:30px;max-width:1180px}
+.bullets li{font-size:20px;line-height:1.5;margin:17px 0}
+.path-wrap{padding:28px}
+.finding p{max-width:1180px}
+@media(max-width:950px){
+  .shell{width:min(100% - 30px,780px)}
+  .layout{grid-template-columns:1fr;gap:22px}
+  .toc{position:relative;top:auto;padding-bottom:16px;border-bottom:1px solid #414a51}
+  .toc-title{width:100%}
+  .toc{display:flex;flex-wrap:wrap;gap:3px 18px}
+  .toc a{padding:2px 0}
+  p,.bullets li{font-size:18px}
+  .job-table{display:block;overflow:auto}
+}
+@media(max-width:620px){
+  .hero{padding-top:38px}
+  .hero h1{font-size:43px}
+  .hero .sub{font-size:21px}
+  .glossary{grid-template-columns:1fr;padding:20px}
+  .glossary .desc{margin-bottom:5px}
+  .job-table td{font-size:16px;min-width:160px}
+  .bullets{padding-left:22px}
+}
+.section + .section{margin-top:0}
+</style>
+</head>
+<body>
+<header class="hero" id="top">
+  <div class="shell">
+    <div class="kicker">REFERENCE ARCHITECTURE · DOMAIN-NEUTRAL</div>
+    <h1>Playwright API Test Blueprint</h1>
+    <p class="sub">How to structure HTTP work inside a browser-automation suite:<br>
+      the three jobs API calls do, the layers that keep them apart, and<br>
+      the order to build them in.
+    </p>
+    <div class="meta">Playwright Test · TypeScript &nbsp;&nbsp; build order included</div>
+  </div>
+</header>
+
+<div class="shell layout">
+<aside class="toc">
+  <div class="toc-title">CONTENTS</div>
+  <a href="#three-jobs">Three jobs</a>
+  <a href="#layers">Layers</a>
+  <a href="#access-paths">Access paths</a>
+  <a href="#configuration">Configuration</a>
+  <a href="#client-contract">Client contract</a>
+  <a href="#state-caching">State caching</a>
+  <a href="#the-test">The test</a>
+  <a href="#reporting">Reporting &amp; CI</a>
+  <a href="#build-order">Build order</a>
+  <a href="#pitfalls">Pitfalls</a>
+</aside>
+
+<main>
+<section class="section" id="three-jobs">
+  <div class="eyebrow">ORIENTATION</div>
+  <h2>HTTP does three different jobs, and mixing them is the first mistake</h2>
+  <p>The useful split isn't <em>UI tests vs API tests</em>. It's the three jobs an HTTP call does inside a suite — each with its own error contract, its own place in the tree, and its own meaning when it fails.</p>
+
+  <div class="panel glossary">
+    <div class="term">record</div><div class="desc">The primary business object a test operates on.</div>
+    <div class="term">member</div><div class="desc">A sub-entity attached to a record, several per record, with roles.</div>
+    <div class="term">task</div><div class="desc">A child resource with a status lifecycle — create, list, transition, delete.</div>
+    <div class="term">operator</div><div class="desc">A privileged internal user, created per run and thrown away.</div>
+    <div class="term">end user</div><div class="desc">The customer-facing actor who signs in through the public UI.</div>
+    <div class="term">tenant</div><div class="desc">One isolated instance of the product; requests route to it by header.</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="panel diagram">
+    <svg viewBox="0 0 1500 570" aria-label="One test, left to right">
+      <defs>
+        <marker id="arrowW" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L9,3 L0,6 Z" fill="#f4eee9"/>
+        </marker>
+        <marker id="arrowG" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L9,3 L0,6 Z" fill="#9ee278"/>
+        </marker>
+      </defs>
+      <rect x="58" y="28" width="1380" height="75" fill="#70777d" opacity=".58"/>
+      <text x="83" y="61" fill="#fff" font-size="23" font-family="Arial" font-weight="700">API surface</text>
+      <text x="83" y="87" fill="#eee3d9" font-size="18">public gateway · internal admin API · third-party services</text>
+
+      <text x="60" y="150" fill="#d8d0c8" font-size="16" letter-spacing="3">ONE TEST, LEFT TO RIGHT</text>
+      <line x1="60" y1="169" x2="1438" y2="169" stroke="#687177" stroke-width="1"/>
+
+      <g fill="#2a333b" stroke="#efc5b2" stroke-width="2">
+        <rect x="60" y="212" width="260" height="128" rx="3"/>
+        <rect x="350" y="212" width="260" height="128" rx="3"/>
+        <rect x="640" y="212" width="260" height="128" rx="3"/>
+        <rect x="930" y="212" width="260" height="128" rx="3"/>
+        <rect x="1220" y="212" width="218" height="128" rx="3"/>
+      </g>
+      <g font-family="Arial">
+        <text x="83" y="239" fill="#9bc8ef" font-size="16" letter-spacing="2">SEED</text>
+        <text x="83" y="276" fill="#fff" font-size="22" font-weight="700">create record</text>
+        <text x="83" y="304" fill="#ffdbca" font-size="18">POST /records</text>
+
+        <text x="373" y="239" fill="#9bc8ef" font-size="16" letter-spacing="2">SEED</text>
+        <text x="373" y="276" fill="#fff" font-size="22" font-weight="700">create operator</text>
+        <text x="373" y="304" fill="#ffdbca" font-size="18">POST /users</text>
+
+        <text x="663" y="239" fill="#9bc8ef" font-size="16" letter-spacing="2">SEED</text>
+        <text x="663" y="276" fill="#fff" font-size="22" font-weight="700">populate fields</text>
+        <text x="663" y="304" fill="#ffdbca" font-size="18">POST /internal/...</text>
+
+        <text x="953" y="239" fill="#e7d5ca" font-size="16" letter-spacing="2">DRIVE</text>
+        <text x="953" y="276" fill="#fff" font-size="22" font-weight="700">end user acts</text>
+        <text x="953" y="304" fill="#ffdbca" font-size="18">click · type · upload</text>
+
+        <text x="1243" y="239" fill="#9ee278" font-size="16" letter-spacing="2">ORACLE</text>
+        <text x="1243" y="276" fill="#fff" font-size="22" font-weight="700">read state back</text>
+        <text x="1243" y="304" fill="#ffdbca" font-size="18">GET /tasks</text>
+      </g>
+
+      <g stroke="#f4eee9" stroke-width="2.2" fill="none" marker-end="url(#arrowW)">
+        <line x1="190" y1="212" x2="190" y2="106"/>
+        <line x1="480" y1="212" x2="480" y2="106"/>
+        <line x1="770" y1="212" x2="770" y2="106"/>
+      </g>
+      <line x1="1329" y1="212" x2="1329" y2="106" stroke="#9ee278" stroke-width="2.2" marker-end="url(#arrowG)"/>
+      <line x1="1060" y1="340" x2="1060" y2="447" stroke="#f4eee9" stroke-width="2.2" marker-end="url(#arrowW)"/>
+
+      <text x="60" y="382" fill="#e4d8cf" font-size="19" font-style="italic" font-family="Georgia">seconds — no browser needed</text>
+      <text x="930" y="382" fill="#e4d8cf" font-size="19" font-style="italic" font-family="Georgia">minutes — the only part that needs one</text>
+      <text x="1240" y="420" fill="#e4d8cf" font-size="18" font-style="italic" font-family="Georgia">the assertion</text>
+
+      <rect x="60" y="430" width="1378" height="74" fill="#8d949a" opacity=".62"/>
+      <text x="86" y="463" fill="#fff" font-size="21" font-family="Arial" font-weight="700">Web application</text>
+      <text x="86" y="489" fill="#ece1d8" font-size="17">browser context · operator and end-user sessions</text>
+      <line x1="60" y1="534" x2="1040" y2="534" stroke="#687177"/>
+      <text x="60" y="556" fill="#fff0e5" font-size="18" font-family="Georgia">
+        The shape of a mature UI test. Four of five steps are HTTP; one drives a page. A pure API test is
+      </text>
+    </svg>
+    <div style="padding:0 60px 32px;font-size:21px;line-height:1.5">this same picture with the bottom band deleted — which is why the client tier has to exist before you can write either kind well.</div>
+  </div>
+</section>
+
+<section class="section">
+  <table class="job-table">
+    <thead>
+      <tr><th>JOB</th><th>WHAT IT IS</th><th>ON NON-2XX</th><th>A FAILURE MEANS</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag blue">SEED</span></td>
+        <td>Build the world the test needs, without a browser.</td>
+        <td><strong>Throw</strong> — abort before the assertion runs.</td>
+        <td>Broken environment or credentials, not a product bug.</td>
+      </tr>
+      <tr>
+        <td><span class="tag green">ORACLE</span></td>
+        <td>Read back what the UI claims happened; poll async work to a terminal state.</td>
+        <td><strong>Throw</strong>, with the response body in the message.</td>
+        <td>Usually a product bug, occasionally a timing assumption.</td>
+      </tr>
+      <tr>
+        <td><span class="tag blue">SUBJECT</span></td>
+        <td>The contract is the assertion — status codes, response shape, version behaviour, auth rejection.</td>
+        <td><strong>Return it.</strong> A 400 is often the expected result.</td>
+        <td>Exactly what the assertion says.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:30px"><strong>That third row is the one people get wrong.</strong> If your only HTTP helper throws on non-2xx, you physically cannot assert a 401 — you end up wrapping every call in <code>try/catch</code> and matching error strings.</p>
+</section>
+
+<section class="section" id="layers">
+  <div class="eyebrow">STRUCTURE</div>
+  <h2>Four layers, dependencies pointing one way</h2>
+  <p>One rule keeps this maintainable: a lower layer never imports a higher one. A client never imports a page object; config never imports a client. Break it once and your API helpers can't run outside a browser test.</p>
+
+  <div class="panel diagram">
+    <svg viewBox="0 0 1500 590" aria-label="Four layers and dependency direction">
+      <defs>
+        <marker id="arrowDown" markerWidth="11" markerHeight="11" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L10,3 L0,6Z" fill="#e2f0fb"/>
+        </marker>
+      </defs>
+      <line x1="275" y1="70" x2="275" y2="530" stroke="#dfeef9" stroke-width="3" marker-end="url(#arrowDown)"/>
+      <text x="100" y="282" fill="#ddd5ce" font-size="18">imports</text>
+      <text x="100" y="307" fill="#ddd5ce" font-size="18">allowed</text>
+
+      <g fill="#29333b" stroke="#efc5b2" stroke-width="2">
+        <rect x="315" y="55" width="690" height="96" rx="3"/>
+        <rect x="315" y="175" width="690" height="96" rx="3"/>
+        <rect x="315" y="295" width="690" height="96" rx="3"/>
+        <rect x="315" y="415" width="690" height="96" rx="3"/>
+      </g>
+      <text x="338" y="84" fill="#bac4cb" font-size="15" letter-spacing="2">LAYER 4 · TESTS</text>
+      <text x="338" y="119" fill="#fff2e8" font-size="19" font-family="Arial" font-weight="700">*.specs — assertions and test.step only</text>
+
+      <text x="338" y="204" fill="#bac4cb" font-size="15" letter-spacing="2">LAYER 3 · FIXTURES + PAGE OBJECTS</text>
+      <text x="338" y="239" fill="#fff2e8" font-size="19" font-family="Arial" font-weight="700">test.extend() — leases state, owns setup and teardown</text>
+
+      <text x="338" y="324" fill="#bac4cb" font-size="15" letter-spacing="2">LAYER 2 · DOMAIN CLIENTS</text>
+      <text x="338" y="359" fill="#fff2e8" font-size="19" font-family="Arial" font-weight="700">typed + raw helpers, payload builders, oracles</text>
+
+      <rect x="315" y="415" width="690" height="96" rx="3" fill="#29333b" stroke="#9ee278" stroke-width="2"/>
+      <text x="338" y="444" fill="#9ee278" font-size="15" letter-spacing="2">LAYER 1 · TRANSPORT + CONFIG</text>
+      <text x="338" y="479" fill="#fff2e8" font-size="19" font-family="Arial" font-weight="700">request context, header builder, env resolution, poller</text>
+
+      <line x1="1060" y1="78" x2="1060" y2="493" stroke="#f0a062" stroke-width="3" stroke-dasharray="8 7"/>
+      <text x="1039" y="308" fill="#ffad77" font-size="38">×</text>
+      <text x="1100" y="232" fill="#ddd5ce" font-size="17">never — a client that</text>
+      <text x="1100" y="258" fill="#ddd5ce" font-size="17">imports a page object</text>
+      <text x="1100" y="284" fill="#ddd5ce" font-size="17">can't run headless</text>
+
+      <text x="315" y="548" fill="#e1d6cf" font-size="17" font-style="italic" font-family="Georgia">Shared utilities — mail/OTP readers, file generators — sit beside layer 2 and depend only on layer 1.</text>
+      <line x1="55" y1="565" x2="1010" y2="565" stroke="#667078"/>
+      <text x="55" y="585" fill="#fff0e5" font-size="18" font-family="Georgia">Dependency direction is the invariant. Everything else follows from it: fixtures can cache because clients are pure,</text>
+    </svg>
+    <div style="padding:0 55px 32px;font-size:20px;line-height:1.5">clients can be swept across API versions because transport takes overrides, config can be re-read per call because nothing froze it at import.</div>
+  </div>
+</section>
+
+<section class="section" id="access-paths">
+<pre style="margin:0 0 28px;padding:28px;background:#2a333b;border:1px solid #727d84;color:#eee5de;font:700 18px/1.62 'Courier New',monospace;overflow:auto"># split by product area first, then by Layer — one team's changes stay in one folder
+src/&lt;area&gt;/
+  config/environment.config.ts    L1  env table, credential getters, tenant map
+  utils/api-client.ts              L1  transport + shared header builder + poller
+  utils/&lt;entity&gt;-api.ts           L2  typed + raw helpers for one resource family
+  utils/test-fixtures.ts           L3  test.extend(), cache/lease logic
+  pages/                           L3  page objects
+  tests/&lt;suite&gt;/*.spec.ts          L4
+  tests/.auth/                          gitignored — cached state + storageState
+  reporters/ scripts/                  custom reporters, CI glue</pre>
+
+  <div class="eyebrow">DISCOVERY · DO THIS FIRST</div>
+  <h2>Map every access path before you write a client</h2>
+  <p>The expensive mistake is assuming the public API can do everything the UI can. It almost never can. There are usually three write paths into one data model, with different auth roles and genuinely different reach — not layers over one another.</p>
+
+  <div class="panel path-wrap diagram">
+    <svg viewBox="0 0 1450 690" aria-label="Three access paths into one data model">
+      <defs>
+        <marker id="aPathW" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L9,3 L0,6Z" fill="#e7f1fa"/>
+        </marker>
+        <marker id="aPathG" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L9,3 L0,6Z" fill="#9ee278"/>
+        </marker>
+      </defs>
+
+      <rect x="40" y="235" width="255" height="108" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="70" y="276" fill="#fff" font-size="20" font-family="Arial" font-weight="700">Test process</text>
+      <text x="70" y="307" fill="#e7ddd5" font-size="17">service account</text>
+
+      <rect x="40" y="430" width="255" height="108" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="70" y="471" fill="#fff" font-size="20" font-family="Arial" font-weight="700">Browser walk</text>
+      <text x="70" y="502" fill="#e7ddd5" font-size="17">real operator session</text>
+      <text x="40" y="575" fill="#e8dcd4" font-size="17" font-style="italic" font-family="Georgia">the slow fallback</text>
+
+      <rect x="355" y="65" width="650" height="118" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="380" y="97" fill="#bcc8cf" font-size="15" letter-spacing="2">PATH A · PUBLIC API</text>
+      <text x="380" y="130" fill="#ffd6c4" font-size="18">api.&lt;env&gt;.example.com/records · /members · /tasks</text>
+      <text x="380" y="157" fill="#e5ddd5" font-size="17">role: external · documented, versioned, stable</text>
+
+      <text x="355" y="213" fill="#e5d7cf" font-size="17" font-style="italic" font-family="Georgia">reaches only what the published schema declares — usually a subset</text>
+
+      <rect x="355" y="265" width="650" height="118" fill="#29333b" stroke="#9ee278" stroke-width="2"/>
+      <text x="380" y="297" fill="#9ee278" font-size="15" letter-spacing="2">PATH B · INTERNAL ADMIN API</text>
+      <text x="380" y="330" fill="#ffd6c4" font-size="18">&lt;tenant&gt;.&lt;env&gt;.example.com/internal/field-values</text>
+      <text x="380" y="357" fill="#e5ddd5" font-size="17">role: internal · undocumented, per-route scopes</text>
+
+      <text x="355" y="415" fill="#e5d7cf" font-size="17" font-style="italic" font-family="Georgia">reaches the full entity map — and a service account can hold this role</text>
+
+      <rect x="355" y="465" width="650" height="118" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="380" y="497" fill="#bcc8cf" font-size="15" letter-spacing="2">PATH C · WHAT “SAVE” CALLS</text>
+      <text x="380" y="530" fill="#ffd6c4" font-size="18">POST /app/records/:id/save</text>
+      <text x="380" y="557" fill="#e5ddd5" font-size="17">role: signed-in operator session only</text>
+
+      <text x="355" y="620" fill="#e5d7cf" font-size="17" font-style="italic" font-family="Georgia">reaches everything — but no service account can ever hold the role</text>
+
+      <rect x="1115" y="170" width="285" height="250" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="1248" y="252" fill="#fff" font-size="21" text-anchor="middle" font-family="Arial" font-weight="700">One data model</text>
+      <text x="1248" y="288" fill="#e7ddd5" font-size="18" text-anchor="middle">three doors,</text>
+      <text x="1248" y="317" fill="#e7ddd5" font-size="18" text-anchor="middle">different reach</text>
+
+      <g fill="none" stroke="#e7f1fa" stroke-width="2" marker-end="url(#aPathW)">
+        <path d="M295 257 H330 V124 H355"/>
+        <path d="M1005 124 H1060 V225 H1115"/>
+        <path d="M1005 524 H1060 V360 H1115"/>
+        <path d="M295 484 H330 V524 H355"/>
+      </g>
+      <path d="M295 289 H355" fill="none" stroke="#9ee278" stroke-width="2" marker-end="url(#aPathG)"/>
+      <path d="M1005 324 H1115" fill="none" stroke="#9ee278" stroke-width="2" marker-end="url(#aPathG)"/>
+      <path d="M295 289 V380" fill="none" stroke="#f0a062" stroke-width="3" stroke-dasharray="7 6"/>
+      <text x="318" y="405" fill="#ffad77" font-size="17">403</text>
+      <text x="310" y="397" fill="#ffad77" font-size="33">×</text>
+    </svg>
+  </div>
+
+  <p style="margin-top:28px"><strong>Why seeding stays slow until you find path B.</strong> With only A and C, every field outside the public schema has to be typed into a form — that's where ten-minute setups come from. Path B is the one write path a headless service account can use that reaches the same model, and finding it is usually worth more than any other optimisation in the suite.</p>
+</section>
+
+<section class="section finding">
+  <h2>Finding path B, and the invariants that follow</h2>
+  <p>Perform the action in the UI with the network tab open, note the route the save actually calls, then search the backend for a sibling route with the same reach and an <em>internal</em> or <em>service</em> role — they usually exist for support tooling. Request the scopes early; a missing scope is a 403, which is a provisioning problem, not a payload bug. Internal routes often live on the tenant's own host rather than the API gateway, so derive that host from config.</p>
+
+  <p>Internal APIs are permissive in ways that cost you a suite. Write your equivalents of these at the top of the client file:</p>
+
+  <ul class="bullets">
+    <li><strong>A 2xx is not proof of a write</strong> — read the value back and assert it. Some internal APIs accept unknown field ids and discard them.</li>
+    <li><strong>Know the unit and create-marker conventions</strong> — dollars vs cents, and whatever flags a new nested collection entry versus an update.</li>
+    <li><strong>Know which objects must not be seeded at all</strong>, because a downstream async process only triggers on the real path. Seeding those makes the test green while validating nothing.</li>
+  </ul>
+
+  <div class="callout">
+    <p>Keep the slow path alive as a fallback when internal credentials are absent for an environment, and have the run log say which path it took. A one-word difference in a log line — <code>(api)</code> versus <code>(ui)</code> — saves hours of wondering why a run took twenty minutes.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="shell">
+
+<!-- Screenshot 9 -->
+<section class="section" id="configuration">
+  <div class="eyebrow">LAYER 1A</div>
+  <h2>One variable decides host, credentials and tenant</h2>
+  <p>The goal is that a run cannot be half-pointed at two environments. Make one input authoritative and derive everything from it: <code>TEST_ENV</code> enters through <code>dotenv</code>, and three resolvers turn it into an addressed request.</p>
+
+  <div class="panel diagram">
+    <svg viewBox="0 0 1450 760" aria-label="Environment resolution diagram">
+      <defs>
+        <marker id="aw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L9,3 L0,6 Z" fill="#eef6fc"/>
+        </marker>
+      </defs>
+
+      <!-- env source -->
+      <rect x="70" y="260" width="230" height="145" rx="3" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="94" y="292" fill="#bec8ce" font-size="16" letter-spacing="2">.ENV</text>
+      <text x="94" y="331" fill="#fff" font-size="22" font-family="Arial" font-weight="700">TEST_ENV</text>
+      <text x="94" y="361" fill="#ffd9c8" font-size="19">stagingEU</text>
+
+      <!-- escape hatches -->
+      <text x="74" y="470" fill="#f2a241" font-size="16" font-weight="700">ESCAPE HATCHES</text>
+      <text x="74" y="498" fill="#e2d9d1" font-size="16">API_BASE_URL</text>
+      <text x="74" y="523" fill="#e2d9d1" font-size="16">TARGET_INSTANCE</text>
+      <path d="M74 546 V575 H575" fill="none" stroke="#f2a241" stroke-width="3" stroke-dasharray="8 7"/>
+      <path d="M575 575 l-10 -6 l0 12 z" fill="#f2a241"/>
+
+      <!-- resolvers -->
+      <g fill="#29333b" stroke="#efc5b2" stroke-width="2">
+        <rect x="390" y="92" width="390" height="118" rx="3"/>
+        <rect x="390" y="270" width="390" height="118" rx="3"/>
+        <rect x="390" y="448" width="390" height="118" rx="3"/>
+      </g>
+
+      <text x="418" y="128" fill="#fff" font-size="20" font-family="Arial" font-weight="700">getEnvironment()</text>
+      <text x="418" y="159" fill="#ffdbca" font-size="17">→ apiBaseUrl, appBaseUrl (lazy)</text>
+
+      <text x="418" y="306" fill="#fff" font-size="20" font-family="Arial" font-weight="700">getCredentials()</text>
+      <text x="418" y="337" fill="#ffdbca" font-size="17">→ STAGINGEU_API_USER / _PASSWORD</text>
+
+      <text x="418" y="484" fill="#fff" font-size="20" font-family="Arial" font-weight="700">resolveTargetInstance()</text>
+      <text x="418" y="515" fill="#ffdbca" font-size="17">→ TENANT_MAP[env]</text>
+
+      <!-- request -->
+      <rect x="875" y="74" width="475" height="520" rx="3" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="905" y="111" fill="#bec8ce" font-size="15" letter-spacing="2">THE COMPOSED REQUEST</text>
+      <text x="905" y="153" fill="#ffdac8" font-size="18">POST /tasks</text>
+      <line x1="905" y1="178" x2="1317" y2="178" stroke="#687177"/>
+      <text x="905" y="218" fill="#ffdac8" font-size="17">https://api.staging-eu.example.com</text>
+      <text x="905" y="254" fill="#ffdac8" font-size="17">Authorization: Basic ••••••</text>
+      <text x="905" y="290" fill="#ffdac8" font-size="17">X-Target-Instance: acme-eu~default</text>
+      <text x="905" y="326" fill="#ffdac8" font-size="17">X-Api-Version: 11.0.0</text>
+      <text x="905" y="362" fill="#ffdac8" font-size="17">accept: application/json; charset=utf-8</text>
+      <text x="905" y="398" fill="#ffdac8" font-size="17">cache-control: no-cache</text>
+      <text x="905" y="453" fill="#e4d8d0" font-size="17" font-style="italic" font-family="Georgia">resolved per call — never frozen at import time</text>
+
+      <!-- connections -->
+      <g fill="none" stroke="#eef6fc" stroke-width="2.4" marker-end="url(#aw)">
+        <path d="M300 290 H350 V151 H390"/>
+        <path d="M300 332 H350 V329 H390"/>
+        <path d="M300 370 H350 V507 H390"/>
+        <path d="M780 151 H830 V220 H875"/>
+        <path d="M780 329 H830 V255 H875"/>
+        <path d="M780 507 H830 V292 H875"/>
+      </g>
+
+      <text x="54" y="649" fill="#e5dad2" font-size="19" font-family="Georgia" font-style="italic">Address resolution. Because the app URL and the API host derive from the same key, a</text>
+      <text x="54" y="678" fill="#e5dad2" font-size="19" font-family="Georgia" font-style="italic">run can't drive one environment's UI while asserting against another's data. The</text>
+      <text x="54" y="707" fill="#e5dad2" font-size="19" font-family="Georgia" font-style="italic">dashed overrides win outright — for the rare test that must reach a second tenant mid-run.</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Screenshot 10 -->
+<section class="section">
+  <ul>
+    <li><strong>Resolve lazily.</strong> Wrap config reads in a function called per request. A module-level constant freezes whatever <code>process.env</code> held at first import, which breaks the moment a fixture switches environments between specs.</li>
+    <li><strong>Fail loudly on a missing variable.</strong> No default host, no fallback credential — a silent fallback means a green run against the wrong environment.</li>
+    <li><strong>Prefix credentials by environment and select the family by the env key.</strong> One getter, not an <code>if</code> per call site.</li>
+    <li><strong>Commit <code>.env.example</code> with every key, empty, one comment each.</strong> It's the single most important file for someone replicating the suite.</li>
+  </ul>
+
+  <div class="callout">
+    <p>Watch the secret budget. CI providers cap repository secrets (GitHub: 100). Per-environment × per-service credential families hit that ceiling faster than you expect — plan for grouped secrets or a vault before you're forced into it mid-migration.</p>
+  </div>
+</section>
+
+<!-- Screenshot 11 -->
+<section class="section" id="client-contract">
+  <div class="eyebrow">LAYERS 1B + 2</div>
+  <h2>Two client layers over the same endpoints</h2>
+  <p>Every resource family gets two sets of functions over the same routes, with deliberately opposite error contracts. <code>createTask()</code>, <code>getTasks()</code>, <code>ensureTask()</code> throw — they serve seeding and oracles, where a failure must abort loudly. <code>createTaskRaw()</code> and friends return <code>{ status, body, rawText }</code> and take <code>{ version, omitVersion, omitAuth, rawBody }</code> — they serve contract tests, where a 400 is the expected result.</p>
+
+  <pre>// header builder with test-shaped overrides – this is how you test a 401
+function buildHeaders(o: RawOptions = {}) {
+  const h = authHeaders();                  // layer 1, resolved per call
+  if (o.version !== undefined) h['X-Api-Version'] = o.version;
+  if (o.omitVersion) delete h['X-Api-Version'];
+  if (o.omitAuth)    delete h['Authorization'];
+  return h;
+}
+
+// tolerant parser – DELETE returns neither JSON nor a body
+async function parseResult(res: APIResponse): Promise<RawResult> {
+  const rawText = await res.text();
+  let body: unknown = null;
+  try { body = rawText ? JSON.parse(rawText) : null; } catch { body = rawText; }
+  return { status: res.status(), body, rawText };
+}
+
+// the raw call: never throws, always reports
+export async function createTaskRaw(args: TaskArgs, o: RawOptions = {}) {
+  const ctx = await request.newContext();
+  const res = await ctx.post(`${baseUrl()}/tasks`, {
+    headers: buildHeaders(o),
+    data: o.rawBody ?? composeTaskBody(args),  // rawBody bypasses composition → 400 tests
+  });
+  const out = await parseResult(res);
+  await ctx.dispose();
+  return out;
+}</pre>
+</section>
+
+<!-- Screenshot 12 -->
+<section class="section">
+  <p><strong>Keep <code>composeTaskBody</code> pure</strong> so payload shape is unit-testable with no network. <code>rawBody</code> earns its place: without it, "POST with a missing required field returns 400" means either a second client or lying to your type signatures.</p>
+
+  <p><strong>Context lifetime is the one real trade-off.</strong> A context per call is correct and leak-free but costs a setup per request, which shows when a test sweeps twenty API versions in a loop; the alternative is a client class taking an injected <code>APIRequestContext</code> (Playwright's built-in <code>request</code> fixture works). Pick one per area and be consistent. What's not acceptable is six header builders across six clients — extract that to layer 1 on day one, even with one caller.</p>
+
+  <p><strong>Async work needs one poller, not five.</strong> Anything returning <code>202</code> needs a bounded poll, written once and shared. Two properties make it worth sharing: a terminal-failure predicate, so a job that fails at second 20 fails the test at second 20 rather than at the five-minute timeout, and a label in the error, so a CI timeout tells you which of eleven polls gave up.</p>
+
+  <pre>await pollUntil({
+  poll: () =&gt; getOrderStatus(id),  done: s =&gt; s === 'SUCCEEDED',
+  fail: s =&gt; s === 'FAILED' || s === 'CANCELLED',  // abort early
+  timeoutMs: 300_000, intervalMs: 5_000, label: `order ${id}`,
+});</pre>
+</section>
+
+<!-- Screenshot 13 -->
+<section class="section" id="state-caching">
+  <div class="eyebrow">LAYER 3</div>
+  <h2>Treat seeded state as a lease, not a fresh build</h2>
+  <p>Creating a record costs time and leaves rows in a shared environment. Past a handful of tests, recreating per test is untenable — fixtures cache to disk and hand the same state to everyone who asks. Each spec declares a prefix (<code>test.use({ authPrefix: 'task-contract-suite' })</code>) and the cache path is <code>.auth/{env}/{prefix}/</code>, so two specs never share unless they opt in and a sandbox run never hands state to a staging run.</p>
+</section>
+
+<!-- Screenshot 14 -->
+<section class="section">
+  <div class="panel diagram">
+    <svg viewBox="0 0 1500 700" aria-label="Worker cache flow">
+      <defs>
+        <marker id="aw2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L9,3 L0,6 Z" fill="#eef6fc"/>
+        </marker>
+        <marker id="ag2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L9,3 L0,6 Z" fill="#9ee27e"/>
+        </marker>
+      </defs>
+
+      <text x="42" y="45" fill="#d9d1ca" font-size="16" letter-spacing="2">WORKER 1</text>
+      <text x="42" y="365" fill="#d9d1ca" font-size="16" letter-spacing="2">WORKER 2</text>
+
+      <!-- W1 -->
+      <rect x="42" y="70" width="175" height="105" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="100" y="112" fill="#fff" font-size="21" font-family="Arial">3 tests</text>
+      <text x="92" y="140" fill="#e6ddd5" font-size="17">ask for it</text>
+
+      <rect x="265" y="70" width="320" height="105" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="285" y="112" fill="#fff" font-size="20" font-family="Arial">memoize promise map</text>
+      <text x="285" y="143" fill="#e5dbd3" font-size="17">Map&lt;prefix, Promise&gt;</text>
+
+      <rect x="635" y="70" width="275" height="105" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="655" y="112" fill="#fff" font-size="20" font-family="Arial">create + write</text>
+      <text x="655" y="143" fill="#e5dbd3" font-size="17">cache.json.&lt;pid&gt;.tmp</text>
+
+      <!-- W2 -->
+      <rect x="42" y="390" width="175" height="105" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="100" y="432" fill="#fff" font-size="21" font-family="Arial">2 tests</text>
+      <text x="92" y="460" fill="#e6ddd5" font-size="17">ask for it</text>
+
+      <rect x="265" y="390" width="320" height="105" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="285" y="432" fill="#fff" font-size="20" font-family="Arial">memoize promise map</text>
+      <text x="285" y="463" fill="#e5dbd3" font-size="17">Map&lt;prefix, Promise&gt;</text>
+
+      <rect x="635" y="390" width="275" height="105" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="655" y="432" fill="#fff" font-size="20" font-family="Arial">create + write</text>
+      <text x="655" y="463" fill="#e5dbd3" font-size="17">cache.json.&lt;pid&gt;.tmp</text>
+
+      <!-- shared disk -->
+      <rect x="1075" y="175" width="350" height="150" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="1100" y="208" fill="#9ee27e" font-size="16" letter-spacing="2">SHARED DISK · GITIGNORED</text>
+      <text x="1100" y="250" fill="#ffdac8" font-size="17">.auth/&lt;env&gt;/&lt;prefix&gt;/record.json</text>
+      <text x="1100" y="282" fill="#e8dfd8" font-size="17">{ recordId, memberId, ... }</text>
+
+      <!-- reread -->
+      <rect x="1075" y="430" width="350" height="100" fill="#29333b" stroke="#efc5b2" stroke-width="2"/>
+      <text x="1100" y="468" fill="#fff" font-size="19" font-family="Arial" font-weight="700">both re-read after rename</text>
+      <text x="1100" y="500" fill="#e6ddd5" font-size="17">→ one recordId, none orphaned</text>
+
+      <!-- arrows -->
+      <g fill="none" stroke="#eef6fc" stroke-width="2.2" marker-end="url(#aw2)">
+        <path d="M217 122 H265"/>
+        <path d="M585 122 H635"/>
+        <path d="M217 442 H265"/>
+        <path d="M585 442 H635"/>
+      </g>
+      <g fill="none" stroke="#9ee27e" stroke-width="2.4" marker-end="url(#ag2)">
+        <path d="M910 122 H985 V223 H1075"/>
+        <path d="M910 442 H985 V275 H1075"/>
+        <path d="M1250 325 V430"/>
+      </g>
+
+      <!-- rename labels -->
+      <path d="M910 122 H990 V223" fill="none" stroke="#9ee27e" stroke-width="2.4"/>
+      <path d="M910 442 H990 V275" fill="none" stroke="#9ee27e" stroke-width="2.4"/>
+      <text x="918" y="102" fill="#9ee27e" font-size="15">rename()</text>
+      <text x="918" y="421" fill="#9ee27e" font-size="15">rename()</text>
+
+      <!-- cache hit dashed -->
+      <path d="M425 175 V610 H1060" fill="none" stroke="#e7f1fa" stroke-width="2.2" stroke-dasharray="8 7" marker-end="url(#aw2)"/>
+      <text x="438" y="590" fill="#e6ddd5" font-size="16">cache hit on a re-run — zero requests, the same record is reused</text>
+
+      <line x1="42" y1="645" x2="990" y2="645" stroke="#667078"/>
+      <text x="42" y="681" fill="#fff0e5" font-size="21" font-family="Georgia">
+        Two guards, two scopes. An in-process promise map stops parallel tests within a worker racing.
+      </text>
+    </svg>
+    <div style="padding:0 42px 30px;font-size:21px;line-height:1.48">
+      Write-to-temp, rename, then <em>re-read</em> makes the cross-worker race benign rather than preventing it: whichever rename wins, both workers read the winner, so nothing is orphaned.
+    </div>
+  </div>
+</section>
+
+<!-- Screenshot 15 -->
+<section class="section">
+  <pre>const inflight = new Map&lt;string, Promise&lt;Record&gt;&gt;();
+
+async function ensureRecord(prefix: string) {
+  if (inflight.has(prefix)) return inflight.get(prefix)!;       // guard 1: same worker
+  const p = (async () =&gt; {
+    const file = cachePath(prefix);
+    if (fs.existsSync(file)) {
+      const cached = JSON.parse(fs.readFileSync(file, 'utf-8'));
+      if (isUsable(cached)) return cached;                    // validate before trusting
+    }
+    const created = await createRecord();
+    const tmp = `${file}.${process.pid}.tmp`;                 // guard 2: cross worker
+    fs.writeFileSync(tmp, JSON.stringify(created, null, 2));
+    fs.renameSync(tmp, file);                                 // atomic on POSIX
+    return JSON.parse(fs.readFileSync(file, 'utf-8'));        // re-read → converge
+  })();
+  p.catch(() =&gt; inflight.delete(prefix));                    // else one blip is permanent for the worker
+  inflight.set(prefix, p);
+  return p;
+}</pre>
+</section>
+
+<!-- Screenshot 16 -->
+<section class="section">
+  <p>Browser <code>storageState</code> lives beside the API cache under the same prefix — the API creates the operator, the first run saves its session, later runs replay it and skip login. Expose variations as fixture <em>options</em> (<code>skipUIFill: [false, { option: true }]</code>) rather than a fixture per shape, and document each option's cache implication: whether state built with the flag is still valid for a run without it.</p>
+
+  <div class="callout amber">
+    <p>Cached state accumulates. Anything cleanup can't delete builds up run after run. Document the leak, filter cleanup to what's actually deletable, and say which file to delete to reset. CI should always start with an empty cache directory.</p>
+  </div>
+</section>
+
+</div>
+
+<div class="shell">
+
+<!-- 17 -->
+<section class="section" id="the-test">
+  <div class="eyebrow">LAYER 4</div>
+  <h2>What the test looks like when the layers are in place</h2>
+  <p>With fixtures leasing state and a raw client that reports rather than throws, a spec carries assertions and nothing else — no <code>beforeAll</code>, no module-level trackers, no helpers defined in the spec file.</p>
+
+  <pre>test.use({ authPrefix: 'task-contract-suite' });
+
+test('POST /tasks accepts status=OPEN on every supported version', async ({ apiRecord }, testInfo) =&gt; {
+  testInfo.annotations.push({ type: 'CASE', description: 'TC-1041' });
+  const created: Array&lt;{ id: string }&gt; = [];
+  try {
+    for (const version of ALL_API_VERSIONS) {
+      const res = await createTaskRaw({ recordId: apiRecord.id, status: 'OPEN' }, { version });
+      expect(res.status, `v${version} — got ${res.status}: ${res.rawText}`).toBe(201);
+      assertTaskShape(res.body, { recordId: apiRecord.id, status: 'OPEN' });
+      created.push({ id: res.body.id });
+    }
+  } finally {
+    await cleanupTasks(created);       // runs even when a mid-loop assertion fails
+  }
+});
+
+test('POST /tasks without credentials returns 401', async ({ apiRecord }) =&gt; {
+  expect((await createTaskRaw({ recordId: apiRecord.id }, { omitAuth: true })).status).toBe(401);
+});</pre>
+</section>
+
+<!-- 18 -->
+<section class="section">
+  <ul class="bullets">
+    <li>Every assertion message carries the varying input and the raw response. A matrix failure must be diagnosable from the log alone — <code>expected 201, got 400</code> is useless when the loop has twenty iterations.</li>
+    <li>Cleanup lives inline in <code>finally</code>, not <code>afterEach</code>, so a mid-loop failure still restores the environment and the list is exactly what this test created.</li>
+    <li>Known bugs get annotated, not hidden. Widen the assertion to an OR-list and attach a <code>BUG</code> annotation naming the ticket — a silently loosened assertion is indistinguishable from a mistake six months later.</li>
+    <li>Matrices come from exported constants in the client, so adding a version widens every suite in one line.</li>
+  </ul>
+
+  <h3 style="margin-top:44px">Coverage axes worth writing for each resource family</h3>
+
+  <table style="width:100%;border-collapse:collapse;margin-top:20px">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:15px 10px;border-bottom:1px solid #687177;font:14px 'Courier New',monospace;letter-spacing:.13em;color:#cfc6bf">AXIS</th>
+        <th style="text-align:left;padding:15px 10px;border-bottom:1px solid #687177;font:14px 'Courier New',monospace;letter-spacing:.13em;color:#cfc6bf">CASES</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding:16px 10px;border-bottom:1px solid #59636a;font:17px 'Courier New',monospace">happy path</td><td style="padding:16px 10px;border-bottom:1px solid #59636a;font-size:19px">Each verb, each documented state value, asserting the full response shape rather than just the code.</td></tr>
+      <tr><td style="padding:16px 10px;border-bottom:1px solid #59636a;font:17px 'Courier New',monospace">version matrix</td><td style="padding:16px 10px;border-bottom:1px solid #59636a;font-size:19px">Every supported version. This is where you find silent coercion — an old version accepting a value and storing a different one.</td></tr>
+      <tr><td style="padding:16px 10px;border-bottom:1px solid #59636a;font:17px 'Courier New',monospace">auth</td><td style="padding:16px 10px;border-bottom:1px solid #59636a;font-size:19px">Missing credentials, wrong credentials, valid credentials without the route's scope. Three codes, three meanings.</td></tr>
+      <tr><td style="padding:16px 10px;border-bottom:1px solid #59636a;font:17px 'Courier New',monospace">malformed input</td><td style="padding:16px 10px;border-bottom:1px solid #59636a;font-size:19px">Empty body, each required field omitted individually, unknown enum value, well-formed id that doesn't exist.</td></tr>
+      <tr><td style="padding:16px 10px;border-bottom:1px solid #59636a;font:17px 'Courier New',monospace">list semantics</td><td style="padding:16px 10px;border-bottom:1px solid #59636a;font-size:19px">Filtering, empty result (must be <code>[]</code>, not <code>404</code>), missing required query param, pagination boundaries.</td></tr>
+      <tr><td style="padding:16px 10px;border-bottom:1px solid #59636a;font:17px 'Courier New',monospace">lifecycle</td><td style="padding:16px 10px;border-bottom:1px solid #59636a;font-size:19px">Which transitions the API actually permits — probe by sending a bogus value; the validator usually enumerates the allowed set for free.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 19 -->
+<section class="section" id="reporting">
+  <div class="eyebrow">INTEGRATION</div>
+  <h2>Reporting and CI: API tests ride the same rails</h2>
+  <p>Don't build a parallel reporting path. These are Playwright tests — same report, same selection, same push. Alongside <code>html</code>, <code>allure</code> (which carries your annotations), and <code>json</code>/<code>junit</code> with an env-overridable output path, add one custom reporter: a JSONL writer that appends a line per finished test <em>synchronously</em> in <code>onTestEnd</code>. The built-in JSON reporter only writes at <code>onEnd</code>, so a cancelled or preempted run reports nothing at all; thirty lines of <code>fs.appendFileSync</code> recovers the real partial counts.</p>
+  <p><strong>Select by tag, not by project.</strong> A dedicated <code>api</code> project needs its own <code>testMatch</code>, and a spec that does both jobs then has no home. Give every test a scope tag and a suite tag, and apply <code>@api</code> from day one even with one such test — it's the difference between "run the API suite" being a command and being an archaeology exercise.</p>
+
+  <pre>npx playwright test --grep @api
+npx playwright test --grep "@api" --grep-invert @known-broken
+npx playwright test --grep "@regression.*@billing"</pre>
+
+  <p style="margin-top:25px">The one thing a dedicated project does buy: API-only tests otherwise launch a browser they never use, so a lightweight no-browser project is a real saving on a large matrix.</p>
+  <p>Traceability wants two mechanisms, both: a case id in the test title (greppable, visible in every report) and the same id as a structured annotation (machine-readable for the push script). Build the results-mapping engine once and give it two front doors — a CI path and a thin local adapter that builds the same input shape from files on disk — never two engines.</p>
+</section>
+
+<!-- 20 + 21 -->
+<section class="section" id="build-order">
+  <div class="eyebrow">REPLICATION</div>
+  <h2>Build it in this order</h2>
+  <p>Each step is verifiable on its own, and each depends on the one before it working.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="num">01</div>
+      <div>
+        <h3>Map the access paths</h3>
+        <p>Before any code. Do the setup action in the UI with the network tab open; identify the public API, the route the UI calls, and any internal admin API. Request the service account and scopes now — provisioning is the long pole.</p>
+        <span class="check">check: a curl that creates a record end to end</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">02</div>
+      <div>
+        <h3>Config and credentials</h3>
+        <p>Environment table keyed by one <code>TEST_ENV</code>, lazy host getters, prefixed credential getters, tenant map, committed <code>.env.example</code>. No defaults — a missing variable throws with its own name in the message.</p>
+        <span class="check">check: a script printing resolved host, tenant and masked creds for two environments</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">03</div>
+      <div>
+        <h3>Transport</h3>
+        <p>One header builder with overrides, one tolerant parser, one bounded poller with a terminal-failure predicate. ~120 lines; everything imports it.</p>
+        <span class="check">check: a throwaway test hitting any GET, asserting 200</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">04</div>
+      <div>
+        <h3>The first resource client</h3>
+        <p>Your central entity: pure body builder, typed helpers that throw, raw helpers that report, version and status matrices exported as constants.</p>
+        <span class="check">check: create → read back → delete from a node script, no browser</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">05</div>
+      <div>
+        <h3>The identity factory</h3>
+        <p>A privileged user created and torn down per run. This usually needs an out-of-band channel — an inbox API for an activation link, an SMS provider for an OTP — so budget it as its own component. Deletion is best-effort and unconditional.</p>
+        <span class="check">check: create → activate → sign in → delete, twice, no residue</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">06</div>
+      <div>
+        <h3>The caching fixture</h3>
+        <p>Promise map, disk cache under <code>.auth/{env}/{prefix}/</code>, temp-write + rename + re-read, rejection eviction, gitignored. Add the <code>storageState</code> fixtures on the same prefix.</p>
+        <span class="check">check: same spec twice with 4 workers — second run makes zero create calls</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">07</div>
+      <div>
+        <h3>The first contract suite</h3>
+        <p>One resource, all six coverage axes, every test tagged <code>@api</code>. This is your template — get the assertion messages, cleanup and annotations right, because everything after is copied from here.</p>
+        <span class="check">check: green against two environments with only <code>TEST_ENV</code> changed</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">08</div>
+      <div>
+        <h3>Reporters, CI, then the second area</h3>
+        <p>Wire the reporters and a workflow with environment and tag as inputs. Add the case-id convention and push script. Then clone the area folder for area two — if that clone needs edits below layer 2, your boundaries were wrong, and this is the cheapest moment to find out.</p>
+        <span class="check">check: a cancelled run still reports finished tests; area two shares layers 1–2 unmodified</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:24px">
+    <p>Write the conventions file alongside step 7, not later. One markdown per area: which variables it needs, how to run it locally, where each kind of code goes, the cleanup rule, the traceability workflow. It's the difference between a suite one person can extend and one a team can.</p>
+  </div>
+</section>
+
+<!-- 22 + 23 -->
+<section class="section" id="pitfalls">
+  <div class="eyebrow">FAILURE MODES</div>
+  <h2>The ways this goes wrong</h2>
+  <p>All observable in mature suites; none visible on the day they're introduced.</p>
+
+  <div class="failure">
+    <p><strong>A header builder per client.</strong> Each integration writes its own because it needs one extra header. Later, a platform-wide change is a six-file edit with no compiler help.</p>
+  </div>
+
+  <div class="failure">
+    <p><strong>Only a throwing client exists.</strong> Everything is built for seeding, so the day someone needs to assert a 401 they wrap calls in <code>try/catch</code> and match error strings. Build both layers together even when one has no callers.</p>
+  </div>
+
+  <div class="failure">
+    <p><strong>Retry and polling reinvented per module.</strong> A hardcoded three-attempt loop here, an <code>expect.poll</code> there. Flake fixed in one place teaches the others nothing, and nobody can answer "how long will this wait" globally.</p>
+  </div>
+
+  <div class="failure">
+    <p><strong>A fork with a documented merge condition that never merges.</strong> A shared client hardcodes one environment, so area two copies it with an honest comment explaining what would make the fork unnecessary. The comment ages perfectly; the fork stays. Put the condition on a board, not only in a header.</p>
+  </div>
+
+  <div class="failure">
+    <p><strong>Example scaffolding outliving its purpose.</strong> The demo suite against a public practice API, skipped but still the first thing a newcomer finds when they search for "API test". Delete it once the real pattern exists, or move it under <code>examples/</code> with a header saying it doesn't run.</p>
+  </div>
+
+  <div class="failure">
+    <p><strong>No scope tag.</strong> Without a consistent <code>@api</code>, the suite can't be scheduled separately from the slow browser matrix. Free on day one, a repo-wide edit by year one.</p>
+  </div>
+
+  <div class="failure">
+    <p><strong>Cleanup that reports success without succeeding.</strong> Some deletes return 2xx and do nothing — a soft delete, or a resource whose only real removal path is the UI. Verify deletion once per resource type while writing the cleanup.</p>
+  </div>
+
+  <div class="short">
+    <h3>The short version</h3>
+    <p>Keep dependencies pointing one way. Resolve configuration late and loudly. Give every resource two client layers with opposite error contracts. Lease state instead of rebuilding it, and make the cross-worker race benign rather than trying to prevent it. Tag everything. Write the conventions down next to the code that follows them.</p>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="disclaimer">
+  <div class="line"></div>
+  <pre>A structural blueprint, not a library. Code samples are illustrative
+TypeScript against Playwright's own APIs — request.newContext, test.extend,
+testInfo.annotations, the Reporter interface — meant to be retyped against
+your own resource names rather than copied wholesale.</pre>
+</section>
+
+</div>
+</body>
+</html>
