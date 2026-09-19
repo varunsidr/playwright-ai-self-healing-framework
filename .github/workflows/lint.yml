@@ -8,9 +8,6 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./pw-mcp-demo
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

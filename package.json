@@ -11,7 +11,7 @@
     "analyze": "node scripts/static-analysis.js",
     "lint": "eslint . --ext .ts --max-warnings=0",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --check \"fixtures/**/*.ts\" \"tests/**/*.ts\" \"utils/**/*.ts\" \"flows/**/*.ts\" \"pages/**/*.ts\" \"scripts/**/*.js\" playwright.config.ts tsconfig.json package.json",
     "prepare": "husky install"
   },
   "keywords": [

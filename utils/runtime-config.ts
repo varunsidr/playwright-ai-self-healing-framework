@@ -1,8 +1,6 @@
 import { env } from 'node:process';
 
 const DEFAULT_BASE_URL = 'https://practice.expandtesting.com';
-const DEFAULT_API_BASE = `${DEFAULT_BASE_URL}/notes/api/`;
-const DEFAULT_HTTP_BASE = 'http://practice.expandtesting.com/notes/api';
 
 export function resolveRuntimeConfig() {
   const environment = env.TEST_ENV || env.ENVIRONMENT || 'local';

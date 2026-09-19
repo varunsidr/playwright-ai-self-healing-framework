@@ -10,7 +10,7 @@ export type NotePayload = {
 export type ParsedApiResult = {
   status: number;
   ok: boolean;
-  body: any;
+  body: unknown;
   text: string;
   headers: Record<string, string>;
 };
@@ -31,7 +31,7 @@ export function buildNotePayload(overrides: Partial<NotePayload> = {}): NotePayl
 
 export async function parseApiResult(response: APIResponse): Promise<ParsedApiResult> {
   const text = await response.text().catch(() => '');
-  let body: any = null;
+  let body: unknown = null;
   if (text) {
     try {
       body = JSON.parse(text);
@@ -52,7 +52,7 @@ export async function parseApiResult(response: APIResponse): Promise<ParsedApiRe
 export async function createNote(
   api: APIRequestContext,
   token: string,
-  payload: Partial<NotePayload> = {}
+  payload: Partial<NotePayload> = {},
 ): Promise<APIResponse> {
   return api.post(normalizeEndpoint('notes'), {
     data: buildNotePayload(payload),
@@ -67,10 +67,10 @@ export async function createNote(
 export async function createNoteRaw(
   api: APIRequestContext,
   token: string | undefined,
-  payload: any,
-  options: { headers?: Record<string, string> } = {}
+  payload: unknown,
+  options: { headers?: Record<string, string> } = {},
 ): Promise<ParsedApiResult> {
-  const headers = {
+  const headers: Record<string, string> = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
     ...(options.headers || {}),
@@ -97,7 +97,11 @@ export async function getNotes(api: APIRequestContext, token: string): Promise<A
   });
 }
 
-export async function getNoteById(api: APIRequestContext, token: string, noteId: string): Promise<APIResponse> {
+export async function getNoteById(
+  api: APIRequestContext,
+  token: string,
+  noteId: string,
+): Promise<APIResponse> {
   return api.get(normalizeEndpoint(`notes/${noteId}`), {
     headers: {
       'x-auth-token': token,
@@ -110,7 +114,7 @@ export async function updateNote(
   api: APIRequestContext,
   token: string,
   noteId: string,
-  payload: Partial<NotePayload>
+  payload: Partial<NotePayload>,
 ): Promise<APIResponse> {
   return api.patch(normalizeEndpoint(`notes/${noteId}`), {
     data: payload,
@@ -122,7 +126,11 @@ export async function updateNote(
   });
 }
 
-export async function deleteNote(api: APIRequestContext, token: string, noteId: string): Promise<APIResponse> {
+export async function deleteNote(
+  api: APIRequestContext,
+  token: string,
+  noteId: string,
+): Promise<APIResponse> {
   return api.delete(normalizeEndpoint(`notes/${noteId}`), {
     headers: {
       'x-auth-token': token,

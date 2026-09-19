@@ -17,7 +17,11 @@ function getCachePath(prefix: string, scope: string): string {
   return join(CACHE_ROOT, scope, `${safePrefix}.json`);
 }
 
-export async function withSharedState<T>(prefix: string, scope: string, factory: () => Promise<T>): Promise<T> {
+export async function withSharedState<T>(
+  prefix: string,
+  scope: string,
+  factory: () => Promise<T>,
+): Promise<T> {
   const cacheKey = `${scope}:${prefix}`;
   if (inflight.has(cacheKey)) {
     return inflight.get(cacheKey) as Promise<T>;

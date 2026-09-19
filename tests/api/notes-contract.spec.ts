@@ -1,6 +1,11 @@
-/// <reference types="@playwright/test" />
+/* eslint-disable no-console */
 import { test, expect } from '../../fixtures/api-fixtures';
 import { createNoteRaw, buildNotePayload } from '../../utils/notes-api-client';
+
+type NoteResponseBody = {
+  id?: string;
+  data?: { id?: string };
+};
 
 test.describe('@api notes contract', () => {
   test('missing auth sees 401 when creating a note', async ({ api, apiSeed }) => {
@@ -11,7 +16,10 @@ test.describe('@api notes contract', () => {
 
     expect(result.status).toBe(401);
     expect(result.ok).toBeFalsy();
-    const authMessage = typeof result.body === 'string' ? result.body : JSON.stringify(result.body ?? result.text ?? '');
+    const authMessage =
+      typeof result.body === 'string'
+        ? result.body
+        : JSON.stringify(result.body ?? result.text ?? '');
     expect(authMessage).toMatch(/auth|token/i);
 
     const cleanup = await api.delete('users/delete-account', {
@@ -35,7 +43,10 @@ test.describe('@api notes contract', () => {
 
     expect(result.status).toBe(400);
     expect(result.ok).toBeFalsy();
-    const invalidMessage = typeof result.body === 'string' ? result.body : JSON.stringify(result.body ?? result.text ?? '');
+    const invalidMessage =
+      typeof result.body === 'string'
+        ? result.body
+        : JSON.stringify(result.body ?? result.text ?? '');
     expect(invalidMessage).toMatch(/title|boolean|invalid|must/i);
 
     const cleanup = await api.delete('users/delete-account', {
@@ -48,15 +59,24 @@ test.describe('@api notes contract', () => {
 
   test('invalid note update payload is rejected with 400', async ({ api, apiSeed }) => {
     const user = await apiSeed.ensureUser('notes-contract-update-400', true);
-    const created = await createNoteRaw(api, user.token, { title: 'Valid Note', description: 'Valid description', category: 'Home' });
+    const created = await createNoteRaw(api, user.token, {
+      title: 'Valid Note',
+      description: 'Valid description',
+      category: 'Home',
+    });
     expect(created.status).toBe(200);
 
-    const noteId = created.body?.data?.id || created.body?.id;
+    const responseBody = created.body as NoteResponseBody | null;
+    const noteId = responseBody?.data?.id ?? responseBody?.id;
     expect(noteId).toBeTruthy();
 
     const update = await api.patch(`notes/${noteId}`, {
       data: { title: 'ab', completed: 'not-a-boolean' },
-      headers: { 'x-auth-token': user.token, Accept: 'application/json', 'Content-Type': 'application/json' },
+      headers: {
+        'x-auth-token': user.token,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     });
 
     const updateText = await update.text().catch(() => '');

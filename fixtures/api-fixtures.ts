@@ -4,7 +4,12 @@ import { withSharedState } from '../utils/api-state-cache';
 import { runtimeConfig } from '../utils/runtime-config';
 
 const API_BASE = runtimeConfig.apiBaseURL;
-const HTTP_BASE = runtimeConfig.httpBaseURL;
+
+type ApiRequestOptionsData = {
+  headers: Record<string, string>;
+  data?: unknown;
+  followRedirects?: boolean;
+};
 
 const API_CONFIG = {
   endpoints: {
@@ -32,14 +37,14 @@ const API_CONFIG = {
 export type ApiRequestOptions = {
   form?: Record<string, string>;
   headers?: Record<string, string>;
-  data?: any;
+  data?: unknown;
   followRedirects?: boolean;
 };
 
 export type ApiRawResult = {
   status: number;
   ok: boolean;
-  body: any;
+  body: unknown;
   text: string;
   headers: Record<string, string>;
   error?: string;
@@ -63,7 +68,7 @@ export function normalizeApiEndpoint(endpoint: string): string {
 
 export async function parseApiResponse(resp: APIResponse): Promise<ApiRawResult> {
   const text = await resp.text().catch(() => '');
-  let body: any = null;
+  let body: unknown = null;
   if (text) {
     try {
       body = JSON.parse(text);
@@ -86,18 +91,18 @@ export const test = base.extend<{
   apiCall: (
     method: 'get' | 'post' | 'put' | 'delete' | 'patch',
     endpoint: string,
-    options?: ApiRequestOptions
+    options?: ApiRequestOptions,
   ) => Promise<APIResponse>;
   apiClient: {
     strict: (
       method: 'get' | 'post' | 'put' | 'delete' | 'patch',
       endpoint: string,
-      options?: ApiRequestOptions
+      options?: ApiRequestOptions,
     ) => Promise<APIResponse>;
     raw: (
       method: 'get' | 'post' | 'put' | 'delete' | 'patch',
       endpoint: string,
-      options?: ApiRequestOptions
+      options?: ApiRequestOptions,
     ) => Promise<ApiRawResult>;
     request: APIRequestContext;
     config: typeof API_CONFIG;
@@ -129,41 +134,55 @@ export const test = base.extend<{
       async function call(
         method: 'get' | 'post' | 'put' | 'delete' | 'patch',
         endpoint: string,
-        options: ApiRequestOptions = {}
+        options: ApiRequestOptions = {},
       ) {
         const attempts = API_CONFIG.retry.maxAttempts;
-        let lastErr: any;
+        let lastErr: unknown;
         for (let i = 1; i <= attempts; i++) {
           try {
             const headers = { ...(options.headers || {}) };
-            const requestOpts: any = { headers };
+            const requestOpts: ApiRequestOptionsData = { headers };
             if (options.form) {
               const params = new URLSearchParams(options.form as Record<string, string>);
               requestOpts.data = params.toString();
-              requestOpts.headers = { ...requestOpts.headers, 'content-type': API_CONFIG.http.contentType };
+              requestOpts.headers = {
+                ...requestOpts.headers,
+                'content-type': API_CONFIG.http.contentType,
+              };
             } else if (options.data) {
               requestOpts.data = options.data;
             }
-            if (typeof options.followRedirects === 'boolean') requestOpts.followRedirects = options.followRedirects;
+            if (typeof options.followRedirects === 'boolean')
+              requestOpts.followRedirects = options.followRedirects;
 
             if (requestOpts.headers) {
               for (const hk of Object.keys(requestOpts.headers)) {
-                const hv = (requestOpts.headers as Record<string, any>)[hk];
+                const hv = requestOpts.headers[hk];
                 if (hv === undefined || hv === null) {
-                  delete (requestOpts.headers as Record<string, any>)[hk];
+                  delete requestOpts.headers[hk];
                 } else {
-                  (requestOpts.headers as Record<string, any>)[hk] = String(hv);
+                  requestOpts.headers[hk] = String(hv);
                 }
               }
             }
 
             if (process.env.DEBUG_API_HEADERS) {
               // eslint-disable-next-line no-console
-              console.error('API request', method.toUpperCase(), normalizeApiEndpoint(endpoint), 'headers:', requestOpts.headers);
+              console.error(
+                'API request',
+                method.toUpperCase(),
+                normalizeApiEndpoint(endpoint),
+                'headers:',
+                requestOpts.headers,
+              );
             }
 
             const requestEndpoint = normalizeApiEndpoint(endpoint);
-            const resp = await (api as any)[method](requestEndpoint, requestOpts);
+            const requestMethod = api[method] as (
+              endpoint: string,
+              options: ApiRequestOptionsData,
+            ) => Promise<APIResponse>;
+            const resp = await requestMethod(requestEndpoint, requestOpts);
             return resp as APIResponse;
           } catch (e) {
             lastErr = e;
@@ -183,38 +202,46 @@ export const test = base.extend<{
       const strict = async (
         method: 'get' | 'post' | 'put' | 'delete' | 'patch',
         endpoint: string,
-        options: ApiRequestOptions = {}
+        options: ApiRequestOptions = {},
       ) => {
         const headers = { ...(options.headers || {}) };
-        const requestOpts: any = { headers };
+        const requestOpts: ApiRequestOptionsData = { headers };
         if (options.form) {
           const params = new URLSearchParams(options.form as Record<string, string>);
           requestOpts.data = params.toString();
-          requestOpts.headers = { ...requestOpts.headers, 'content-type': API_CONFIG.http.contentType };
+          requestOpts.headers = {
+            ...requestOpts.headers,
+            'content-type': API_CONFIG.http.contentType,
+          };
         } else if (options.data) {
           requestOpts.data = options.data;
         }
-        if (typeof options.followRedirects === 'boolean') requestOpts.followRedirects = options.followRedirects;
+        if (typeof options.followRedirects === 'boolean')
+          requestOpts.followRedirects = options.followRedirects;
 
         if (requestOpts.headers) {
           for (const hk of Object.keys(requestOpts.headers)) {
-            const hv = (requestOpts.headers as Record<string, any>)[hk];
+            const hv = requestOpts.headers[hk];
             if (hv === undefined || hv === null) {
-              delete (requestOpts.headers as Record<string, any>)[hk];
+              delete requestOpts.headers[hk];
             } else {
-              (requestOpts.headers as Record<string, any>)[hk] = String(hv);
+              requestOpts.headers[hk] = String(hv);
             }
           }
         }
 
         const requestEndpoint = normalizeApiEndpoint(endpoint);
-        return (api as any)[method](requestEndpoint, requestOpts) as Promise<APIResponse>;
+        const requestMethod = api[method] as (
+          endpoint: string,
+          requestOptions: ApiRequestOptionsData,
+        ) => Promise<APIResponse>;
+        return requestMethod(requestEndpoint, requestOpts);
       };
 
       const raw = async (
         method: 'get' | 'post' | 'put' | 'delete' | 'patch',
         endpoint: string,
-        options: ApiRequestOptions = {}
+        options: ApiRequestOptions = {},
       ): Promise<ApiRawResult> => {
         try {
           const response = await strict(method, endpoint, options);
@@ -248,12 +275,16 @@ export const test = base.extend<{
 
         const reg = await api.post(registerEndpoint, { form: { name, email, password } });
         if (!reg.ok()) {
-          throw new Error(`Seed registration failed: ${reg.status()} ${await reg.text().catch(() => '')}`);
+          throw new Error(
+            `Seed registration failed: ${reg.status()} ${await reg.text().catch(() => '')}`,
+          );
         }
 
         const login = await api.post(loginEndpoint, { form: { email, password } });
         if (!login.ok()) {
-          throw new Error(`Seed login failed: ${login.status()} ${await login.text().catch(() => '')}`);
+          throw new Error(
+            `Seed login failed: ${login.status()} ${await login.text().catch(() => '')}`,
+          );
         }
 
         const loginBody = await login.json();
@@ -271,7 +302,10 @@ export const test = base.extend<{
         };
       };
 
-      const ensureUser = async (prefix = 'default-user-seed', forceRefresh = false): Promise<ApiSeedUser> => {
+      const ensureUser = async (
+        prefix = 'default-user-seed',
+        forceRefresh = false,
+      ): Promise<ApiSeedUser> => {
         if (forceRefresh) {
           const { clearStateCache } = await import('../utils/api-state-cache.js');
           clearStateCache('api-users');
