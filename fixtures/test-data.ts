@@ -1,6 +1,10 @@
 // Centralized test data (Selenium equivalent: data POJOs/JSON test-data files).
 // Specs must reference values from here, never hardcode input literals inline.
-import type { InputsPageValues, HomePageValues, RegisterPageValues } from '../pages/practice-site-pages';
+import type {
+  InputsPageValues,
+  HomePageValues,
+  RegisterPageValues,
+} from '../pages/practice-site-pages';
 
 export const validInputsData: InputsPageValues = {
   number: '42',

@@ -68,7 +68,9 @@ export const test = base.extend<{
   // Runs before every test (auto: true) with no explicit fixture argument needed in specs.
   blockAds: [
     async ({ page }, use) => {
-      await Promise.all(BLOCKED_AD_DOMAINS.map((pattern) => page.route(pattern, (route) => route.abort())));
+      await Promise.all(
+        BLOCKED_AD_DOMAINS.map((pattern) => page.route(pattern, (route) => route.abort())),
+      );
       await use();
     },
     { auto: true },

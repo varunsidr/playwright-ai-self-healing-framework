@@ -1,4 +1,5 @@
 /// <reference types="@playwright/test" />
+/* eslint-disable no-console */
 import { test, expect } from '../../fixtures/api-fixtures';
 
 // Minimal API tests to keep things simple and focused
@@ -18,7 +19,9 @@ test('register -> login (basic)', async ({ apiCall, apiConfig }) => {
   const email = uniqueEmail();
   const password = 'Password123!';
 
-  const reg = await apiCall('post', apiConfig.endpoints.register, { form: { name, email, password } });
+  const reg = await apiCall('post', apiConfig.endpoints.register, {
+    form: { name, email, password },
+  });
   if (!reg.ok()) {
     const body = await reg.text().catch(() => '<unreadable>');
     console.error('Register failed:', reg.status(), body.slice?.(0, 1000) ?? body);
@@ -48,10 +51,15 @@ test('register -> login (basic)', async ({ apiCall, apiConfig }) => {
 
 test('http -> https redirect (basic)', async ({ playwright, apiConfig }) => {
   // create a short-lived context pointed at the HTTP base and do not follow redirects
-  const httpCtx = await playwright.request.newContext({ baseURL: 'http://practice.expandtesting.com/notes/api' });
+  const httpCtx = await playwright.request.newContext({
+    baseURL: 'http://practice.expandtesting.com/notes/api',
+  });
   try {
-    // use fetch with redirect: 'manual' to observe redirect response
-    const resp = await httpCtx.fetch(apiConfig.endpoints.healthCheck, { method: 'GET', redirect: 'manual' });
+    // use fetch with no redirects to observe the response directly
+    const resp = await httpCtx.fetch(apiConfig.endpoints.healthCheck, {
+      method: 'GET',
+      maxRedirects: 0,
+    });
     // expect a redirect status (301/302) or a 404 if the HTTP path is not enabled
     expect([301, 302, 307, 308, 404]).toContain(resp.status());
   } finally {

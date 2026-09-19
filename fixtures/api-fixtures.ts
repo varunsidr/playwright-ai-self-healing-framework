@@ -3,7 +3,6 @@ import type { APIRequestContext } from '@playwright/test';
 
 // Configuration derived from the JSON you provided.
 const API_BASE = process.env.API_BASE || 'https://practice.expandtesting.com/notes/api/';
-const HTTP_BASE = process.env.HTTP_BASE || 'http://practice.expandtesting.com/notes/api';
 
 const API_CONFIG = {
   endpoints: {
@@ -33,7 +32,12 @@ export const test = base.extend<{
   apiCall: (
     method: 'get' | 'post' | 'put' | 'delete' | 'patch',
     endpoint: string,
-    options?: { form?: Record<string, string>; headers?: Record<string, string>; data?: any; followRedirects?: boolean }
+    options?: {
+      form?: Record<string, string>;
+      headers?: Record<string, string>;
+      data?: unknown;
+      followRedirects?: boolean;
+    },
   ) => Promise<import('@playwright/test').APIResponse>;
   apiConfig: typeof API_CONFIG;
 }>({
@@ -59,43 +63,49 @@ export const test = base.extend<{
       async function call(
         method: 'get' | 'post' | 'put' | 'delete' | 'patch',
         endpoint: string,
-        options: { form?: Record<string, string>; headers?: Record<string, string>; data?: any; followRedirects?: boolean } = {}
+        options: {
+          form?: Record<string, string>;
+          headers?: Record<string, string>;
+          data?: unknown;
+          followRedirects?: boolean;
+        } = {},
       ) {
         const attempts = API_CONFIG.retry.maxAttempts;
-        let lastErr: any;
+        let lastErr: unknown;
         for (let i = 1; i <= attempts; i++) {
           try {
             const headers = { ...(options.headers || {}) };
-            let body: any = undefined;
-            const requestOpts: any = { headers };
+            let body: string | undefined;
+            const requestOpts: {
+              headers: Record<string, string>;
+              data?: unknown;
+              followRedirects?: boolean;
+            } = { headers };
             if (options.form) {
               const params = new URLSearchParams(options.form as Record<string, string>);
               body = params.toString();
               requestOpts.data = body;
-              requestOpts.headers = { ...requestOpts.headers, 'content-type': API_CONFIG.http.contentType };
+              requestOpts.headers = {
+                ...requestOpts.headers,
+                'content-type': API_CONFIG.http.contentType,
+              };
             } else if (options.data) {
               requestOpts.data = options.data;
             }
             // allow manual redirect handling
-            if (typeof options.followRedirects === 'boolean') requestOpts.followRedirects = options.followRedirects;
+            if (typeof options.followRedirects === 'boolean')
+              requestOpts.followRedirects = options.followRedirects;
 
             // sanitize headers: remove undefined/null and coerce values to strings
             if (requestOpts.headers) {
               for (const hk of Object.keys(requestOpts.headers)) {
-                const hv = (requestOpts.headers as Record<string, any>)[hk];
+                const hv = requestOpts.headers[hk];
                 if (hv === undefined || hv === null) {
-                  delete (requestOpts.headers as Record<string, any>)[hk];
+                  delete requestOpts.headers[hk];
                 } else {
-                  (requestOpts.headers as Record<string, any>)[hk] = String(hv);
+                  requestOpts.headers[hk] = String(hv);
                 }
               }
-            }
-
-            // optional debug: log headers when debugging is enabled
-            if (process.env.DEBUG_API_HEADERS) {
-              // keep console usage minimal and informative
-              // eslint-disable-next-line no-console
-              console.error('API request', method.toUpperCase(), requestEndpoint, 'headers:', requestOpts.headers);
             }
 
             // normalize endpoint: remove leading slash so baseURL path segment is preserved
@@ -103,8 +113,26 @@ export const test = base.extend<{
             if (!requestEndpoint.startsWith('http://') && !requestEndpoint.startsWith('https://')) {
               if (requestEndpoint.startsWith('/')) requestEndpoint = requestEndpoint.slice(1);
             }
+
+            // optional debug: log headers when debugging is enabled
+            if (process.env.DEBUG_API_HEADERS) {
+              // keep console usage minimal and informative
+              // eslint-disable-next-line no-console
+              console.error(
+                'API request',
+                method.toUpperCase(),
+                requestEndpoint,
+                'headers:',
+                requestOpts.headers,
+              );
+            }
+
             // call the API
-            const resp = await (api as any)[method](requestEndpoint, requestOpts);
+            const requestMethod = api[method] as (
+              endpoint: string,
+              options: typeof requestOpts,
+            ) => Promise<import('@playwright/test').APIResponse>;
+            const resp = await requestMethod(requestEndpoint, requestOpts);
             return resp as import('@playwright/test').APIResponse;
           } catch (e) {
             lastErr = e;

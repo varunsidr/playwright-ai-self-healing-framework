@@ -23,13 +23,17 @@ export class HomePage extends BasePage {
     super(page);
     // Prefer role/label-based locators (accessibility tree) over CSS/XPath --
     // they're less brittle than Selenium-style id/class selectors.
-    this.heroHeading = page.getByRole('heading', { name: 'Automation Testing Practice WebSite for QA and Developers' });
+    this.heroHeading = page.getByRole('heading', {
+      name: 'Automation Testing Practice WebSite for QA and Developers',
+    });
     this.heroSubheading = page.getByRole('heading', {
       name: 'Free Test Automation Practice Website for Selenium, Playwright, Cypress, WebdriverIO, and Postman | Web UI and REST API Testing Example',
     });
     this.searchInput = page.getByRole('textbox', { name: 'Search an example...' });
     this.searchButton = page.getByRole('button', { name: 'Search' });
-    this.sampleApplicationsHeading = page.getByRole('heading', { name: 'Sample applications for practice test automation' });
+    this.sampleApplicationsHeading = page.getByRole('heading', {
+      name: 'Sample applications for practice test automation',
+    });
     // Every card has its own "Try it out" link, so disambiguate by href
     // (equivalent to //a[@href='/register' and contains(text(), 'Try it out')]).
     this.registerTryItOutLink = page.locator('a[href="/register"]', { hasText: 'Try it out' });
@@ -85,7 +89,9 @@ export class InputsPage extends BasePage {
     super(page);
     // getByRole targets the accessibility tree, not CSS/XPath, so it survives
     // most markup/styling changes (this is the self-healing-friendly strategy).
-    this.heading = page.getByRole('heading', { name: 'Web inputs page for Automation Testing Practice' });
+    this.heading = page.getByRole('heading', {
+      name: 'Web inputs page for Automation Testing Practice',
+    });
     this.numberInput = page.getByRole('spinbutton', { name: 'Input: Number' });
     this.textInput = page.getByRole('textbox', { name: 'Input: Text' });
     this.passwordInput = page.getByRole('textbox', { name: 'Input: Password' });

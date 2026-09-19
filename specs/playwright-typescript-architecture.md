@@ -60,16 +60,16 @@ flowchart LR
 
 ## Selenium Java Mapping
 
-| Selenium Java concept | Playwright TypeScript equivalent in this repo |
-|---|---|
-| `WebDriver` instance | `page` fixture from `@playwright/test` |
+| Selenium Java concept            | Playwright TypeScript equivalent in this repo           |
+| -------------------------------- | ------------------------------------------------------- |
+| `WebDriver` instance             | `page` fixture from `@playwright/test`                  |
 | `WebDriverWait` / explicit waits | Playwright auto-waiting built into locators and actions |
-| `Page Object` class | `pages/inputs-page.ts` |
-| `BaseTest` / custom test setup | `fixtures/base.ts` |
-| Test data class / config | `fixtures/test-data.ts` and `playwright.config.ts` |
-| TestNG/JUnit runner | Playwright test runner |
-| Screenshots / logs on failure | `trace`, `screenshot`, and `video` in config |
-| Cross-browser execution | `projects` in `playwright.config.ts` |
+| `Page Object` class              | `pages/inputs-page.ts`                                  |
+| `BaseTest` / custom test setup   | `fixtures/base.ts`                                      |
+| Test data class / config         | `fixtures/test-data.ts` and `playwright.config.ts`      |
+| TestNG/JUnit runner              | Playwright test runner                                  |
+| Screenshots / logs on failure    | `trace`, `screenshot`, and `video` in config            |
+| Cross-browser execution          | `projects` in `playwright.config.ts`                    |
 
 ## How The Flow Works
 

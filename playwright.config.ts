@@ -30,10 +30,7 @@ export default defineConfig({
         ['html', { outputFolder: 'playwright-report', open: 'never' }],
         ['junit', { outputFile: 'test-results/junit.xml' }],
       ]
-    : [
-        ['html', { outputFolder: 'playwright-report', open: 'never' }],
-        ['list'],
-      ],
+    : [['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']],
   outputDir: 'test-results',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

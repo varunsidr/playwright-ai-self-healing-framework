@@ -7,4 +7,3 @@ test.describe('Web inputs page', () => {
     await expect(inputsPage.heading).toBeVisible();
   });
 });
-

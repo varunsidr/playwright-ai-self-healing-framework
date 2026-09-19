@@ -19,15 +19,15 @@ It is shaped like a small production test framework: page objects own locators, 
 
 ## Tech Stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Language | TypeScript | Strong typing and readable test code |
-| Automation | Playwright | Fast, stable browser automation with built-in artifacts |
-| Test Runner | Playwright Test | Parallel execution, retries, projects, and native reporting |
-| Build | npm | Simple dependency and script management |
-| Reporting | Playwright HTML report | Built-in visual report for failures and traces |
-| CI | GitHub Actions | Runs the suite on push and pull request events |
-| Structure | Page Object Model + flows + fixtures | Keeps test intent separate from UI details |
+| Layer       | Choice                               | Why                                                         |
+| ----------- | ------------------------------------ | ----------------------------------------------------------- |
+| Language    | TypeScript                           | Strong typing and readable test code                        |
+| Automation  | Playwright                           | Fast, stable browser automation with built-in artifacts     |
+| Test Runner | Playwright Test                      | Parallel execution, retries, projects, and native reporting |
+| Build       | npm                                  | Simple dependency and script management                     |
+| Reporting   | Playwright HTML report               | Built-in visual report for failures and traces              |
+| CI          | GitHub Actions                       | Runs the suite on push and pull request events              |
+| Structure   | Page Object Model + flows + fixtures | Keeps test intent separate from UI details                  |
 
 ---
 
@@ -107,9 +107,9 @@ If `npx` gives PowerShell execution-policy trouble on your machine, use `npx.cmd
 ### Publish HTML report to GitHub Pages
 
 - Optionally publish the `playwright-report/` folder to GitHub Pages for easy viewing. The repository includes a ready-to-run workflow `.github/workflows/deploy-report.yml` that:
-	- runs the test suite,
-	- generates the HTML report, and
-	- publishes `playwright-report/` to the `gh-pages` branch.
+  - runs the test suite,
+  - generates the HTML report, and
+  - publishes `playwright-report/` to the `gh-pages` branch.
 
 - To trigger the deploy workflow manually from the Actions tab, use the `Run workflow` (workflow_dispatch) button. The published report will be available at `https://<owner>.github.io/<repo>/` after Pages is enabled for the `gh-pages` branch.
 
@@ -120,18 +120,23 @@ If you prefer to just download the report from CI, the main workflow already upl
 ## Design Decisions
 
 ### 1) Layered Test Flow
+
 Page objects own locators and low-level interactions, while flows handle the scenario sequence. That keeps the spec readable and stops interaction logic from leaking everywhere.
 
 ### 2) Custom Fixtures
+
 `fixtures/base.ts` provides the shared `test` and `expect` exports, plus ready-to-use page and flow fixtures. That keeps setup consistent without a heavy inheritance model.
 
 ### 3) Central Test Data
+
 Shared inputs live in `fixtures/test-data.ts` so the same values can be reused across specs without copy-paste drift.
 
 ### 4) Self-Healing By Design
+
 The framework emphasizes resilient locators, small helpers, and a clear structure that is easy to repair. The goal is to make locator recovery simple enough that agent-assisted fixes stay predictable.
 
 ### 5) Agent-Friendly Entry Points
+
 The seed spec and architecture document give automation agents a stable starting point for regeneration, repair, and future expansion.
 
 ---

@@ -8,7 +8,11 @@
     "test:headed": "playwright test --headed",
     "report": "playwright show-report",
     "record": "playwright codegen https://practice.expandtesting.com/inputs",
-    "analyze": "node scripts/static-analysis.js"
+    "analyze": "node scripts/static-analysis.js",
+    "lint": "eslint . --ext .ts --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky install"
   },
   "keywords": [
     "playwright",
@@ -22,6 +26,13 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.3.0"
+    "@types/node": "^26.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.70.0",
+    "@typescript-eslint/parser": "^8.70.0",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^17.5.1",
+    "prettier": "^3.2.0"
   }
 }

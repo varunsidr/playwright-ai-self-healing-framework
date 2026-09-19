@@ -9,7 +9,11 @@ function walk(dirPath) {
   const entries = [];
 
   for (const entry of fs.readdirSync(dirPath, { withFileTypes: true })) {
-    if (entry.name === 'node_modules' || entry.name === 'playwright-report' || entry.name === 'test-results') {
+    if (
+      entry.name === 'node_modules' ||
+      entry.name === 'playwright-report' ||
+      entry.name === 'test-results'
+    ) {
       continue;
     }
 
@@ -33,7 +37,9 @@ function normalizePath(filePath) {
 
 function isInTargetRoots(filePath) {
   const normalized = normalizePath(filePath);
-  return targetRoots.some((root) => normalized.includes(`/${root}/`) || normalized.endsWith(`/${root}`));
+  return targetRoots.some(
+    (root) => normalized.includes(`/${root}/`) || normalized.endsWith(`/${root}`),
+  );
 }
 
 function lineNumber(source, index) {
@@ -48,13 +54,16 @@ function scanFile(filePath) {
   const source = fs.readFileSync(filePath, 'utf8');
   const issues = [];
 
-  if (normalizePath(filePath).includes('/tests/') && /from ['"]@playwright\/test['"]/.test(source)) {
+  if (
+    normalizePath(filePath).includes('/tests/') &&
+    /from ['"]@playwright\/test['"]/.test(source)
+  ) {
     addIssue(
       issues,
       filePath,
       1,
       'tests-import-fixtures-base',
-      'Specs should import `test` and `expect` from `fixtures/base.ts`, not directly from `@playwright/test`.'
+      'Specs should import `test` and `expect` from `fixtures/base.ts`, not directly from `@playwright/test`.',
     );
   }
 
@@ -73,7 +82,7 @@ function scanFile(filePath) {
           filePath,
           lineNumber(source, match.index || 0),
           'tests-no-ui-details',
-          'Specs should stay behavior-focused and avoid hardcoded locator or navigation details.'
+          'Specs should stay behavior-focused and avoid hardcoded locator or navigation details.',
         );
       }
     }
@@ -86,7 +95,7 @@ function scanFile(filePath) {
         filePath,
         lineNumber(source, match.index || 0),
         'flows-no-assertions',
-        'Flows should orchestrate steps only; assertions belong in specs or page helpers.'
+        'Flows should orchestrate steps only; assertions belong in specs or page helpers.',
       );
     }
   }
@@ -98,7 +107,7 @@ function scanFile(filePath) {
         filePath,
         lineNumber(source, match.index || 0),
         'pages-no-test-imports',
-        'Page objects should not import test files.'
+        'Page objects should not import test files.',
       );
     }
   }
@@ -112,9 +121,7 @@ function main() {
     return fs.existsSync(rootPath) ? walk(rootPath) : [];
   });
 
-  const issues = files
-    .filter(isInTargetRoots)
-    .flatMap((filePath) => scanFile(filePath));
+  const issues = files.filter(isInTargetRoots).flatMap((filePath) => scanFile(filePath));
 
   if (issues.length === 0) {
     console.log('Static analysis passed: no project-specific issues found.');
