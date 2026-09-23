@@ -1,5 +1,6 @@
 /// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
+import { runtimeConfig } from './utils/runtime-config';
 
 /**
  * Read environment variables from file.
@@ -35,7 +36,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'https://practice.expandtesting.com',
+    baseURL: runtimeConfig.baseURL,
 
     /* Collect debugging evidence for failed tests. */
     trace: 'retain-on-failure',
@@ -52,21 +53,25 @@ export default defineConfig({
     // API-only project: run tests that target API endpoints without browser automation.
     {
       name: 'api',
+      testMatch: /api\/.*\.(?:spec|test)\.ts$/,
       use: {},
     },
 
     {
       name: 'chromium',
+      testIgnore: /api\/.*\.(?:spec|test)\.ts$/,
       use: { ...devices['Desktop Chrome'] },
     },
 
     {
       name: 'firefox',
+      testIgnore: /api\/.*\.(?:spec|test)\.ts$/,
       use: { ...devices['Desktop Firefox'] },
     },
 
     {
       name: 'webkit',
+      testIgnore: /api\/.*\.(?:spec|test)\.ts$/,
       use: { ...devices['Desktop Safari'] },
     },
 

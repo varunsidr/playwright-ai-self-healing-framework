@@ -93,6 +93,19 @@ Run the custom static analysis rules:
 npm run analyze
 ```
 
+Run the complete local quality gate used by CI:
+
+```powershell
+npm run check
+```
+
+Run only one test layer:
+
+```powershell
+npm run test:api
+npm run test:ui
+```
+
 If `npx` gives PowerShell execution-policy trouble on your machine, use `npx.cmd` instead.
 
 ---

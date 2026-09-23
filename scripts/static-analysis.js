@@ -53,21 +53,35 @@ function addIssue(issues, filePath, line, rule, message) {
 function scanFile(filePath) {
   const source = fs.readFileSync(filePath, 'utf8');
   const issues = [];
+  const normalizedPath = normalizePath(filePath);
+  const isTest = normalizedPath.includes('/tests/');
+  const isApiTest = normalizedPath.includes('/tests/api/');
+  const directPlaywrightValueImport = /import\s+(?!type\b)[^;]+from ['"]@playwright\/test['"]/;
 
-  if (
-    normalizePath(filePath).includes('/tests/') &&
-    /from ['"]@playwright\/test['"]/.test(source)
-  ) {
+  if (isTest && directPlaywrightValueImport.test(source)) {
     addIssue(
       issues,
       filePath,
       1,
       'tests-import-fixtures-base',
-      'Specs should import `test` and `expect` from `fixtures/base.ts`, not directly from `@playwright/test`.',
+      'Specs should import runtime test APIs from the appropriate project fixture, not directly from `@playwright/test`.',
     );
   }
 
-  if (normalizePath(filePath).includes('/tests/')) {
+  if (isTest) {
+    const expectedFixture = isApiTest ? 'fixtures/api-fixtures' : 'fixtures/base';
+    if (!source.includes(expectedFixture)) {
+      addIssue(
+        issues,
+        filePath,
+        1,
+        'tests-import-project-fixture',
+        `Specs should import from \`${expectedFixture}.ts\`.`,
+      );
+    }
+  }
+
+  if (isTest && !isApiTest) {
     const disallowedLocatorPatterns = [
       /getByRole\s*\(/g,
       /getByText\s*\(/g,
@@ -88,7 +102,7 @@ function scanFile(filePath) {
     }
   }
 
-  if (normalizePath(filePath).includes('/flows/')) {
+  if (normalizedPath.includes('/flows/')) {
     for (const match of source.matchAll(/expect\s*\(/g)) {
       addIssue(
         issues,
@@ -100,7 +114,7 @@ function scanFile(filePath) {
     }
   }
 
-  if (normalizePath(filePath).includes('/pages/')) {
+  if (normalizedPath.includes('/pages/')) {
     for (const match of source.matchAll(/from ['"].*\/tests\//g)) {
       addIssue(
         issues,

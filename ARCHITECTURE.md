@@ -14,8 +14,8 @@ Think of the current stack like this:
 
 - `page` is the Playwright equivalent of the browser/session object you would drive with `WebDriver`.
 - `fixtures/base.ts` is the replacement for a classic base test class or shared setup parent.
-- `pages/inputs-page.ts` is the Page Object Model layer.
-- `flows/inputs-flow.ts` is the scenario orchestration layer that sits above the page object.
+- `pages/practice-site-pages.ts` is the Page Object Model layer for the practice site.
+- `flows/practice-site-flows.ts` is the scenario orchestration layer that sits above those page objects.
 - `fixtures/test-data.ts` is the shared data layer.
 - `playwright.config.ts` is the runner/config layer that defines browser projects, retries, reporting, artifacts, and base URL.
 
@@ -28,15 +28,17 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 - [tests/home.spec.ts](tests/home.spec.ts) is the homepage entry scenario that opens the inputs demo.
 - [tests/demo-inputs.spec.ts](tests/demo-inputs.spec.ts) is the canonical real scenario.
 - [tests/seed.spec.ts](tests/seed.spec.ts) is a minimal navigation seed used for tooling and quick smoke coverage.
+- [tests/api/](tests/api/) contains API-only contract and CRUD scenarios.
+- [tests/todo.spec.ts](tests/todo.spec.ts) exercises the separate TodoMVC page object.
 
 ### Framework Layer
 
 - [fixtures/base.ts](fixtures/base.ts) defines the custom `test` and `expect` exports.
 - [fixtures/test-data.ts](fixtures/test-data.ts) stores shared test data objects.
-- [pages/home-page.ts](pages/home-page.ts) contains the page object for the homepage.
-- [pages/inputs-page.ts](pages/inputs-page.ts) contains the page object for the inputs page.
-- [flows/home-flow.ts](flows/home-flow.ts) contains scenario-level orchestration for the homepage.
-- [flows/inputs-flow.ts](flows/inputs-flow.ts) contains scenario-level orchestration above the page object.
+- [pages/practice-site-pages.ts](pages/practice-site-pages.ts) contains the small practice-site page objects.
+- [pages/todo-page.ts](pages/todo-page.ts) encapsulates the external TodoMVC page.
+- [flows/practice-site-flows.ts](flows/practice-site-flows.ts) contains scenario-level practice-site orchestration.
+- [fixtures/api-fixtures.ts](fixtures/api-fixtures.ts) provides lazy API clients, configuration, and seed helpers.
 
 ### Runtime / Config Layer
 
@@ -87,6 +89,8 @@ Current config posture in [playwright.config.ts](playwright.config.ts):
 - `baseURL` points to `https://practice.expandtesting.com`.
 - `expect.timeout` is set explicitly to 5000 ms.
 - Browser projects run Chromium, Firefox, and WebKit.
+- The API project runs only `tests/api/**`; browser projects exclude that directory.
+- `BASE_URL`, `API_BASE_URL`, and `HTTP_BASE_URL` can override local defaults.
 
 ## What The Production Architecture Screenshots Influenced
 
@@ -111,8 +115,8 @@ If you need to re-learn the codebase fast, read files in this order:
 1. [ARCHITECTURE.md](ARCHITECTURE.md)
 2. [playwright.config.ts](playwright.config.ts)
 3. [fixtures/base.ts](fixtures/base.ts)
-4. [flows/inputs-flow.ts](flows/inputs-flow.ts)
-5. [pages/inputs-page.ts](pages/inputs-page.ts)
+4. [flows/practice-site-flows.ts](flows/practice-site-flows.ts)
+5. [pages/practice-site-pages.ts](pages/practice-site-pages.ts)
 6. [fixtures/test-data.ts](fixtures/test-data.ts)
 7. [tests/demo-inputs.spec.ts](tests/demo-inputs.spec.ts)
 8. [tests/seed.spec.ts](tests/seed.spec.ts)

@@ -4,8 +4,9 @@ This repository includes a small project-specific static analysis CLI at [script
 
 ## What It Checks
 
-- Specs in `tests/` should import `test` and `expect` from [fixtures/base.ts](../fixtures/base.ts).
-- Specs in `tests/` should not contain hardcoded locator calls or direct navigation details.
+- UI specs should import from [fixtures/base.ts](../fixtures/base.ts), while API specs should import from [fixtures/api-fixtures.ts](../fixtures/api-fixtures.ts).
+- UI specs should not contain hardcoded locator calls or direct navigation details.
+- Type-only imports from `@playwright/test` are allowed; runtime test APIs must come from a project fixture.
 - Flows in `flows/` should orchestrate steps only and avoid assertions.
 - Page objects in `pages/` should not import test files.
 

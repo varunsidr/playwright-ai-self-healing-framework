@@ -68,6 +68,9 @@ test('register -> login -> notes CRUD', async ({ apiCall, apiConfig, apiSeed }) 
       await logResponse(create, 'Create note failed');
     }
     expect(create.ok()).toBeTruthy();
+    const createBody = await create.json();
+    noteId = createBody?.data?.id ?? createBody?.id;
+    expect(noteId).toBeTruthy();
 
     const all = await apiCall('get', 'notes', { headers: { [apiConfig.http.authHeader]: token } });
     expect(all.status()).toBe(200);

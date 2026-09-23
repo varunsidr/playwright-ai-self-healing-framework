@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=chromium --project=firefox --project=webkit",
     "test:headed": "playwright test --headed",
     "report": "playwright show-report",
     "record": "playwright codegen https://practice.expandtesting.com/inputs",
     "analyze": "node scripts/static-analysis.js",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check \"fixtures/**/*.ts\" \"tests/**/*.ts\" \"utils/**/*.ts\" \"flows/**/*.ts\" \"pages/**/*.ts\" \"scripts/**/*.js\" playwright.config.ts tsconfig.json package.json",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run analyze",
     "prepare": "husky install"
   },
   "keywords": [

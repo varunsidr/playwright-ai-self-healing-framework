@@ -12,6 +12,8 @@ type ApiRequestOptionsData = {
 };
 
 const API_CONFIG = {
+  baseURL: runtimeConfig.apiBaseURL,
+  httpBaseURL: runtimeConfig.httpBaseURL,
   endpoints: {
     healthCheck: '/health-check',
     login: '/users/login',
@@ -112,224 +114,212 @@ export const test = base.extend<{
   };
   apiConfig: typeof API_CONFIG;
 }>({
-  api: [
-    async ({ playwright }, use) => {
-      const api = await playwright.request.newContext({
-        baseURL: API_BASE,
-        timeout: API_CONFIG.timeouts.requestSeconds * 1000,
-        extraHTTPHeaders: {
-          Accept: API_CONFIG.http.accept + ', text/plain, */*',
-          'User-Agent': API_CONFIG.http.userAgent,
-        },
-      });
-      await use(api);
-      await api.dispose();
-    },
-    { auto: true },
-  ],
+  api: async ({ playwright }, use) => {
+    const api = await playwright.request.newContext({
+      baseURL: API_BASE,
+      timeout: API_CONFIG.timeouts.requestSeconds * 1000,
+      extraHTTPHeaders: {
+        Accept: API_CONFIG.http.accept + ', text/plain, */*',
+        'User-Agent': API_CONFIG.http.userAgent,
+      },
+    });
+    await use(api);
+    await api.dispose();
+  },
 
   // apiCall helper implements retry and form encoding rules
-  apiCall: [
-    async ({ api }, use) => {
-      async function call(
-        method: 'get' | 'post' | 'put' | 'delete' | 'patch',
-        endpoint: string,
-        options: ApiRequestOptions = {},
-      ) {
-        const attempts = API_CONFIG.retry.maxAttempts;
-        let lastErr: unknown;
-        for (let i = 1; i <= attempts; i++) {
-          try {
-            const headers = { ...(options.headers || {}) };
-            const requestOpts: ApiRequestOptionsData = { headers };
-            if (options.form) {
-              const params = new URLSearchParams(options.form as Record<string, string>);
-              requestOpts.data = params.toString();
-              requestOpts.headers = {
-                ...requestOpts.headers,
-                'content-type': API_CONFIG.http.contentType,
-              };
-            } else if (options.data) {
-              requestOpts.data = options.data;
-            }
-            if (typeof options.followRedirects === 'boolean')
-              requestOpts.followRedirects = options.followRedirects;
+  apiCall: async ({ api }, use) => {
+    async function call(
+      method: 'get' | 'post' | 'put' | 'delete' | 'patch',
+      endpoint: string,
+      options: ApiRequestOptions = {},
+    ) {
+      const attempts = API_CONFIG.retry.maxAttempts;
+      let lastErr: unknown;
+      for (let i = 1; i <= attempts; i++) {
+        try {
+          const headers = { ...(options.headers || {}) };
+          const requestOpts: ApiRequestOptionsData = { headers };
+          if (options.form) {
+            const params = new URLSearchParams(options.form as Record<string, string>);
+            requestOpts.data = params.toString();
+            requestOpts.headers = {
+              ...requestOpts.headers,
+              'content-type': API_CONFIG.http.contentType,
+            };
+          } else if (options.data) {
+            requestOpts.data = options.data;
+          }
+          if (typeof options.followRedirects === 'boolean')
+            requestOpts.followRedirects = options.followRedirects;
 
-            if (requestOpts.headers) {
-              for (const hk of Object.keys(requestOpts.headers)) {
-                const hv = requestOpts.headers[hk];
-                if (hv === undefined || hv === null) {
-                  delete requestOpts.headers[hk];
-                } else {
-                  requestOpts.headers[hk] = String(hv);
-                }
+          if (requestOpts.headers) {
+            for (const hk of Object.keys(requestOpts.headers)) {
+              const hv = requestOpts.headers[hk];
+              if (hv === undefined || hv === null) {
+                delete requestOpts.headers[hk];
+              } else {
+                requestOpts.headers[hk] = String(hv);
               }
             }
+          }
 
-            if (process.env.DEBUG_API_HEADERS) {
-              // eslint-disable-next-line no-console
-              console.error(
-                'API request',
-                method.toUpperCase(),
-                normalizeApiEndpoint(endpoint),
-                'headers:',
-                requestOpts.headers,
-              );
-            }
+          if (process.env.DEBUG_API_HEADERS) {
+            // eslint-disable-next-line no-console
+            console.error(
+              'API request',
+              method.toUpperCase(),
+              normalizeApiEndpoint(endpoint),
+              'headers:',
+              requestOpts.headers,
+            );
+          }
 
-            const requestEndpoint = normalizeApiEndpoint(endpoint);
-            const requestMethod = api[method] as (
-              endpoint: string,
-              options: ApiRequestOptionsData,
-            ) => Promise<APIResponse>;
-            const resp = await requestMethod(requestEndpoint, requestOpts);
-            return resp as APIResponse;
-          } catch (e) {
-            lastErr = e;
-            if (i < attempts) await new Promise((r) => setTimeout(r, API_CONFIG.retry.delayMillis));
+          const requestEndpoint = normalizeApiEndpoint(endpoint);
+          const requestMethod = api[method] as (
+            endpoint: string,
+            options: ApiRequestOptionsData,
+          ) => Promise<APIResponse>;
+          const resp = await requestMethod(requestEndpoint, requestOpts);
+          return resp as APIResponse;
+        } catch (e) {
+          lastErr = e;
+          if (i < attempts) await new Promise((r) => setTimeout(r, API_CONFIG.retry.delayMillis));
+        }
+      }
+      throw lastErr;
+    }
+
+    await use(call);
+  },
+
+  apiClient: async ({ api, apiConfig }, use) => {
+    const strict = async (
+      method: 'get' | 'post' | 'put' | 'delete' | 'patch',
+      endpoint: string,
+      options: ApiRequestOptions = {},
+    ) => {
+      const headers = { ...(options.headers || {}) };
+      const requestOpts: ApiRequestOptionsData = { headers };
+      if (options.form) {
+        const params = new URLSearchParams(options.form as Record<string, string>);
+        requestOpts.data = params.toString();
+        requestOpts.headers = {
+          ...requestOpts.headers,
+          'content-type': API_CONFIG.http.contentType,
+        };
+      } else if (options.data) {
+        requestOpts.data = options.data;
+      }
+      if (typeof options.followRedirects === 'boolean')
+        requestOpts.followRedirects = options.followRedirects;
+
+      if (requestOpts.headers) {
+        for (const hk of Object.keys(requestOpts.headers)) {
+          const hv = requestOpts.headers[hk];
+          if (hv === undefined || hv === null) {
+            delete requestOpts.headers[hk];
+          } else {
+            requestOpts.headers[hk] = String(hv);
           }
         }
-        throw lastErr;
       }
 
-      await use(call);
-    },
-    { auto: true },
-  ],
-
-  apiClient: [
-    async ({ api, apiConfig }, use) => {
-      const strict = async (
-        method: 'get' | 'post' | 'put' | 'delete' | 'patch',
+      const requestEndpoint = normalizeApiEndpoint(endpoint);
+      const requestMethod = api[method] as (
         endpoint: string,
-        options: ApiRequestOptions = {},
-      ) => {
-        const headers = { ...(options.headers || {}) };
-        const requestOpts: ApiRequestOptionsData = { headers };
-        if (options.form) {
-          const params = new URLSearchParams(options.form as Record<string, string>);
-          requestOpts.data = params.toString();
-          requestOpts.headers = {
-            ...requestOpts.headers,
-            'content-type': API_CONFIG.http.contentType,
-          };
-        } else if (options.data) {
-          requestOpts.data = options.data;
-        }
-        if (typeof options.followRedirects === 'boolean')
-          requestOpts.followRedirects = options.followRedirects;
+        requestOptions: ApiRequestOptionsData,
+      ) => Promise<APIResponse>;
+      return requestMethod(requestEndpoint, requestOpts);
+    };
 
-        if (requestOpts.headers) {
-          for (const hk of Object.keys(requestOpts.headers)) {
-            const hv = requestOpts.headers[hk];
-            if (hv === undefined || hv === null) {
-              delete requestOpts.headers[hk];
-            } else {
-              requestOpts.headers[hk] = String(hv);
-            }
-          }
-        }
-
-        const requestEndpoint = normalizeApiEndpoint(endpoint);
-        const requestMethod = api[method] as (
-          endpoint: string,
-          requestOptions: ApiRequestOptionsData,
-        ) => Promise<APIResponse>;
-        return requestMethod(requestEndpoint, requestOpts);
-      };
-
-      const raw = async (
-        method: 'get' | 'post' | 'put' | 'delete' | 'patch',
-        endpoint: string,
-        options: ApiRequestOptions = {},
-      ): Promise<ApiRawResult> => {
-        try {
-          const response = await strict(method, endpoint, options);
-          return parseApiResponse(response);
-        } catch (error) {
-          return {
-            status: 0,
-            ok: false,
-            body: null,
-            text: String(error),
-            headers: {},
-            error: String(error),
-          };
-        }
-      };
-
-      await use({ strict, raw, request: api, config: apiConfig });
-    },
-    { auto: true },
-  ],
-
-  apiSeed: [
-    async ({ api, apiConfig }, use) => {
-      const buildSeedUser = async (): Promise<ApiSeedUser> => {
-        const name = 'Seeded API User';
-        const email = `seed.${Date.now()}.${Math.random().toString(36).slice(2, 8)}@example.com`;
-        const password = 'Password123!';
-
-        const registerEndpoint = normalizeApiEndpoint(apiConfig.endpoints.register);
-        const loginEndpoint = normalizeApiEndpoint(apiConfig.endpoints.login);
-
-        const reg = await api.post(registerEndpoint, { form: { name, email, password } });
-        if (!reg.ok()) {
-          throw new Error(
-            `Seed registration failed: ${reg.status()} ${await reg.text().catch(() => '')}`,
-          );
-        }
-
-        const login = await api.post(loginEndpoint, { form: { email, password } });
-        if (!login.ok()) {
-          throw new Error(
-            `Seed login failed: ${login.status()} ${await login.text().catch(() => '')}`,
-          );
-        }
-
-        const loginBody = await login.json();
-        const token = loginBody.token || loginBody.data?.token;
-        if (!token) {
-          throw new Error('Seed login response did not include a token.');
-        }
-
+    const raw = async (
+      method: 'get' | 'post' | 'put' | 'delete' | 'patch',
+      endpoint: string,
+      options: ApiRequestOptions = {},
+    ): Promise<ApiRawResult> => {
+      try {
+        const response = await strict(method, endpoint, options);
+        return parseApiResponse(response);
+      } catch (error) {
         return {
-          name,
-          email,
-          password,
-          token,
-          createdAt: Date.now(),
+          status: 0,
+          ok: false,
+          body: null,
+          text: String(error),
+          headers: {},
+          error: String(error),
         };
+      }
+    };
+
+    await use({ strict, raw, request: api, config: apiConfig });
+  },
+
+  apiSeed: async ({ api, apiConfig }, use) => {
+    const buildSeedUser = async (): Promise<ApiSeedUser> => {
+      const name = 'Seeded API User';
+      const email = `seed.${Date.now()}.${Math.random().toString(36).slice(2, 8)}@example.com`;
+      const password = 'Password123!';
+
+      const registerEndpoint = normalizeApiEndpoint(apiConfig.endpoints.register);
+      const loginEndpoint = normalizeApiEndpoint(apiConfig.endpoints.login);
+
+      const reg = await api.post(registerEndpoint, { form: { name, email, password } });
+      if (!reg.ok()) {
+        throw new Error(
+          `Seed registration failed: ${reg.status()} ${await reg.text().catch(() => '')}`,
+        );
+      }
+
+      const login = await api.post(loginEndpoint, { form: { email, password } });
+      if (!login.ok()) {
+        throw new Error(
+          `Seed login failed: ${login.status()} ${await login.text().catch(() => '')}`,
+        );
+      }
+
+      const loginBody = await login.json();
+      const token = loginBody.token || loginBody.data?.token;
+      if (!token) {
+        throw new Error('Seed login response did not include a token.');
+      }
+
+      return {
+        name,
+        email,
+        password,
+        token,
+        createdAt: Date.now(),
       };
+    };
 
-      const ensureUser = async (
-        prefix = 'default-user-seed',
-        forceRefresh = false,
-      ): Promise<ApiSeedUser> => {
-        if (forceRefresh) {
-          const { clearStateCache } = await import('../utils/api-state-cache.js');
-          clearStateCache('api-users');
-          return withSharedState(prefix, 'api-users', buildSeedUser);
-        }
+    const ensureUser = async (
+      prefix = 'default-user-seed',
+      forceRefresh = false,
+    ): Promise<ApiSeedUser> => {
+      if (forceRefresh) {
+        const { clearStateCache } = await import('../utils/api-state-cache.js');
+        clearStateCache('api-users');
+        return withSharedState(prefix, 'api-users', buildSeedUser);
+      }
 
-        const user = await withSharedState(prefix, 'api-users', buildSeedUser);
-        const staleAfterMs = 15 * 60 * 1000;
+      const user = await withSharedState(prefix, 'api-users', buildSeedUser);
+      const staleAfterMs = 15 * 60 * 1000;
 
-        if (!user?.token || Date.now() - (user.createdAt || 0) > staleAfterMs) {
-          const { clearStateCache } = await import('../utils/api-state-cache.js');
-          clearStateCache('api-users');
-          return withSharedState(prefix, 'api-users', buildSeedUser);
-        }
+      if (!user?.token || Date.now() - (user.createdAt || 0) > staleAfterMs) {
+        const { clearStateCache } = await import('../utils/api-state-cache.js');
+        clearStateCache('api-users');
+        return withSharedState(prefix, 'api-users', buildSeedUser);
+      }
 
-        return user;
-      };
+      return user;
+    };
 
-      await use({ ensureUser });
-    },
-    { auto: true },
-  ],
+    await use({ ensureUser });
+  },
 
-  apiConfig: [API_CONFIG, { auto: true }],
+  apiConfig: API_CONFIG,
 });
 
 export { expect } from '@playwright/test';

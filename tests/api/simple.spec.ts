@@ -52,7 +52,7 @@ test('register -> login (basic)', async ({ apiCall, apiConfig }) => {
 test('http -> https redirect (basic)', async ({ playwright, apiConfig }) => {
   // create a short-lived context pointed at the HTTP base and do not follow redirects
   const httpCtx = await playwright.request.newContext({
-    baseURL: 'http://practice.expandtesting.com/notes/api',
+    baseURL: apiConfig.httpBaseURL,
   });
   try {
     // use fetch with no redirects to observe the response directly

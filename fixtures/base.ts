@@ -4,6 +4,7 @@
 import { test as base } from '@playwright/test';
 import { InputsPage, HomePage, RegisterPage } from '../pages/practice-site-pages';
 import { InputsFlow, HomeFlow, RegisterFlow } from '../flows/practice-site-flows';
+import { TodoPage } from '../pages/todo-page';
 
 // Site under test embeds third-party ad/analytics iframes that slow down and
 // occasionally destabilize locators -- abort these requests at the network level.
@@ -64,6 +65,7 @@ export const test = base.extend<{
   registerPage: RegisterPage;
   registerFlow: RegisterFlow;
   blockAds: void;
+  todoPage: TodoPage;
 }>({
   // Runs before every test (auto: true) with no explicit fixture argument needed in specs.
   blockAds: [
@@ -100,6 +102,10 @@ export const test = base.extend<{
 
   registerFlow: async ({ homePage, registerPage }, use) => {
     await use(new RegisterFlow(homePage, registerPage));
+  },
+
+  todoPage: async ({ page }, use) => {
+    await use(new TodoPage(page));
   },
 });
 
