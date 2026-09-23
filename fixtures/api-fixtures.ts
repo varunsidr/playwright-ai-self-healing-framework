@@ -176,12 +176,7 @@ export const test = base.extend<{
           }
 
           const requestEndpoint = normalizeApiEndpoint(endpoint);
-          const requestMethod = api[method] as (
-            endpoint: string,
-            options: ApiRequestOptionsData,
-          ) => Promise<APIResponse>;
-          const resp = await requestMethod(requestEndpoint, requestOpts);
-          return resp as APIResponse;
+          return await api[method](requestEndpoint, requestOpts);
         } catch (e) {
           lastErr = e;
           if (i < attempts) await new Promise((r) => setTimeout(r, API_CONFIG.retry.delayMillis));
@@ -226,11 +221,7 @@ export const test = base.extend<{
       }
 
       const requestEndpoint = normalizeApiEndpoint(endpoint);
-      const requestMethod = api[method] as (
-        endpoint: string,
-        requestOptions: ApiRequestOptionsData,
-      ) => Promise<APIResponse>;
-      return requestMethod(requestEndpoint, requestOpts);
+      return api[method](requestEndpoint, requestOpts);
     };
 
     const raw = async (
