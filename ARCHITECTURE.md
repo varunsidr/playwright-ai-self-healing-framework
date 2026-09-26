@@ -29,6 +29,7 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 - [tests/demo-inputs.spec.ts](tests/demo-inputs.spec.ts) is the canonical real scenario.
 - [tests/seed.spec.ts](tests/seed.spec.ts) is a minimal navigation seed used for tooling and quick smoke coverage.
 - [tests/api/](tests/api/) contains API-only contract and CRUD scenarios.
+- [tests/ecommerce/](tests/ecommerce/) contains storefront scenarios for the separately maintained ecommerce app.
 - [tests/todo.spec.ts](tests/todo.spec.ts) exercises the separate TodoMVC page object.
 
 ### Framework Layer
@@ -39,6 +40,8 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 - [pages/todo-page.ts](pages/todo-page.ts) encapsulates the external TodoMVC page.
 - [flows/practice-site-flows.ts](flows/practice-site-flows.ts) contains scenario-level practice-site orchestration.
 - [fixtures/api-fixtures.ts](fixtures/api-fixtures.ts) provides lazy API clients, configuration, and seed helpers.
+- [fixtures/ecommerce-base.ts](fixtures/ecommerce-base.ts) provides isolated storefront fixtures without changing the existing practice-site fixture.
+- [pages/ecommerce-storefront-page.ts](pages/ecommerce-storefront-page.ts) owns the initial storefront smoke-test locators and actions.
 
 ### Runtime / Config Layer
 
@@ -90,6 +93,9 @@ Current config posture in [playwright.config.ts](playwright.config.ts):
 - `expect.timeout` is set explicitly to 5000 ms.
 - Browser projects run Chromium, Firefox, and WebKit.
 - The API project runs only `tests/api/**`; browser projects exclude that directory.
+- The `ecommerce-chromium` project runs only `tests/ecommerce/**` against `ECOMMERCE_BASE_URL` (default `http://localhost:3000`).
+- Ecommerce specs are organized by feature and tagged `@smoke`, `@happy`, `@negative`, and `@regression` for purpose-based runs.
+- Ecommerce scenarios use a dedicated fixture and cover public pages and guest restrictions without creating accounts, orders, or admin data.
 - `BASE_URL`, `API_BASE_URL`, and `HTTP_BASE_URL` can override local defaults.
 
 ## What The Production Architecture Screenshots Influenced

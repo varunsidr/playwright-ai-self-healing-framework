@@ -49,11 +49,14 @@ application behavior.
 - Immediately after reading the test log, invoke `generator_write_test` with the generated source code
   - File should contain single test
   - File name must be fs-friendly scenario name
-  - Test must be placed in a describe matching the top-level test plan item
+- Put tests in the existing feature spec when appropriate; use `tests/ecommerce/` feature files for storefront scenarios instead of collecting unrelated cases in one spec.
   - Test title must match the scenario name
-  - Includes a comment with the step text before each step execution. Do not duplicate comments if step requires
-    multiple actions.
-  - Always use best practices from the log when generating tests.
+  - Import from the suite fixture: `fixtures/ecommerce-base` for `tests/ecommerce/**`, `fixtures/base` for other UI specs, and `fixtures/api-fixtures` for API specs.
+  - Preserve the suite tags and classify each scenario with `@smoke`, `@happy`, `@negative`, and/or `@regression` as appropriate.
+  - For UI tests, put locators and page-level actions in the appropriate page object, multi-step orchestration in a flow when useful, and shared values in `fixtures/test-data.ts`. Keep the spec focused on scenario intent and assertions; do not use raw `page` locator/navigation calls there.
+  - Include concise comments only when they clarify a non-obvious plan step; do not add comments that merely repeat the code.
+  - Follow the existing framework patterns and applicable static-analysis rules.
+  - After writing, run the generated test and the relevant quality checks. Fix issues without bypassing fixture/POM conventions or weakening the expected behavior.
 
    <example-generation>
    For following plan:
@@ -76,16 +79,13 @@ application behavior.
 
   Following file is generated:
 
-  ```ts file=add-valid-todo.spec.ts
-  // spec: specs/plan.md
-  // seed: tests/seed.spec.ts
+  ```ts file=tests/add-valid-todo.spec.ts
+  import { test, expect } from '../fixtures/base';
 
   test.describe('Adding New Todos', () => {
-    test('Add Valid Todo', async { page } => {
-      // 1. Click in the "What needs to be done?" input field
-      await page.click(...);
-
-      ...
+    test('Add Valid Todo', async ({ todoPage }) => {
+      await todoPage.addTodo('Buy groceries');
+      await expect(todoPage.todoItems).toContainText('Buy groceries');
     });
   });
   ```

@@ -3,8 +3,12 @@
 import { expect, test } from '../fixtures/base';
 import { homePageData } from '../fixtures/test-data';
 
-test.describe('Expand Testing home page', () => {
-  test('opens the inputs demo from the homepage', async ({ homePage, homeFlow, inputsPage }) => {
+test.describe('Expand Testing home page', { tag: '@regression' }, () => {
+  test('opens the inputs demo from the homepage @smoke @happy', async ({
+    homePage,
+    homeFlow,
+    inputsPage,
+  }) => {
     await homeFlow.open();
     await homePage.expectLoaded();
 

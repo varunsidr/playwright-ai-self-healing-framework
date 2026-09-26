@@ -7,7 +7,7 @@ type NoteResponseBody = {
   data?: { id?: string };
 };
 
-test.describe('@api notes contract', () => {
+test.describe('notes contract', { tag: ['@api', '@regression', '@negative'] }, () => {
   test('missing auth sees 401 when creating a note', async ({ api, apiSeed }) => {
     const user = await apiSeed.ensureUser('notes-contract-401', true);
     const result = await createNoteRaw(api, undefined, buildNotePayload(), {

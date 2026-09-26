@@ -3,7 +3,7 @@ import { clearStateCache, withSharedState } from '../../utils/api-state-cache';
 
 const CACHE_SCOPE = 'api-state-cache-test';
 
-test('shared state cache reuses created values', async () => {
+test('shared state cache reuses created values @api @regression @happy', async () => {
   clearStateCache(CACHE_SCOPE);
 
   const first = await withSharedState('demo-prefix', CACHE_SCOPE, async () => ({

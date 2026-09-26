@@ -2,9 +2,12 @@
 import { defineConfig, devices } from '@playwright/test';
 import { runtimeConfig } from './utils/runtime-config';
 
+const headedRun = process.argv.includes('--headed');
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
+        ['json', { outputFile: 'test-results/playwright-results.json' }],
  */
 // import dotenv from 'dotenv';
 // import path from 'path';
@@ -30,6 +33,7 @@ export default defineConfig({
         ['list'],
         ['html', { outputFolder: 'playwright-report', open: 'never' }],
         ['junit', { outputFile: 'test-results/junit.xml' }],
+        ['json', { outputFile: 'test-results/playwright-results.json' }],
       ]
     : [['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']],
   outputDir: 'test-results',
@@ -59,20 +63,36 @@ export default defineConfig({
 
     {
       name: 'chromium',
-      testIgnore: /api\/.*\.(?:spec|test)\.ts$/,
+      testIgnore: /(?:api|ecommerce)\/.*\.(?:spec|test)\.ts$/,
       use: { ...devices['Desktop Chrome'] },
     },
 
     {
       name: 'firefox',
-      testIgnore: /api\/.*\.(?:spec|test)\.ts$/,
+      testIgnore: /(?:api|ecommerce)\/.*\.(?:spec|test)\.ts$/,
       use: { ...devices['Desktop Firefox'] },
     },
 
     {
       name: 'webkit',
-      testIgnore: /api\/.*\.(?:spec|test)\.ts$/,
+      testIgnore: /(?:api|ecommerce)\/.*\.(?:spec|test)\.ts$/,
       use: { ...devices['Desktop Safari'] },
+    },
+
+    {
+      name: 'ecommerce-chromium',
+      testMatch: 'tests/ecommerce/**/*.spec.ts',
+      workers: 3,
+      use: {
+        ...devices['Desktop Chrome'],
+        ...(headedRun
+          ? {
+              viewport: null,
+              launchOptions: { args: ['--start-maximized'] },
+            }
+          : {}),
+        baseURL: process.env.ECOMMERCE_BASE_URL || 'http://localhost:3000',
+      },
     },
 
     /* Test against mobile viewports. */

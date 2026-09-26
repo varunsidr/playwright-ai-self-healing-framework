@@ -69,7 +69,12 @@ function scanFile(filePath) {
   }
 
   if (isTest) {
-    const expectedFixture = isApiTest ? 'fixtures/api-fixtures' : 'fixtures/base';
+    const isEcommerceTest = normalizedPath.includes('/tests/ecommerce/');
+    const expectedFixture = isApiTest
+      ? 'fixtures/api-fixtures'
+      : isEcommerceTest
+        ? 'fixtures/ecommerce-base'
+        : 'fixtures/base';
     if (!source.includes(expectedFixture)) {
       addIssue(
         issues,

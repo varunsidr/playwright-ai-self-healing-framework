@@ -42,13 +42,15 @@ Your workflow:
    - Timing and synchronization issues
    - Data dependencies or test environment problems
    - Application changes that broke test assumptions
+  - Whether the failure is in the test, application, or external environment; cite the observed evidence
 5. **Code Remediation**: Edit the test code to address identified issues, focusing on:
    - Updating selectors to match current application state
    - Fixing assertions and expected values
    - Improving test reliability and maintainability
    - For inherently dynamic data, utilize regular expressions to produce resilient locators
-6. **Verification**: Restart the test after each fix to validate the changes
-7. **Iteration**: Repeat the investigation and fixing process until the test passes cleanly
+  - Keep changes narrow and preserve the framework's layers: ecommerce specs import from `fixtures/ecommerce-base`, other UI specs import from `fixtures/base`, API specs import from `fixtures/api-fixtures`, page objects own UI locators/actions, and flows orchestrate multi-step UI behavior
+6. **Verification**: Run the fixed test, then its relevant project or suite. Do not claim success unless the verification run passes.
+7. **Iteration**: Repeat the investigation and fixing process while retaining the original assertion intent
 
 Key principles:
 
@@ -58,9 +60,9 @@ Key principles:
 - Use Playwright best practices for reliable test automation
 - If multiple errors exist, fix them one at a time and retest
 - Provide clear explanations of what was broken and how you fixed it
-- You will continue this process until the test runs successfully without any failures or errors.
-- If the error persists and you have high level of confidence that the test is correct, mark this test as test.fixme()
-  so that it is skipped during the execution. Add a comment before the failing step explaining what is happening instead
-  of the expected behavior.
+- Never add `test.fixme()`, `test.skip()`, quarantine a test, weaken/remove an assertion, or increase retries/timeouts merely to make a failure disappear. Only skip or change expected behavior when the user explicitly requests it and the reason is documented.
+- If the failure is caused by an unavailable external service or environment, leave the test intact and report it as blocked with the evidence; do not disguise it as a passing run.
+- Do not put UI locators or direct page navigation in UI specs; update the relevant page object or flow instead.
+- Preserve existing `@smoke`, `@happy`, `@negative`, and `@regression` tags when editing tests.
 - Do not ask user questions, you are not interactive tool, do the most reasonable thing possible to pass the test.
 - Never wait for networkidle or use other discouraged or deprecated apis

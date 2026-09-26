@@ -5,7 +5,10 @@ import { test, expect } from '../../fixtures/api-fixtures';
 // Minimal API tests to keep things simple and focused
 const uniqueEmail = () => `basic.user.${Date.now()}@example.com`;
 
-test('health-check returns OK (basic)', async ({ apiCall, apiConfig }) => {
+test('health-check returns OK (basic) @api @regression @smoke @happy', async ({
+  apiCall,
+  apiConfig,
+}) => {
   const r = await apiCall('get', apiConfig.endpoints.healthCheck);
   if (!r.ok()) {
     const body = await r.text().catch(() => '<unreadable>');
@@ -14,7 +17,7 @@ test('health-check returns OK (basic)', async ({ apiCall, apiConfig }) => {
   expect(r.ok()).toBeTruthy();
 });
 
-test('register -> login (basic)', async ({ apiCall, apiConfig }) => {
+test('register -> login (basic) @api @regression @happy', async ({ apiCall, apiConfig }) => {
   const name = 'Basic User';
   const email = uniqueEmail();
   const password = 'Password123!';
@@ -49,7 +52,7 @@ test('register -> login (basic)', async ({ apiCall, apiConfig }) => {
   }
 });
 
-test('http -> https redirect (basic)', async ({ playwright, apiConfig }) => {
+test('http -> https redirect (basic) @api @regression', async ({ playwright, apiConfig }) => {
   // create a short-lived context pointed at the HTTP base and do not follow redirects
   const httpCtx = await playwright.request.newContext({
     baseURL: apiConfig.httpBaseURL,

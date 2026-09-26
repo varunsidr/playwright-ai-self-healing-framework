@@ -4,7 +4,7 @@
 import { test, expect } from '../fixtures/base';
 import { registerData } from '../fixtures/test-data';
 
-test.describe('Expand Testing register page', () => {
+test.describe('Expand Testing register page', { tag: ['@regression', '@negative'] }, () => {
   test('shows a flash error when registration fails', async ({ registerFlow, registerPage }) => {
     await registerFlow.openViaHomepage();
     await expect(registerPage.usernameInput).toBeVisible();

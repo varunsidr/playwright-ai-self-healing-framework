@@ -31,7 +31,7 @@ async function logResponse(resp: APIResponse, label: string) {
   console.error('Body (truncated):', truncated);
 }
 
-test('health-check returns OK', async ({ apiCall, apiConfig }) => {
+test('health-check returns OK @api @regression @smoke @happy', async ({ apiCall, apiConfig }) => {
   const r = await apiCall('get', apiConfig.endpoints.healthCheck);
   if (!r.ok()) {
     const body = await r.text();
@@ -40,7 +40,10 @@ test('health-check returns OK', async ({ apiCall, apiConfig }) => {
   expect(r.ok()).toBeTruthy();
 });
 
-test('invalid login is rejected with 401', async ({ apiCall, apiConfig }) => {
+test('invalid login is rejected with 401 @api @regression @negative', async ({
+  apiCall,
+  apiConfig,
+}) => {
   const response = await apiCall('post', apiConfig.endpoints.login, {
     form: { email: 'missing-user@example.com', password: 'wrong-password' },
   });
@@ -49,7 +52,11 @@ test('invalid login is rejected with 401', async ({ apiCall, apiConfig }) => {
   expect(response.ok()).toBeFalsy();
 });
 
-test('register -> login -> notes CRUD', async ({ apiCall, apiConfig, apiSeed }) => {
+test('register -> login -> notes CRUD @api @regression @happy', async ({
+  apiCall,
+  apiConfig,
+  apiSeed,
+}) => {
   const seedUser = await apiSeed.ensureUser('crud-flow-user', true);
   const token = seedUser.token;
   let noteId: string | undefined;

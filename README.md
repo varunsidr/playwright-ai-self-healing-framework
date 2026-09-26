@@ -1,6 +1,6 @@
 # Playwright AI Self-Healing Framework
 
-A compact Playwright TypeScript framework for the Expand Testing inputs page.
+A compact Playwright TypeScript framework for UI and API testing.
 It is shaped like a small production test framework: page objects own locators, flows own scenario orchestration, fixtures own setup, and the documentation keeps the architecture easy to recover later.
 
 [![Playwright Tests](https://github.com/varunsidr/playwright-ai-self-healing-framework/actions/workflows/playwright.yml/badge.svg)](https://github.com/varunsidr/playwright-ai-self-healing-framework/actions/workflows/playwright.yml)
@@ -12,8 +12,11 @@ It is shaped like a small production test framework: page objects own locators, 
 - `playwright-report/` holds the HTML report output.
 - `test-results/` holds traces, screenshots, videos, and other failure artifacts.
 - New specs should import `test` and `expect` from [fixtures/base.ts](fixtures/base.ts), not directly from `@playwright/test`.
+- UI scenarios cover the Expand Testing homepage, inputs demo, registration page, and TodoMVC.
+- Ecommerce feature tests live in a separate project and target the standalone zeouf storefront.
+- API scenarios cover health checks, authentication, notes CRUD and validation, and API state-cache behavior.
 - The `tests/seed.spec.ts` file is a lightweight starting point for generator and healer workflows.
-- AI-assisted repair here means disciplined locator design, reusable flows, and agent-friendly structure, not hidden magic.
+- “Self-healing” here means disciplined locator design and agent-assisted repair; tests do not rewrite locators at runtime.
 
 ---
 
@@ -37,22 +40,23 @@ It is shaped like a small production test framework: page objects own locators, 
 pw-mcp-demo/
 ├── ARCHITECTURE.md
 ├── README.md
-├── fixtures/
-│   ├── base.ts
-│   └── test-data.ts
-├── flows/
-│   ├── home-flow.ts
-│   └── inputs-flow.ts
-├── pages/
-│   ├── home-page.ts
-│   └── inputs-page.ts
+├── docs/                   # Static analysis and Playwright/API design notes
+├── fixtures/               # UI/API fixtures and shared test data
+├── flows/                  # Scenario-level UI orchestration
+├── pages/                  # Page objects for practice site and TodoMVC
+├── roadmap/                # Planned enhancements
+├── scripts/                # Static analysis rules
+├── specs/                  # Architecture references and starter guidance
 ├── tests/
-│   ├── home.spec.ts
+│   ├── api/                # API health, auth, notes CRUD/contracts, cache
 │   ├── demo-inputs.spec.ts
-│   └── seed.spec.ts
-├── roadmap/
-│   └── FUTURE_ENHANCEMENTS.md
-└── playwright.config.ts
+│   ├── home.spec.ts
+│   ├── register.spec.ts
+│   ├── seed.spec.ts
+│   └── todo.spec.ts
+├── utils/                  # Runtime config, notes client, API state cache
+├── playwright.config.ts
+└── package.json
 ```
 
 The rule this structure enforces is simple: tests describe behavior, flows describe the scenario steps, and page objects own locators and page-level actions.
@@ -99,11 +103,48 @@ Run the complete local quality gate used by CI:
 npm run check
 ```
 
+Run tests by purpose:
+
+```powershell
+npm run test:smoke
+npm run test:happy
+npm run test:negative
+npm run test:regression
+```
+
 Run only one test layer:
 
 ```powershell
 npm run test:api
 npm run test:ui
+```
+
+### Run the separate ecommerce storefront suite
+
+The ecommerce app and this test framework stay in separate repositories. In one terminal, change to the ecommerce repository and start its dev server:
+
+```powershell
+cd "<path-to-your-ecommerce-repository>"
+npm run dev
+```
+
+If the app is configured locally, it is available at `http://localhost:3000`. In a second terminal, change to this framework's `pw-mcp-demo` directory and run the ecommerce-only browser project:
+
+```powershell
+cd "<path-to-this-framework>\pw-mcp-demo"
+npm run test:ecommerce
+```
+
+The default `npm test` includes every project, including ecommerce, so keep the app running for that command. `npm run test:smoke` runs only the app-independent API and Chromium smoke checks; use `npm run test:ecommerce:smoke` for storefront smoke coverage.
+
+Set `ECOMMERCE_BASE_URL` to target another local or deployed instance. Ecommerce tests use their own fixture and Playwright project; the existing Expand Testing and API projects retain their own targets and fixtures.
+
+Run only the ecommerce categories:
+
+```powershell
+npm run test:ecommerce:smoke
+npm run test:ecommerce:happy
+npm run test:ecommerce:regression
 ```
 
 If `npx` gives PowerShell execution-policy trouble on your machine, use `npx.cmd` instead.
@@ -116,6 +157,7 @@ If `npx` gives PowerShell execution-policy trouble on your machine, use `npx.cmd
 - Failure artifacts are written to `test-results/`.
 - Traces, screenshots, and videos are retained on failure so regressions are easier to diagnose.
 - The GitHub Actions workflow uploads both the report and the test-results folder as artifacts.
+- CI adds a stability summary to the workflow run, including retries, flaky tests, repeated failed attempts, and heuristic failure categories.
 
 ### Publish HTML report to GitHub Pages
 
@@ -174,10 +216,18 @@ The seed spec and architecture document give automation agents a stable starting
 
 ## Current Coverage Snapshot
 
-- Homepage navigation into the inputs demo.
-- Inputs page happy-path test with fill, display, and clear validation.
-- Minimal seed navigation test for tooling and repair workflows.
-- Browser coverage across Chromium, Firefox, and WebKit.
+- **Homepage:** verifies the homepage loads and opens the inputs demo.
+- **Inputs demo:** fills and displays all configured values, clears the form, and checks output for partially completed fields.
+- **Registration UI:** submits registration data through the homepage link and checks that a failure flash message is shown.
+- **TodoMVC UI:** adds two todos, completes one, deletes another, and verifies the remaining list.
+- **Seed smoke test:** opens the inputs page and checks its heading as a small generator/healer starting point.
+- **Ecommerce storefront:** covers the homepage, all seven top-level collections, all 15 women's and men's subcategory routes, product detail quantity and size guide, price sorting, search empty state, mobile navigation, and terms page.
+- **Ecommerce guest/account states:** covers account registration UI, sign-in gates for cart actions, empty cart and favorites, checkout requirements, signed-out order history, and invalid admin login.
+- **API health and authentication:** checks health endpoints, rejects invalid login, and exercises registration followed by login.
+- **Notes API:** exercises create, list, read, update, and delete, plus unauthenticated and invalid create/update payload responses.
+- **API state cache:** verifies that shared state is reused within a cache scope.
+- UI tests run in Chromium, Firefox, and WebKit. API tests run in the dedicated API project.
+- Ecommerce tests run in the dedicated `ecommerce-chromium` project. Authenticated order placement and admin data changes need a dedicated test account/database and are not part of this read-only baseline.
 
 ---
 
@@ -185,7 +235,7 @@ The seed spec and architecture document give automation agents a stable starting
 
 - Expand the `flows/` layer only when scenario orchestration becomes repetitive.
 - Add more page objects as the app grows beyond the inputs page.
-- Add negative and boundary-value coverage once the first happy-path baseline is stable.
+- Expand negative and boundary-value UI coverage; current validation coverage is primarily in the notes API contract tests.
 - Keep self-healing practical: favor clear locators and repairable abstractions over opaque automation.
 
 ---
@@ -198,7 +248,8 @@ Current CI behavior:
 
 - Installs dependencies with `npm ci`.
 - Installs Playwright browsers with `npx playwright install --with-deps`.
-- Runs the full Playwright suite.
+- Runs the Expand Testing UI suite in Chromium, Firefox, and WebKit, plus the API project.
+- Runs ecommerce tests only when the repository variable `ECOMMERCE_BASE_URL` points to a dedicated test deployment. Add it under GitHub repository **Settings → Secrets and variables → Actions → Variables**; CI does not assume the separate app is running on localhost.
 - Uploads the HTML report and test artifacts after every run.
 
 If you want to extend this repository later, the safest path is to keep the same layering and add new abstractions only when a real repeated problem appears.

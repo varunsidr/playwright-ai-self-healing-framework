@@ -1,7 +1,7 @@
 import { test } from '../fixtures/base';
 
-test.describe('TodoMVC Tests @smoke', () => {
-  test('add, complete and delete todos', async ({ todoPage }) => {
+test.describe('TodoMVC tests', { tag: ['@smoke', '@regression'] }, () => {
+  test('add, complete and delete todos @happy', async ({ todoPage }) => {
     await todoPage.goto();
     await todoPage.addTodo('Buy Groceries');
     await todoPage.addTodo('Pay Bills');
