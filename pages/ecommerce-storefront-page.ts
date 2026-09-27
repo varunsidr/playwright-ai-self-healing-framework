@@ -17,6 +17,12 @@ export class EcommerceStorefrontPage {
   readonly sizeGuideChestHeader: Locator;
   readonly sizeGuideCloseButton: Locator;
   readonly reviewSubmitButton: Locator;
+  readonly reviewNameInput: Locator;
+  readonly reviewCommentInput: Locator;
+  readonly reviewRatingButtons: Locator[];
+  readonly reviewImageInput: Locator;
+  readonly reviewImageError: Locator;
+  readonly reviewAuthError: Locator;
   readonly loginPanel: Locator;
   readonly registerForm: Locator;
   readonly favoritesHeading: Locator;
@@ -60,6 +66,16 @@ export class EcommerceStorefrontPage {
     this.sizeGuideChestHeader = page.getByRole('columnheader', { name: 'Chest' });
     this.sizeGuideCloseButton = this.sizeGuideHeading.locator('..').getByRole('button');
     this.reviewSubmitButton = page.getByTestId('product-detail-review-submit');
+    this.reviewNameInput = page.getByTestId('product-detail-review-name');
+    this.reviewCommentInput = page.getByTestId('product-detail-review-comment');
+    this.reviewRatingButtons = [1, 2, 3, 4, 5].map((rating) =>
+      page.getByTestId(`product-detail-review-rating-${rating}`),
+    );
+    this.reviewImageInput = page.locator('input[type="file"][accept="image/*"]');
+    this.reviewImageError = page.getByText('Each image must be <= 2MB', { exact: true });
+    this.reviewAuthError = page.getByText('Please sign in before submitting a review.', {
+      exact: true,
+    });
     this.loginPanel = page.getByTestId('navbar-login-panel');
     this.registerForm = page.getByTestId('navbar-register-form');
     this.favoritesHeading = page.getByRole('heading', { name: 'Favorites', level: 1 });
@@ -130,6 +146,10 @@ export class EcommerceStorefrontPage {
 
   async openSizeGuide() {
     await this.sizeGuideButton.click();
+  }
+
+  async selectReviewRating(rating: number) {
+    await this.reviewRatingButtons[rating - 1].click();
   }
 
   async closeSizeGuide() {

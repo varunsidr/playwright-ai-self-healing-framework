@@ -2,7 +2,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import { runtimeConfig } from './utils/runtime-config';
 
-const headedRun = process.argv.includes('--headed');
+const headedRun = process.env.PW_HEADED === '1' || process.argv.includes('--headed');
 
 /**
  * Read environment variables from file.

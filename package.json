@@ -14,6 +14,7 @@
     "test:ecommerce": "playwright test --project=ecommerce-chromium",
     "test:ecommerce:smoke": "playwright test --project=ecommerce-chromium --grep @smoke",
     "test:ecommerce:happy": "playwright test --project=ecommerce-chromium --grep @happy",
+    "test:ecommerce:negative": "playwright test --project=ecommerce-chromium --grep @negative",
     "test:ecommerce:regression": "playwright test --project=ecommerce-chromium --grep @regression",
     "test:headed": "playwright test --headed",
     "report": "playwright show-report",

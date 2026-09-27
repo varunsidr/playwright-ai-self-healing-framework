@@ -79,6 +79,13 @@ Run headed mode:
 npm run test:headed
 ```
 
+For a maximized ecommerce browser window in PowerShell, set `PW_HEADED=1` before starting Playwright, then include `--headed` in the command. For example:
+
+```powershell
+$env:PW_HEADED = "1"
+npm.cmd run test:ecommerce:negative -- --headed
+```
+
 Open the latest HTML report:
 
 ```powershell
@@ -144,6 +151,7 @@ Run only the ecommerce categories:
 ```powershell
 npm run test:ecommerce:smoke
 npm run test:ecommerce:happy
+npm run test:ecommerce:negative
 npm run test:ecommerce:regression
 ```
 
@@ -184,7 +192,7 @@ Page objects own locators and low-level interactions, while flows handle the sce
 
 ### 3) Central Test Data
 
-Shared inputs live in `fixtures/test-data.ts` so the same values can be reused across specs without copy-paste drift.
+Shared inputs live in `fixtures/test-data.ts` so the same values can be reused across specs without copy-paste drift. The ecommerce review tests use a seeded factory keyed by Playwright's stable test ID: values vary between test cases but stay reproducible when rerunning the same case. The guest review scenario verifies form behavior and sign-in gating without writing review data to the app database.
 
 ### 4) Self-Healing By Design
 
