@@ -1,7 +1,7 @@
 {
   "name": "playwright-ai-self-healing-framework",
   "version": "1.0.0",
-  "description": "AI-assisted Playwright TypeScript framework for the Expand Testing inputs page with self-healing-friendly test structure.",
+  "description": "Playwright TypeScript framework demonstrating agent-assisted planning, generation, and repair on the zeouf storefront, with additional UI and API examples.",
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
@@ -17,6 +17,9 @@
     "test:ecommerce:regression": "playwright test --project=ecommerce-chromium --grep @regression",
     "test:headed": "playwright test --headed",
     "report": "playwright show-report",
+    "test:allure": "allure run -- playwright test",
+    "allure:generate": "allure generate allure-results --output allure-report",
+    "allure:open": "allure open allure-report",
     "record": "playwright codegen https://practice.expandtesting.com/inputs",
     "summarize:results": "node scripts/summarize-playwright-results.js",
     "analyze": "node scripts/static-analysis.js",
@@ -42,6 +45,8 @@
     "@types/node": "^26.3.0",
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
+    "allure": "^3.18.0",
+    "allure-playwright": "^3.12.2",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.0",

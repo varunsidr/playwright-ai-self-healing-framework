@@ -4,7 +4,7 @@ This file is the durable, root-level architecture reference for the current Play
 
 ## Purpose
 
-This repo is a compact Playwright test framework for the Expand Testing inputs page. It is intentionally small, but it now follows a layered structure that is close to a modern Selenium Java hybrid framework without copying unnecessary boilerplate.
+This repository demonstrates a reusable Playwright test framework across multiple applications. The zeouf fashion storefront is the primary demonstration for the agent-assisted planning, test generation, and repair workflow. The Expand Testing site and other examples demonstrate additional UI and API scenarios that the storefront does not provide. The framework remains intentionally small, using a layered structure without unnecessary boilerplate.
 
 The design goal is industry-standard alignment, not framework bloat.
 
@@ -13,9 +13,9 @@ The design goal is industry-standard alignment, not framework bloat.
 Think of the current stack like this:
 
 - `page` is the Playwright equivalent of the browser/session object you would drive with `WebDriver`.
-- `fixtures/base.ts` is the replacement for a classic base test class or shared setup parent.
-- `pages/practice-site-pages.ts` is the Page Object Model layer for the practice site.
-- `flows/practice-site-flows.ts` is the scenario orchestration layer that sits above those page objects.
+- `fixtures/ecommerce-base.ts` provides the zeouf storefront fixture; `fixtures/base.ts` provides the practice-site fixtures.
+- `pages/ecommerce-storefront-page.ts` is the Page Object Model layer for the primary demo.
+- `pages/practice-site-pages.ts` and `flows/practice-site-flows.ts` demonstrate the same separation for the practice site.
 - `fixtures/test-data.ts` is the shared data layer.
 - `playwright.config.ts` is the runner/config layer that defines browser projects, retries, reporting, artifacts, and base URL.
 
@@ -25,11 +25,15 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 
 ### Test Layer
 
+- [tests/ecommerce/](tests/ecommerce/) is the primary product-demo suite for the zeouf fashion storefront and the scope of the planner, generator, and healer agents.
+- [specs/ecommerce/](specs/ecommerce/) contains storefront plans used by those agents.
+- [tests/ecommerce/seed.spec.ts](tests/ecommerce/seed.spec.ts) is the stable browser entry point for storefront agents.
+- [tests/](tests/) also contains broader examples for the Expand Testing practice site, TodoMVC, and API scenarios. These demonstrate framework coverage beyond the storefront and are not inputs to the storefront agents.
+
 - [tests/home.spec.ts](tests/home.spec.ts) is the homepage entry scenario that opens the inputs demo.
-- [tests/demo-inputs.spec.ts](tests/demo-inputs.spec.ts) is the canonical real scenario.
+- [tests/demo-inputs.spec.ts](tests/demo-inputs.spec.ts) demonstrates input and reset scenarios outside the storefront.
 - [tests/seed.spec.ts](tests/seed.spec.ts) is a minimal navigation seed used for tooling and quick smoke coverage.
 - [tests/api/](tests/api/) contains API-only contract and CRUD scenarios.
-- [tests/ecommerce/](tests/ecommerce/) contains storefront scenarios for the separately maintained ecommerce app.
 - [tests/todo.spec.ts](tests/todo.spec.ts) exercises the separate TodoMVC page object.
 
 ### Framework Layer
@@ -41,7 +45,7 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 - [flows/practice-site-flows.ts](flows/practice-site-flows.ts) contains scenario-level practice-site orchestration.
 - [fixtures/api-fixtures.ts](fixtures/api-fixtures.ts) provides lazy API clients, configuration, and seed helpers.
 - [fixtures/ecommerce-base.ts](fixtures/ecommerce-base.ts) provides isolated storefront fixtures without changing the existing practice-site fixture.
-- [pages/ecommerce-storefront-page.ts](pages/ecommerce-storefront-page.ts) owns the initial storefront smoke-test locators and actions.
+- [pages/ecommerce-storefront-page.ts](pages/ecommerce-storefront-page.ts) owns storefront locators and actions.
 
 ### Runtime / Config Layer
 
@@ -51,14 +55,15 @@ Playwright removes most of the Selenium-style driver plumbing, explicit wait hel
 
 ## Current Execution Flow
 
-The practical flow in this repo is:
+The primary zeouf workflow is:
 
-1. The spec imports `test` and `expect` from `fixtures/base.ts`.
-2. The fixture creates `homePage`, `homeFlow`, `inputsPage`, and `inputsFlow`.
-3. The flow object uses the page object for scenario orchestration.
-4. The page object owns locators and low-level page actions.
-5. Assertions happen in the spec and in page-object helper assertions.
-6. Playwright records artifacts on failure using the config settings.
+1. A storefront spec imports `test` and `expect` from `fixtures/ecommerce-base.ts`.
+2. The fixture provides an `EcommerceStorefrontPage` for the isolated Playwright page.
+3. The page object owns storefront locators and actions; the spec expresses behavior and assertions.
+4. Playwright records failure evidence according to the shared configuration.
+5. The planner uses `tests/ecommerce/seed.spec.ts` to explore Zeouf and writes plans under `specs/ecommerce/`. The generator creates tests under `tests/ecommerce/`. The healer diagnoses failures in the `ecommerce-chromium` project and verifies code repairs.
+
+The separate practice-site example also uses a flow object above its page objects for multi-step scenarios.
 
 That means this repo uses a clean separation of responsibilities:
 
@@ -70,9 +75,9 @@ That means this repo uses a clean separation of responsibilities:
 
 ## Important Conventions
 
-- New specs should import `test` and `expect` from [fixtures/base.ts](fixtures/base.ts), not directly from `@playwright/test`.
+- New specs should import `test` and `expect` from the fixture for their project: [fixtures/ecommerce-base.ts](fixtures/ecommerce-base.ts) for Zeouf, [fixtures/api-fixtures.ts](fixtures/api-fixtures.ts) for API tests, or [fixtures/base.ts](fixtures/base.ts) for practice-site examples.
 - Page locators belong in page objects, not in specs.
-- Multi-step scenario orchestration belongs in flows, not in specs.
+- Use a flow when multi-step scenario orchestration is reused; the storefront currently uses its page object directly.
 - Shared test values belong in `fixtures/test-data.ts`.
 - Specs should stay readable and focus on behavior, not implementation details.
 - Keep the framework lean; add structure only when it pays for itself.
@@ -87,7 +92,7 @@ Current config posture in [playwright.config.ts](playwright.config.ts):
 - `forbidOnly` is enabled on CI.
 - Retries are enabled on CI only.
 - CI workers are limited to 1.
-- Reporters include HTML locally and HTML plus JUnit on CI.
+- Reporters include HTML and Allure locally, plus JUnit and JSON on CI.
 - Failure evidence is retained via trace, screenshot, and video.
 - `baseURL` points to `https://practice.expandtesting.com`.
 - `expect.timeout` is set explicitly to 5000 ms.
@@ -120,20 +125,19 @@ If you need to re-learn the codebase fast, read files in this order:
 
 1. [ARCHITECTURE.md](ARCHITECTURE.md)
 2. [playwright.config.ts](playwright.config.ts)
-3. [fixtures/base.ts](fixtures/base.ts)
-4. [flows/practice-site-flows.ts](flows/practice-site-flows.ts)
-5. [pages/practice-site-pages.ts](pages/practice-site-pages.ts)
-6. [fixtures/test-data.ts](fixtures/test-data.ts)
-7. [tests/demo-inputs.spec.ts](tests/demo-inputs.spec.ts)
-8. [tests/seed.spec.ts](tests/seed.spec.ts)
+3. [fixtures/ecommerce-base.ts](fixtures/ecommerce-base.ts)
+4. [pages/ecommerce-storefront-page.ts](pages/ecommerce-storefront-page.ts)
+5. [tests/ecommerce/seed.spec.ts](tests/ecommerce/seed.spec.ts)
+6. [tests/ecommerce/catalog.spec.ts](tests/ecommerce/catalog.spec.ts)
+7. [specs/ecommerce/01-storefront-discovery.md](specs/ecommerce/01-storefront-discovery.md)
 
-That sequence gives you the architecture first, then the config, then the framework layers, then the actual scenarios.
+Read the practice-site fixtures, flows, and specs afterward to see additional scenario patterns.
 
 ## Known Boundaries
 
 - This is still a small demo-sized framework, not a large enterprise test platform.
 - The current flow layer is intentionally thin.
-- Self-healing is not a runtime engine here; it is currently more of a support concept around locator discipline and agent-assisted repair.
+- Healing is agent-assisted: the healer investigates a failing storefront test and can propose or apply a code repair, then verify it. Tests do not autonomously rewrite locators or recover during runtime.
 - The repo is optimized for clarity and maintainability before scale.
 
 ## Update Rule

@@ -7,7 +7,11 @@
 # Playwright
 node_modules/
 /test-results/
+/test-results-*/
 /playwright-report/
+/allure-results/
+/allure-report/
+/.playwright-mcp/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/

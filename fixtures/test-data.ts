@@ -13,6 +13,13 @@ export const validInputsData: InputsPageValues = {
   date: '2026-08-25',
 };
 
+export const numberOnlyInputsData: InputsPageValues = {
+  number: '42',
+  text: '',
+  password: '',
+  date: '',
+};
+
 export const homePageData: HomePageValues = {
   demoName: 'Web inputs',
 };

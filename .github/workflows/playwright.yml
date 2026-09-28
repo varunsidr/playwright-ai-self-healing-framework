@@ -18,15 +18,27 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run demo UI and API tests
+        env:
+          PW_JSON_REPORT_PATH: test-results/demo-results.json
         run: npx playwright test --project=api --project=chromium --project=firefox --project=webkit
+      - name: Summarize demo test stability
+        if: always()
+        run: npm run summarize:results -- test-results/demo-results.json
       - name: Run ecommerce tests when a test URL is configured
-        if: ${{ vars.ECOMMERCE_BASE_URL != '' }}
+        if: ${{ always() && vars.ECOMMERCE_BASE_URL != '' }}
         env:
           ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
-        run: npx playwright test --project=ecommerce-chromium --reporter=list
-      - name: Summarize test stability
+          PW_JSON_REPORT_PATH: test-results/ecommerce-results.json
+        run: npx playwright test --project=ecommerce-chromium
+      - name: Summarize ecommerce test stability
+        if: ${{ always() && vars.ECOMMERCE_BASE_URL != '' }}
+        run: npm run summarize:results -- test-results/ecommerce-results.json
+      - name: Generate Allure report
         if: always()
-        run: npm run summarize:results -- test-results/playwright-results.json
+        run: |
+          if [ -d allure-results ]; then
+            npm run allure:generate
+          fi
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
@@ -38,4 +50,12 @@ jobs:
         with:
           name: playwright-test-results
           path: test-results/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: allure-report
+          path: |
+            allure-report/
+            allure-results/
           retention-days: 30

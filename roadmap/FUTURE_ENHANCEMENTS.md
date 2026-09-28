@@ -6,6 +6,15 @@ This file captures planned or likely improvements for the framework. Keep it pra
 
 Do not copy enterprise patterns blindly. Add structure only when the framework size, test volume, or maintenance burden justifies it.
 
+## Near-Term Product Priorities
+
+1. Make the zeouf demo reproducible: use a dedicated test deployment or documented local setup, predictable test data, and a visible `ecommerce-chromium` CI result. The storefront remains the only target for the planner, generator, and healer agents.
+2. Improve scenario value: verify actual product sorting and add a controlled signed-in shopping journey once a disposable test account and reset mechanism are available. Keep tests isolated and preserve real business assertions.
+3. Evaluate agent-assisted repair against known failures: changed locators, changed UI flows, application defects, and unavailable environments. Record the diagnosis, proposed diff, verification result, and whether a reviewer accepted the repair.
+4. Prove portability with one additional customer application. Document the required URL, seed, fixtures, page object, agent scope, and CI configuration, then measure setup time and manual changes.
+
+The features below are ideas to revisit after these milestones or a customer pilot identifies a need. They are not prerequisites for the first pilot.
+
 ## Potential Enhancements
 
 ### Framework Structure

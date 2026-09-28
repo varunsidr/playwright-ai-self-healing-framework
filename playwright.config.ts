@@ -5,15 +5,6 @@ import { runtimeConfig } from './utils/runtime-config';
 const headedRun = process.argv.includes('--headed');
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
-        ['json', { outputFile: 'test-results/playwright-results.json' }],
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-/**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
@@ -33,9 +24,17 @@ export default defineConfig({
         ['list'],
         ['html', { outputFolder: 'playwright-report', open: 'never' }],
         ['junit', { outputFile: 'test-results/junit.xml' }],
-        ['json', { outputFile: 'test-results/playwright-results.json' }],
+        [
+          'json',
+          { outputFile: process.env.PW_JSON_REPORT_PATH || 'test-results/playwright-results.json' },
+        ],
+        ['allure-playwright', { resultsDir: 'allure-results' }],
       ]
-    : [['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']],
+    : [
+        ['html', { outputFolder: 'playwright-report', open: 'never' }],
+        ['list'],
+        ['allure-playwright', { resultsDir: 'allure-results' }],
+      ],
   outputDir: 'test-results',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

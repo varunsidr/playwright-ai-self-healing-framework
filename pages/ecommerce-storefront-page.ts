@@ -3,6 +3,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 export class EcommerceStorefrontPage {
   private readonly page: Page;
   readonly productCards: Locator;
+  readonly productCardPrices: Locator;
   readonly sortSelect: Locator;
   readonly searchToggle: Locator;
   readonly searchInput: Locator;
@@ -46,6 +47,7 @@ export class EcommerceStorefrontPage {
   constructor(page: Page) {
     this.page = page;
     this.productCards = page.getByTestId('product-card');
+    this.productCardPrices = this.productCards.getByTestId('product-card-price');
     this.sortSelect = page.getByTestId('product-listing-sort-select');
     this.searchToggle = page.getByTestId('navbar-search-toggle');
     this.searchInput = page.getByTestId('navbar-search-input');
@@ -90,7 +92,7 @@ export class EcommerceStorefrontPage {
     ];
     this.mobileMenuToggle = page.getByTestId('navbar-mobile-menu-toggle');
     this.mobileWomenLink = page.getByRole('navigation').getByRole('link', { name: 'WOMEN' });
-    this.adminLoginHeading = page.getByRole('heading', { name: 'Welcome.' });
+    this.adminLoginHeading = page.getByRole('heading', { name: 'Welcome back.' });
     this.adminPassword = page.getByTestId('admin-login-password');
     this.adminLoginSubmit = page.getByTestId('admin-login-submit');
     this.adminLoginError = page.getByTestId('admin-login-error');

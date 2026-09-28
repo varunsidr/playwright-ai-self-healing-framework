@@ -1,7 +1,7 @@
 # Playwright AI Self-Healing Framework
 
-A compact Playwright TypeScript framework for UI and API testing.
-It is shaped like a small production test framework: page objects own locators, flows own scenario orchestration, fixtures own setup, and the documentation keeps the architecture easy to recover later.
+A code-first Playwright TypeScript framework demonstrated across UI and API testing.
+The zeouf fashion storefront is the primary demonstration for its agent-assisted planning, test generation, and repair workflow. Expand Testing, TodoMVC, and API examples show broader scenarios the storefront does not cover.
 
 [![Playwright Tests](https://github.com/varunsidr/playwright-ai-self-healing-framework/actions/workflows/playwright.yml/badge.svg)](https://github.com/varunsidr/playwright-ai-self-healing-framework/actions/workflows/playwright.yml)
 [GitHub repo](https://github.com/varunsidr/playwright-ai-self-healing-framework)
@@ -11,12 +11,12 @@ It is shaped like a small production test framework: page objects own locators, 
 - The suite runs on Chromium, Firefox, and WebKit.
 - `playwright-report/` holds the HTML report output.
 - `test-results/` holds traces, screenshots, videos, and other failure artifacts.
-- New specs should import `test` and `expect` from [fixtures/base.ts](fixtures/base.ts), not directly from `@playwright/test`.
-- UI scenarios cover the Expand Testing homepage, inputs demo, registration page, and TodoMVC.
-- Ecommerce feature tests live in a separate project and target the standalone zeouf storefront.
+- New specs should import `test` and `expect` from their project fixture: `fixtures/ecommerce-base.ts` for Zeouf, `fixtures/api-fixtures.ts` for API tests, or `fixtures/base.ts` for practice-site examples.
+- The zeouf storefront is the primary demo for the planner, generator, and healer agents, using its dedicated project, seed, plans, and tests.
+- Expand Testing and TodoMVC UI scenarios, plus API tests, demonstrate additional framework coverage beyond the storefront; these are separate examples, not targets for the storefront agents.
 - API scenarios cover health checks, authentication, notes CRUD and validation, and API state-cache behavior.
-- The `tests/seed.spec.ts` file is a lightweight starting point for generator and healer workflows.
-- “Self-healing” here means disciplined locator design and agent-assisted repair; tests do not rewrite locators at runtime.
+- The fashion storefront agents use `tests/ecommerce/seed.spec.ts` as their starting page; `tests/seed.spec.ts` is for the older Expand Testing examples.
+- “Self-healing” currently means agent-assisted diagnosis and repair of test code; tests do not rewrite locators or recover autonomously at runtime.
 
 ---
 
@@ -40,15 +40,18 @@ It is shaped like a small production test framework: page objects own locators, 
 pw-mcp-demo/
 ├── ARCHITECTURE.md
 ├── README.md
+├── .codex/                 # Codex storefront agent profiles and MCP config
+├── .github/agents/         # Copilot storefront agent profiles
 ├── docs/                   # Static analysis and Playwright/API design notes
 ├── fixtures/               # UI/API fixtures and shared test data
 ├── flows/                  # Scenario-level UI orchestration
-├── pages/                  # Page objects for practice site and TodoMVC
+├── pages/                  # Storefront, practice-site, and TodoMVC page objects
 ├── roadmap/                # Planned enhancements
 ├── scripts/                # Static analysis rules
-├── specs/                  # Architecture references and starter guidance
+├── specs/ecommerce/        # Zeouf agent plans
 ├── tests/
 │   ├── api/                # API health, auth, notes CRUD/contracts, cache
+│   ├── ecommerce/          # Primary Zeouf agent demo and storefront tests
 │   ├── demo-inputs.spec.ts
 │   ├── home.spec.ts
 │   ├── register.spec.ts
@@ -59,7 +62,7 @@ pw-mcp-demo/
 └── package.json
 ```
 
-The rule this structure enforces is simple: tests describe behavior, flows describe the scenario steps, and page objects own locators and page-level actions.
+Tests describe behavior and page objects own locators and page-level actions. The practice-site examples also use flows for multi-step scenarios.
 
 ---
 
@@ -147,17 +150,18 @@ npm run test:ecommerce:happy
 npm run test:ecommerce:regression
 ```
 
-If `npx` gives PowerShell execution-policy trouble on your machine, use `npx.cmd` instead.
+If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` instead.
 
 ---
 
 ## Reporting And Outputs
 
 - The HTML report is generated into `playwright-report/`.
+- Allure results are written to `allure-results/`. Run `npm run allure:generate` to build `allure-report/`, then `npm run allure:open` to view it. Use `npm run test:allure` for a fresh test run and report in one command.
 - Failure artifacts are written to `test-results/`.
 - Traces, screenshots, and videos are retained on failure so regressions are easier to diagnose.
-- The GitHub Actions workflow uploads both the report and the test-results folder as artifacts.
-- CI adds a stability summary to the workflow run, including retries, flaky tests, repeated failed attempts, and heuristic failure categories.
+- The GitHub Actions workflow uploads the Playwright report, Allure report and results, and the test-results folder as artifacts.
+- CI adds separate stability summaries for the practice-site/API run and the Zeouf run when a storefront test URL is configured. Each summary includes retries, flaky tests, repeated failed attempts, and heuristic failure categories.
 
 ### Publish HTML report to GitHub Pages
 
@@ -186,13 +190,23 @@ Page objects own locators and low-level interactions, while flows handle the sce
 
 Shared inputs live in `fixtures/test-data.ts` so the same values can be reused across specs without copy-paste drift.
 
-### 4) Self-Healing By Design
+### 4) Agent-Assisted Test Repair
 
-The framework emphasizes resilient locators, small helpers, and a clear structure that is easy to repair. The goal is to make locator recovery simple enough that agent-assisted fixes stay predictable.
+The healer agent investigates failing storefront tests and can propose or apply a code repair, then verify it. Locator design and page objects keep tests understandable and repairable. This is agent-assisted repair; tests do not rewrite locators or recover autonomously during runtime.
 
 ### 5) Agent-Friendly Entry Points
 
 The seed spec and architecture document give automation agents a stable starting point for regeneration, repair, and future expansion.
+
+### 6) Use The Playwright Agents With Codex
+
+The `.github/agents/` profiles are for GitHub Copilot. Codex uses the Playwright-generated profiles in `.codex/agents/` and the `playwright-test` MCP server configured in `.codex/config.toml`. Open this repository as the workspace, trust the project configuration, then restart the Codex extension or start a new session so it loads the MCP server and agent profiles. In the Codex extension, check **MCP servers** for `playwright-test`; `codex mcp list` is the CLI equivalent.
+
+The agents are scoped to the zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `http://localhost:3000`). Start the storefront first. Ask Codex to use a profile by name, for example: `Use playwright_test_planner with tests/ecommerce/seed.spec.ts and the ecommerce-chromium project to explore my fashion storefront and save three independent plans under specs/ecommerce/.` The planner requires its Playwright MCP tools to be available in the session. If they are absent, check the MCP server status before asking it to explore the browser. Expand Testing, TodoMVC, and API examples remain separate demonstrations of broader framework scenarios and are outside the storefront agents' scope.
+
+In some Codex sessions, a child agent's browser MCP action may request an interaction that only the main thread can handle. If that happens, perform the browser inspection in the main thread with the same storefront seed and project, then give the observed evidence to the agent. State which browser steps the agent could not perform itself; do not describe a plan as independently explored when it used supplied observations.
+
+Switching providers is manual. VS Code does not automatically change from Copilot to Codex when a subscription or allowance expires. Each provider must be signed in and have access to the model you select.
 
 ---
 
@@ -221,22 +235,25 @@ The seed spec and architecture document give automation agents a stable starting
 - **Registration UI:** submits registration data through the homepage link and checks that a failure flash message is shown.
 - **TodoMVC UI:** adds two todos, completes one, deletes another, and verifies the remaining list.
 - **Seed smoke test:** opens the inputs page and checks its heading as a small generator/healer starting point.
-- **Ecommerce storefront:** covers the homepage, all seven top-level collections, all 15 women's and men's subcategory routes, product detail quantity and size guide, price sorting, search empty state, mobile navigation, and terms page.
+- **Ecommerce storefront:** covers the homepage, all seven top-level collections, all 15 women's and men's subcategory routes, product detail quantity, numeric price sorting, search empty state, mobile navigation, and terms page.
 - **Ecommerce guest/account states:** covers account registration UI, sign-in gates for cart actions, empty cart and favorites, checkout requirements, signed-out order history, and invalid admin login.
 - **API health and authentication:** checks health endpoints, rejects invalid login, and exercises registration followed by login.
 - **Notes API:** exercises create, list, read, update, and delete, plus unauthenticated and invalid create/update payload responses.
 - **API state cache:** verifies that shared state is reused within a cache scope.
 - UI tests run in Chromium, Firefox, and WebKit. API tests run in the dedicated API project.
 - Ecommerce tests run in the dedicated `ecommerce-chromium` project. Authenticated order placement and admin data changes need a dedicated test account/database and are not part of this read-only baseline.
+- **Known storefront mismatch:** the product-detail test still expects a Size Guide button and Chest chart. The current Zeouf product pages show a Product Measurements accordion without those elements. This test remains failing until the expected product behavior is decided or restored.
 
 ---
 
 ## Roadmap
 
-- Expand the `flows/` layer only when scenario orchestration becomes repetitive.
-- Add more page objects as the app grows beyond the inputs page.
-- Expand negative and boundary-value UI coverage; current validation coverage is primarily in the notes API contract tests.
-- Keep self-healing practical: favor clear locators and repairable abstractions over opaque automation.
+- Make the zeouf demo reproducible in CI with a dedicated test URL and predictable data.
+- Strengthen shopper-facing assertions and add a controlled signed-in journey when test accounts and reset are available.
+- Evaluate agent-assisted repairs against known test, app, and environment failures before claiming repair accuracy.
+- Apply the workflow to a second app to measure portability and onboarding effort.
+
+See [roadmap/FUTURE_ENHANCEMENTS.md](roadmap/FUTURE_ENHANCEMENTS.md) for these milestones and later ideas.
 
 ---
 

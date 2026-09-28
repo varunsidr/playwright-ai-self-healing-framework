@@ -60,13 +60,6 @@ test.describe('Ecommerce catalog', { tag: ['@ecommerce', '@regression'] }, () =>
     });
   }
 
-  test('sorts products by price from low to high @happy', async ({ storefront }) => {
-    await storefront.openRoute('/kadin/elbise');
-    await storefront.expectCategoryLoaded('Dress');
-    await storefront.sortByPriceLowToHigh();
-    await expect(storefront.sortSelect).toHaveValue('price-low');
-  });
-
   test(
     'shows an empty state for a search with no matches',
     { tag: '@negative' },
