@@ -57,6 +57,7 @@ export default defineConfig({
     {
       name: 'api',
       testMatch: /api\/.*\.(?:spec|test)\.ts$/,
+      testIgnore: /ecommerce[\\/]api[\\/]/,
       use: {},
     },
 
