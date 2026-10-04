@@ -12,6 +12,9 @@
     "test:api": "playwright test --project=api",
     "test:ui": "playwright test --project=chromium --project=firefox --project=webkit",
     "test:ecommerce": "playwright test --project=ecommerce-chromium",
+    "test:ecommerce:api": "playwright test --project=ecommerce-api",
+    "perf:ecommerce:smoke": "k6 run performance/ecommerce/smoke.js",
+    "perf:ecommerce:baseline": "node scripts/collect-ecommerce-browser-metrics.js",
     "test:ecommerce:smoke": "playwright test --project=ecommerce-chromium --grep @smoke",
     "test:ecommerce:happy": "playwright test --project=ecommerce-chromium --grep @happy",
     "test:ecommerce:regression": "playwright test --project=ecommerce-chromium --grep @regression",
@@ -41,6 +44,7 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.3.0",
     "@typescript-eslint/eslint-plugin": "^8.70.0",

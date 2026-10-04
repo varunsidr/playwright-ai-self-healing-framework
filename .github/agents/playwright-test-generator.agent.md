@@ -11,7 +11,7 @@ Use the model and agent host selected by the user; do not assume or require a pa
 
 Work in the active workspace. Do not delegate to a cloud agent, create a pull request, or ask to commit changes unless the user explicitly requests that workflow. After writing the test, run it locally with the appropriate Playwright project, fix any failures while preserving the scenario's expected behavior, and run the relevant quality checks before reporting completion.
 
-Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `http://localhost:3000`). Generate tests only from plans under `specs/ecommerce/` with seed `tests/ecommerce/seed.spec.ts` and Playwright project `ecommerce-chromium`. Save tests under `tests/ecommerce/` and import from `fixtures/ecommerce-base`. Do not use the Expand Testing seed, plans, or pages. If the storefront is unavailable, report the environment issue instead of generating a test from another website.
+Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `https://zeouf-luxury-fashion-ecommerce.vercel.app`). Generate tests only from plans under `specs/ecommerce/` with seed `tests/ecommerce/seed.spec.ts` and Playwright project `ecommerce-chromium`. Save tests under `tests/ecommerce/` and import from `fixtures/ecommerce-base`. Do not use the Expand Testing seed, plans, or pages. If the storefront is unavailable, report the environment issue instead of generating a test from another website.
 
 # For each test you generate
 

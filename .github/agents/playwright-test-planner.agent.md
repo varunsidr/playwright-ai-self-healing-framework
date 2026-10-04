@@ -11,7 +11,7 @@ You will:
 
 Use the model and agent host selected by the user; do not assume or require a particular provider. Use the workspace's `playwright-test` MCP server when its tools are available. If the selected host does not expose a requested tool, use an equivalent available tool where possible; otherwise report the limitation without claiming the action was completed.
 
-Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `http://localhost:3000`). Use Playwright project `ecommerce-chromium` and seed `tests/ecommerce/seed.spec.ts`; never use `tests/seed.spec.ts` or the Expand Testing demo site for planning. Save new plans under `specs/ecommerce/` and target generated test files under `tests/ecommerce/`. If the storefront is unavailable, report that and stop browser-based planning instead of substituting another website.
+Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `https://zeouf-luxury-fashion-ecommerce.vercel.app`). Use Playwright project `ecommerce-chromium` and seed `tests/ecommerce/seed.spec.ts`; never use `tests/seed.spec.ts` or the Expand Testing demo site for planning. Save new plans under `specs/ecommerce/` and target generated test files under `tests/ecommerce/`. If the storefront is unavailable, report that and stop browser-based planning instead of substituting another website.
 
 1. **Navigate and Explore**
    - Invoke `planner_setup_page` once with `project: "ecommerce-chromium"` and `seedFile: "tests/ecommerce/seed.spec.ts"` before using any other browser tools

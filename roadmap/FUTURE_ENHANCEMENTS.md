@@ -1,102 +1,90 @@
-# Future Enhancements
+# Product Roadmap
 
-This file captures planned or likely improvements for the framework. Keep it practical: only document changes that would genuinely improve maintainability, reliability, or industry-standard alignment.
+This roadmap describes intended work, not features already delivered. The zeouf storefront remains the primary demonstration; its website is maintained and released separately.
 
-## Guiding Rule
+## Product Direction
 
-Do not copy enterprise patterns blindly. Add structure only when the framework size, test volume, or maintenance burden justifies it.
+Build a developer-first quality assistant that turns feature intent into useful browser and API checks, explains failures, and proposes reviewable, verified test repairs. The first experience should fit local development and pull requests. Quality engineers remain responsible for risk selection, exploratory testing, and deciding whether changed product behavior is correct.
 
-## Near-Term Product Priorities
+Promise faster, more trustworthy quality feedback. Do not claim that the product replaces testers or supports a fixed tester-to-developer staffing ratio. Measure whether a quality specialist can support more developers in pilots without a loss of coverage or quality.
 
-1. Make the zeouf demo reproducible: use a dedicated test deployment or documented local setup, predictable test data, and a visible `ecommerce-chromium` CI result. The storefront remains the only target for the planner, generator, and healer agents.
-2. Improve scenario value: verify actual product sorting and add a controlled signed-in shopping journey once a disposable test account and reset mechanism are available. Keep tests isolated and preserve real business assertions.
-3. Evaluate agent-assisted repair against known failures: changed locators, changed UI flows, application defects, and unavailable environments. Record the diagnosis, proposed diff, verification result, and whether a reviewer accepted the repair.
-4. Prove portability with one additional customer application. Document the required URL, seed, fixtures, page object, agent scope, and CI configuration, then measure setup time and manual changes.
+A locator change may warrant a test repair. An application defect, bad test data, or unavailable environment must be reported as such. Preserve written expectations; require a diff, human review, and a verification run before calling a repair successful.
 
-The features below are ideas to revisit after these milestones or a customer pilot identifies a need. They are not prerequisites for the first pilot.
+## Delivery Order
 
-## Potential Enhancements
+### 1. Trustworthy storefront baseline
 
-### Framework Structure
+- When the standalone zeouf website is available, use a dedicated test deployment or documented local setup with predictable products and disposable, confirmed shopper accounts.
+- Resolve the known product-detail Size Guide mismatch according to intended storefront behavior. Enable a signed-in cart and checkout journey with account setup and reset that leaves no persistent users or orders.
+- Make the `ecommerce-chromium` result visible in CI. A green job must not imply that Zeouf was tested if its project was skipped.
+- Reconcile plans, routes, and executable tests, including the perfume route and discovery-plan scenarios. Keep meaningful assertions.
 
-- Expand the `flows/` layer when a scenario needs multi-step orchestration that is awkward inside a single page object.
-- Add more page objects as the application grows beyond the inputs page.
-- Introduce module-specific fixtures only when more than one test file needs the same setup.
-- Keep shared helpers small and feature-focused instead of creating a large catch-all utilities folder.
+**Done when:** a fresh developer or CI runner can reproduce the storefront smoke and shopping journeys, with clear status and failure artifacts.
 
-### Coverage Growth
+### 2. Stronger API testing
 
-- Add more scenario specs for different pages and user journeys.
-- Add negative and boundary-value coverage to complement the current happy-path input test.
-- Add assertion coverage for error states, validation messages, and alternate UI states.
-- Convert repeated setup patterns into reusable flow or fixture helpers once they appear in multiple tests.
+- Consolidate duplicated request construction in `fixtures/api-fixtures.ts`; keep transport separate from resource-specific clients.
+- Assert exact expected status codes and relevant response fields or schemas. Cover valid flows, invalid input, missing or expired authentication, and cross-user access to resource IDs where supported.
+- Use an OpenAPI description when the target supplies one; otherwise maintain a small explicit contract for critical endpoints. Keep scenario assertions alongside contract checks.
+- Isolate seeded data by environment and user. Make cleanup reliable, avoid clearing unrelated cache entries, and do not silently reuse deleted or expired accounts. Keep tokens out of logs and committed artifacts.
+- Keep the public Notes API as a framework example. Add Zeouf API checks only against a controlled environment and its actual contracts.
 
-### Stability and Maintainability
+**Done when:** API failures identify the broken contract precisely, parallel tests remain independent, and API setup can seed browser journeys without stale state.
 
-- Keep locator strategy aligned with Playwright best practices: prefer role, label, and user-facing attributes.
-- Review whether any helper should become a fixture instead of a utility function if it is reused across files.
-- Add or refine failure evidence and reporting only when the test suite grows enough to benefit from it.
-- Revisit the `expect` timeout, retries, and browser matrix if the suite becomes larger or more flaky.
+### 3. Performance testing
 
-### Self-Healing Direction
+- **Browser experience:** measure key pages with Lighthouse CI and set budgets after establishing a repeatable baseline. Record device, network, build, and environment. Track loading and layout; use interaction tests or field data for responsiveness.
+- **Service capacity:** use k6 HTTP scenarios for representative browsing, search, login, and controlled checkout traffic. Define workload, latency percentiles, and error-rate thresholds from service goals and a baseline.
+- Run a small performance smoke check in an appropriate CI environment. Run sustained load on a schedule or before release against an approved test deployment. Do not load test the public practice site or an uncontrolled production target.
+- Show functional, API, browser-performance, and load results together while retaining distinct runners and failure meanings.
 
-- Treat self-healing as a disciplined locator and recovery strategy first, not as a replacement for good page objects.
-- If locator repair becomes a real need, document the recovery workflow clearly before automating it.
-- Prefer agent-assisted maintenance for broken locators over hidden magic that makes failures harder to reason about.
+**Done when:** a repeatable result identifies which page or endpoint, metric, workload, and build regressed.
 
-### Documentation
+### 4. Verified agent diagnosis and repair
 
-- Keep [ARCHITECTURE.md](../ARCHITECTURE.md) current whenever the folder structure or execution flow changes.
-- Record newly adopted patterns here when they become part of the standard framework shape.
-- If a feature becomes a stable convention, move it from this file into the architecture document.
+- Evaluate stale locators, changed UI flows, application defects, bad data, and unavailable environments.
+- Record initial failure, diagnosis, proposed diff, reviewer decision, verification command, result, and time spent. Count false repairs and correct decisions to leave a test unchanged.
+- Surface concise failure evidence in CI and pull requests. Keep human review before merging agent-generated changes.
+- Analyze recurring failures only after enough comparable runs exist. Do not prescribe retries or longer timeouts as the default fix.
+
+**Done when:** evaluation shows repairs preserve assertions and pass verification while app and environment failures are classified correctly.
+
+### 5. Portability and developer-value pilot
+
+- Onboard one additional application with its own URL, seed, fixtures, page objects, agent scope, and CI setup. The current planner, generator, and healer remain scoped to Zeouf until another target is explicitly configured.
+- Pilot with two or three development teams. Measure time to create a useful test, time to diagnose a failure, accepted repair rate, false repair rate, escaped defects, and quality-specialist effort per release.
+- Use observed results to refine the product claim and onboarding flow. Discuss staffing efficiency only if measured without reduced quality.
+
+**Done when:** another team can adopt the workflow with documented effort and pilot data supports a specific value claim.
+
+## Design Rules
+
+- Keep the core code-first and useful from a local terminal and pull request. Add a UI only when pilots show it removes a real obstacle.
+- Prefer observable business assertions over large test counts, fixed inventory values, or silent runtime healing.
+- Add shared layers only when they reduce duplication or onboarding work. Use feature-specific fixtures and clients rather than a generic utility framework.
+- Combine API setup with browser assertions when it clarifies a business journey; retain separate API contract tests.
+- Update [ARCHITECTURE.md](../ARCHITECTURE.md) when an implementation pattern becomes stable. Keep storefront plans linked to executable tests under `tests/ecommerce/`.
+
+## Later Candidates
+
+- A small accessibility smoke suite for important routes; `@axe-core/playwright` is installed but not yet used by tests.
+- Deterministic test-data generation and replayable generated values when needed for isolation.
+- A lightweight runner or dashboard for users who cannot use the CLI, after the developer workflow is validated.
+- Broader visual, browser, and device coverage based on pilot defects or customer needs.
+- Automatic application of agent changes only after repair evaluations and review controls demonstrate safety.
 
 ## Decision Filter
 
-Before adding a new layer or folder, ask:
+Before adding a feature, ask:
 
-1. Does this solve a repeated problem?
-2. Will this reduce duplication or confusion?
-3. Does it improve maintainability enough to justify one more abstraction?
-4. Can the same outcome be achieved by a smaller change?
+1. Which developer or quality-engineering problem does it solve?
+2. How will we measure its benefit?
+3. Does it preserve clear failure meaning and human review of changed expectations?
+4. Can a smaller change achieve the same result?
 
-If the answer is not clearly yes, keep the framework smaller.
+## 2026 Reference Points
 
-### Integrating API and UI Scenarios
-
-- Motivation: combine related API flows (login, register, cart, etc.) with UI scenarios so debugging and verification happen in one end-to-end run when appropriate.
-- Description: allow tests to call API helpers from within UI flows (and vice-versa) so a single spec can validate both the backend state and the UI presentation.
-- Action items:
-  1.  Add an `api/` helper collection that exports authenticated request helpers and common endpoints.
-  2.  Add examples: a combined `login` flow that can either use API login or UI login based on a test flag.
-  3.  Document when to prefer a combined spec vs. a separate API contract test.
-
-### Flakiness Analysis & Agent Recommendations
-
-- Motivation: use historical CI JSON results and local runs to analyze flaky tests and surface targeted repair suggestions.
-- Description: aggregate run artifacts (JSON, traces, screenshots) over time and run simple heuristics (timeout spikes, consistent selectors, environment-only failures) to identify flakiness patterns. Provide actionable recommendations an agent can apply or present to maintainers.
-- Action items:
-  1.  Add a results-collector script to normalize CI JSONs into a simple timeline format.
-  2.  Implement a small ruleset that detects frequent failure signatures (selector mismatch, network timeouts, auth errors).
-  3.  Wire an “agent recommendation” output that suggests retries, locator changes, or test isolation as next steps.
-
-### Agentic Mode & Lightweight UI Runner
-
-- Motivation: reduce manual overhead for running and investigating tests by offering an agentic runner and a small UI for testers to run common scenarios.
-- Description: a lightweight web UI (or desktop launcher) that lets non-dev testers pick scenarios, view recent reports, and trigger agentic repair or re-run actions without opening code.
-- Action items:
-  1.  Prototype a minimal Electron or static web UI that lists specs, shows the last HTML report, and can trigger `npm test --grep "<spec>"`.
-  2.  Add an agentic runner mode that attempts simple fixes (clear cache, re-run with `--retries`, toggle API-via-UI flag) and reports outcomes.
-  3.  Protect agentic actions behind an explicit review step to avoid blind changes in CI.
-
-### Randomized Test Data Utility
-
-- Motivation: avoid brittle tests caused by hard-coded inputs and make tests more realistic by using deterministic randomization constrained by rules.
-- Description: provide a small `randomizer` utility for names, emails, phone numbers, and IDs with seeding support so runs are reproducible when needed.
-- Action items:
-  1.  Add `utils/randomizer.ts` with seeded generation and common formats (email, phone, uuid-like strings).
-  2.  Offer a test-level flag to persist generated values to a local artifact when debugging (so a failing run can be re-created).
-  3.  Document usage patterns and when deterministic vs. fully-random runs are appropriate.
-
----
-
-If you want, I can implement any of the above as a follow-up: which one should I start with first? (suggested priority: `API+UI integration` → `randomizer` → `flakiness analysis` → `agentic UI`).
+- [DORA's 2025 State of AI-assisted Software Development](https://dora.dev/research/2025/dora-report/) emphasizes the delivery system around AI tools.
+- [Gartner's May 2026 agentic testing research abstract](https://www.gartner.com/en/documents/7835481) describes the move toward agent-led testing workspaces.
+- [OpenAPI](https://spec.openapis.org/oas/) provides a machine-readable API contract standard.
+- [Google's Web Vitals guidance](https://web.dev/articles/vitals-measurement-getting-started), [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md), and [k6](https://grafana.com/docs/k6/latest/testing-guides/load-testing-websites/) inform the performance milestones.

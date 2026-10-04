@@ -1,9 +1,16 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
+type ShopperRegistration = {
+  fullName: string;
+  email: string;
+  password: string;
+};
+
 export class EcommerceStorefrontPage {
   private readonly page: Page;
   readonly productCards: Locator;
   readonly productCardPrices: Locator;
+  readonly perfumeNavLink: Locator;
   readonly sortSelect: Locator;
   readonly searchToggle: Locator;
   readonly searchInput: Locator;
@@ -36,7 +43,16 @@ export class EcommerceStorefrontPage {
   readonly termsOpenSourceHeading: Locator;
   readonly openAccountButton: Locator;
   readonly registerTab: Locator;
+  readonly loginEmail: Locator;
+  readonly loginPassword: Locator;
+  readonly loginSubmit: Locator;
+  readonly registerFullName: Locator;
+  readonly registerEmail: Locator;
+  readonly registerPassword: Locator;
+  readonly registerConfirmPassword: Locator;
+  readonly registerSubmit: Locator;
   readonly registerFields: Locator[];
+  readonly checkoutFromCartLink: Locator;
   readonly mobileMenuToggle: Locator;
   readonly mobileWomenLink: Locator;
   readonly adminLoginHeading: Locator;
@@ -48,6 +64,7 @@ export class EcommerceStorefrontPage {
     this.page = page;
     this.productCards = page.getByTestId('product-card');
     this.productCardPrices = this.productCards.getByTestId('product-card-price');
+    this.perfumeNavLink = page.getByTestId('navbar-nav-link-/perfume');
     this.sortSelect = page.getByTestId('product-listing-sort-select');
     this.searchToggle = page.getByTestId('navbar-search-toggle');
     this.searchInput = page.getByTestId('navbar-search-input');
@@ -84,12 +101,21 @@ export class EcommerceStorefrontPage {
     this.termsOpenSourceHeading = page.getByRole('heading', { name: '1. Open Source Project' });
     this.openAccountButton = page.getByTestId('navbar-account-toggle');
     this.registerTab = page.getByTestId('navbar-auth-tab-register');
+    this.loginEmail = page.getByTestId('navbar-login-email');
+    this.loginPassword = page.getByTestId('navbar-login-password');
+    this.loginSubmit = page.getByTestId('navbar-login-submit');
+    this.registerFullName = page.getByTestId('navbar-register-fullname');
+    this.registerEmail = page.getByTestId('navbar-register-email');
+    this.registerPassword = page.getByTestId('navbar-register-password');
+    this.registerConfirmPassword = page.getByTestId('navbar-register-confirm-password');
+    this.registerSubmit = page.getByTestId('navbar-register-submit');
     this.registerFields = [
-      page.getByTestId('navbar-register-fullname'),
-      page.getByTestId('navbar-register-email'),
-      page.getByTestId('navbar-register-password'),
-      page.getByTestId('navbar-register-confirm-password'),
+      this.registerFullName,
+      this.registerEmail,
+      this.registerPassword,
+      this.registerConfirmPassword,
     ];
+    this.checkoutFromCartLink = this.cartPanel.getByRole('link', { name: /checkout/i });
     this.mobileMenuToggle = page.getByTestId('navbar-mobile-menu-toggle');
     this.mobileWomenLink = page.getByRole('navigation').getByRole('link', { name: 'WOMEN' });
     this.adminLoginHeading = page.getByRole('heading', { name: 'Welcome back.' });
@@ -146,6 +172,14 @@ export class EcommerceStorefrontPage {
     await this.cartPanel.getByRole('button', { name: 'Close' }).click();
   }
 
+  async openCart() {
+    await this.cartToggle.click();
+  }
+
+  async openPerfumeCollectionFromNav() {
+    await this.perfumeNavLink.click();
+  }
+
   async openMobileWomenCollection() {
     await this.mobileMenuToggle.click();
     await this.mobileWomenLink.click();
@@ -158,6 +192,48 @@ export class EcommerceStorefrontPage {
   async openRegistrationPanel() {
     await this.openAccountButton.click();
     await this.registerTab.click();
+  }
+
+  async registerNewShopper(shopper: ShopperRegistration) {
+    await this.openRegistrationPanel();
+    await this.registerFullName.fill(shopper.fullName);
+    await this.registerEmail.fill(shopper.email);
+    await this.registerPassword.fill(shopper.password);
+    await this.registerConfirmPassword.fill(shopper.password);
+    await this.registerSubmit.click();
+  }
+
+  async signIn(email: string, password: string) {
+    await this.loginPanel.getByRole('button', { name: 'Sign In' }).first().click();
+    await this.loginEmail.fill(email);
+    await this.loginPassword.fill(password);
+    await this.loginSubmit.click();
+  }
+
+  async addCatalogProductsToCart(productNames: string[]) {
+    for (const productName of productNames) {
+      await this.productCardByName(productName)
+        .getByRole('button', { name: `Add ${productName} to cart` })
+        .click();
+    }
+  }
+
+  async continueToCheckoutFromCart() {
+    await this.checkoutFromCartLink.click();
+  }
+
+  productCardByName(productName: string) {
+    return this.productCards.filter({
+      has: this.page.getByTestId('product-card-name').filter({ hasText: productName }),
+    });
+  }
+
+  cartItemByName(productName: string) {
+    return this.cartPanel.getByText(productName, { exact: true });
+  }
+
+  checkoutItemByName(productName: string) {
+    return this.page.getByText(productName, { exact: true });
   }
 
   async tryInvalidAdminPassword() {

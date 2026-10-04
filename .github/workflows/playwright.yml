@@ -24,14 +24,19 @@ jobs:
       - name: Summarize demo test stability
         if: always()
         run: npm run summarize:results -- test-results/demo-results.json
-      - name: Run ecommerce tests when a test URL is configured
+      - name: Run deployed Zeouf read-only smoke checks
+        if: ${{ always() && vars.ECOMMERCE_BASE_URL == '' }}
+        env:
+          PW_JSON_REPORT_PATH: test-results/ecommerce-results.json
+        run: npx playwright test --project=ecommerce-chromium --project=ecommerce-api --grep @smoke
+      - name: Run full ecommerce tests when a dedicated test URL is configured
         if: ${{ always() && vars.ECOMMERCE_BASE_URL != '' }}
         env:
           ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
           PW_JSON_REPORT_PATH: test-results/ecommerce-results.json
-        run: npx playwright test --project=ecommerce-chromium
+        run: npx playwright test --project=ecommerce-chromium --project=ecommerce-api
       - name: Summarize ecommerce test stability
-        if: ${{ always() && vars.ECOMMERCE_BASE_URL != '' }}
+        if: always()
         run: npm run summarize:results -- test-results/ecommerce-results.json
       - name: Generate Allure report
         if: always()

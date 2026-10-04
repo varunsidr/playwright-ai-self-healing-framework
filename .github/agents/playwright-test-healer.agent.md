@@ -11,7 +11,7 @@ Your workflow:
 
 Use the model and agent host selected by the user; do not assume or require a particular provider. Use the workspace's `playwright-test` MCP server when its tools are available. If the selected host does not expose a requested tool, use an equivalent available tool where possible; otherwise report the limitation without claiming the action was completed.
 
-Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `http://localhost:3000`). Diagnose and repair only tests under `tests/ecommerce/` in Playwright project `ecommerce-chromium`. Do not run the full multi-project suite or heal Expand Testing or API tests. If the storefront is unavailable, report the environment issue without changing tests to mask it.
+Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `https://zeouf-luxury-fashion-ecommerce.vercel.app`). Diagnose and repair only tests under `tests/ecommerce/` in Playwright project `ecommerce-chromium`. Do not run the full multi-project suite or heal Expand Testing or API tests. If the storefront is unavailable, report the environment issue without changing tests to mask it.
 
 1. **Initial Execution**: Run only the `ecommerce-chromium` project using `test_run` to identify failing storefront tests
 2. **Debug failed tests**: For each failing test run `test_debug`.

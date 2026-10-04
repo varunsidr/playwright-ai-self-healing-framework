@@ -124,23 +124,16 @@ npm run test:ui
 
 ### Run the separate ecommerce storefront suite
 
-The ecommerce app and this test framework stay in separate repositories. In one terminal, change to the ecommerce repository and start its dev server:
-
-```powershell
-cd "<path-to-your-ecommerce-repository>"
-npm run dev
-```
-
-If the app is configured locally, it is available at `http://localhost:3000`. In a second terminal, change to this framework's `pw-mcp-demo` directory and run the ecommerce-only browser project:
+The ecommerce app and this test framework stay in separate repositories. Ecommerce tests target the [deployed Zeouf storefront](https://zeouf-luxury-fashion-ecommerce.vercel.app/) by default. From this framework's `pw-mcp-demo` directory, run the ecommerce-only browser project:
 
 ```powershell
 cd "<path-to-this-framework>\pw-mcp-demo"
 npm run test:ecommerce
 ```
 
-The default `npm test` includes every project, including ecommerce, so keep the app running for that command. `npm run test:smoke` runs only the app-independent API and Chromium smoke checks; use `npm run test:ecommerce:smoke` for storefront smoke coverage.
+The default `npm test` includes every project, including ecommerce. `npm run test:smoke` runs only the app-independent API and Chromium smoke checks; use `npm run test:ecommerce:smoke` for storefront smoke coverage.
 
-Set `ECOMMERCE_BASE_URL` to target another local or deployed instance. Ecommerce tests use their own fixture and Playwright project; the existing Expand Testing and API projects retain their own targets and fixtures.
+Set `ECOMMERCE_BASE_URL` to target another instance. For local development, start the ecommerce app separately and set `$env:ECOMMERCE_BASE_URL = 'http://localhost:3000'` in PowerShell before running tests. Ecommerce tests use their own fixture and Playwright project; the existing Expand Testing and API projects retain their own targets and fixtures. The perfume checkout test registers an account and is skipped on the public deployment; use a dedicated test deployment for the full browser suite.
 
 Run only the ecommerce categories:
 
@@ -149,6 +142,8 @@ npm run test:ecommerce:smoke
 npm run test:ecommerce:happy
 npm run test:ecommerce:regression
 ```
+
+For Zeouf API and performance commands, see [Zeouf API and performance checks](docs/ecommerce-api-performance.md).
 
 If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` instead.
 
@@ -202,7 +197,7 @@ The seed spec and architecture document give automation agents a stable starting
 
 The `.github/agents/` profiles are for GitHub Copilot. Codex uses the Playwright-generated profiles in `.codex/agents/` and the `playwright-test` MCP server configured in `.codex/config.toml`. Open this repository as the workspace, trust the project configuration, then restart the Codex extension or start a new session so it loads the MCP server and agent profiles. In the Codex extension, check **MCP servers** for `playwright-test`; `codex mcp list` is the CLI equivalent.
 
-The agents are scoped to the zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `http://localhost:3000`). Start the storefront first. Ask Codex to use a profile by name, for example: `Use playwright_test_planner with tests/ecommerce/seed.spec.ts and the ecommerce-chromium project to explore my fashion storefront and save three independent plans under specs/ecommerce/.` The planner requires its Playwright MCP tools to be available in the session. If they are absent, check the MCP server status before asking it to explore the browser. Expand Testing, TodoMVC, and API examples remain separate demonstrations of broader framework scenarios and are outside the storefront agents' scope.
+The agents are scoped to the zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `https://zeouf-luxury-fashion-ecommerce.vercel.app`). Ask Codex to use a profile by name, for example: `Use playwright_test_planner with tests/ecommerce/seed.spec.ts and the ecommerce-chromium project to explore my fashion storefront and save three independent plans under specs/ecommerce/.` The planner requires its Playwright MCP tools to be available in the session. If they are absent, check the MCP server status before asking it to explore the browser. Expand Testing, TodoMVC, and API examples remain separate demonstrations of broader framework scenarios and are outside the storefront agents' scope.
 
 In some Codex sessions, a child agent's browser MCP action may request an interaction that only the main thread can handle. If that happens, perform the browser inspection in the main thread with the same storefront seed and project, then give the observed evidence to the agent. State which browser steps the agent could not perform itself; do not describe a plan as independently explored when it used supplied observations.
 
@@ -266,7 +261,7 @@ Current CI behavior:
 - Installs dependencies with `npm ci`.
 - Installs Playwright browsers with `npx playwright install --with-deps`.
 - Runs the Expand Testing UI suite in Chromium, Firefox, and WebKit, plus the API project.
-- Runs ecommerce tests only when the repository variable `ECOMMERCE_BASE_URL` points to a dedicated test deployment. Add it under GitHub repository **Settings → Secrets and variables → Actions → Variables**; CI does not assume the separate app is running on localhost.
+- Runs read-only ecommerce API and browser smoke checks against the deployed Zeouf site by default. When the repository variable `ECOMMERCE_BASE_URL` points to a dedicated test deployment, CI runs the full ecommerce suite instead. Add it under GitHub repository **Settings → Secrets and variables → Actions → Variables**.
 - Uploads the HTML report and test artifacts after every run.
 
 If you want to extend this repository later, the safest path is to keep the same layering and add new abstractions only when a real repeated problem appears.

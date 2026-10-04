@@ -61,6 +61,15 @@ export default defineConfig({
     },
 
     {
+      name: 'ecommerce-api',
+      testMatch: /ecommerce[\\/]api[\\/].*\.spec\.ts$/,
+      use: {
+        baseURL:
+          process.env.ECOMMERCE_BASE_URL || 'https://zeouf-luxury-fashion-ecommerce.vercel.app',
+      },
+    },
+
+    {
       name: 'chromium',
       testIgnore: /(?:api|ecommerce)\/.*\.(?:spec|test)\.ts$/,
       use: { ...devices['Desktop Chrome'] },
@@ -81,6 +90,7 @@ export default defineConfig({
     {
       name: 'ecommerce-chromium',
       testMatch: 'tests/ecommerce/**/*.spec.ts',
+      testIgnore: /ecommerce[\\/]api[\\/]/,
       workers: 3,
       use: {
         ...devices['Desktop Chrome'],
@@ -90,7 +100,8 @@ export default defineConfig({
               launchOptions: { args: ['--start-maximized'] },
             }
           : {}),
-        baseURL: process.env.ECOMMERCE_BASE_URL || 'http://localhost:3000',
+        baseURL:
+          process.env.ECOMMERCE_BASE_URL || 'https://zeouf-luxury-fashion-ecommerce.vercel.app',
       },
     },
 
