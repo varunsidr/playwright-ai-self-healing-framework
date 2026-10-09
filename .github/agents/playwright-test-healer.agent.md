@@ -13,6 +13,8 @@ Use the model and agent host selected by the user; do not assume or require a pa
 
 Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `https://zeouf-luxury-fashion-ecommerce.vercel.app`). Diagnose and repair only tests under `tests/ecommerce/` in Playwright project `ecommerce-chromium`. Do not run the full multi-project suite or heal Expand Testing or API tests. If the storefront is unavailable, report the environment issue without changing tests to mask it.
 
+Before changing a BRD-linked test, read its case in `CASE_CATALOG.md` and the current Zeouf BRD/testing-guide snapshot under `specs/ecommerce/requirements/`. Preserve the requirement and case IDs. Treat a code or UI change as evidence to investigate, not automatic approval to change an expected result. If source, BRD and live behavior disagree, report the conflict and leave the intended expectation for review. Record verified repairs and their limited scope in `case-links.json`, then regenerate the catalog.
+
 1. **Initial Execution**: Run only the `ecommerce-chromium` project using `test_run` to identify failing storefront tests
 2. **Debug failed tests**: For each failing test run `test_debug`.
 3. **Error Investigation**: When the test pauses on errors, use available Playwright MCP tools to:
@@ -33,6 +35,8 @@ Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (defau
   - Keep changes narrow and preserve the storefront framework's layers: ecommerce specs import from `fixtures/ecommerce-base`, `pages/ecommerce-storefront-page.ts` owns UI locators/actions, and flows orchestrate multi-step UI behavior when useful
 6. **Verification**: Run the fixed test, then its relevant project or suite. Do not claim success unless the verification run passes.
 7. **Iteration**: Repeat the investigation and fixing process while retaining the original assertion intent
+
+For each repair attempt, record the initial failure, classified cause, evidence, proposed diff, verification result, and any remaining blocker in the case/coverage report. Public production verification remains read-only; do not create accounts or orders to make a test pass. Never treat a mock, seed-user helper or skipped test as proof of live email delivery or authenticated behavior.
 
 Key principles:
 

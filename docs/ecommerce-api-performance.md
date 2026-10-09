@@ -12,15 +12,52 @@ Run `npm run test:ecommerce:api`. The `ecommerce-api` project uses the existing 
 
 CI runs the read-only Zeouf API and browser smoke checks against the public deployment by default. When its `ECOMMERCE_BASE_URL` repository variable points to a dedicated test deployment, CI runs both full Zeouf projects instead. The public Notes API remains in the separate `api` project. The perfume checkout browser test registers an account and is skipped on the public deployment; run it only on a dedicated test deployment.
 
-## Browser Navigation Baseline
+## Browser Shopper Experience
 
-Run `npm run perf:ecommerce:baseline`. Chromium visits the three canonical routes three times each in fresh contexts. The script records TTFB, DOMContentLoaded, load-event time, and resource count in `test-results/ecommerce-browser-metrics.json`, then prints median TTFB and load time.
+Run `npm run perf:ecommerce:baseline`. Chromium measures six read-only shopper states on desktop (1365 × 768) and a mobile viewport (390 × 844), with three fresh browser contexts per state:
 
-These are laboratory navigation timings, not Core Web Vitals or pass/fail budgets. Compare runs only when the app build, host, browser, viewport, and network are comparable. The Zeouf BRD requirement NFR-06 has no current performance SLA. Set performance budgets after a stable baseline, controlled deployment, and agreed workload exist.
+| State                | Why it matters                             | Ready signal                                     |
+| -------------------- | ------------------------------------------ | ------------------------------------------------ |
+| Home                 | First storefront impression and cart entry | Hero heading and poster image are ready          |
+| Women collection     | High-volume catalog browsing               | First product card is present                    |
+| Perfume collection   | Featured shopping journey                  | First product card is present                    |
+| Search for "perfume" | Client-fetched discovery results           | First matching product card is present           |
+| Perfume product      | Product decision page                      | Add-to-cart control is present                   |
+| Guest checkout       | Checkout entry and sign-in gate            | Checkout heading and sign-in message are present |
+
+The product route is discovered from the first visible perfume card at the start of each baseline run, so the report records its actual path without pinning an inventory ID. The home sample also measures how long the empty cart takes to open. No account, order, review, or payment is created.
+
+The JSON report at `test-results/ecommerce-browser-metrics.json` includes every sample and per-state medians for TTFB, DOMContentLoaded, load, content readiness, FCP, LCP, load-window CLS, long-task blocking time, resource count, and same-origin transferred bytes. It also retains the worst TTFB, content-readiness, and LCP values so a slow run cannot disappear behind a median. Navigation waits for DOMContentLoaded and the scenario's ready signal; `loadMs` is null if the load event has not fired by the end of observation. Non-200 page responses, missing ready signals, and same-origin HTTP 5xx responses are recorded as failures. The script continues measuring other states, saves the report, and exits with an error when any sample fails.
+
+`ECOMMERCE_PERF_RUNS` sets 1–5 runs per state (default 3). Set `ECOMMERCE_PERF_PROFILE=desktop` or `mobile` to measure one layout. An optional JSON budget file can turn selected medians or worst values into pass/fail gates. Create the file before running this command:
+
+```powershell
+$env:ECOMMERCE_PERF_BUDGET_FILE = 'performance/ecommerce/budgets.json'
+npm run perf:ecommerce:baseline
+```
+
+To change a budget without sending another round of requests, run `npm run perf:ecommerce:check` against the last saved report with the same budget variable set.
+
+The file uses scenario keys such as `desktop.home` and metric names from the report:
+
+```json
+{
+  "desktop.home": { "contentReadyMs": 3000, "lcpMs": 3000 },
+  "mobile.search": { "contentReadyMs": 5000, "loadCls": 0.25 }
+}
+```
+
+These values illustrate the format; they are not an agreed Zeouf service goal. Establish budgets from repeated runs on a controlled build and runner. Compare measurements only when the app build, host, browser, viewport, and network are comparable. This script does not throttle the network. LCP and CLS cover page load plus a 1.5-second observation window after content is ready; they are synthetic partial measurements, not field Core Web Vitals. Cart-opening time includes browser automation overhead and is not INP. The Zeouf BRD requirement NFR-06 has no current performance SLA.
+
+The `Zeouf Performance Baseline` GitHub workflow can be started manually to save the JSON report as an artifact. It uses the repository `ECOMMERCE_BASE_URL` variable when set; otherwise it uses the public Zeouf URL. It is a diagnostic run, not a required PR performance gate.
+
+In a 2026-10-04 run with three samples per state, desktop search had a load-window CLS of 0.335 in all three samples. One desktop home sample had a 19.1-second TTFB, while the other two were 107 ms and 81 ms. These are investigation leads, not a service-level conclusion; repeat them on a controlled runner and inspect the app's loading behavior and hosting logs.
 
 ## k6 HTTP Smoke
 
-Install [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) separately, then run `npm run perf:ecommerce:smoke`. The script makes one read-only pass over the three pages and the health API with one virtual user. It fails for HTTP errors or missing HTML responses and reports request timings. It has no latency threshold yet and is not a capacity test.
+Install [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) separately, then run `npm run perf:ecommerce:smoke`. One virtual user makes three sequential read-only passes over home, women, perfume, search, guest checkout, health, and region endpoints (21 GET requests total). It checks HTTP 200 and content type, prints per-route waiting and duration, and fails on HTTP errors. This remains an HTTP availability and latency smoke, not a browser or capacity test.
+
+Set `ECOMMERCE_HTTP_P95_MS` to add an optional overall p95 request-duration threshold. Use a value based on repeated runs and the intended environment; three iterations are too few for a reliable service-level percentile. k6's request duration excludes initial DNS and connection time.
 
 Do not run sustained load against the public practice site or an uncontrolled production environment. Add representative workloads and latency/error budgets when a dedicated Zeouf test deployment exists.
 

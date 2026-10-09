@@ -25,16 +25,31 @@ jobs:
         if: always()
         run: npm run summarize:results -- test-results/demo-results.json
       - name: Run deployed Zeouf read-only smoke checks
-        if: ${{ always() && vars.ECOMMERCE_BASE_URL == '' }}
-        env:
-          PW_JSON_REPORT_PATH: test-results/ecommerce-results.json
-        run: npx playwright test --project=ecommerce-chromium --project=ecommerce-api --grep @smoke
-      - name: Run full ecommerce tests when a dedicated test URL is configured
-        if: ${{ always() && vars.ECOMMERCE_BASE_URL != '' }}
+        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
         env:
           ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
           PW_JSON_REPORT_PATH: test-results/ecommerce-results.json
-        run: npx playwright test --project=ecommerce-chromium --project=ecommerce-api
+        run: npx playwright test --project=ecommerce-chromium --project=ecommerce-api --grep @smoke
+      - name: Run full ecommerce tests on confirmed isolated staging
+        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED == 'true' }}
+        env:
+          ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
+          ECOMMERCE_STAGING_CONFIRMED: ${{ vars.ECOMMERCE_STAGING_CONFIRMED }}
+          ECOMMERCE_TEST_USER_EMAIL: ${{ secrets.ECOMMERCE_TEST_USER_EMAIL }}
+          ECOMMERCE_TEST_USER_PASSWORD: ${{ secrets.ECOMMERCE_TEST_USER_PASSWORD }}
+          PW_JSON_REPORT_PATH: test-results/ecommerce-results.json
+        run: |
+          node scripts/verify-ecommerce-staging.js
+          npx playwright test --project=ecommerce-chromium --project=ecommerce-api
+      - name: Run Zeouf browser fixture regressions
+        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
+        env:
+          ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
+          PW_JSON_REPORT_PATH: test-results/ecommerce-fixture-results.json
+        run: npm run test:ecommerce:fixtures
+      - name: Summarize Zeouf browser fixture results
+        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
+        run: npm run summarize:results -- test-results/ecommerce-fixture-results.json
       - name: Summarize ecommerce test stability
         if: always()
         run: npm run summarize:results -- test-results/ecommerce-results.json

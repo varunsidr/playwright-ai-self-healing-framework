@@ -5,7 +5,7 @@ test.describe('Ecommerce account and checkout', { tag: ['@ecommerce', '@regressi
     await storefront.openRoute('/favorilerim');
     await expect(storefront.favoritesHeading).toBeVisible();
     await expect(storefront.emptyFavoritesMessage).toBeVisible();
-    await expect(storefront.discoverCollectionLink).toHaveAttribute('href', '/kadin');
+    await expect(storefront.discoverCollectionLink).toHaveAttribute('href', '/women');
   });
 
   test('opens and closes an empty cart @happy', async ({ storefront }) => {

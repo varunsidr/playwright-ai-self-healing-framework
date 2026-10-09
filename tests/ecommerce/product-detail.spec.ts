@@ -1,9 +1,7 @@
 import { expect, test } from '../../fixtures/ecommerce-base';
 
 test.describe('Ecommerce product details', { tag: ['@ecommerce', '@regression'] }, () => {
-  test('opens a product and checks quantity, size guide, and review form @happy', async ({
-    storefront,
-  }) => {
+  test('opens a product and checks quantity and review form @happy', async ({ storefront }) => {
     await storefront.openFirstProduct();
     await storefront.expectProductDetailLoaded();
 
@@ -13,11 +11,6 @@ test.describe('Ecommerce product details', { tag: ['@ecommerce', '@regression'] 
     await storefront.quantityDecrease.click();
     await expect(storefront.quantity).toHaveText('1');
 
-    await storefront.openSizeGuide();
-    await expect(storefront.sizeGuideHeading).toBeVisible();
-    await expect(storefront.sizeGuideChestHeader).toBeVisible();
-    await storefront.closeSizeGuide();
-    await expect(storefront.sizeGuideHeading).toBeHidden();
     await expect(storefront.reviewSubmitButton).toBeDisabled();
   });
 

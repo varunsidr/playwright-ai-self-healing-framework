@@ -1,0 +1,142 @@
+{
+  "TC-CAT-003-02": {
+    "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
+    "automationScope": "controlled brand/unsized-stock combination, zero matches, count and Clear all; other price/brand/size combinations untested",
+    "lastEvidence": "Passed on deployed Zeouf with mocked catalog GET responses in ecommerce-chromium on 2026-10-10; server writes blocked"
+  },
+  "TC-CAT-005-02": {
+    "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
+    "automationScope": "controlled S/M size-stock zero/one/four filter boundaries; missing stock rows and live inventory unverified",
+    "lastEvidence": "Passed on deployed Zeouf with mocked products/stock GET responses in ecommerce-chromium on 2026-10-10; server writes blocked"
+  },
+  "TC-CAT-007-01": {
+    "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
+    "automationScope": "controlled 0/1/24/25/48/49 collection counts, 24-item reveal batches and final button absence; live dataset not required",
+    "lastEvidence": "Six pagination boundary tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; catalog reads mocked and server writes blocked"
+  },
+  "TC-CAT-08-CORE": {
+    "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
+    "automationScope": "controlled product/stock 503 and pending-request timeout, loading/demo/stock-warning distinction, successful retry, empty success and navigation cancellation; fixture results do not prove backend readiness",
+    "lastEvidence": "Five recovery/cancellation tests and empty collection boundary passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; catalog reads mocked and server writes blocked"
+  },
+  "TC-SEA-002-01": {
+    "automationFile": "tests/ecommerce/search-fixture.spec.ts",
+    "automationScope": "controlled mixed-case name/category request union, both-match ID deduplication and unrelated-product exclusion; actual database query behavior unverified",
+    "lastEvidence": "Passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; search GET responses mocked and server writes blocked"
+  },
+  "TC-CART-004-02": {
+    "automationFile": "tests/ecommerce/cart-storage-fixture.spec.ts",
+    "automationScope": "browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10",
+    "lastEvidence": "Twelve recovery/normalization tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; fictional localStorage only and server writes blocked"
+  },
+  "TC-CART-004-03": {
+    "automationFile": "tests/ecommerce/cart-storage-fixture.spec.ts",
+    "automationScope": "controlled cart-key SecurityError read and QuotaExceededError write; visible persistence notice, bag dismissal, in-memory quantity/subtotal and removal; cross-account state unverified",
+    "lastEvidence": "Both storage-failure tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; fictional localStorage only and server writes blocked"
+  },
+  "TC-AUTH-002-01": {
+    "automationFile": "tests/ecommerce/auth-confirmation-mismatch.spec.ts",
+    "automationScope": "partial: mismatch branch only",
+    "lastEvidence": "Mismatch branch passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+  },
+  "TC-AUTH-002-02": {
+    "automationFile": "tests/ecommerce/auth-confirmation-blank.spec.ts",
+    "automationScope": "blank confirmation branch",
+    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+  },
+  "TC-CART-001-01": {
+    "automationFile": "tests/ecommerce/cart-guest-denial.spec.ts",
+    "automationScope": "guest-denial branch; no signed-in add/replay",
+    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+  },
+  "TC-CART-004-04": {
+    "automationFile": "tests/ecommerce/cart-malformed-storage.spec.ts",
+    "automationScope": "malformed JSON recovery only",
+    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+  },
+  "TC-NAV-005-01": {
+    "automationFile": "tests/ecommerce/catalog.spec.ts",
+    "automationScope": "partial: mobile Women navigation only; no keyboard dialog focus checks",
+    "lastEvidence": "Mobile-menu test passed on public Zeouf in ecommerce-chromium on 2026-10-07"
+  },
+  "TC-CAT-06-CORE": {
+    "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
+    "automationScope": "partial: controlled low/high price ordering with name ties and Recommended incoming order; existing price-sorting.spec.ts also checks live Dress price-low multiset; New Arrivals tag/date ordering untested",
+    "lastEvidence": "Three controlled sort branches passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked; live Dress price-low evidence retained from 2026-10-07"
+  },
+  "TC-SEA-03-CORE": {
+    "automationFile": "tests/ecommerce/catalog.spec.ts",
+    "automationScope": "partial: no-results state for a missing query only",
+    "lastEvidence": "No-results test passed on public Zeouf in ecommerce-chromium on 2026-10-07"
+  },
+  "TC-PDP-04-CORE": {
+    "automationFile": "tests/ecommerce/product-detail.spec.ts",
+    "automationScope": "partial: initial quantity one, increase to two, decrease to one on unsized product only",
+    "lastEvidence": "Product-detail quantity test passed on public Zeouf in ecommerce-chromium on 2026-10-07"
+  },
+  "TC-NAV-006-01": {
+    "automationFile": "tests/ecommerce/legacy-category-redirects.spec.ts",
+    "automationScope": "partial: three representative legacy category routes, not every mapped path",
+    "lastEvidence": "Legacy-route test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-OPS-01-CORE": {
+    "automationFile": "tests/ecommerce/api/public-api.spec.ts",
+    "automationScope": "full public health JSON shape and parseable timestamp; no database readiness inference",
+    "lastEvidence": "Health API test passed on public Zeouf in ecommerce-api on 2026-10-07"
+  },
+  "TC-NAV-07-CORE": {
+    "automationFile": "tests/ecommerce/not-found-admin-shell.spec.ts",
+    "automationScope": "partial: unknown product and subcategory 404 plus admin chrome absence; route refresh untested",
+    "lastEvidence": "Route fallback test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-CNT-001-01": {
+    "automationFile": "tests/ecommerce/newsletter-preview.spec.ts",
+    "automationScope": "partial: valid email preview and no write; invalid email validation untested",
+    "lastEvidence": "Newsletter preview test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-SEA-01-CORE": {
+    "automationFile": "tests/ecommerce/search-input.spec.ts",
+    "automationScope": "focus, blank submit, trim/encode ampersand and Unicode, and closed search panel",
+    "lastEvidence": "Header search test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-AUTH-04-CORE": {
+    "automationFile": "tests/ecommerce/auth-password-visibility.spec.ts",
+    "automationScope": "password visibility and Sign In/Register tab behavior without form submission",
+    "lastEvidence": "Auth visibility test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-PDP-06-CORE": {
+    "automationFile": "tests/ecommerce/product-information.spec.ts",
+    "automationScope": "partial: four panels open one at a time with nonempty text on one available product; supplied/fallback variants untested",
+    "lastEvidence": "Product information test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-CART-03-CORE": {
+    "automationFile": "tests/ecommerce/cart-browser-controls.spec.ts",
+    "automationScope": "browser-local two-variant drawer rendering, quantity updates, line/subtotal calculations, below-one and explicit removal; fictional data only",
+    "lastEvidence": "Cart controls passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-CART-06-CORE": {
+    "automationFile": "tests/ecommerce/cart-browser-controls.spec.ts",
+    "automationScope": "empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted",
+    "lastEvidence": "Both cart navigation branches passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-NAV-001-01": {
+    "automationFile": "tests/ecommerce/home-hero.spec.ts",
+    "automationScope": "partial: manual women/men selection, matching hero links, pause control, reduced-motion still media and six editorial tiles; timed/offscreen/hidden playback and destination resolution untested",
+    "lastEvidence": "Hero manual and reduced-motion branches passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-CNT-02-CORE": {
+    "automationFile": "tests/ecommerce/footer-content.spec.ts",
+    "automationScope": "footer hrefs and GitHub attributes; privacy/terms navigation and return-home links; category targets checked as hrefs only",
+    "lastEvidence": "Footer navigation test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+  },
+  "TC-CNT-03-CORE": {
+    "automationFile": "tests/ecommerce/footer-content.spec.ts",
+    "automationScope": "partial: current home, guest checkout, privacy and terms demo wording; known G-22 copy conflicts remain open",
+    "lastEvidence": "Baseline content assertions passed on public Zeouf in ecommerce-chromium on 2026-10-07; no write requests; G-22 not resolved"
+  },
+  "TC-CUR-02-CORE": {
+    "automationFile": "tests/ecommerce/currency-fixture.spec.ts",
+    "automationScope": "partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested",
+    "lastEvidence": "Four currency fixture branches passed against public Zeouf in ecommerce-chromium on 2026-10-07; region GET mocked and non-read requests blocked"
+  }
+}

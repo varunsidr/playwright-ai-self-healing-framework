@@ -1,0 +1,100 @@
+[
+  {
+    "id": "TC-CAT-003-02",
+    "requirementIds": ["CAT-03", "CAT-05", "CAT-07"],
+    "scenario": "Given four controlled products with two brands and positive/zero stock, when combining brand and In stock only, then matching cards/counts agree, incompatible filters produce zero cards without demo fallback, and Clear all restores the original collection.",
+    "mode": "Controlled browser fixture regression",
+    "environment": "isolated-fixture"
+  },
+  {
+    "id": "TC-CAT-005-02",
+    "requirementIds": ["CAT-03", "CAT-05"],
+    "scenario": "Given two controlled sized products with inverse S/M availability at stock zero/one/four, when enabling In stock only and selecting S or M, then only the product with available selected-size stock remains. Missing stock rows remain unresolved G-09.",
+    "mode": "Controlled browser fixture regression; missing rows remain G-09",
+    "environment": "isolated-fixture"
+  },
+  {
+    "id": "TC-AUTH-002-02",
+    "requirementIds": ["AUTH-02"],
+    "scenario": "Given a fresh visitor registration form with valid fictional name, email and password, when confirmation is left empty and Register is submitted, then native required-field validation keeps the form open and no account-creation request is sent.",
+    "mode": "Current baseline regression",
+    "environment": "public-read-only"
+  },
+  {
+    "id": "TC-PDP-003-01",
+    "requirementIds": ["PDP-03"],
+    "scenario": "Given P-SIZED with S stock 0 and M stock 4 and confirmed U-A, when add is attempted without a size, then no cart line is added; S is unavailable, while selecting M allows an M line. Separately record missing stock-row behavior as unresolved G-09 rather than declaring it passed.",
+    "mode": "Current baseline plus known gap G-09",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-CUR-003-01",
+    "requirementIds": ["CUR-03"],
+    "scenario": "Given a controlled USD display rate, U-A and a product with known INR price, when viewing detail, cart and order history after a demo order, then each customer display uses the shared USD formatter while stored order unit price/total and admin money remain INR; compare UI with persisted snapshots.",
+    "mode": "Current baseline",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-AUTH-003-01",
+    "requirementIds": ["AUTH-03"],
+    "scenario": "Given confirmed disposable U-A, when an incorrect password is submitted, then sign-in fails without a session; when the correct password is submitted, then the panel closes, the session survives reload and a protected action becomes available. Record provider configuration and clean up U-A.",
+    "mode": "Current configured integration",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-FAV-002-01",
+    "requirementIds": ["FAV-02"],
+    "scenario": "Given distinct confirmed U-A/U-B and a favorite owned by U-A, when U-A signs out and U-B signs in in the same browser, then U-A favorites disappear from UI and U-B cannot read or mutate U-A's favorite through direct authorized requests; inspect database/RLS results and clean up both users.",
+    "mode": "Current configured integration",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-CART-001-01",
+    "requirementIds": ["CART-01"],
+    "scenario": "Given a fresh visitor and an in-stock unsized product, when Add to bag is pressed, then the account prompt opens and the browser cart remains empty; no customer or order write occurs.",
+    "mode": "Current baseline regression",
+    "environment": "public-read-only"
+  },
+  {
+    "id": "TC-CART-001-02",
+    "requirementIds": ["CART-01"],
+    "scenario": "Given the interrupted guest add and confirmed U-A in isolated staging, when U-A signs in, then the product is not automatically added; when U-A explicitly adds it again, then one line is added and the cart drawer opens.",
+    "mode": "Current configured integration",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-CART-004-04",
+    "requirementIds": ["CART-04", "NFR-03"],
+    "scenario": "Given a fresh visitor browser context with malformed JSON in els-cart before first navigation, when the homepage hydrates and My Cart opens, then the bag is empty and a visible recovery notice appears without a crash or non-read request.",
+    "mode": "Current baseline regression",
+    "environment": "public-read-only"
+  },
+  {
+    "id": "TC-CHK-001-01",
+    "requirementIds": ["CHK-01"],
+    "scenario": "Given a guest or expired customer token and a nonempty fixture cart, when opening checkout or POSTing the order API, then UI submission is unavailable and API returns 401 without an order or stock change. Repeat with a valid customer and empty cart for the documented empty-cart rejection.",
+    "mode": "Current configured integration",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-PRD-003-01",
+    "requirementIds": ["PRD-03"],
+    "scenario": "Given a disposable product and authorized admin on isolated staging, when saving blank/whitespace name, negative or nonfinite price, and negative/fractional stock, then validation rejects each value and the stored product remains unchanged after reload. Current source has G-17; record failures as known gap, not passed target behavior.",
+    "mode": "Target requirement; known gap G-17",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-STK-004-01",
+    "requirementIds": ["STK-04"],
+    "scenario": "Given P-SIZED and authorized admins in isolated staging, when concurrent edits or an injected failure occur between size and overall-stock writes, then inventory must remain consistent with no partial update. Current non-atomic implementation is G-18; capture both records before and after and label any mismatch a defect.",
+    "mode": "Target requirement; known gap G-18",
+    "environment": "isolated-staging"
+  },
+  {
+    "id": "TC-AOR-004-01",
+    "requirementIds": ["AOR-04"],
+    "scenario": "Given a disposable order in each lifecycle status, when an authorized admin requests each of the five status values and an unsupported value, then record accepted/rejected transitions, persisted status and inventory after cancellation. Do not assert a future transition graph or stock reversal until G-19 is decided by the product owner.",
+    "mode": "Baseline characterization plus pending decision G-19",
+    "environment": "isolated-staging"
+  }
+]

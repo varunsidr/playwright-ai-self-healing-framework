@@ -67,7 +67,7 @@ test.describe('Ecommerce catalog', { tag: ['@ecommerce', '@regression'] }, () =>
       const missingTerm = `missing-${Date.now()}-product`;
       await storefront.openHome();
       await storefront.searchFor(missingTerm);
-      await storefront.expectUrl(new RegExp(`/arama\\?q=${missingTerm}`));
+      await storefront.expectUrl(new RegExp(`/search\\?q=${missingTerm}`));
       await expect(storefront.searchResultsHeading).toBeVisible();
       await expect(storefront.noSearchResults).toBeVisible();
     },
@@ -77,7 +77,7 @@ test.describe('Ecommerce catalog', { tag: ['@ecommerce', '@regression'] }, () =>
     await storefront.useMobileViewport();
     await storefront.openHome();
     await storefront.openMobileWomenCollection();
-    await storefront.expectUrl(/\/kadin$/);
+    await storefront.expectUrl(/\/women$/);
     await storefront.expectCategoryLoaded('Women');
   });
 });

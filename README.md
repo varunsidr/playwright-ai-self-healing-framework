@@ -133,7 +133,9 @@ npm run test:ecommerce
 
 The default `npm test` includes every project, including ecommerce. `npm run test:smoke` runs only the app-independent API and Chromium smoke checks; use `npm run test:ecommerce:smoke` for storefront smoke coverage.
 
-Set `ECOMMERCE_BASE_URL` to target another instance. For local development, start the ecommerce app separately and set `$env:ECOMMERCE_BASE_URL = 'http://localhost:3000'` in PowerShell before running tests. Ecommerce tests use their own fixture and Playwright project; the existing Expand Testing and API projects retain their own targets and fixtures. The perfume checkout test registers an account and is skipped on the public deployment; use a dedicated test deployment for the full browser suite.
+Set `ECOMMERCE_BASE_URL` to target another instance. For local development, start the ecommerce app separately and set `$env:ECOMMERCE_BASE_URL = 'http://localhost:3000'` in PowerShell before running read-only tests. Ecommerce tests use their own fixture and Playwright project; the existing Expand Testing and API projects retain their own targets and fixtures.
+
+Write-capable Zeouf tests stay skipped until `ECOMMERCE_STAGING_CONFIRMED=true` and `ECOMMERCE_BASE_URL` names a separate HTTPS deployment, not the public storefront. The flag is an operator assertion that the deployment uses its **own Supabase project**, disposable data, and verified cleanup; the framework cannot infer database isolation from a URL. The perfume journey also requires an already confirmed disposable user supplied through `ECOMMERCE_TEST_USER_EMAIL` and `ECOMMERCE_TEST_USER_PASSWORD`. It does not register an account or prove email delivery. In GitHub Actions, set the URL and confirmation as repository variables and credentials as secrets. CI runs only read-only smoke tests until confirmation is set; its full-suite preflight fails if the URL or credentials are absent.
 
 Run only the ecommerce categories:
 
@@ -141,9 +143,14 @@ Run only the ecommerce categories:
 npm run test:ecommerce:smoke
 npm run test:ecommerce:happy
 npm run test:ecommerce:regression
+npm run test:ecommerce:fixtures
 ```
 
 For Zeouf API and performance commands, see [Zeouf API and performance checks](docs/ecommerce-api-performance.md).
+
+The [Zeouf case catalog](specs/ecommerce/requirements/CASE_CATALOG.md) maps the current BRD and QA-guide snapshot to first-pass test cases; [automation status](specs/ecommerce/requirements/AUTOMATION_STATUS.md) distinguishes linked partial checks from full acceptance. After reviewing an updated BRD or case overlay, run `npm run cases:zeouf:catalog` to regenerate the catalog. The planner, generator, and healer profiles in both `.github/agents/` and `.codex/agents/` use this snapshot and public read-only boundary. They do not automatically update tests when application code changes.
+
+`npm run test:ecommerce:fixtures` runs controlled catalog, search, cart-storage and currency frontend checks using fictional GET responses or browser-local data. These tests block server writes and do not prove live authentication, email, inventory or transaction correctness. See the [fixture plan](specs/ecommerce/18-brd-controlled-catalog-search-cart.md). The [roadmap](roadmap/FUTURE_ENHANCEMENTS.md) records future tester takeover, visual recording/editing, revision history and a local tool workflow; these are not implemented capabilities.
 
 If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` instead.
 
@@ -156,7 +163,7 @@ If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` inst
 - Failure artifacts are written to `test-results/`.
 - Traces, screenshots, and videos are retained on failure so regressions are easier to diagnose.
 - The GitHub Actions workflow uploads the Playwright report, Allure report and results, and the test-results folder as artifacts.
-- CI adds separate stability summaries for the practice-site/API run and the Zeouf run when a storefront test URL is configured. Each summary includes retries, flaky tests, repeated failed attempts, and heuristic failure categories.
+- CI adds separate stability summaries for the practice-site/API run and the Zeouf run. Zeouf runs read-only smoke by default and the full suite only on confirmed staging. Each summary includes retries, flaky tests, repeated failed attempts, and heuristic failure categories.
 
 ### Publish HTML report to GitHub Pages
 
@@ -237,7 +244,7 @@ Switching providers is manual. VS Code does not automatically change from Copilo
 - **API state cache:** verifies that shared state is reused within a cache scope.
 - UI tests run in Chromium, Firefox, and WebKit. API tests run in the dedicated API project.
 - Ecommerce tests run in the dedicated `ecommerce-chromium` project. Authenticated order placement and admin data changes need a dedicated test account/database and are not part of this read-only baseline.
-- **Known storefront mismatch:** the product-detail test still expects a Size Guide button and Chest chart. The current Zeouf product pages show a Product Measurements accordion without those elements. This test remains failing until the expected product behavior is decided or restored.
+- **Size-guide fixture gap:** the public catalog currently exposes no sized product in the loaded women, men, or shoes collections. The public product-detail test checks quantity and review form state; PDP-05 size-guide acceptance remains unverified until a controlled sized fixture is available.
 
 ---
 

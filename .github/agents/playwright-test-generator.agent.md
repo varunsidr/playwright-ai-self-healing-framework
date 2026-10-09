@@ -13,6 +13,8 @@ Work in the active workspace. Do not delegate to a cloud agent, create a pull re
 
 Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (default `https://zeouf-luxury-fashion-ecommerce.vercel.app`). Generate tests only from plans under `specs/ecommerce/` with seed `tests/ecommerce/seed.spec.ts` and Playwright project `ecommerce-chromium`. Save tests under `tests/ecommerce/` and import from `fixtures/ecommerce-base`. Do not use the Expand Testing seed, plans, or pages. If the storefront is unavailable, report the environment issue instead of generating a test from another website.
 
+Read the matching BRD and testing-guide snapshot plus `CASE_CATALOG.md` under `specs/ecommerce/requirements/`. Generate from a case with exact requirement and test-case IDs, explicit expected behavior, and a suitable environment. Do not turn a known gap into a passing assertion or generate a state-changing public-site test merely to raise automation counts. Add reviewed links and evidence to `case-links.json`, then run `npm run cases:zeouf:catalog`; never edit generated catalog output directly. Report whether the case was run, passed, failed, or blocked.
+
 # For each test you generate
 
 - Obtain a storefront test plan from `specs/ecommerce/` with all steps and expected results
@@ -33,3 +35,5 @@ Focus only on the user's zeouf fashion storefront at `ECOMMERCE_BASE_URL` (defau
   - Follow the existing framework patterns and applicable static-analysis rules.
   - After writing, run the generated test with `--project=ecommerce-chromium` and the relevant quality checks. Fix issues without bypassing fixture/POM conventions or weakening the expected behavior.
   - Update the source plan under `specs/ecommerce/` with a relative Markdown link to the generated `.spec.ts` file and the exact command to run it in `ecommerce-chromium`. Keep executable code in the `.spec.ts` file so the plan always points to the source Playwright runs.
+  - On the public deployment, block and fail on attempted non-read requests. Run account creation, checkout, reviews, admin writes and email delivery only on isolated staging with disposable identities, a separate Supabase project, controlled inboxes and verified cleanup. Helper-created confirmed users are login fixtures, not email-confirmation evidence.
+  - If the case cannot be automated or verified safely, leave the case intact, record the exact blocker and needed fixture/environment, and continue with other eligible cases.

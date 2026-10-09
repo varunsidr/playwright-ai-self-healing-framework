@@ -16,10 +16,11 @@ test.describe(
   { tag: ['@ecommerce', '@regression', '@happy'] },
   () => {
     test('Price: Low to High orders all visible Dress product prices', async ({ storefront }) => {
-      // Start in a fresh browser context with no prior session assumptions. Navigate to /kadin/elbise on ECOMMERCE_BASE_URL using project ecommerce-chromium.
-      await storefront.openRoute('/kadin/elbise');
+      // Load every product before sorting so pagination cannot change the price set under comparison.
+      await storefront.openRoute('/women/dress');
       await storefront.expectCategoryLoaded('Dress');
       await expect(storefront.productCards.first()).toBeVisible();
+      await storefront.loadAllProducts();
       const initialCardCount = await storefront.productCards.count();
       expect(
         initialCardCount,
@@ -27,7 +28,6 @@ test.describe(
       ).toBeGreaterThanOrEqual(2);
       await expect(storefront.productCardPrices).toHaveCount(initialCardCount);
 
-      // Read the visible product cards in DOM order and record each card's data-testid=product-card-price text. Parse the displayed rupee amount into a finite number by removing the currency symbol and grouping commas.
       const initialPriceTexts = await storefront.productCardPrices.allTextContents();
       const initialPrices = initialPriceTexts.map(parseRupeePrice);
       expect(
@@ -35,7 +35,6 @@ test.describe(
         'The catalog needs at least two distinct prices',
       ).toBeGreaterThanOrEqual(2);
 
-      // Select the Price: Low to High option (value price-low) in data-testid=product-listing-sort-select. Wait for the product listing to finish updating, then read all visible data-testid=product-card-price elements in their current card order.
       await storefront.sortByPriceLowToHigh();
       await expect(storefront.sortSelect).toHaveValue('price-low');
       await expect
@@ -53,7 +52,6 @@ test.describe(
       );
       const sortedPrices = sortedPriceTexts.map(parseRupeePrice);
 
-      // Compare every adjacent pair of the displayed post-sort numeric prices in DOM order.
       for (let index = 1; index < sortedPrices.length; index += 1) {
         expect(
           sortedPrices[index],
@@ -61,7 +59,6 @@ test.describe(
         ).toBeGreaterThanOrEqual(sortedPrices[index - 1]);
       }
 
-      // Compare the post-sort multiset of numeric prices with the recorded pre-sort multiset.
       expect(
         [...sortedPrices].sort((left, right) => left - right),
         'Catalog prices changed during sorting',

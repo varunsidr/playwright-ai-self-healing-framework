@@ -1,0 +1,228 @@
+{
+  "NAV-07": {
+    "scenario": "Given a fresh visitor, when unknown product and subcategory URLs open, then both show not-found; the admin login route omits storefront chrome.",
+    "environment": "public-read-only"
+  },
+  "CAT-01": {
+    "scenario": "Given one fixture product in each of 14 database categories, when opening English main and subcategory listings, then only normalized matching products appear and women/men collections stay separate.",
+    "environment": "isolated-staging"
+  },
+  "CAT-02": {
+    "scenario": "Given tagged New, Best, Featured, Populer and untagged products, when opening New Arrivals, Best Sellers and Collection, then tag-derived matches and main-category membership follow the BRD without implying sales ranking.",
+    "environment": "isolated-staging"
+  },
+  "CAT-04": {
+    "scenario": "Given products at, below and above known displayed-price bounds, when using min/max sliders and Under tiers, then matches are inclusive, sliders do not cross, and currency change clears bounds.",
+    "environment": "isolated-staging"
+  },
+  "CAT-06": {
+    "scenario": "Given products with tied prices, dates and tags, when choosing every sort option, then low/high price, New Arrivals and Recommended follow documented tie and incoming-order rules without losing products.",
+    "environment": "isolated-staging"
+  },
+  "CAT-08": {
+    "scenario": "Given controlled product/stock responses of success, empty, 503 and delay beyond eight seconds, when opening and retrying a collection, then loading, labelled demo fallback, live-stock warning, true empty and recovery remain distinct; abandoned requests cancel.",
+    "environment": "isolated-fixture"
+  },
+  "SEA-01": {
+    "scenario": "Given a visitor, when opening header Search and submitting blank, padded, ampersand and Unicode queries, then the field starts focused, blank stays put, and nonblank input is trimmed and encoded at /search?q= with the overlay closed.",
+    "environment": "public-read-only"
+  },
+  "SEA-03": {
+    "scenario": "Given slow, empty, failing and rapidly changed search responses, when searching then clearing the query, then loading/count/results/no-results states are honest; record missing service-error/retry and blank-query clearing as G-15.",
+    "environment": "isolated-fixture",
+    "mode": "Baseline plus target gap G-15"
+  },
+  "PDP-02": {
+    "scenario": "Given P-COLOR with distinct photos and P-DEMO, when selecting color and adding with U-A, then swatch, image and cart color agree; demo-image product hides colors and shows one photo.",
+    "environment": "isolated-staging"
+  },
+  "PDP-04": {
+    "scenario": "Given known size stock four, when changing detail quantity through one, four and beyond, then it starts at one, cannot decrease below one, clamps at four and disables invalid increase/add.",
+    "environment": "isolated-staging"
+  },
+  "PDP-05": {
+    "scenario": "Given clothing detail, when opening and closing Size Guide, then static XS/S/M/L chest and waist references are visible and dismissible without claiming product-specific shoe or XL/XXL guidance.",
+    "environment": "isolated-fixture"
+  },
+  "PDP-06": {
+    "scenario": "Given supplied and fallback product information, when opening Details, Measurements, Composition/Care/Origin and Shipping/Returns panels, then only one stays open and the appropriate text appears.",
+    "environment": "public-read-only"
+  },
+  "PDP-07": {
+    "scenario": "Given zero, one and over eight same-main-category alternatives, when viewing a product, then Complete Your Look hides for zero or shows at most eight other IDs and never the current product.",
+    "environment": "isolated-staging"
+  },
+  "CUR-01": {
+    "scenario": "Given controlled US, India and other country headers conflicting with browser locale/time zone, when resolving storefront region, then headers take precedence, US selects USD and others INR; missing headers use documented fallback.",
+    "environment": "isolated-fixture"
+  },
+  "CUR-02": {
+    "scenario": "Given known INR price and positive, zero, invalid or failed USD rates, when rendering prices, then valid USD rounds to whole en-US units and invalid/failed rates fall back to en-IN INR at rate one.",
+    "environment": "isolated-fixture"
+  },
+  "AUTH-01": {
+    "scenario": "Given separate staging Supabase and controlled inbox, when registering through actual signup, then required fields/name metadata, Sign In state and provider email policy are verified; helper-created confirmed users are separate evidence.",
+    "environment": "isolated-staging"
+  },
+  "AUTH-04": {
+    "scenario": "Given fictional values in Sign In and Register, when toggling password visibility and switching tabs without submission, then entered password stays unchanged and both tabs remain operable.",
+    "environment": "public-read-only"
+  },
+  "AUTH-05": {
+    "scenario": "Given existing disposable account and controlled inbox, when reset is requested with empty/valid email, then empty is rejected and valid request reaches provider; link completion remains G-02 until implemented.",
+    "environment": "isolated-staging",
+    "mode": "Baseline plus target gap G-02"
+  },
+  "AUTH-07": {
+    "scenario": "Given nonproduction helper and fallback configurations, when registering, then the observed helper or Supabase path matches policy; production disables helper. Helper success never proves email confirmation.",
+    "environment": "isolated-fixture"
+  },
+  "FAV-01": {
+    "scenario": "Given U-A and a fixture product, when toggling favorite from card and detail twice, then one unique record and icon/count follow successful writes; a failed write must not falsely toggle state.",
+    "environment": "isolated-staging"
+  },
+  "FAV-03": {
+    "scenario": "Given guest and U-A with zero, one and deleted saved products, when opening Favorites or pressing a heart, then guest gets account prompt and U-A sees accurate loading, cards/count, empty state and Discover Collection link.",
+    "environment": "isolated-staging"
+  },
+  "CART-03": {
+    "scenario": "Given isolated browser cart with two variants, when opening bag and pressing plus/minus/remove, then image/name/options, quantity, line total and deletion below one match local state without server writes.",
+    "environment": "public-read-only"
+  },
+  "CART-06": {
+    "scenario": "Given empty and nonempty isolated browser carts, when choosing Start Shopping or Proceed to Checkout, then appropriate action appears and drawer closes on navigation; no unimplemented upper quantity cap is asserted.",
+    "environment": "public-read-only"
+  },
+  "CHK-02": {
+    "scenario": "Given U-A, fixture cart and isolated checkout, when each of five shipping fields is blank/whitespace or over its documented limit, then required values fail and long values truncate without invented phone/postcode format rules.",
+    "environment": "isolated-staging"
+  },
+  "CHK-04": {
+    "scenario": "Given U-A and valid fixture cart, when using card_demo and cash_on_delivery in separate orders, then both are labelled simulations with no card-number field or real charge; no unsupported decline branch is claimed.",
+    "environment": "isolated-staging"
+  },
+  "CHK-08": {
+    "scenario": "Given U-A and valid cart, when checkout succeeds with order ID, then bag clears and confirmation/ID/Continue Shopping appear; API failure shows error while preserving cart for retry.",
+    "environment": "isolated-staging"
+  },
+  "ORD-03": {
+    "scenario": "Given order with size/color snapshots, when customer and admin open it, then stored options should display; current omission is G-07 and must be recorded as unmet target.",
+    "environment": "isolated-staging",
+    "mode": "Target requirement; known gap G-07"
+  },
+  "REV-07": {
+    "scenario": "Given approved review and admin, when reply save/remove is attempted, then persisted reply should be customer-visible; missing controls/columns are G-05 and require implementation before pass.",
+    "environment": "isolated-staging",
+    "mode": "Target requirement; known gap G-05"
+  },
+  "RST-01": {
+    "scenario": "Given unavailable product and chosen size/color, when visitor submits valid/invalid email or product IDs, then valid alert stores without login and invalid inputs fail; unavailable-size selection remains G-09.",
+    "environment": "isolated-staging"
+  },
+  "RST-03": {
+    "scenario": "Given staging with mail enabled then disabled, when saving a restock request, then response/UI distinguishes configurations and pending request persists when delivery is disabled.",
+    "environment": "isolated-staging"
+  },
+  "PRD-01": {
+    "scenario": "Given admin and products with varied names/categories/dates, when combining mixed-case name search and exact category filter, then newest-first matching rows or distinct no-match state appear.",
+    "environment": "isolated-staging"
+  },
+  "PRD-04": {
+    "scenario": "Given admin and disposable product, when appending pasted URL or one upload and removing main image, then first remaining image becomes main after reload and product-images bucket behavior is verified.",
+    "environment": "isolated-staging"
+  },
+  "PRD-05": {
+    "scenario": "Given admin, when creating XS–XXL/36–44 sized product, then zero stock rows initialize; later size edits should synchronize rows/aggregate but current G-18 is reported separately.",
+    "environment": "isolated-staging",
+    "mode": "Baseline plus target gap G-18"
+  },
+  "PRD-06": {
+    "scenario": "Given admin and disposable product with dependent records/order snapshot, when confirming Delete, then product/dependents disappear and historical price/quantity survive; cancel or permission failure leaves product unchanged.",
+    "environment": "isolated-staging"
+  },
+  "STK-03": {
+    "scenario": "Given stock 0, 1, 4 and 5 fixtures, when admin opens stock and dashboard, then rows say Out/Low/Available at boundaries and dashboard low count matches documented sized-product-only baseline.",
+    "environment": "isolated-staging"
+  },
+  "AOR-02": {
+    "scenario": "Given orders with distinct IDs, customers and statuses, when admin searches mixed case and filters exact status, then matching rows appear and no orders differs from no matches.",
+    "environment": "isolated-staging"
+  },
+  "USR-01": {
+    "scenario": "Given admin and over 200 profiles, when opening Users/API, then at most 200 updated_at-ordered ID/name/time rows appear and unauthenticated API read is denied.",
+    "environment": "isolated-staging"
+  },
+  "USR-02": {
+    "scenario": "Given current Users table, when pressing View, record absent detail handler; no passing profile-detail test until a future requirement and implementation are approved.",
+    "environment": "manual-review",
+    "mode": "Out of current implemented scope"
+  },
+  "ANL-02": {
+    "scenario": "Given orders in all five statuses, when admin opens analytics, then each pipeline count and rounded percent matches loaded data; rounded percentages need not sum to 100.",
+    "environment": "isolated-staging"
+  },
+  "ANL-03": {
+    "scenario": "Given sized/unsized fixture products, when admin opens inventory health, then healthy=max(products-low-out,0) and low/out counts/units use documented stock sources.",
+    "environment": "isolated-staging"
+  },
+  "ANL-05": {
+    "scenario": "Given approved/pending reviews, when admin opens customer signal, then count and one-decimal mean use all loaded reviews and zero when empty; do not call it approved-only sentiment.",
+    "environment": "isolated-staging"
+  },
+  "SET-01": {
+    "scenario": "Given admin, when opening Settings, then identity and catalog/category counts appear; database label is static and no save, feature-toggle or live-health behavior is claimed.",
+    "environment": "isolated-staging"
+  },
+  "CNT-02": {
+    "scenario": "Given visitor, when following footer categories, favorites, privacy, terms, GitHub and return-home links, then destinations and external attributes match BRD without writes.",
+    "environment": "public-read-only"
+  },
+  "CNT-03": {
+    "scenario": "Given visitor, when reading home, guest checkout, privacy and terms, then demo/no-charge/no-shipment/data claims agree; record generic shipping/return or confirmation conflicts as G-22.",
+    "environment": "public-read-only",
+    "mode": "Baseline content review plus gap G-22"
+  },
+  "CNT-04": {
+    "scenario": "Confirm countdown is not mounted and exclude it from current UI acceptance. If owner enables it, use controlled clock for local 31 Dec 2026 boundary/zero clamp without a discount claim.",
+    "environment": "manual-review",
+    "mode": "Out of current UI scope"
+  },
+  "OPS-01": {
+    "scenario": "Given public GET /api/health, when requested, then status is ok and timestamp parses; do not infer database readiness.",
+    "environment": "public-read-only"
+  },
+  "OPS-05": {
+    "scenario": "Given local app with/without base schema text, when schema endpoint or error-copy action runs, then plain SQL or not-found and clipboard failure are reported; no migration repair is implied.",
+    "environment": "isolated-fixture"
+  },
+  "OPS-06": {
+    "scenario": "Given controlled requirements-source diff, when website docs test/check/sync/review run, then stale source fails build/lint, manual CSV fields survive, retired IDs archive and affected results need retest; review never marks passed.",
+    "environment": "website-repository-ci"
+  },
+  "OPS-07": {
+    "scenario": "Given Zeouf website repo without live Supabase/mail keys, when test:ui and test:catalog run sequentially, then fixture servers/cache/artifacts stay isolated and mocks do not become live integration evidence.",
+    "environment": "website-repository-ci"
+  },
+  "OPS-08": {
+    "scenario": "Given public HTTP(S) origin, when website test:live runs, then no local server launches, browsing routes work and write attempts fail; attribute results to deployed revision, not auth/order/email acceptance.",
+    "environment": "website-repository-ci"
+  },
+  "NFR-04": {
+    "scenario": "Given agreed Chromium/Firefox/WebKit and 375/768/1440px viewports, when traversing nav/catalog/detail/admin, then essential controls stay operable without clipping; capture browser/viewport/build.",
+    "environment": "isolated-staging"
+  },
+  "NFR-05": {
+    "scenario": "Given proposed WCAG 2.2 AA target, when auditing representative routes/dialogs with keyboard, screen reader and axe, then labels, focus, contrast, announcements and reduced motion are reviewed; axe pass alone is not conformance.",
+    "environment": "isolated-staging",
+    "mode": "Proposed quality target"
+  },
+  "NFR-06": {
+    "scenario": "Given approved build, dataset, device/network and budget, when measuring key pages and representative load, then compare repeatable metrics to agreed thresholds; invent no current SLA.",
+    "environment": "isolated-staging",
+    "mode": "Target pending SLA"
+  },
+  "NFR-07": {
+    "scenario": "Given public demo copy and staging analytics/stock/mail data, when inspecting claims and concurrent order/notification paths, then claims/metric population match capability and no false success or unsafe state appears.",
+    "environment": "isolated-staging"
+  }
+}
