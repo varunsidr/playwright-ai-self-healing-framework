@@ -1,0 +1,788 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ecommerce/price-sorting.spec.ts >> Dress catalog display order >> Price: Low to High orders all visible Dress product prices
+- Location: tests/ecommerce/price-sorting.spec.ts:18:9
+
+# Error details
+
+```
+Error: Expected a displayed rupee price, received "$201"
+
+expect(received).not.toBeNull()
+
+Received: null
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - paragraph
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "zeouf home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - text: zeouf
+      - generic [ref=e5]:
+        - button "Search" [ref=e6]
+        - button "Account" [ref=e11]
+        - link "Favorites" [ref=e15] [cursor=pointer]:
+          - /url: /favorites
+        - button "My Cart" [ref=e18]
+    - navigation "Main navigation" [ref=e23]:
+      - list [ref=e24]:
+        - listitem [ref=e25]:
+          - link "WOMEN" [ref=e26] [cursor=pointer]:
+            - /url: /women
+          - button "Browse women categories" [ref=e27]
+        - listitem [ref=e30]:
+          - link "MEN" [ref=e31] [cursor=pointer]:
+            - /url: /men
+          - button "Browse men categories" [ref=e32]
+        - listitem [ref=e35]:
+          - link "PERFUME" [ref=e36] [cursor=pointer]:
+            - /url: /perfume
+        - listitem [ref=e37]:
+          - link "SHOES" [ref=e38] [cursor=pointer]:
+            - /url: /shoes
+        - listitem [ref=e39]:
+          - link "ACCESSORIES" [ref=e40] [cursor=pointer]:
+            - /url: /accessories
+        - listitem [ref=e41]:
+          - link "BAGS" [ref=e42] [cursor=pointer]:
+            - /url: /bags
+        - listitem [ref=e43]:
+          - link "MAKEUP" [ref=e44] [cursor=pointer]:
+            - /url: /makeup
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - heading "Clothing" [level=4]
+          - list:
+            - listitem:
+              - link "All Women":
+                - /url: /women
+            - listitem:
+              - link "Dress":
+                - /url: /women/dress
+            - listitem:
+              - link "Blouse & Shirt":
+                - /url: /women/blouse
+            - listitem:
+              - link "Jacket":
+                - /url: /women/jacket
+            - listitem:
+              - link "Skirt":
+                - /url: /women/skirt
+            - listitem:
+              - link "Trousers":
+                - /url: /women/trousers
+        - generic:
+          - heading "Outerwear" [level=4]
+          - list:
+            - listitem:
+              - link "Jacket":
+                - /url: /women/jacket
+        - generic:
+          - heading "Highlights" [level=4]
+          - list:
+            - listitem:
+              - link "New Arrivals":
+                - /url: /women/new-arrivals
+            - listitem:
+              - link "Best Sellers":
+                - /url: /women/best-sellers
+            - listitem:
+              - link "Spring / Summer 2026":
+                - /url: /women/collection
+      - generic:
+        - generic:
+          - img "Spring / Summer 2026"
+        - paragraph: Spring / Summer 2026
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - heading "Clothing" [level=4]
+          - list:
+            - listitem:
+              - link "All Men":
+                - /url: /men
+            - listitem:
+              - link "Suit":
+                - /url: /men/suits
+            - listitem:
+              - link "Shirt":
+                - /url: /men/shirts
+            - listitem:
+              - link "Trousers":
+                - /url: /men/trousers
+        - generic:
+          - heading "Outerwear" [level=4]
+          - list:
+            - listitem:
+              - link "Jacket":
+                - /url: /men/jacket
+        - generic:
+          - heading "Highlights" [level=4]
+          - list:
+            - listitem:
+              - link "New Arrivals":
+                - /url: /men/new-arrivals
+            - listitem:
+              - link "Best Sellers":
+                - /url: /men/best-sellers
+            - listitem:
+              - link "Spring / Summer 2026":
+                - /url: /men/collection
+      - generic:
+        - generic:
+          - img "Men's Collection"
+        - paragraph: Men's Collection
+  - dialog "My account" [ref=e46]:
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - heading "My Account" [level=2] [ref=e49]
+        - button "Close" [ref=e50]
+      - generic [ref=e54]:
+        - button "Sign In" [ref=e55]
+        - button "Register" [ref=e56]
+      - generic [ref=e58]:
+        - heading "Welcome" [level=3] [ref=e59]
+        - paragraph [ref=e60]: Sign in to your zeouf account
+        - generic [ref=e61]:
+          - generic [ref=e62]:
+            - generic [ref=e63]: Email
+            - textbox "email@example.com" [ref=e68]
+          - generic [ref=e69]:
+            - generic [ref=e70]: Password
+            - generic [ref=e71]:
+              - textbox "••••••••" [ref=e75]
+              - button [ref=e76]
+          - generic [ref=e80]:
+            - generic [ref=e81] [cursor=pointer]:
+              - checkbox "Remember me" [ref=e82]
+              - generic [ref=e83]: Remember me
+            - button "Forgot password" [ref=e84]
+          - button "Sign In" [ref=e85]
+        - paragraph [ref=e86]:
+          - text: By signing in you agree to the
+          - link "Terms of Service" [ref=e87] [cursor=pointer]:
+            - /url: /terms
+          - text: .
+        - paragraph [ref=e88]:
+          - text: Don't have an account?
+          - button "Register" [ref=e89]
+      - paragraph [ref=e91]:
+        - text: By signing in you accept the
+        - link "Terms of Service" [ref=e92] [cursor=pointer]:
+          - /url: /terms
+        - text: .
+  - dialog "Shopping bag" [ref=e93]:
+    - generic [ref=e94]:
+      - generic [ref=e95]:
+        - heading "My Cart" [level=2] [ref=e96]
+        - button "Close" [ref=e97]
+      - generic [ref=e102]:
+        - paragraph [ref=e106]: Your cart is empty
+        - button "Start Shopping" [ref=e107]
+  - main [ref=e108]:
+    - main [ref=e109]:
+      - generic [ref=e111]:
+        - generic [ref=e113]:
+          - link "Home" [ref=e114] [cursor=pointer]:
+            - /url: /
+          - link "Women" [ref=e117] [cursor=pointer]:
+            - /url: /women
+          - generic [ref=e120]: Dress
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - heading "Dress" [level=1] [ref=e123]
+            - paragraph [ref=e124]: 29 of 29 products
+          - generic [ref=e125]:
+            - generic [ref=e126]: Sort
+            - combobox "Sort products" [ref=e127] [cursor=pointer]:
+              - option "Recommended" [selected]
+              - 'option "Price: Low to High"'
+              - 'option "Price: High to Low"'
+              - option "New Arrivals"
+        - generic "Product filters" [ref=e128]:
+          - generic [ref=e129]: Refine your selection
+          - generic [ref=e132]:
+            - generic [ref=e133]:
+              - text: Brand
+              - combobox "Filter by brand" [ref=e134]:
+                - option "All brands" [selected]
+                - option "zeouf Atelier"
+            - group "Price range · USD" [ref=e135]:
+              - generic [ref=e137]: $0 – $1,000
+              - generic [ref=e139]:
+                - slider "Minimum price": "0"
+                - slider "Maximum price": "1000"
+              - generic [ref=e142]:
+                - button "Under $100" [ref=e143]
+                - button "Under $200" [ref=e144]
+                - button "Under $300" [ref=e145]
+            - generic [ref=e146] [cursor=pointer]:
+              - checkbox "In stock only" [ref=e147]
+              - text: In stock only
+      - generic [ref=e150]:
+        - article [ref=e151]:
+          - button "Add to favorites" [ref=e152]
+          - generic [ref=e155]:
+            - link "Featured Atelier Soft Corset Midi" [ref=e156] [cursor=pointer]:
+              - /url: /women/17c4987e-491e-413a-9f67-941adf4058db
+              - generic [ref=e157]: Featured
+              - img "Atelier Soft Corset Midi" [ref=e158]
+            - button "Add Atelier Soft Corset Midi to cart" [ref=e159]:
+              - generic [ref=e163]: Add to bag
+          - link [ref=e164] [cursor=pointer]:
+            - /url: /women/17c4987e-491e-413a-9f67-941adf4058db
+            - generic [ref=e165]:
+              - paragraph [ref=e166]: zeouf Atelier
+              - paragraph [ref=e167]: Women's Dress
+              - heading "Atelier Soft Corset Midi" [level=3] [ref=e168]
+              - paragraph [ref=e169]: $201
+        - article [ref=e170]:
+          - button "Add to favorites" [ref=e171]
+          - generic [ref=e174]:
+            - link [ref=e175] [cursor=pointer]:
+              - /url: /women/5c6a4f00-3930-4202-a2fc-c7abc8511e0b
+              - img "Atelier Draped Jersey Gown" [ref=e176]
+            - button "Add Atelier Draped Jersey Gown to cart" [ref=e177]:
+              - generic [ref=e181]: Add to bag
+          - link [ref=e182] [cursor=pointer]:
+            - /url: /women/5c6a4f00-3930-4202-a2fc-c7abc8511e0b
+            - generic [ref=e183]:
+              - paragraph [ref=e184]: zeouf Atelier
+              - paragraph [ref=e185]: Women's Dress
+              - heading "Atelier Draped Jersey Gown" [level=3] [ref=e186]
+              - paragraph [ref=e187]: $166
+        - article [ref=e188]:
+          - button "Add to favorites" [ref=e189]
+          - link "Atelier Halter Neck Maxi Out of stock" [ref=e193] [cursor=pointer]:
+            - /url: /women/0288344f-6d8a-4289-ad2b-771021997d7e
+            - img "Atelier Halter Neck Maxi" [ref=e194]
+            - generic [ref=e195]: Out of stock
+          - link [ref=e196] [cursor=pointer]:
+            - /url: /women/0288344f-6d8a-4289-ad2b-771021997d7e
+            - generic [ref=e197]:
+              - paragraph [ref=e198]: zeouf Atelier
+              - paragraph [ref=e199]: Women's Dress
+              - heading "Atelier Halter Neck Maxi" [level=3] [ref=e200]
+              - paragraph [ref=e201]: $206
+              - paragraph [ref=e202]: Currently unavailable
+        - article [ref=e203]:
+          - button "Add to favorites" [ref=e204]
+          - generic [ref=e207]:
+            - link "New Atelier Bow-Back Occasion Dress" [ref=e208] [cursor=pointer]:
+              - /url: /women/204f0e3f-ba84-42eb-96cc-040b0ec423df
+              - generic [ref=e209]: New
+              - img "Atelier Bow-Back Occasion Dress" [ref=e210]
+            - button "Add Atelier Bow-Back Occasion Dress to cart" [ref=e211]:
+              - generic [ref=e215]: Add to bag
+          - link [ref=e216] [cursor=pointer]:
+            - /url: /women/204f0e3f-ba84-42eb-96cc-040b0ec423df
+            - generic [ref=e217]:
+              - paragraph [ref=e218]: zeouf Atelier
+              - paragraph [ref=e219]: Women's Dress
+              - heading "Atelier Bow-Back Occasion Dress" [level=3] [ref=e220]
+              - paragraph [ref=e221]: $172
+        - article [ref=e222]:
+          - button "Add to favorites" [ref=e223]
+          - generic [ref=e226]:
+            - link [ref=e227] [cursor=pointer]:
+              - /url: /women/2ea085e5-9d21-4c57-9fc0-771d4aa1e73d
+              - img "Atelier Asymmetric Hem Midi" [ref=e228]
+            - button "Add Atelier Asymmetric Hem Midi to cart" [ref=e229]:
+              - generic [ref=e233]: Add to bag
+          - link [ref=e234] [cursor=pointer]:
+            - /url: /women/2ea085e5-9d21-4c57-9fc0-771d4aa1e73d
+            - generic [ref=e235]:
+              - paragraph [ref=e236]: zeouf Atelier
+              - paragraph [ref=e237]: Women's Dress
+              - heading "Atelier Asymmetric Hem Midi" [level=3] [ref=e238]
+              - paragraph [ref=e239]: $212
+        - article [ref=e240]:
+          - button "Add to favorites" [ref=e241]
+          - generic [ref=e244]:
+            - link [ref=e245] [cursor=pointer]:
+              - /url: /women/ceeb026e-8340-4ba1-973c-de325fdd9ee4
+              - img "Atelier Velvet Evening Gown" [ref=e246]
+            - button "Add Atelier Velvet Evening Gown to cart" [ref=e247]:
+              - generic [ref=e251]: Add to bag
+          - link [ref=e252] [cursor=pointer]:
+            - /url: /women/ceeb026e-8340-4ba1-973c-de325fdd9ee4
+            - generic [ref=e253]:
+              - paragraph [ref=e254]: zeouf Atelier
+              - paragraph [ref=e255]: Women's Dress
+              - heading "Atelier Velvet Evening Gown" [level=3] [ref=e256]
+              - paragraph [ref=e257]: $178
+        - article [ref=e258]:
+          - button "Add to favorites" [ref=e259]
+          - generic [ref=e262]:
+            - link [ref=e263] [cursor=pointer]:
+              - /url: /women/94d19096-c09f-470b-8c95-134a8611a001
+              - img "Atelier Embroidered Tulle Dress" [ref=e264]
+            - button "Add Atelier Embroidered Tulle Dress to cart" [ref=e265]:
+              - generic [ref=e269]: Add to bag
+          - link [ref=e270] [cursor=pointer]:
+            - /url: /women/94d19096-c09f-470b-8c95-134a8611a001
+            - generic [ref=e271]:
+              - paragraph [ref=e272]: zeouf Atelier
+              - paragraph [ref=e273]: Women's Dress
+              - heading "Atelier Embroidered Tulle Dress" [level=3] [ref=e274]
+              - paragraph [ref=e275]: $143
+        - article [ref=e276]:
+          - button "Add to favorites" [ref=e277]
+          - generic [ref=e280]:
+            - link [ref=e281] [cursor=pointer]:
+              - /url: /women/2f421778-bb9d-4eac-9839-5f8a56e08d8b
+              - img "Emerald Green Corset Dress" [ref=e282]
+            - button "Add Emerald Green Corset Dress to cart" [ref=e283]:
+              - generic [ref=e287]: Add to bag
+          - link [ref=e288] [cursor=pointer]:
+            - /url: /women/2f421778-bb9d-4eac-9839-5f8a56e08d8b
+            - generic [ref=e289]:
+              - paragraph [ref=e290]: Women's Dress
+              - heading "Emerald Green Corset Dress" [level=3] [ref=e291]
+              - paragraph [ref=e292]: $254
+        - article [ref=e293]:
+          - button "Add to favorites" [ref=e294]
+          - generic [ref=e297]:
+            - link "Featured Red Halter Midi Dress" [ref=e298] [cursor=pointer]:
+              - /url: /women/16bc7748-1b47-4879-83eb-10601b30cf7e
+              - generic [ref=e299]: Featured
+              - img "Red Halter Midi Dress" [ref=e300]
+            - button "Add Red Halter Midi Dress to cart" [ref=e301]:
+              - generic [ref=e305]: Add to bag
+          - link [ref=e306] [cursor=pointer]:
+            - /url: /women/16bc7748-1b47-4879-83eb-10601b30cf7e
+            - generic [ref=e307]:
+              - paragraph [ref=e308]: Women's Dress
+              - heading "Red Halter Midi Dress" [level=3] [ref=e309]
+              - paragraph [ref=e310]: $227
+        - article [ref=e311]:
+          - button "Add to favorites" [ref=e312]
+          - generic [ref=e315]:
+            - link "New Powder Corset Midi Dress" [ref=e316] [cursor=pointer]:
+              - /url: /women/bf85d3e4-59f5-407f-8697-d878d5edb59b
+              - generic [ref=e317]: New
+              - img "Powder Corset Midi Dress" [ref=e318]
+            - button "Add Powder Corset Midi Dress to cart" [ref=e319]:
+              - generic [ref=e323]: Add to bag
+          - link [ref=e324] [cursor=pointer]:
+            - /url: /women/bf85d3e4-59f5-407f-8697-d878d5edb59b
+            - generic [ref=e325]:
+              - paragraph [ref=e326]: Women's Dress
+              - heading "Powder Corset Midi Dress" [level=3] [ref=e327]
+              - paragraph [ref=e328]: $254
+        - article [ref=e329]:
+          - button "Add to favorites" [ref=e330]
+          - generic [ref=e333]:
+            - link [ref=e334] [cursor=pointer]:
+              - /url: /women/478a0ca6-d9e0-46a2-a339-46fec29b3e6f
+              - img "White Tulle Corset Dress" [ref=e335]
+            - button "Add White Tulle Corset Dress to cart" [ref=e336]:
+              - generic [ref=e340]: Add to bag
+          - link [ref=e341] [cursor=pointer]:
+            - /url: /women/478a0ca6-d9e0-46a2-a339-46fec29b3e6f
+            - generic [ref=e342]:
+              - paragraph [ref=e343]: Women's Dress
+              - heading "White Tulle Corset Dress" [level=3] [ref=e344]
+              - paragraph [ref=e345]: $277
+        - article [ref=e346]:
+          - button "Add to favorites" [ref=e347]
+          - generic [ref=e350]:
+            - link "New Atelier Ruched Satin Maxi" [ref=e351] [cursor=pointer]:
+              - /url: /women/a0c13590-0256-4302-9eab-81bf94d965dd
+              - generic [ref=e352]: New
+              - img "Atelier Ruched Satin Maxi" [ref=e353]
+            - button "Add Atelier Ruched Satin Maxi to cart" [ref=e354]:
+              - generic [ref=e358]: Add to bag
+          - link [ref=e359] [cursor=pointer]:
+            - /url: /women/a0c13590-0256-4302-9eab-81bf94d965dd
+            - generic [ref=e360]:
+              - paragraph [ref=e361]: zeouf Atelier
+              - paragraph [ref=e362]: Women's Dress
+              - heading "Atelier Ruched Satin Maxi" [level=3] [ref=e363]
+              - paragraph [ref=e364]: $149
+        - article [ref=e365]:
+          - button "Add to favorites" [ref=e366]
+          - generic [ref=e369]:
+            - link [ref=e370] [cursor=pointer]:
+              - /url: /women/1136f0ca-d6b1-4a1b-bb8c-0f6ef53a34ec
+              - img "Atelier Cape-Sleeve Midi" [ref=e371]
+            - button "Add Atelier Cape-Sleeve Midi to cart" [ref=e372]:
+              - generic [ref=e376]: Add to bag
+          - link [ref=e377] [cursor=pointer]:
+            - /url: /women/1136f0ca-d6b1-4a1b-bb8c-0f6ef53a34ec
+            - generic [ref=e378]:
+              - paragraph [ref=e379]: zeouf Atelier
+              - paragraph [ref=e380]: Women's Dress
+              - heading "Atelier Cape-Sleeve Midi" [level=3] [ref=e381]
+              - paragraph [ref=e382]: $189
+        - article [ref=e383]:
+          - button "Add to favorites" [ref=e384]
+          - generic [ref=e387]:
+            - link [ref=e388] [cursor=pointer]:
+              - /url: /women/80c0acc4-1b5b-4f6b-9c84-fc602278036f
+              - img "Atelier Floral Jacquard Dress" [ref=e389]
+            - button "Add Atelier Floral Jacquard Dress to cart" [ref=e390]:
+              - generic [ref=e394]: Add to bag
+          - link [ref=e395] [cursor=pointer]:
+            - /url: /women/80c0acc4-1b5b-4f6b-9c84-fc602278036f
+            - generic [ref=e396]:
+              - paragraph [ref=e397]: zeouf Atelier
+              - paragraph [ref=e398]: Women's Dress
+              - heading "Atelier Floral Jacquard Dress" [level=3] [ref=e399]
+              - paragraph [ref=e400]: $154
+        - article [ref=e401]:
+          - button "Add to favorites" [ref=e402]
+          - generic [ref=e405]:
+            - link [ref=e406] [cursor=pointer]:
+              - /url: /women/6f2f16b3-ffcb-4cad-8069-92e03615c8e9
+              - img "Atelier Gathered Waist Maxi" [ref=e407]
+            - button "Add Atelier Gathered Waist Maxi to cart" [ref=e408]:
+              - generic [ref=e412]: Add to bag
+          - link [ref=e413] [cursor=pointer]:
+            - /url: /women/6f2f16b3-ffcb-4cad-8069-92e03615c8e9
+            - generic [ref=e414]:
+              - paragraph [ref=e415]: zeouf Atelier
+              - paragraph [ref=e416]: Women's Dress
+              - heading "Atelier Gathered Waist Maxi" [level=3] [ref=e417]
+              - paragraph [ref=e418]: $195
+        - article [ref=e419]:
+          - button "Add to favorites" [ref=e420]
+          - link "Atelier Tailored Day Dress Out of stock" [ref=e424] [cursor=pointer]:
+            - /url: /women/296d37ee-9d04-4e0a-a00f-c30808ddd44f
+            - img "Atelier Tailored Day Dress" [ref=e425]
+            - generic [ref=e426]: Out of stock
+          - link [ref=e427] [cursor=pointer]:
+            - /url: /women/296d37ee-9d04-4e0a-a00f-c30808ddd44f
+            - generic [ref=e428]:
+              - paragraph [ref=e429]: zeouf Atelier
+              - paragraph [ref=e430]: Women's Dress
+              - heading "Atelier Tailored Day Dress" [level=3] [ref=e431]
+              - paragraph [ref=e432]: $160
+              - paragraph [ref=e433]: Currently unavailable
+        - article [ref=e434]:
+          - button "Add to favorites" [ref=e435]
+          - generic [ref=e438]:
+            - link [ref=e439] [cursor=pointer]:
+              - /url: /women/aa53966e-f31c-41b3-b120-a3c1b23378ce
+              - img "Light Green Halter Dress" [ref=e440]
+            - button "Add Light Green Halter Dress to cart" [ref=e441]:
+              - generic [ref=e445]: Add to bag
+          - link [ref=e446] [cursor=pointer]:
+            - /url: /women/aa53966e-f31c-41b3-b120-a3c1b23378ce
+            - generic [ref=e447]:
+              - paragraph [ref=e448]: Women's Dress
+              - heading "Light Green Halter Dress" [level=3] [ref=e449]
+              - paragraph [ref=e450]: $227
+        - article [ref=e451]:
+          - button "Add to favorites" [ref=e452]
+          - generic [ref=e455]:
+            - link "Best Seller Black V-Neck Midi Dress" [ref=e456] [cursor=pointer]:
+              - /url: /women/dc7f8f1c-0c9c-40de-92fd-75053aa02995
+              - generic [ref=e457]: Best Seller
+              - img "Black V-Neck Midi Dress" [ref=e458]
+            - button "Add Black V-Neck Midi Dress to cart" [ref=e459]:
+              - generic [ref=e463]: Add to bag
+          - link [ref=e464] [cursor=pointer]:
+            - /url: /women/dc7f8f1c-0c9c-40de-92fd-75053aa02995
+            - generic [ref=e465]:
+              - paragraph [ref=e466]: Women's Dress
+              - heading "Black V-Neck Midi Dress" [level=3] [ref=e467]
+              - paragraph [ref=e468]: $127
+        - article [ref=e469]:
+          - button "Add to favorites" [ref=e470]
+          - generic [ref=e473]:
+            - link "New Atelier Satin Column Midi" [ref=e474] [cursor=pointer]:
+              - /url: /women/fa48de38-a992-4e0d-9cea-66c392044577
+              - generic [ref=e475]: New
+              - img "Atelier Satin Column Midi" [ref=e476]
+            - button "Add Atelier Satin Column Midi to cart" [ref=e477]:
+              - generic [ref=e481]: Add to bag
+          - link [ref=e482] [cursor=pointer]:
+            - /url: /women/fa48de38-a992-4e0d-9cea-66c392044577
+            - generic [ref=e483]:
+              - paragraph [ref=e484]: zeouf Atelier
+              - paragraph [ref=e485]: Women's Dress
+              - heading "Atelier Satin Column Midi" [level=3] [ref=e486]
+              - paragraph [ref=e487]: $143
+        - article [ref=e488]:
+          - button "Add to favorites" [ref=e489]
+          - generic [ref=e492]:
+            - link [ref=e493] [cursor=pointer]:
+              - /url: /women/c033932c-742f-42d4-b30a-90bb6e033c01
+              - img "Atelier Pleated Chiffon Gown" [ref=e494]
+            - button "Add Atelier Pleated Chiffon Gown to cart" [ref=e495]:
+              - generic [ref=e499]: Add to bag
+          - link [ref=e500] [cursor=pointer]:
+            - /url: /women/c033932c-742f-42d4-b30a-90bb6e033c01
+            - generic [ref=e501]:
+              - paragraph [ref=e502]: zeouf Atelier
+              - paragraph [ref=e503]: Women's Dress
+              - heading "Atelier Pleated Chiffon Gown" [level=3] [ref=e504]
+              - paragraph [ref=e505]: $183
+        - article [ref=e506]:
+          - button "Add to favorites" [ref=e507]
+          - generic [ref=e510]:
+            - link [ref=e511] [cursor=pointer]:
+              - /url: /women/5a611c34-6669-4a35-a745-f56c50ef4bdf
+              - img "Atelier Sculpted Crepe Dress" [ref=e512]
+            - button "Add Atelier Sculpted Crepe Dress to cart" [ref=e513]:
+              - generic [ref=e517]: Add to bag
+          - link [ref=e518] [cursor=pointer]:
+            - /url: /women/5a611c34-6669-4a35-a745-f56c50ef4bdf
+            - generic [ref=e519]:
+              - paragraph [ref=e520]: zeouf Atelier
+              - paragraph [ref=e521]: Women's Dress
+              - heading "Atelier Sculpted Crepe Dress" [level=3] [ref=e522]
+              - paragraph [ref=e523]: $149
+        - article [ref=e524]:
+          - button "Add to favorites" [ref=e525]
+          - generic [ref=e528]:
+            - link "New Black Draped Satin Dress" [ref=e529] [cursor=pointer]:
+              - /url: /women/4da2da23-af6e-4989-adb8-df370148da30
+              - generic [ref=e530]: New
+              - img "Black Draped Satin Dress" [ref=e531]
+            - button "Add Black Draped Satin Dress to cart" [ref=e532]:
+              - generic [ref=e536]: Add to bag
+          - link [ref=e537] [cursor=pointer]:
+            - /url: /women/4da2da23-af6e-4989-adb8-df370148da30
+            - generic [ref=e538]:
+              - paragraph [ref=e539]: Women's Dress
+              - heading "Black Draped Satin Dress" [level=3] [ref=e540]
+              - paragraph [ref=e541]: $297
+        - article [ref=e542]:
+          - button "Add to favorites" [ref=e543]
+          - generic [ref=e546]:
+            - link [ref=e547] [cursor=pointer]:
+              - /url: /women/f837bf57-684d-40a3-ba45-d3970e24518c
+              - img "Cream Linen Shirt Dress" [ref=e548]
+            - button "Add Cream Linen Shirt Dress to cart" [ref=e549]:
+              - generic [ref=e553]: Add to bag
+          - link [ref=e554] [cursor=pointer]:
+            - /url: /women/f837bf57-684d-40a3-ba45-d3970e24518c
+            - generic [ref=e555]:
+              - paragraph [ref=e556]: Women's Dress
+              - heading "Cream Linen Shirt Dress" [level=3] [ref=e557]
+              - paragraph [ref=e558]: $205
+        - article [ref=e559]:
+          - button "Add to favorites" [ref=e560]
+          - generic [ref=e563]:
+            - link "New Black Silk Draped Dress" [ref=e564] [cursor=pointer]:
+              - /url: /women/8c81880a-b8f9-466c-a0be-224a481e49b4
+              - generic [ref=e565]: New
+              - img "Black Silk Draped Dress" [ref=e566]
+            - button "Add Black Silk Draped Dress to cart" [ref=e567]:
+              - generic [ref=e571]: Add to bag
+          - link [ref=e572] [cursor=pointer]:
+            - /url: /women/8c81880a-b8f9-466c-a0be-224a481e49b4
+            - generic [ref=e573]:
+              - paragraph [ref=e574]: Women's Dress
+              - heading "Black Silk Draped Dress" [level=3] [ref=e575]
+              - paragraph [ref=e576]: $329
+        - article [ref=e577]:
+          - button "Add to favorites" [ref=e578]
+          - link "Atelier Silk Wrap Midi Out of stock" [ref=e582] [cursor=pointer]:
+            - /url: /women/2076b8fa-8157-4431-b5a0-443d9ba2416f
+            - img "Atelier Silk Wrap Midi" [ref=e583]
+            - generic [ref=e584]: Out of stock
+          - link [ref=e585] [cursor=pointer]:
+            - /url: /women/2076b8fa-8157-4431-b5a0-443d9ba2416f
+            - generic [ref=e586]:
+              - paragraph [ref=e587]: zeouf Atelier
+              - paragraph [ref=e588]: Women's Dress
+              - heading "Atelier Silk Wrap Midi" [level=3] [ref=e589]
+              - paragraph [ref=e590]: $154
+              - paragraph [ref=e591]: Currently unavailable
+        - article [ref=e592]:
+          - button "Add to favorites" [ref=e593]
+          - generic [ref=e596]:
+            - link "New Atelier Tiered Tulle Gown" [ref=e597] [cursor=pointer]:
+              - /url: /women/7cf8c800-13e4-49a8-a1e6-9c81815daf20
+              - generic [ref=e598]: New
+              - img "Atelier Tiered Tulle Gown" [ref=e599]
+            - button "Add Atelier Tiered Tulle Gown to cart" [ref=e600]:
+              - generic [ref=e604]: Add to bag
+          - link [ref=e605] [cursor=pointer]:
+            - /url: /women/7cf8c800-13e4-49a8-a1e6-9c81815daf20
+            - generic [ref=e606]:
+              - paragraph [ref=e607]: zeouf Atelier
+              - paragraph [ref=e608]: Women's Dress
+              - heading "Atelier Tiered Tulle Gown" [level=3] [ref=e609]
+              - paragraph [ref=e610]: $195
+        - article [ref=e611]:
+          - button "Add to favorites" [ref=e612]
+          - generic [ref=e615]:
+            - link [ref=e616] [cursor=pointer]:
+              - /url: /women/56be5a20-6e04-4f71-9cdd-ca8801237575
+              - img "Atelier Linen Shirt Dress" [ref=e617]
+            - button "Add Atelier Linen Shirt Dress to cart" [ref=e618]:
+              - generic [ref=e622]: Add to bag
+          - link [ref=e623] [cursor=pointer]:
+            - /url: /women/56be5a20-6e04-4f71-9cdd-ca8801237575
+            - generic [ref=e624]:
+              - paragraph [ref=e625]: zeouf Atelier
+              - paragraph [ref=e626]: Women's Dress
+              - heading "Atelier Linen Shirt Dress" [level=3] [ref=e627]
+              - paragraph [ref=e628]: $160
+        - article [ref=e629]:
+          - button "Add to favorites" [ref=e630]
+          - generic [ref=e633]:
+            - link [ref=e634] [cursor=pointer]:
+              - /url: /women/49360f42-0aaf-4573-86b4-31a9b18d8710
+              - img "Atelier One-Shoulder Evening Dress" [ref=e635]
+            - button "Add Atelier One-Shoulder Evening Dress to cart" [ref=e636]:
+              - generic [ref=e640]: Add to bag
+          - link [ref=e641] [cursor=pointer]:
+            - /url: /women/49360f42-0aaf-4573-86b4-31a9b18d8710
+            - generic [ref=e642]:
+              - paragraph [ref=e643]: zeouf Atelier
+              - paragraph [ref=e644]: Women's Dress
+              - heading "Atelier One-Shoulder Evening Dress" [level=3] [ref=e645]
+              - paragraph [ref=e646]: $189
+        - article [ref=e647]:
+          - button "Add to favorites" [ref=e648]
+          - link "Featured Atelier Square-Neck Cocktail Dress Out of stock" [ref=e652] [cursor=pointer]:
+            - /url: /women/dcec1e8d-c912-40d8-8148-ad9ae005b7a8
+            - generic [ref=e653]: Featured
+            - img "Atelier Square-Neck Cocktail Dress" [ref=e654]
+            - generic [ref=e655]: Out of stock
+          - link [ref=e656] [cursor=pointer]:
+            - /url: /women/dcec1e8d-c912-40d8-8148-ad9ae005b7a8
+            - generic [ref=e657]:
+              - paragraph [ref=e658]: zeouf Atelier
+              - paragraph [ref=e659]: Women's Dress
+              - heading "Atelier Square-Neck Cocktail Dress" [level=3] [ref=e660]
+              - paragraph [ref=e661]: $183
+              - paragraph [ref=e662]: Currently unavailable
+  - contentinfo [ref=e663]:
+    - generic [ref=e664]:
+      - generic [ref=e665]:
+        - paragraph [ref=e666]: Paris · Milan · Istanbul
+        - link "zeouf" [ref=e667] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=e668]: Carry elegance into everyday life. Every piece, every stitch — born from passion.
+      - generic [ref=e669]:
+        - paragraph [ref=e670]: Newsletter
+        - heading "Be the first to know about new seasons." [level=3] [ref=e671]: Be the first to knowabout new seasons.
+        - generic [ref=e672]:
+          - textbox "Your email address" [ref=e673]
+          - button "Subscribe" [ref=e674]
+    - generic [ref=e676]:
+      - link "Women" [ref=e677] [cursor=pointer]:
+        - /url: /women
+      - link "Men" [ref=e678] [cursor=pointer]:
+        - /url: /men
+      - link "Shoes" [ref=e679] [cursor=pointer]:
+        - /url: /shoes
+      - link "Bags" [ref=e680] [cursor=pointer]:
+        - /url: /bags
+      - link "Accessories" [ref=e681] [cursor=pointer]:
+        - /url: /accessories
+      - link "Perfume" [ref=e682] [cursor=pointer]:
+        - /url: /perfume
+      - link "Makeup" [ref=e683] [cursor=pointer]:
+        - /url: /makeup
+      - link "Favorites" [ref=e684] [cursor=pointer]:
+        - /url: /favorites
+      - link "Privacy" [ref=e685] [cursor=pointer]:
+        - /url: /privacy
+      - link "Terms" [ref=e686] [cursor=pointer]:
+        - /url: /terms
+    - generic [ref=e688]:
+      - link "© 2026 zeouf. All rights reserved." [ref=e689] [cursor=pointer]:
+        - /url: https://github.com/varunsidr
+      - link "GitHub" [ref=e691] [cursor=pointer]:
+        - /url: https://github.com/varunsidr
+  - button "Open shopping assistant" [ref=e694]
+  - alert [ref=e697]
+```
+
+# Test source
+
+```ts
+  1  | import { expect, test } from '../../fixtures/ecommerce-base';
+  2  | 
+  3  | function parseRupeePrice(text: string): number {
+  4  |   const match = /^\s*₹\s*([\d,]+(?:\.\d{1,2})?)\s*$/u.exec(text);
+  5  |   expect(
+  6  |     match,
+  7  |     `Expected a displayed rupee price, received ${JSON.stringify(text)}`,
+> 8  |   ).not.toBeNull();
+     |         ^ Error: Expected a displayed rupee price, received "$201"
+  9  |   const price = Number(match![1].replaceAll(',', ''));
+  10 |   expect(Number.isFinite(price), `Price is not finite: ${JSON.stringify(text)}`).toBe(true);
+  11 |   return price;
+  12 | }
+  13 | 
+  14 | test.describe(
+  15 |   'Dress catalog display order',
+  16 |   { tag: ['@ecommerce', '@regression', '@happy'] },
+  17 |   () => {
+  18 |     test('Price: Low to High orders all visible Dress product prices', async ({ storefront }) => {
+  19 |       // Load every product before sorting so pagination cannot change the price set under comparison.
+  20 |       await storefront.openRoute('/women/dress');
+  21 |       await storefront.expectCategoryLoaded('Dress');
+  22 |       await expect(storefront.productCards.first()).toBeVisible();
+  23 |       await storefront.loadAllProducts();
+  24 |       const initialCardCount = await storefront.productCards.count();
+  25 |       expect(
+  26 |         initialCardCount,
+  27 |         'Dress catalog needs at least two visible product cards',
+  28 |       ).toBeGreaterThanOrEqual(2);
+  29 |       await expect(storefront.productCardPrices).toHaveCount(initialCardCount);
+  30 | 
+  31 |       const initialPriceTexts = await storefront.productCardPrices.allTextContents();
+  32 |       const initialPrices = initialPriceTexts.map(parseRupeePrice);
+  33 |       expect(
+  34 |         new Set(initialPrices).size,
+  35 |         'The catalog needs at least two distinct prices',
+  36 |       ).toBeGreaterThanOrEqual(2);
+  37 | 
+  38 |       await storefront.sortByPriceLowToHigh();
+  39 |       await expect(storefront.sortSelect).toHaveValue('price-low');
+  40 |       await expect
+  41 |         .poll(async () => {
+  42 |           const prices = (await storefront.productCardPrices.allTextContents()).map(
+  43 |             parseRupeePrice,
+  44 |           );
+  45 |           return prices;
+  46 |         })
+  47 |         .toEqual([...initialPrices].sort((left, right) => left - right));
+  48 |       const sortedCardCount = await storefront.productCards.count();
+  49 |       const sortedPriceTexts = await storefront.productCardPrices.allTextContents();
+  50 |       expect(sortedPriceTexts.length, 'Every product card should retain a displayed price').toBe(
+  51 |         sortedCardCount,
+  52 |       );
+  53 |       const sortedPrices = sortedPriceTexts.map(parseRupeePrice);
+  54 | 
+  55 |       for (let index = 1; index < sortedPrices.length; index += 1) {
+  56 |         expect(
+  57 |           sortedPrices[index],
+  58 |           `Card ${index + 1} costs less than card ${index}`,
+  59 |         ).toBeGreaterThanOrEqual(sortedPrices[index - 1]);
+  60 |       }
+  61 | 
+  62 |       expect(
+  63 |         [...sortedPrices].sort((left, right) => left - right),
+  64 |         'Catalog prices changed during sorting',
+  65 |       ).toEqual([...initialPrices].sort((left, right) => left - right));
+  66 |     });
+  67 |   },
+  68 | );
+  69 | 
+```
