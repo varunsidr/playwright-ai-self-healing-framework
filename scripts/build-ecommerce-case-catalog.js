@@ -84,10 +84,25 @@ for (const id of Object.keys(coreDesigns)) {
 for (const [id, link] of Object.entries(links)) {
   const item = cases.find((entry) => entry.id === id);
   if (!item) throw new Error(`Automation link has no case: ${id}`);
-  if (link.automationFile && !fs.existsSync(path.join(root, link.automationFile))) {
-    throw new Error(`Linked automation is missing: ${link.automationFile}`);
+  const additionalFiles =
+    link.additionalAutomationFiles === undefined ? [] : link.additionalAutomationFiles;
+  if (
+    !Array.isArray(additionalFiles) ||
+    additionalFiles.some((file) => typeof file !== 'string' || !file)
+  ) {
+    throw new Error(`Invalid additional automation files for ${id}`);
+  }
+  if (additionalFiles.length && !link.automationFile) {
+    throw new Error(`Additional automation files require a primary automationFile for ${id}`);
+  }
+  const automationFiles = [...new Set([link.automationFile, ...additionalFiles].filter(Boolean))];
+  for (const file of automationFiles) {
+    if (!fs.existsSync(path.join(root, file))) {
+      throw new Error(`Linked automation is missing: ${file}`);
+    }
   }
   item.automationFile = link.automationFile || null;
+  if (automationFiles.length > 1) item.automationFiles = automationFiles;
   item.automationScope = link.automationScope || null;
   item.lastEvidence = link.lastEvidence || null;
 }
@@ -202,9 +217,7 @@ function renderMarkdown(data) {
   ];
   for (const item of data.cases) {
     const priorities = [...new Set(item.requirementIds.map((id) => requirements.get(id).priority))];
-    const automation = item.automationFile
-      ? `\`${item.automationFile}\` (${item.automationScope})`
-      : 'Unlinked';
+    const automation = renderAutomation(item);
     lines.push(
       `| ${item.id} | ${item.requirementIds.join(', ')} | ${priorities.join(', ')} | ${item.environment} | ${item.designStatus} | ${automation} |`,
     );
@@ -218,10 +231,17 @@ function renderMarkdown(data) {
       `- Environment: ${item.environment}`,
       `- Mode: ${item.mode}`,
       `- Scenario: ${item.scenario}`,
-      `- Automation: ${item.automationFile ? `\`${item.automationFile}\` (${item.automationScope})` : 'Unlinked'}`,
+      `- Automation: ${renderAutomation(item)}`,
       '',
     );
   }
   lines.push('Read `case-catalog.json` for the source acceptance text and QA focus.', '');
   return lines.join('\n');
+}
+
+function renderAutomation(item) {
+  const files = item.automationFiles || (item.automationFile ? [item.automationFile] : []);
+  return files.length
+    ? `${files.map((file) => `\`${file}\``).join(', ')} (${item.automationScope})`
+    : 'Unlinked';
 }

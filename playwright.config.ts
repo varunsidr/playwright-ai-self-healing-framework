@@ -1,5 +1,8 @@
 /// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { runtimeConfig } from './utils/runtime-config';
 
 const headedRun = process.argv.includes('--headed');
@@ -8,6 +11,25 @@ const headedRun = process.argv.includes('--headed');
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  metadata: {
+    codeRevision: process.env.GITHUB_SHA || process.env.ECOMMERCE_CODE_REVISION || null,
+    websiteRevision: process.env.ECOMMERCE_BUILD_REVISION || null,
+    ecommerceOrigin: new URL(
+      process.env.ECOMMERCE_BASE_URL || 'https://zeouf-luxury-fashion-ecommerce.vercel.app',
+    ).origin,
+    ecommerceEnvironment:
+      process.env.ECOMMERCE_STAGING_CONFIRMED === 'true'
+        ? 'isolated-staging-declared'
+        : 'public-read-only',
+    repairEvaluationStage: process.env.ECOMMERCE_REPAIR_STAGE || null,
+    repairEvaluationSourceSha256: process.env.ECOMMERCE_REPAIR_SOURCE_SHA256 || null,
+    caseCatalogSha256: createHash('sha256')
+      .update(readFileSync(join(__dirname, 'specs/ecommerce/requirements/case-catalog.json')))
+      .digest('hex'),
+    checkManifestSha256: createHash('sha256')
+      .update(readFileSync(join(__dirname, 'specs/ecommerce/requirements/check-links.json')))
+      .digest('hex'),
+  },
   testDir: './tests',
   testMatch: /.*\.(?:spec|test)\.ts$/,
   /* Run tests in files in parallel */
@@ -22,20 +44,36 @@ export default defineConfig({
   reporter: process.env.CI
     ? [
         ['list'],
-        ['html', { outputFolder: 'playwright-report', open: 'never' }],
-        ['junit', { outputFile: 'test-results/junit.xml' }],
+        [
+          'html',
+          { outputFolder: process.env.PW_HTML_REPORT_DIR || 'playwright-report', open: 'never' },
+        ],
+        ['junit', { outputFile: process.env.PW_JUNIT_REPORT_PATH || 'test-results/junit.xml' }],
         [
           'json',
           { outputFile: process.env.PW_JSON_REPORT_PATH || 'test-results/playwright-results.json' },
         ],
-        ['allure-playwright', { resultsDir: 'allure-results' }],
+        [
+          'allure-playwright',
+          { resultsDir: process.env.PW_ALLURE_RESULTS_DIR || 'allure-results' },
+        ],
       ]
     : [
-        ['html', { outputFolder: 'playwright-report', open: 'never' }],
+        [
+          'html',
+          { outputFolder: process.env.PW_HTML_REPORT_DIR || 'playwright-report', open: 'never' },
+        ],
         ['list'],
-        ['allure-playwright', { resultsDir: 'allure-results' }],
+        [
+          'json',
+          { outputFile: process.env.PW_JSON_REPORT_PATH || 'test-results/playwright-results.json' },
+        ],
+        [
+          'allure-playwright',
+          { resultsDir: process.env.PW_ALLURE_RESULTS_DIR || 'allure-results' },
+        ],
       ],
-  outputDir: 'test-results',
+  outputDir: process.env.PW_OUTPUT_DIR || 'test-results',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -91,7 +129,12 @@ export default defineConfig({
     {
       name: 'ecommerce-chromium',
       testMatch: 'tests/ecommerce/**/*.spec.ts',
-      testIgnore: /ecommerce[\\/]api[\\/]/,
+      testIgnore: [
+        /ecommerce[\\/]api[\\/]/,
+        ...(process.env.ECOMMERCE_REPAIR_EVALUATION === 'true'
+          ? []
+          : ['**/repair-evaluation.spec.ts']),
+      ],
       workers: 3,
       use: {
         ...devices['Desktop Chrome'],

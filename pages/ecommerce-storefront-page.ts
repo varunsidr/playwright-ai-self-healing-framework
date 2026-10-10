@@ -30,6 +30,8 @@ export class EcommerceStorefrontPage {
   readonly inStockFilter: Locator;
   readonly clearFilters: Locator;
   readonly cartPersistenceNotice: Locator;
+  readonly minimumPrice: Locator;
+  readonly maximumPrice: Locator;
   readonly searchToggle: Locator;
   readonly searchInput: Locator;
   readonly searchResultsHeading: Locator;
@@ -117,11 +119,13 @@ export class EcommerceStorefrontPage {
     this.collectionStockWarning = page.getByText(/size availability/i);
     this.collectionRetry = page.getByRole('button', { name: 'Retry collection' });
     this.collectionEmpty = page.getByText(/No products/i);
-    this.collectionCount = page.getByText(/^\d+ of \d+ products$/);
+    this.collectionCount = page.getByText(/^(?:Showing )?\d+ of \d+ products$/);
     this.brandFilter = page.getByRole('combobox', { name: 'Filter by brand' });
     this.sizeFilter = page.getByRole('combobox', { name: 'Filter by size' });
     this.inStockFilter = page.getByRole('checkbox', { name: 'In stock only' });
     this.clearFilters = page.getByRole('button', { name: /Clear all/i });
+    this.minimumPrice = page.getByRole('slider', { name: 'Minimum price', exact: true });
+    this.maximumPrice = page.getByRole('slider', { name: 'Maximum price', exact: true });
     this.searchToggle = page.getByTestId('navbar-search-toggle');
     this.searchInput = page.getByTestId('navbar-search-input');
     this.searchResultsHeading = page.getByRole('heading', { name: 'Search Results' });
@@ -217,13 +221,178 @@ export class EcommerceStorefrontPage {
     this.checkoutFictionalNotice = page.getByText(/Use fictional contact and address details/i);
     this.privacyCartStorageNotice = page.getByText(/The cart is also saved in this browser/i);
     this.privacyPaymentNotice = page.getByText(
-      /does not collect card details, charge money, or arrange shipment/i,
+      /does not collect card details, charge money, (?:or )?arrange shipment/i,
     );
     this.termsDemoNotice = page.getByText(/educational and portfolio purposes/i);
   }
 
   async openHome() {
     await this.page.goto('/');
+  }
+
+  async expectCollectionCount(matching: number, total: number) {
+    await expect(this.collectionCount).toHaveText(
+      new RegExp(`^(?:Showing )?${matching} of ${total} products$`),
+    );
+  }
+
+  productCardNames() {
+    return this.productCards.getByTestId('product-card-name');
+  }
+
+  cardAddAction(name: string) {
+    return this.productCardByName(name).getByTestId('product-card-add-to-cart');
+  }
+
+  cardSizeAction(name: string) {
+    return this.productCardByName(name).getByRole('link', { name: `Choose a size for ${name}` });
+  }
+
+  cardImageFailure(name: string) {
+    return this.productCardByName(name).getByText('Image unavailable', { exact: true });
+  }
+
+  cardFavorite(name: string) {
+    return this.productCardByName(name).getByTestId('product-card-favorite-button');
+  }
+
+  cardImageLink(name: string) {
+    return this.productCardByName(name).getByTestId('product-card-link');
+  }
+
+  cardUnavailable(name: string) {
+    return this.productCardByName(name).getByText('Currently unavailable', { exact: true });
+  }
+
+  underPriceTier(amount: string) {
+    return this.page.getByRole('button', { name: `Under ${amount}`, exact: true });
+  }
+
+  desktopCategoryTrigger(group: 'women' | 'men') {
+    return this.page.getByRole('button', { name: `Browse ${group} categories` });
+  }
+
+  desktopCategoryPanel(group: 'women' | 'men') {
+    return this.page.locator(`#mega-menu-${group}`);
+  }
+
+  desktopCategoryLink(group: 'women' | 'men', name: string) {
+    return this.desktopCategoryPanel(group).getByRole('link', { name, exact: true });
+  }
+
+  navigationDialog(kind: 'account' | 'cart' | 'search' | 'mobile') {
+    const names = {
+      account: 'My account',
+      cart: 'Shopping bag',
+      search: 'Search catalog',
+      mobile: 'Navigation menu',
+    };
+    return this.page.getByRole('dialog', { name: names[kind], exact: true });
+  }
+
+  navigationTrigger(kind: 'account' | 'cart' | 'search' | 'mobile') {
+    return {
+      account: this.openAccountButton,
+      cart: this.cartToggle,
+      search: this.searchToggle,
+      mobile: this.mobileMenuToggle,
+    }[kind];
+  }
+
+  mobileGroupSummary(group: 'women' | 'men') {
+    return this.navigationDialog('mobile')
+      .locator('summary')
+      .filter({ hasText: `Explore ${group}` });
+  }
+
+  mobileCategoryLink(name: string) {
+    return this.navigationDialog('mobile').getByRole('link', { name, exact: true });
+  }
+
+  async expectDialogFocusContained(kind: 'account' | 'cart' | 'search' | 'mobile') {
+    await expect
+      .poll(() => this.navigationDialog(kind).evaluate((el) => el.contains(document.activeElement)))
+      .toBe(true);
+  }
+
+  async focusDialogEdge(kind: 'account' | 'cart' | 'search' | 'mobile', edge: 'first' | 'last') {
+    await this.navigationDialog(kind).evaluate((dialog, selectedEdge) => {
+      const controls = Array.from(
+        dialog.querySelectorAll<HTMLElement>('button,a[href],input,select,textarea,[tabindex]'),
+      ).filter(
+        (el) =>
+          el.tabIndex >= 0 &&
+          !el.hasAttribute('disabled') &&
+          !el.closest('[inert]') &&
+          el.getClientRects().length > 0 &&
+          getComputedStyle(el).visibility !== 'hidden',
+      );
+      const target = selectedEdge === 'first' ? controls[0] : controls[controls.length - 1];
+      if (!target) throw new Error('Active dialog has no focusable controls');
+      target.focus();
+    }, edge);
+  }
+
+  async expectDialogEdgeFocused(
+    kind: 'account' | 'cart' | 'search' | 'mobile',
+    edge: 'first' | 'last',
+  ) {
+    await expect
+      .poll(() =>
+        this.navigationDialog(kind).evaluate((dialog, selectedEdge) => {
+          const controls = Array.from(
+            dialog.querySelectorAll<HTMLElement>('button,a[href],input,select,textarea,[tabindex]'),
+          ).filter(
+            (el) =>
+              el.tabIndex >= 0 &&
+              !el.hasAttribute('disabled') &&
+              !el.closest('[inert]') &&
+              el.getClientRects().length > 0 &&
+              getComputedStyle(el).visibility !== 'hidden',
+          );
+          return (
+            document.activeElement ===
+            (selectedEdge === 'first' ? controls[0] : controls[controls.length - 1])
+          );
+        }, edge),
+      )
+      .toBe(true);
+  }
+
+  async expectPageScrollLocked(locked: boolean) {
+    await expect
+      .poll(() =>
+        this.page.locator('body').evaluate((el) => getComputedStyle(el).overflow === 'hidden'),
+      )
+      .toBe(locked);
+  }
+
+  async expectNoHorizontalOverflow() {
+    await expect
+      .poll(() =>
+        this.page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+      )
+      .toBe(true);
+  }
+
+  homeCollectionLink(group: 'women' | 'men') {
+    return this.page.getByRole('link', {
+      name: group === 'women' ? /^For her collection/ : /^For him collection/,
+    });
+  }
+
+  homeCategoryLink(name: string) {
+    return this.page
+      .getByRole('navigation', { name: 'Explore categories' })
+      .getByRole('link', { name, exact: true });
+  }
+
+  homeEditorialLink(index: number) {
+    return this.editorialLinks.nth(index);
+  }
+
+  readonlyHomeEditLink() {
+    return this.page.getByRole('link', { name: 'Explore the edit' });
   }
 
   async useReducedMotion() {

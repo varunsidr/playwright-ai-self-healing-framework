@@ -12,7 +12,13 @@
     "test:api": "playwright test --project=api",
     "test:ui": "playwright test --project=chromium --project=firefox --project=webkit",
     "test:ecommerce": "playwright test --project=ecommerce-chromium",
-    "test:ecommerce:fixtures": "playwright test tests/ecommerce/catalog-fixture.spec.ts tests/ecommerce/search-fixture.spec.ts tests/ecommerce/cart-storage-fixture.spec.ts tests/ecommerce/currency-fixture.spec.ts --project=ecommerce-chromium",
+    "test:ecommerce:fixtures": "playwright test tests/ecommerce/catalog-fixture.spec.ts tests/ecommerce/catalog-refinements-fixture.spec.ts tests/ecommerce/product-card-fixture.spec.ts tests/ecommerce/search-fixture.spec.ts tests/ecommerce/cart-storage-fixture.spec.ts tests/ecommerce/currency-fixture.spec.ts --project=ecommerce-chromium",
+    "test:ecommerce:navigation": "playwright test tests/ecommerce/navigation-accessibility.spec.ts tests/ecommerce/home-destinations.spec.ts --project=ecommerce-chromium",
+    "test:ecommerce:monitoring-pilot": "playwright test tests/ecommerce/auth-confirmation-mismatch.spec.ts tests/ecommerce/auth-confirmation-blank.spec.ts tests/ecommerce/cart-guest-denial.spec.ts tests/ecommerce/cart-malformed-storage.spec.ts tests/ecommerce/newsletter-preview.spec.ts tests/ecommerce/auth-password-visibility.spec.ts tests/ecommerce/search-input.spec.ts tests/ecommerce/product-information.spec.ts --project=ecommerce-chromium",
+    "monitor:ecommerce": "node scripts/build-ecommerce-monitoring.js",
+    "test:monitoring": "node --test scripts/build-ecommerce-monitoring.test.js",
+    "demo:ecommerce:repair": "node scripts/evaluate-ecommerce-repair.js",
+    "test:repair-evaluation": "node --test scripts/evaluate-ecommerce-repair.test.js",
     "test:ecommerce:api": "playwright test --project=ecommerce-api",
     "cases:zeouf:catalog": "node scripts/build-ecommerce-case-catalog.js && prettier --write specs/ecommerce/requirements/CASE_CATALOG.md specs/ecommerce/requirements/case-catalog.json",
     "perf:ecommerce:smoke": "k6 run performance/ecommerce/smoke.js",
@@ -33,7 +39,7 @@
     "lint": "eslint . --ext .ts --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check \"fixtures/**/*.ts\" \"tests/**/*.ts\" \"utils/**/*.ts\" \"flows/**/*.ts\" \"pages/**/*.ts\" \"scripts/**/*.js\" playwright.config.ts tsconfig.json package.json",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run analyze",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run analyze && npm run test:monitoring && npm run test:repair-evaluation",
     "prepare": "husky install"
   },
   "keywords": [

@@ -8,7 +8,7 @@ test.describe('Zeouf controlled catalog acceptance', { tag: ['@ecommerce', '@reg
       await storefront.openWomenCollection();
       await storefront.expectCategoryLoaded('Women');
       await expect(storefront.productCards).toHaveCount(Math.min(count, 24));
-      await expect(storefront.collectionCount).toHaveText(`${count} of ${count} products`);
+      await storefront.expectCollectionCount(count, count);
       for (let visible = 24; visible < count; visible += 24) {
         await storefront.loadMoreProducts.click();
         await expect(storefront.productCards).toHaveCount(Math.min(count, visible + 24));
@@ -28,7 +28,7 @@ test.describe('Zeouf controlled catalog acceptance', { tag: ['@ecommerce', '@reg
     await storefront.expectCategoryLoaded('Women');
     await storefront.brandFilter.selectOption('Brand A');
     await expect(storefront.productCards).toHaveCount(2);
-    await expect(storefront.collectionCount).toHaveText('2 of 4 products');
+    await storefront.expectCollectionCount(2, 4);
     await storefront.inStockFilter.check();
     await expect(storefront.productCards).toHaveCount(2);
     await storefront.brandFilter.selectOption('Brand B');

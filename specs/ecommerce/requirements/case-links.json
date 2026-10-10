@@ -1,8 +1,29 @@
 {
+  "TC-PDP-001-01": {
+    "automationFile": "tests/ecommerce/product-card-fixture.spec.ts",
+    "automationScope": "partial: controlled unsized/sized/out-of-stock card actions at 375/1440px, hover/focus reveal, size href, image failure with readable name/price/link, and guest add denial; detail gallery, genuine touch device and live stock unverified",
+    "lastEvidence": "Three controlled card tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; GET responses mocked and server writes blocked"
+  },
+  "TC-CAT-02-CORE": {
+    "automationFile": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+    "automationScope": "partial: Women's New Arrivals, Best Sellers and Collection with New/BEST/Featured/Populer/null tags in controlled GET fixtures; Men and real database membership unverified",
+    "lastEvidence": "Three controlled tag-route tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked"
+  },
+  "TC-CAT-04-CORE": {
+    "automationFile": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+    "automationScope": "partial/mixed: keyboard inclusive price bounds and crossing clamps plus exact Under-tier boundary; the keyboard case currently fails the CAT-07 collection-total expectation before later clamp steps; currency change reset unverified",
+    "lastEvidence": "Under-tier boundary passed on 2026-10-10; keyboard case rendered the correct two boundary cards then failed copied-BRD count expectation 2 of 4 versus deployed Showing 2 of 2; preserve mismatch pending source review"
+  },
+  "TC-NFR-04-CORE": {
+    "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
+    "automationScope": "partial: homepage and open empty bag without horizontal overflow at 375/768/1440px in Chromium; essential empty-bag action within viewport; catalog/detail/admin and Firefox/WebKit unverified",
+    "lastEvidence": "Three viewport checks passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked"
+  },
   "TC-CAT-003-02": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
-    "automationScope": "controlled brand/unsized-stock combination, zero matches, count and Clear all; other price/brand/size combinations untested",
-    "lastEvidence": "Passed on deployed Zeouf with mocked catalog GET responses in ecommerce-chromium on 2026-10-10; server writes blocked"
+    "additionalAutomationFiles": ["tests/ecommerce/catalog-refinements-fixture.spec.ts"],
+    "automationScope": "controlled brand/unsized-stock combination, zero matches, count and Clear all; missing brand/size metadata selector omission; current count contract drift can stop the combined-filter case; other combinations untested",
+    "lastEvidence": "On 2026-10-10, missing-selector test passed; combined-filter case failed count 2 of 4 versus Showing 2 of 2 before later clear assertions; replaces prior passing evidence pending source review"
   },
   "TC-CAT-005-02": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -11,8 +32,8 @@
   },
   "TC-CAT-007-01": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
-    "automationScope": "controlled 0/1/24/25/48/49 collection counts, 24-item reveal batches and final button absence; live dataset not required",
-    "lastEvidence": "Six pagination boundary tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; catalog reads mocked and server writes blocked"
+    "automationScope": "partial/mixed: controlled 0/1/24/25/48/49 collection counts, 24-item reveal batches and final button absence; deployed count drift stops 25/48/49 cases before later reveal assertions; live dataset not required",
+    "lastEvidence": "On 2026-10-10, 0/1/24 boundaries passed; 25/48/49 failed copied-BRD matching-versus-collection counts, replacing earlier passing evidence; GET responses mocked and server writes blocked"
   },
   "TC-CAT-08-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -55,14 +76,19 @@
     "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
   },
   "TC-NAV-005-01": {
-    "automationFile": "tests/ecommerce/catalog.spec.ts",
-    "automationScope": "partial: mobile Women navigation only; no keyboard dialog focus checks",
-    "lastEvidence": "Mobile-menu test passed on public Zeouf in ecommerce-chromium on 2026-10-07"
+    "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
+    "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"],
+    "automationScope": "partial/mixed: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop keyboard disclosure closes/inerts but loses focus to BODY; backdrop and additional paths unverified",
+    "lastEvidence": "On 2026-10-10, account/cart/search/mobile focus cycles and both mobile category journeys passed; desktop women/men failed trigger focus return after Escape; later desktop hover steps were not reached"
   },
   "TC-CAT-06-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
-    "automationScope": "partial: controlled low/high price ordering with name ties and Recommended incoming order; existing price-sorting.spec.ts also checks live Dress price-low multiset; New Arrivals tag/date ordering untested",
-    "lastEvidence": "Three controlled sort branches passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked; live Dress price-low evidence retained from 2026-10-07"
+    "additionalAutomationFiles": [
+      "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "tests/ecommerce/price-sorting.spec.ts"
+    ],
+    "automationScope": "partial: controlled low/high price ordering with name ties, Recommended incoming order, and New Arrivals new-tag/date/name precedence; live Dress price-low multiset; missing dates/tags beyond the selected fixtures unverified",
+    "lastEvidence": "Three controlled sort branches passed earlier on 2026-10-10; New Arrivals precedence passed in the next batch; live Dress price-low evidence retained from the prior full run"
   },
   "TC-SEA-03-CORE": {
     "automationFile": "tests/ecommerce/catalog.spec.ts",
@@ -121,8 +147,9 @@
   },
   "TC-NAV-001-01": {
     "automationFile": "tests/ecommerce/home-hero.spec.ts",
-    "automationScope": "partial: manual women/men selection, matching hero links, pause control, reduced-motion still media and six editorial tiles; timed/offscreen/hidden playback and destination resolution untested",
-    "lastEvidence": "Hero manual and reduced-motion branches passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "additionalAutomationFiles": ["tests/ecommerce/home-destinations.spec.ts"],
+    "automationScope": "partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested",
+    "lastEvidence": "Nine homepage destination tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10 with writes blocked; manual/reduced-motion evidence retained from the previous batch"
   },
   "TC-CNT-02-CORE": {
     "automationFile": "tests/ecommerce/footer-content.spec.ts",
@@ -132,7 +159,7 @@
   "TC-CNT-03-CORE": {
     "automationFile": "tests/ecommerce/footer-content.spec.ts",
     "automationScope": "partial: current home, guest checkout, privacy and terms demo wording; known G-22 copy conflicts remain open",
-    "lastEvidence": "Baseline content assertions passed on public Zeouf in ecommerce-chromium on 2026-10-07; no write requests; G-22 not resolved"
+    "lastEvidence": "Current demo disclosure assertions passed on 2026-10-10 after accepting the expanded privacy list while preserving no card details, charge or shipment; writes blocked; copied-source G-22 remains unresolved"
   },
   "TC-CUR-02-CORE": {
     "automationFile": "tests/ecommerce/currency-fixture.spec.ts",

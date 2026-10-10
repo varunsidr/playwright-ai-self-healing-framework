@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "checks": [
+    {
+      "id": "CHK-AUTH-CONFIRMATION-MISMATCH",
+      "caseIds": ["TC-AUTH-002-01"],
+      "file": "tests/ecommerce/auth-confirmation-mismatch.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Mismatched confirmation blocks signup without server writes."
+    },
+    {
+      "id": "CHK-AUTH-CONFIRMATION-BLANK",
+      "caseIds": ["TC-AUTH-002-02"],
+      "file": "tests/ecommerce/auth-confirmation-blank.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Blank confirmation is required and blocks signup without server writes."
+    },
+    {
+      "id": "CHK-CART-GUEST-DENIAL",
+      "caseIds": ["TC-CART-001-01"],
+      "file": "tests/ecommerce/cart-guest-denial.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Guest add prompts for sign-in and leaves the bag empty; signed-in cart unverified."
+    },
+    {
+      "id": "CHK-CART-MALFORMED-RECOVERY",
+      "caseIds": ["TC-CART-004-04"],
+      "file": "tests/ecommerce/cart-malformed-storage.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Malformed browser-local JSON recovers to an empty bag with notice; ownership unverified."
+    },
+    {
+      "id": "CHK-NEWSLETTER-PREVIEW",
+      "caseIds": ["TC-CNT-001-01"],
+      "file": "tests/ecommerce/newsletter-preview.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Valid email displays preview without server writes; invalid email unverified."
+    },
+    {
+      "id": "CHK-AUTH-PASSWORD-VISIBILITY",
+      "caseIds": ["TC-AUTH-04-CORE"],
+      "file": "tests/ecommerce/auth-password-visibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Password visibility and tab state without submitting credentials."
+    },
+    {
+      "id": "CHK-SEARCH-INPUT",
+      "caseIds": ["TC-SEA-01-CORE"],
+      "file": "tests/ecommerce/search-input.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Search focus, blank submit, trimmed encoded query and panel closure."
+    },
+    {
+      "id": "CHK-PRODUCT-INFORMATION",
+      "caseIds": ["TC-PDP-06-CORE"],
+      "file": "tests/ecommerce/product-information.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Exclusive information panels on one available product; content variants unverified."
+    },
+    {
+      "id": "CHK-NAV-DESKTOP-WOMEN",
+      "caseIds": ["TC-NAV-005-01"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Desktop Women keyboard disclosure, Escape focus return, hover and inert closure; later assertions may not execute after failure."
+    },
+    {
+      "id": "CHK-NAV-DESKTOP-MEN",
+      "caseIds": ["TC-NAV-005-01"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Desktop Men keyboard disclosure, Escape focus return, hover and inert closure; later assertions may not execute after failure."
+    }
+  ]
+}
