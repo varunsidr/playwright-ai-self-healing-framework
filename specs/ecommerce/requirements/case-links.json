@@ -11,8 +11,8 @@
   },
   "TC-CAT-04-CORE": {
     "automationFile": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
-    "automationScope": "partial/mixed: keyboard inclusive price bounds and crossing clamps plus exact Under-tier boundary; the keyboard case currently fails the CAT-07 collection-total expectation before later clamp steps; currency change reset unverified",
-    "lastEvidence": "Under-tier boundary passed on 2026-10-10; keyboard case rendered the correct two boundary cards then failed copied-BRD count expectation 2 of 4 versus deployed Showing 2 of 2; preserve mismatch pending source review"
+    "automationScope": "partial: keyboard inclusive price bounds and crossing clamps plus exact Under-tier boundary; visible-of-matching count at two and one matching cards; currency change reset unverified",
+    "lastEvidence": "Keyboard bounds and clamp check passed locally on 2026-10-11 after adopting reviewed CAT-07 v1.9 from 243b37d; Under-tier deployed pass from 2026-10-10 remains historical. Mocked GET responses and writes blocked; public rerun pending."
   },
   "TC-NFR-04-CORE": {
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
@@ -22,8 +22,8 @@
   "TC-CAT-003-02": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
     "additionalAutomationFiles": ["tests/ecommerce/catalog-refinements-fixture.spec.ts"],
-    "automationScope": "controlled brand/unsized-stock combination, zero matches, count and Clear all; missing brand/size metadata selector omission; current count contract drift can stop the combined-filter case; other combinations untested",
-    "lastEvidence": "On 2026-10-10, missing-selector test passed; combined-filter case failed count 2 of 4 versus Showing 2 of 2 before later clear assertions; replaces prior passing evidence pending source review"
+    "automationScope": "controlled brand/unsized-stock combination, visible-of-matching count including zero matches and Clear all; missing brand/size metadata selector omission; other combinations untested",
+    "lastEvidence": "Combined filter/count/clear check passed locally on 2026-10-11 after adopting reviewed CAT-07 v1.9 from 243b37d; missing-selector deployed pass from 2026-10-10 remains historical. GET responses mocked and writes blocked; public rerun pending."
   },
   "TC-CAT-005-02": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -32,8 +32,8 @@
   },
   "TC-CAT-007-01": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
-    "automationScope": "partial/mixed: controlled 0/1/24/25/48/49 collection counts, 24-item reveal batches and final button absence; deployed count drift stops 25/48/49 cases before later reveal assertions; live dataset not required",
-    "lastEvidence": "On 2026-10-10, 0/1/24 boundaries passed; 25/48/49 failed copied-BRD matching-versus-collection counts, replacing earlier passing evidence; GET responses mocked and server writes blocked"
+    "automationScope": "partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified",
+    "lastEvidence": "2026-10-10 deployed failures used the old matching-versus-collection contract. On 2026-10-11, focused 25/48/49 checks passed against local 243b37d plus the menu fix after adopting reviewed CAT-07 v1.9; mocked GET responses and writes blocked. Public rerun pending."
   },
   "TC-CAT-08-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -78,8 +78,8 @@
   "TC-NAV-005-01": {
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
     "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"],
-    "automationScope": "partial/mixed: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop keyboard disclosure closes/inerts but loses focus to BODY; backdrop and additional paths unverified",
-    "lastEvidence": "On 2026-10-10, account/cart/search/mobile focus cycles and both mobile category journeys passed; desktop women/men failed trigger focus return after Escape; later desktop hover steps were not reached"
+    "automationScope": "partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified",
+    "lastEvidence": "2026-10-10 deployed desktop Women/Men focus failures remain historical. Both desktop checks passed locally on 2026-10-11 after restoring disclosure focus in Navbar; account/cart/search/mobile prior deployed passes retained. Website fix is not yet deployed; public focus verification pending."
   },
   "TC-CAT-06-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",

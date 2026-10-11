@@ -19,6 +19,22 @@ const coreDesigns = JSON.parse(
 const guideEnvironments = JSON.parse(
   fs.readFileSync(path.join(inputDir, 'guide-case-environments.json'), 'utf8'),
 );
+const updates = JSON.parse(
+  fs.readFileSync(path.join(inputDir, 'requirement-updates.json'), 'utf8'),
+);
+if (
+  updates.schemaVersion !== 1 ||
+  !/^[a-f0-9]{40}$/.test(updates.sourceRevision) ||
+  !updates.source ||
+  !updates.reviewedAt ||
+  !updates.reviewSummary ||
+  !Array.isArray(updates.sourceDocuments) ||
+  !updates.sourceDocuments.length ||
+  !Array.isArray(updates.requirements) ||
+  !Array.isArray(updates.cases)
+) {
+  throw new Error('Invalid reviewed requirement updates or missing source provenance');
+}
 
 const requirements = new Map();
 for (const row of sourceRows) {
@@ -27,6 +43,16 @@ for (const row of sourceRows) {
     throw new Error(`Invalid or duplicate requirement ID: ${id}`);
   }
   requirements.set(id, row);
+}
+const revisedRequirementIds = new Set();
+for (const update of updates.requirements) {
+  const row = requirements.get(update.id);
+  if (!row || revisedRequirementIds.has(update.id) || !update.acceptance || !update.qaFocus) {
+    throw new Error(`Invalid or duplicate reviewed requirement update: ${update.id}`);
+  }
+  row.requirement_and_acceptance = update.acceptance;
+  row.qa_focus = update.qaFocus;
+  revisedRequirementIds.add(update.id);
 }
 
 const cases = [];
@@ -81,6 +107,24 @@ for (const id of Object.keys(coreDesigns)) {
   }
 }
 
+const revisedCaseIds = new Set();
+for (const update of updates.cases) {
+  const item = cases.find((entry) => entry.id === update.id);
+  if (
+    !item ||
+    revisedCaseIds.has(update.id) ||
+    !update.scenario ||
+    !update.mode ||
+    !item.requirementIds.some((id) => revisedRequirementIds.has(id))
+  ) {
+    throw new Error(`Invalid or duplicate reviewed case update: ${update.id}`);
+  }
+  item.scenario = update.scenario;
+  item.mode = update.mode;
+  item.sourceRevision = updates.sourceRevision;
+  revisedCaseIds.add(update.id);
+}
+
 for (const [id, link] of Object.entries(links)) {
   const item = cases.find((entry) => entry.id === id);
   if (!item) throw new Error(`Automation link has no case: ${id}`);
@@ -114,6 +158,9 @@ const requirementList = sourceRows.map((row) => ({
   implementationState: row.implementation_state,
   acceptance: row.requirement_and_acceptance,
   qaFocus: row.qa_focus,
+  ...(revisedRequirementIds.has(row.requirement_id)
+    ? { sourceRevision: updates.sourceRevision }
+    : {}),
   knownGapIds: row.known_gap_ids ? row.known_gap_ids.split(/\s*,\s*/).filter(Boolean) : [],
   caseIds: cases
     .filter((item) => item.requirementIds.includes(row.requirement_id))
@@ -121,7 +168,7 @@ const requirementList = sourceRows.map((row) => ({
 }));
 
 const catalog = {
-  source: 'Zeouf BRD v1.5 and QA guide snapshot from website commit 481a090',
+  source: `Zeouf BRD v1.5 and QA guide snapshot from website commit 481a090; ${updates.source}`,
   requirementCount: requirementList.length,
   caseCount: cases.length,
   requirements: requirementList,

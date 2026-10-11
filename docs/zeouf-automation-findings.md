@@ -1,5 +1,13 @@
 # Zeouf acceptance findings from continued automation
 
+Repair prepared on 2026-10-11: website source review found that CAT-07 had already been revised to `Showing {visible} of {matching} products` in BRD v1.9 at website commit `243b37d`, with an explicit 2026-10-09 documentation review. The five count failures below came from this framework's older snapshot. `requirements/requirement-updates.json` records that scoped revision and the count assertions now verify every reveal batch, filtered results, zero matches and clearing filters. Other requirements retain the original baseline.
+
+The separate website checkout now restores the Women/Men disclosure button's focus when Escape is pressed inside the menu or on its trigger. Pending hover closure is cancelled. Both website keyboard regressions passed; the eight focused framework checks (seven former failures plus seed) and all 43 related catalog/navigation checks passed against the local production build. Website ESLint, TypeScript, documentation checks and production build passed, as did `npm run check` in the framework. The website fix has not been deployed and GitHub CI has not been rerun.
+
+Verification artifacts retain the initial development-server results: Next's debugger attempted `POST /__nextjs_original-stack-frames`, which the unchanged read-only guards rejected. Production-mode verification passed all 43 checks. A separate local monitoring attempt had seven passes and one guest-add setup failure because the fallback catalog did not expose the required unsized Add-to-cart control; the deployed read-only pilot is verified separately. These local fixture limitations do not replace the historical deployed findings below.
+
+The refreshed `test-results/ecommerce-monitoring.md` records ten mapped passes: eight fresh public read-only pilot checks and two local repaired desktop checks, with each origin and revision shown separately. The former failing monitoring snapshot is archived under `test-results/ci-fix-prior-monitoring/`. These mixed-environment results are not a successful deployed CI run.
+
 Observed on 2026-10-10 at the public Zeouf deployment in project `ecommerce-chromium`. The copied acceptance baseline is website commit `481a090`, BRD v1.5. The deployed build's commit has not been verified; these results belong to the observed deployment, not a claim that it still matches that source revision. All scenarios use fresh browser contexts and block non-read server requests.
 
 ## AUTO-001: catalog count conflicts with copied acceptance

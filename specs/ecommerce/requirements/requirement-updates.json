@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "source": "CAT-07 updated from Zeouf BRD v1.9 and QA guide at website commit 243b37ddf2a7f1eb46c3cf2f369daaa2088a4ebb",
+  "sourceRevision": "243b37ddf2a7f1eb46c3cf2f369daaa2088a4ebb",
+  "sourceDocuments": [
+    "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/243b37ddf2a7f1eb46c3cf2f369daaa2088a4ebb/docs/BRD.md",
+    "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/243b37ddf2a7f1eb46c3cf2f369daaa2088a4ebb/docs/QA_TESTING_GUIDE.md",
+    "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/243b37ddf2a7f1eb46c3cf2f369daaa2088a4ebb/docs/requirements-reviews.json"
+  ],
+  "reviewedAt": "2026-10-09T19:27:05.979Z",
+  "reviewSummary": "Reviewed purchase replay and catalog-option validation, atomic configured-size stock, local/staging fixtures and seed failure limits, product metadata, visible listing counts, main landmarks and honest demo/newsletter copy; updated BRD/QA/README, retained unresolved gaps including legacy security inspector G-25, and corrected the sold-out browser test selector. Local evidence remains separate from live migration and concurrency acceptance.",
+  "reviewEvidence": "Website documentation/source review; not stakeholder sign-off or test execution",
+  "requirements": [
+    {
+      "id": "CAT-07",
+      "acceptance": "Listing shall initially reveal at most 24 matches and load 24 more per click; count shall say Showing {visible} of {matching} products, following filters and the final batch. Pending requests show Loading collection, distinct from genuine empty collections and no-filter-match results.",
+      "qaFocus": "Pending request, 0/1/24/25/48/49 products, count text, final batch, filter reset, clear all"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-CAT-007-01",
+      "scenario": "Given 49 matching products, when listing opens and Load More is clicked twice, then cards and Showing {visible} of 49 products both follow 24/48/49 and the final button is absent; filtering resets visible count to the first batch.",
+      "mode": "Baseline; automated batching, filter reset remains separate"
+    }
+  ]
+}

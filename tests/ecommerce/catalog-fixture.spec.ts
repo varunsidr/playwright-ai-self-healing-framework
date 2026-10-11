@@ -8,10 +8,11 @@ test.describe('Zeouf controlled catalog acceptance', { tag: ['@ecommerce', '@reg
       await storefront.openWomenCollection();
       await storefront.expectCategoryLoaded('Women');
       await expect(storefront.productCards).toHaveCount(Math.min(count, 24));
-      await storefront.expectCollectionCount(count, count);
+      await storefront.expectCollectionCount(Math.min(count, 24), count);
       for (let visible = 24; visible < count; visible += 24) {
         await storefront.loadMoreProducts.click();
         await expect(storefront.productCards).toHaveCount(Math.min(count, visible + 24));
+        await storefront.expectCollectionCount(Math.min(count, visible + 24), count);
       }
       await expect(storefront.loadMoreProducts).toBeHidden();
       await expect(storefront.collectionFallback).toBeHidden();
@@ -28,14 +29,16 @@ test.describe('Zeouf controlled catalog acceptance', { tag: ['@ecommerce', '@reg
     await storefront.expectCategoryLoaded('Women');
     await storefront.brandFilter.selectOption('Brand A');
     await expect(storefront.productCards).toHaveCount(2);
-    await storefront.expectCollectionCount(2, 4);
+    await storefront.expectCollectionCount(2, 2);
     await storefront.inStockFilter.check();
     await expect(storefront.productCards).toHaveCount(2);
     await storefront.brandFilter.selectOption('Brand B');
     await expect(storefront.productCards).toHaveCount(0);
+    await storefront.expectCollectionCount(0, 0);
     await expect(storefront.collectionFallback).toBeHidden();
     await storefront.clearFilters.click();
     await expect(storefront.productCards).toHaveCount(4);
+    await storefront.expectCollectionCount(4, 4);
     await expect(storefront.inStockFilter).not.toBeChecked();
   });
 

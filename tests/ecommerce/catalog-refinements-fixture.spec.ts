@@ -20,10 +20,11 @@ test.describe('Zeouf catalog refinements', { tag: ['@ecommerce', '@regression'] 
       catalog.products[1].name,
       catalog.products[2].name,
     ]);
-    await storefront.expectCollectionCount(2, 4);
+    await storefront.expectCollectionCount(2, 2);
     await storefront.minimumPrice.press('End');
     await expect(storefront.minimumPrice).toHaveValue('200');
     await expect(storefront.productCardNames()).toHaveText([catalog.products[2].name]);
+    await storefront.expectCollectionCount(1, 1);
     await storefront.maximumPrice.press('Home');
     await expect(storefront.maximumPrice).toHaveValue('200');
   });

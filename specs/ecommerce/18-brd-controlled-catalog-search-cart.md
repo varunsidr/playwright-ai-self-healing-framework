@@ -8,7 +8,7 @@ Intercept observed products/product_size_stock GET contracts with fictional reco
 
 ## Catalog (`catalog-fixture.spec.ts`)
 
-- `TC-CAT-007-01`: with 0/1/24/25/48/49 matching records, verify initial at-most-24 cards, count text, each further 24-card batch and absence of Load more after the final batch. Empty success shows no demo/retry feedback.
+- `TC-CAT-007-01`: with 0/1/24/25/48/49 matching records, verify initial at-most-24 cards, `Showing {visible} of {matching} products` for each 24-card batch, and absence of Load more after the final batch. CAT-07 uses the reviewed v1.9 contract at website commit `243b37d`, recorded in `requirements/requirement-updates.json`; other requirements retain the original baseline. Empty success shows no demo/retry feedback.
 - `TC-CAT-003-02`: combine Brand A/B with unsized stock, verify matching counts and zero matches, and clear all filters to restore the collection.
 - `TC-CAT-005-02`: two sized products have inverse S/M availability at zero/one/four. In stock only and selected size identify the correct card. Missing-size-row policy remains G-09.
 - `TC-CAT-06-CORE`: low/high prices break equal-price ties by name; Recommended preserves incoming order. Verify exact card names and count. New Arrivals ordering remains unverified.

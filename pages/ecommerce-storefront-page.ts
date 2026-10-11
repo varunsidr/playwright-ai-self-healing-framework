@@ -230,10 +230,8 @@ export class EcommerceStorefrontPage {
     await this.page.goto('/');
   }
 
-  async expectCollectionCount(matching: number, total: number) {
-    await expect(this.collectionCount).toHaveText(
-      new RegExp(`^(?:Showing )?${matching} of ${total} products$`),
-    );
+  async expectCollectionCount(visible: number, matching: number) {
+    await expect(this.collectionCount).toHaveText(`Showing ${visible} of ${matching} products`);
   }
 
   productCardNames() {
