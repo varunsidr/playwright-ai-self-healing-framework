@@ -2,27 +2,26 @@
 
 The Git case catalog remains the planning inventory. This increment adds a reviewed manifest, stable individual-check annotations, and a batch execution report. It requires no external test-management subscription.
 
-`specs/ecommerce/requirements/check-links.json` maps ten check IDs to nine existing cases. Eight checks cover public validation, browser-local recovery, newsletter preview, search and product information. Two additional checks cover desktop Women/Men focus return and retain the existing acceptance assertions. This pilot does not map all 32 file-linked cases or certify any complete BRD requirement.
+`specs/ecommerce/requirements/check-links.json` maps 144 individual browser checks to 41 cases. Every public-safe browser check has an individual mapping, including parameterized boundaries. The 108-case inventory still has 67 cases without individual checks; see the [generated backlog](../specs/ecommerce/automation-backlog.md). None of these mappings certifies complete BRD acceptance.
+
+Original checks have explicit source annotations. Expanded checks use exact `testTitle`, file and project selectors in the manifest, attached by an automatic base fixture. `npm run cases:zeouf:mappings` discovers tests without running the browser and rejects selectors that match zero or multiple tests, duplicate selectors and conflicting source IDs. Keep the stable ID when changing a title and update its reviewed selector. `npm run test:mappings` verifies these failure conditions.
+
+The base fixture blocks non-read browser requests outside a confirmed separate staging host and fails if a test attempts a write. The read-only runner uses an explicit allowlist and forces the staging flag off. It never auto-discovers staging specs.
 
 ## Generate local evidence
 
 Run from the repository root. Playwright now produces a JSON report locally as well as in CI. Give each batch separate output paths to preserve prior evidence. For example, in PowerShell:
 
 ```powershell
-$env:PW_OUTPUT_DIR = 'test-results/monitoring-pilot'
-$env:PW_HTML_REPORT_DIR = 'playwright-report/monitoring-pilot'
-$env:PW_JSON_REPORT_PATH = 'test-results/monitoring-pilot-results.json'
-npm.cmd run test:ecommerce:monitoring-pilot
+$env:PW_OUTPUT_DIR = 'test-results/read-only-run'
+$env:PW_HTML_REPORT_DIR = 'playwright-report/read-only-run'
+$env:PW_JSON_REPORT_PATH = 'test-results/read-only-run-results.json'
+npm.cmd run test:ecommerce:read-only -- --retries=0
 
-$env:PW_OUTPUT_DIR = 'test-results/monitoring-navigation'
-$env:PW_HTML_REPORT_DIR = 'playwright-report/monitoring-navigation'
-$env:PW_JSON_REPORT_PATH = 'test-results/monitoring-navigation-results.json'
-npx.cmd playwright test tests/ecommerce/navigation-accessibility.spec.ts --project=ecommerce-chromium --grep 'desktop.*disclosure'
-
-npm.cmd run monitor:ecommerce -- test-results/monitoring-pilot-results.json test-results/monitoring-navigation-results.json
+npm.cmd run monitor:ecommerce -- test-results/read-only-run-results.json
 ```
 
-The navigation command may fail the desktop focus assertions. Continue to generate the monitoring report after test failure; a failed check is evidence, not a reason to suppress the report. Public tests retain the non-read request guard.
+Continue to generate monitoring after failures. The new category membership fixtures expose Women's products leaking into Men's Jackets and Trousers; see the [developer fix](zeouf-men-category-regression.md). Preserve those assertions and report failures. The earlier desktop Escape fix has been verified on the deployment.
 
 Outputs are `test-results/ecommerce-monitoring.json` and `test-results/ecommerce-monitoring.md`. The Markdown is readable case evidence; the JSON includes check IDs, observed test titles, project/file validation, retry attempts, report hashes and attachment paths. Preserve these outputs with their source JSON reports, HTML reports and failure artifacts. Local summaries overwrite the previous monitoring snapshot; copy them into your chosen run archive when retaining history.
 
@@ -42,7 +41,7 @@ At execution, Playwright records hashes of the case catalog and check manifest. 
 
 ## CI integration
 
-The public workflow runs the eight read-only pilot tests in their own report/artifact directories. The existing navigation batch supplies the two desktop checks. Confirmed staging uses its existing full ecommerce run. An always-run step builds the combined case report and appends it to the GitHub Actions job summary. JSON/Markdown evidence is included in the existing test-results artifact, whose retention is 30 days. Each browser invocation records the same website revision variable when configured.
+The public workflow validates all check selectors, runs public API smoke checks separately, and runs the entire browser allowlist once through `test:ecommerce:read-only`. This includes the former fixture, navigation and pilot batches plus the newly covered frontend cases. Confirmed staging retains its gated full ecommerce run. An always-run step builds combined evidence and appends it to the GitHub Actions job summary. JSON/Markdown evidence is included in the existing test-results artifact, whose retention is 30 days. Website revision remains operator-supplied when configured. Public API checks currently remain unannotated in case monitoring; the browser project includes a separately mapped read-only health check.
 
 `npm run test:monitoring` exercises mapping validation, status semantics, cross-batch failures, missing reports, inventory revision conflicts, Windows paths and retry evidence using synthetic reports. It is also part of `npm run check`. Synthetic tests establish reporter behavior, not live storefront acceptance.
 

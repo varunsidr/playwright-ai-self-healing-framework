@@ -1,0 +1,56 @@
+# Install through a reviewed PR as .github/workflows/repair-pr.yml in the website repository.
+name: Zeouf repair PR verification
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zeouf-repair-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regressions:
+    name: Zeouf unchanged public regressions
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Require a reviewed immutable framework revision
+        env:
+          FRAMEWORK_REVISION: ${{ vars.ECOMMERCE_REPAIR_FRAMEWORK_SHA }}
+        run: |
+          node -e 'if (!/^[a-f0-9]{40}$/.test(process.env.FRAMEWORK_REVISION || "")) { console.error("Set ECOMMERCE_REPAIR_FRAMEWORK_SHA to the reviewed framework commit before requiring this check"); process.exit(1); }'
+      - uses: actions/checkout@v4
+        with:
+          repository: varunsidr/playwright-ai-self-healing-framework
+          ref: ${{ vars.ECOMMERCE_REPAIR_FRAMEWORK_SHA }}
+          path: framework
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: website-source
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install the trusted test framework
+        working-directory: framework
+        run: npm ci --no-audit --no-fund
+      - name: Install the browser before executing website code
+        working-directory: framework
+        run: npx playwright install --with-deps chromium
+      - name: Build the proposed website commit and run unchanged regressions
+        working-directory: framework
+        run: npm run verify:website-pr -- ../website-source test-results/website-repair-pr
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeouf-website-pr-${{ github.event.pull_request.number || github.run_id }}
+          path: framework/test-results/website-repair-pr/
+          retention-days: 30

@@ -1,0 +1,177 @@
+name: Zeouf failure repair
+
+on:
+  workflow_run:
+    workflows: [Playwright Tests]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Failed Playwright Tests run ID from a push to main or master
+        required: true
+        type: string
+      publish_verified_pr:
+        description: Publish a verified draft PR after reviewing the pilot and deployment settings
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: zeouf-repair-${{ github.event.workflow_run.head_sha || inputs.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  propose:
+    if: ${{ vars.ECOMMERCE_REPAIR_ENABLED == 'true' && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' && (github.event_name == 'workflow_dispatch' || (vars.ECOMMERCE_REPAIR_AUTOMATIC == 'true' && github.event.workflow_run.conclusion == 'failure')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      has_patch: ${{ steps.capture.outputs.has_patch }}
+      framework_revision: ${{ steps.prepare.outputs.framework_revision }}
+      website_revision: ${{ steps.prepare.outputs.website_revision }}
+    steps:
+      - name: Validate the failed run belongs to trusted default-branch code
+        id: origin
+        uses: actions/github-script@v7
+        env:
+          REQUESTED_RUN: ${{ github.event.workflow_run.id || inputs.run_id }}
+        with:
+          script: |
+            if (!/^\d+$/.test(process.env.REQUESTED_RUN)) throw new Error('Invalid run ID');
+            const {data: run} = await github.rest.actions.getWorkflowRun({ ...context.repo, run_id: Number(process.env.REQUESTED_RUN) });
+            if (run.name !== 'Playwright Tests' || run.status !== 'completed' || run.conclusion !== 'failure' || !['push','workflow_dispatch'].includes(run.event) || !['main','master'].includes(run.head_branch) || run.head_repository.full_name !== `${context.repo.owner}/${context.repo.repo}`) throw new Error('Only failed same-repository default-branch push/manual runs are eligible');
+            core.setOutput('revision', run.head_sha);
+            core.setOutput('run_id', run.id);
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.origin.outputs.revision }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          name: playwright-test-results
+          run-id: ${{ steps.origin.outputs.run_id }}
+          github-token: ${{ github.token }}
+          path: test-results/original-ci
+      - name: Validate the deployment identity recorded by the failed tests
+        id: deployment
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/ecommerce-repair/deployment.js check test-results/original-ci/ecommerce-read-only-results.json test-results/original-ci/website-deployment.json
+      - uses: actions/checkout@v4
+        with:
+          repository: varunsidr/Luxury_fashion_ecommerce
+          ref: ${{ steps.deployment.outputs.website_revision }}
+          path: website-source
+          persist-credentials: false
+      - name: Prepare immutable failure evidence and isolated checkouts
+        id: prepare
+        run: npm run repair:ecommerce:ci -- prepare test-results/ecommerce-repair-ci website-source test-results/original-ci/ecommerce-read-only-results.json test-results/original-ci/website-deployment.json
+      - name: Diagnose without editing source
+        if: steps.prepare.outputs.active == 'true'
+        uses: openai/codex-action@a8d8be6ee028bea4525bc722d16f36687b408c81
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          permission-profile: ':read-only'
+          safety-strategy: drop-sudo
+          working-directory: ${{ steps.prepare.outputs.framework }}
+          prompt-file: ${{ github.workspace }}/test-results/ecommerce-repair-ci/diagnosis-prompt.txt
+          output-schema-file: ${{ github.workspace }}/test-results/ecommerce-repair-ci/diagnosis.schema.json
+          output-file: ${{ github.workspace }}/test-results/ecommerce-repair-ci/diagnosis.json
+      - name: Ground the diagnosis and select the repair owner
+        if: steps.prepare.outputs.active == 'true'
+        id: route
+        run: npm run repair:ecommerce:ci -- route test-results/ecommerce-repair-ci
+      - name: Propose the repair in its isolated checkout
+        if: ${{ steps.route.outputs.role == 'website' || steps.route.outputs.role == 'framework' }}
+        uses: openai/codex-action@a8d8be6ee028bea4525bc722d16f36687b408c81
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          permission-profile: ':workspace'
+          safety-strategy: drop-sudo
+          working-directory: ${{ steps.route.outputs.target }}
+          prompt-file: ${{ github.workspace }}/test-results/ecommerce-repair-ci/repair-prompt.txt
+          output-schema-file: ${{ github.workspace }}/scripts/ecommerce-repair/repair-result.schema.json
+          output-file: ${{ github.workspace }}/test-results/ecommerce-repair-ci/repair.json
+      - name: Reject changes outside the repair scope and capture the proposal
+        if: ${{ steps.route.outputs.role == 'website' || steps.route.outputs.role == 'framework' }}
+        id: capture
+        run: npm run repair:ecommerce:ci -- capture test-results/ecommerce-repair-ci
+      - name: Save original failure and agent evidence even when blocked
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zeouf-repair-proposal
+          path: test-results/ecommerce-repair-ci/
+          retention-days: 30
+
+  verify:
+    needs: propose
+    if: needs.propose.outputs.has_patch == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      verified: ${{ steps.verify.outputs.verified }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.propose.outputs.framework_revision }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: varunsidr/Luxury_fashion_ecommerce
+          ref: ${{ needs.propose.outputs.website_revision }}
+          path: website-source
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - uses: actions/download-artifact@v4
+        with:
+          name: zeouf-repair-proposal
+          path: test-results/ecommerce-repair-ci
+      - name: Reproduce failures, apply patch, build, and run unchanged regressions
+        id: verify
+        run: npm run repair:ecommerce:ci -- verify test-results/ecommerce-repair-ci website-source
+      - name: Save independent verification and browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zeouf-repair-verification
+          path: test-results/ecommerce-repair-ci/
+          retention-days: 30
+
+  publish:
+    needs: [propose, verify]
+    if: ${{ needs.verify.outputs.verified == 'true' && vars.ECOMMERCE_REPAIR_PUBLISH_PR == 'true' && github.event_name == 'workflow_dispatch' && inputs.publish_verified_pr == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.propose.outputs.framework_revision }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@v4
+        with:
+          name: zeouf-repair-verification
+          path: test-results/ecommerce-repair-ci
+      - name: Open a draft PR from the independently verified patch
+        env:
+          GH_TOKEN: ${{ secrets.REPAIR_GITHUB_TOKEN }}
+        run: npm run repair:ecommerce:publish -- test-results/ecommerce-repair-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeouf-repair-publication
+          path: test-results/ecommerce-repair-ci/publication.json

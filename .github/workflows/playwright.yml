@@ -4,6 +4,12 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      pin_deployment:
+        description: Run against a publicly accessible immutable Zeouf deployment for a repair pilot
+        type: boolean
+        default: false
 jobs:
   test:
     env:
@@ -19,6 +25,10 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Validate Zeouf individual check mappings
+        run: |
+          npm run cases:zeouf:mappings
+          npm run test:mappings
       - name: Run demo UI and API tests
         env:
           PW_OUTPUT_DIR: test-results/demo
@@ -29,15 +39,24 @@ jobs:
       - name: Summarize demo test stability
         if: always()
         run: npm run summarize:results -- test-results/demo-results.json
-      - name: Run deployed Zeouf read-only smoke checks
-        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
+      - name: Record the exact successful Zeouf production deployment
+        id: deployment
+        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' && (inputs.pin_deployment == true || vars.ECOMMERCE_PIN_DEPLOYMENT == 'true') }}
         env:
-          ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/ecommerce-repair/deployment.js capture test-results/website-deployment.json
+      - name: Run deployed Zeouf read-only smoke checks
+        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' && ((inputs.pin_deployment != true && vars.ECOMMERCE_PIN_DEPLOYMENT != 'true') || steps.deployment.outcome == 'success') }}
+        env:
+          ECOMMERCE_BASE_URL: ${{ steps.deployment.outputs.url || vars.ECOMMERCE_BASE_URL }}
+          ECOMMERCE_BUILD_REVISION: ${{ steps.deployment.outputs.website_revision }}
+          ECOMMERCE_DEPLOYMENT_ID: ${{ steps.deployment.outputs.deployment_id }}
+          ECOMMERCE_DEPLOYMENT_FILE: ${{ steps.deployment.outputs.record_file }}
           PW_OUTPUT_DIR: test-results/ecommerce
           PW_HTML_REPORT_DIR: playwright-report/ecommerce
           PW_JUNIT_REPORT_PATH: test-results/ecommerce-junit.xml
           PW_JSON_REPORT_PATH: test-results/ecommerce-results.json
-        run: npx playwright test --project=ecommerce-chromium --project=ecommerce-api --grep @smoke
+        run: npx playwright test --project=ecommerce-api --grep @smoke
       - name: Run full ecommerce tests on confirmed isolated staging
         if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED == 'true' }}
         env:
@@ -52,40 +71,21 @@ jobs:
         run: |
           node scripts/verify-ecommerce-staging.js
           npx playwright test --project=ecommerce-chromium --project=ecommerce-api
-      - name: Run Zeouf browser fixture regressions
-        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
+      - name: Run expanded Zeouf read-only browser regressions
+        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' && ((inputs.pin_deployment != true && vars.ECOMMERCE_PIN_DEPLOYMENT != 'true') || steps.deployment.outcome == 'success') }}
         env:
-          ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
-          PW_OUTPUT_DIR: test-results/ecommerce-fixtures
-          PW_HTML_REPORT_DIR: playwright-report/ecommerce-fixtures
-          PW_JUNIT_REPORT_PATH: test-results/ecommerce-fixtures-junit.xml
-          PW_JSON_REPORT_PATH: test-results/ecommerce-fixture-results.json
-        run: npm run test:ecommerce:fixtures
-      - name: Summarize Zeouf browser fixture results
+          ECOMMERCE_BASE_URL: ${{ steps.deployment.outputs.url || vars.ECOMMERCE_BASE_URL }}
+          ECOMMERCE_BUILD_REVISION: ${{ steps.deployment.outputs.website_revision }}
+          ECOMMERCE_DEPLOYMENT_ID: ${{ steps.deployment.outputs.deployment_id }}
+          ECOMMERCE_DEPLOYMENT_FILE: ${{ steps.deployment.outputs.record_file }}
+          PW_OUTPUT_DIR: test-results/ecommerce-read-only
+          PW_HTML_REPORT_DIR: playwright-report/ecommerce-read-only
+          PW_JUNIT_REPORT_PATH: test-results/ecommerce-read-only-junit.xml
+          PW_JSON_REPORT_PATH: test-results/ecommerce-read-only-results.json
+        run: npm run test:ecommerce:read-only
+      - name: Summarize Zeouf read-only browser results
         if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
-        run: npm run summarize:results -- test-results/ecommerce-fixture-results.json
-      - name: Run Zeouf navigation regressions
-        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
-        env:
-          ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
-          PW_OUTPUT_DIR: test-results/ecommerce-navigation
-          PW_HTML_REPORT_DIR: playwright-report/ecommerce-navigation
-          PW_JUNIT_REPORT_PATH: test-results/ecommerce-navigation-junit.xml
-          PW_JSON_REPORT_PATH: test-results/ecommerce-navigation-results.json
-        run: npm run test:ecommerce:navigation
-      - name: Run Zeouf case monitoring pilot
-        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
-        env:
-          ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
-          ECOMMERCE_BUILD_REVISION: ${{ vars.ECOMMERCE_BUILD_REVISION }}
-          PW_OUTPUT_DIR: test-results/ecommerce-pilot
-          PW_HTML_REPORT_DIR: playwright-report/ecommerce-pilot
-          PW_JUNIT_REPORT_PATH: test-results/ecommerce-pilot-junit.xml
-          PW_JSON_REPORT_PATH: test-results/ecommerce-pilot-results.json
-        run: npm run test:ecommerce:monitoring-pilot
-      - name: Summarize Zeouf navigation results
-        if: ${{ always() && vars.ECOMMERCE_STAGING_CONFIRMED != 'true' }}
-        run: npm run summarize:results -- test-results/ecommerce-navigation-results.json
+        run: npm run summarize:results -- test-results/ecommerce-read-only-results.json
       - name: Summarize ecommerce test stability
         if: always()
         run: npm run summarize:results -- test-results/ecommerce-results.json
@@ -97,7 +97,7 @@ jobs:
           if [ "$ECOMMERCE_STAGING_CONFIRMED" = "true" ]; then
             npm run monitor:ecommerce -- test-results/ecommerce-results.json
           else
-            npm run monitor:ecommerce -- test-results/ecommerce-results.json test-results/ecommerce-fixture-results.json test-results/ecommerce-navigation-results.json test-results/ecommerce-pilot-results.json
+            npm run monitor:ecommerce -- test-results/ecommerce-results.json test-results/ecommerce-read-only-results.json
           fi
       - name: Generate Allure report
         if: always()

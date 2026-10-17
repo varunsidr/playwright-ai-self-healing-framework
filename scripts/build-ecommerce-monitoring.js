@@ -25,6 +25,12 @@ function validateManifest(
     }
     ids.add(check.id);
     if (
+      check.testTitle !== undefined &&
+      (typeof check.testTitle !== 'string' || !check.testTitle.trim())
+    ) {
+      throw new Error(`Invalid test title selector: ${check.id}`);
+    }
+    if (
       check.project !== 'ecommerce-chromium' ||
       !/^tests\/ecommerce\/[^.].*\.spec\.ts$/.test(check.file) ||
       check.file.includes('..') ||

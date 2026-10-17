@@ -8,5 +8,12 @@
     "strict": true,
     "types": ["node"]
   },
-  "include": ["tests/**/*.ts", "fixtures/**/*.ts", "**/*.ts"]
+  "include": ["tests/**/*.ts", "fixtures/**/*.ts", "**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "test-results",
+    "test-results-*",
+    "playwright-report",
+    "website-source"
+  ]
 }

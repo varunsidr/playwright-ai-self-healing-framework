@@ -46,6 +46,8 @@ export class EcommerceStorefrontPage {
   readonly sizeGuideCloseButton: Locator;
   readonly reviewSubmitButton: Locator;
   readonly loginPanel: Locator;
+  readonly forgotPasswordButton: Locator;
+  readonly resetEmailRequiredMessage: Locator;
   readonly registerForm: Locator;
   readonly favoritesHeading: Locator;
   readonly emptyFavoritesMessage: Locator;
@@ -140,6 +142,13 @@ export class EcommerceStorefrontPage {
     this.sizeGuideCloseButton = page.getByRole('button', { name: 'Close size guide' });
     this.reviewSubmitButton = page.getByTestId('product-detail-review-submit');
     this.loginPanel = page.getByTestId('navbar-login-panel');
+    this.forgotPasswordButton = this.loginPanel.getByRole('button', {
+      name: 'Forgot password',
+      exact: true,
+    });
+    this.resetEmailRequiredMessage = this.loginPanel.getByText('Enter your email address first.', {
+      exact: true,
+    });
     this.registerForm = page.getByTestId('navbar-register-form');
     this.favoritesHeading = page.getByRole('heading', { name: 'Favorites', level: 1 });
     this.emptyFavoritesMessage = page.getByText("You don't have any favorites yet");
@@ -416,10 +425,24 @@ export class EcommerceStorefrontPage {
 
   async openFirstProduct() {
     await this.openWomenCollection();
-    const availableUnsizedProduct = this.productCards.filter({
-      has: this.page.getByTestId('product-card-add-to-cart'),
+    await this.expectWomenCollectionLoaded();
+    const availableUnsizedProduct = await this.firstPurchasableUnsizedCard();
+    await availableUnsizedProduct.getByTestId('product-card-name').click();
+  }
+
+  private async firstPurchasableUnsizedCard() {
+    // Sized cards contain a hidden add control. Require the actual accessible
+    // quick-add action and load more within the same collection when needed.
+    const eligible = this.productCards.filter({
+      has: this.page.getByRole('button', { name: /^Add .+ to cart$/ }),
     });
-    await availableUnsizedProduct.first().getByTestId('product-card-name').click();
+    while ((await eligible.count()) === 0 && (await this.loadMoreProducts.isVisible())) {
+      const before = await this.productCards.count();
+      await this.loadMoreProducts.click();
+      await expect(this.productCards).not.toHaveCount(before);
+    }
+    await expect(eligible.first(), 'Guest add requires an in-stock unsized product').toBeVisible();
+    return eligible.first();
   }
 
   async searchFor(query: string) {
@@ -519,10 +542,8 @@ export class EcommerceStorefrontPage {
   }
 
   async addFirstCatalogProductToCart() {
-    await this.productCards
-      .getByRole('button', { name: /^Add .+ to cart$/ })
-      .first()
-      .click();
+    const product = await this.firstPurchasableUnsizedCard();
+    await product.getByRole('button', { name: /^Add .+ to cart$/ }).click();
   }
 
   async closeAccountPanel() {

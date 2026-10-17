@@ -266,6 +266,8 @@ See [roadmap/FUTURE_ENHANCEMENTS.md](roadmap/FUTURE_ENHANCEMENTS.md) for these m
 
 ## CI
 
+Zeouf failure diagnosis, agent repair handoffs, independent verification, and optional draft PRs are documented in [docs/ecommerce-auto-repair.md](docs/ecommerce-auto-repair.md). The repair workflow requires GitHub configuration before it runs automatically.
+
 The repository includes a GitHub Actions workflow in [`.github/workflows/playwright.yml`](.github/workflows/playwright.yml) that runs on push and pull request events.
 
 Current CI behavior:
@@ -273,7 +275,8 @@ Current CI behavior:
 - Installs dependencies with `npm ci`.
 - Installs Playwright browsers with `npx playwright install --with-deps`.
 - Runs the Expand Testing UI suite in Chromium, Firefox, and WebKit, plus the API project.
-- Runs read-only ecommerce API and browser smoke checks against the deployed Zeouf site by default. When the repository variable `ECOMMERCE_BASE_URL` points to a dedicated test deployment, CI runs the full ecommerce suite instead. Add it under GitHub repository **Settings → Secrets and variables → Actions → Variables**.
+- Runs read-only ecommerce API smoke checks and all 144 reviewed public browser checks against Zeouf by default. Full stateful coverage requires `ECOMMERCE_STAGING_CONFIRMED=true`, an isolated staging URL and test credentials; a URL alone does not enable it.
+- Supports a manual pinned deployment run for repair pilots. An inaccessible immutable deployment blocks that requested run; ordinary public monitoring continues to use the configured URL.
 - Uploads the HTML report and test artifacts after every run.
 
 If you want to extend this repository later, the safest path is to keep the same layering and add new abstractions only when a real repeated problem appears.

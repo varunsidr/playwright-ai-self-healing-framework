@@ -2,6 +2,22 @@ import { expect } from '../../fixtures/ecommerce-base';
 import { catalogProducts, test } from '../../fixtures/ecommerce-catalog';
 
 test.describe('Zeouf product card fixtures', { tag: ['@ecommerce', '@regression'] }, () => {
+  test('TC-FAV-03-CORE guest favorite prompts sign-in and stays unselected @negative', async ({
+    catalog,
+    storefront,
+  }) => {
+    catalog.products = [{ ...catalogProducts(1)[0], name: 'Guest Favorite Fixture' }];
+    await storefront.openWomenCollection();
+    await storefront.expectCategoryLoaded('Women');
+    const favorite = storefront.cardFavorite('Guest Favorite Fixture');
+    await expect(favorite).toHaveAttribute('aria-pressed', 'false');
+    await favorite.click();
+    await storefront.expectGuestSignInRequired();
+    await storefront.closeAccountPanel();
+    await expect(favorite).toHaveAttribute('aria-pressed', 'false');
+    await storefront.openRoute('/favorilerim');
+    await expect(storefront.emptyFavoritesMessage).toBeVisible();
+  });
   for (const viewport of [375, 1440]) {
     test(`TC-PDP-001-01 sized/unsized/unavailable actions at ${viewport}px @happy`, async ({
       catalog,

@@ -1,12 +1,22 @@
 # Zeouf acceptance findings from continued automation
 
+## Current expansion
+
+The latest public read-only run contains **144 individually mapped browser checks: 142 passed and 2 failed without retries**, covering limited scopes in **41 of 108 cases**. It adds 22 tests for category membership, guest favorites, blank password reset, nonempty guest checkout, browser-cart variant merging, health and schema reads. All existing public-safe checks now have individual mappings; no browser test in this run is unmapped.
+
+Both failures are a new category membership regression: Men's Jackets and Trousers include the corresponding Women's products. The fixture uses the real deployed listing with intercepted GET responses and no server writes. See [the developer fix and reproduction](zeouf-men-category-regression.md). Expected membership remains enforced, so expanded CI will fail until the website is repaired and deployed.
+
+Current execution evidence is in `test-results/ecommerce-monitoring.md`. The [all-case backlog](../specs/ecommerce/automation-backlog.md) records 67 cases without individual checks: 58 require staging, four need additional controlled runtime fixtures, three belong to website repository CI, and two require manual scope review. Mapped cases retain partial scopes and unassessed full acceptance.
+
+## Earlier count and keyboard repairs
+
 Repair prepared on 2026-10-11: website source review found that CAT-07 had already been revised to `Showing {visible} of {matching} products` in BRD v1.9 at website commit `243b37d`, with an explicit 2026-10-09 documentation review. The five count failures below came from this framework's older snapshot. `requirements/requirement-updates.json` records that scoped revision and the count assertions now verify every reveal batch, filtered results, zero matches and clearing filters. Other requirements retain the original baseline.
 
-The separate website checkout now restores the Women/Men disclosure button's focus when Escape is pressed inside the menu or on its trigger. Pending hover closure is cancelled. Both website keyboard regressions passed; the eight focused framework checks (seven former failures plus seed) and all 43 related catalog/navigation checks passed against the local production build. Website ESLint, TypeScript, documentation checks and production build passed, as did `npm run check` in the framework. The website fix has not been deployed and GitHub CI has not been rerun.
+The separate website checkout restores the Women/Men disclosure button's focus when Escape is pressed inside the menu or on its trigger. Pending hover closure is cancelled. Both website keyboard regressions passed; the eight focused framework checks (seven former failures plus seed) and all 43 related catalog/navigation checks passed against the local production build. Website ESLint, TypeScript, documentation checks and production build passed. The focus fix was subsequently verified on the public deployment, and both desktop checks also passed in the current expanded run. The user reported the earlier CI rerun passed; the new workflow has not yet been run on GitHub.
 
 Verification artifacts retain the initial development-server results: Next's debugger attempted `POST /__nextjs_original-stack-frames`, which the unchanged read-only guards rejected. Production-mode verification passed all 43 checks. A separate local monitoring attempt had seven passes and one guest-add setup failure because the fallback catalog did not expose the required unsized Add-to-cart control; the deployed read-only pilot is verified separately. These local fixture limitations do not replace the historical deployed findings below.
 
-The refreshed `test-results/ecommerce-monitoring.md` records ten mapped passes: eight fresh public read-only pilot checks and two local repaired desktop checks, with each origin and revision shown separately. The former failing monitoring snapshot is archived under `test-results/ci-fix-prior-monitoring/`. These mixed-environment results are not a successful deployed CI run.
+Earlier monitoring recorded ten pilot passes before this expansion. The preceding monitoring snapshot is now archived as `test-results/automation-expansion-prior-monitoring.md` and `.json`; the former failing snapshot remains under `test-results/ci-fix-prior-monitoring/`. Retain historical reports with their original catalog/manifest revision rather than merging them into the new inventory.
 
 Observed on 2026-10-10 at the public Zeouf deployment in project `ecommerce-chromium`. The copied acceptance baseline is website commit `481a090`, BRD v1.5. The deployed build's commit has not been verified; these results belong to the observed deployment, not a claim that it still matches that source revision. All scenarios use fresh browser contexts and block non-read server requests.
 

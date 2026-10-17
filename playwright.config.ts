@@ -14,6 +14,12 @@ export default defineConfig({
   metadata: {
     codeRevision: process.env.GITHUB_SHA || process.env.ECOMMERCE_CODE_REVISION || null,
     websiteRevision: process.env.ECOMMERCE_BUILD_REVISION || null,
+    websiteDeploymentId: process.env.ECOMMERCE_DEPLOYMENT_ID || null,
+    websiteDeploymentSha256: process.env.ECOMMERCE_DEPLOYMENT_FILE
+      ? createHash('sha256')
+          .update(readFileSync(process.env.ECOMMERCE_DEPLOYMENT_FILE))
+          .digest('hex')
+      : null,
     ecommerceOrigin: new URL(
       process.env.ECOMMERCE_BASE_URL || 'https://zeouf-luxury-fashion-ecommerce.vercel.app',
     ).origin,

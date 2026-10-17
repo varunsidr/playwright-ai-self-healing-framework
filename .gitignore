@@ -17,3 +17,6 @@ node_modules/
 /playwright/.auth/
 .auth/
 /tutorial/
+
+# Disposable website checkout used by the independent repair workflow.
+/website-source/

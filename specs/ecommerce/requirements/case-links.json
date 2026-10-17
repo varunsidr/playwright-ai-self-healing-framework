@@ -68,18 +68,20 @@
   "TC-CART-001-01": {
     "automationFile": "tests/ecommerce/cart-guest-denial.spec.ts",
     "automationScope": "guest-denial branch; no signed-in add/replay",
-    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/product-detail.spec.ts"]
   },
   "TC-CART-004-04": {
     "automationFile": "tests/ecommerce/cart-malformed-storage.spec.ts",
-    "automationScope": "malformed JSON recovery only",
-    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+    "automationScope": "partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified",
+    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/cart-storage-fixture.spec.ts"]
   },
   "TC-NAV-005-01": {
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
     "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"],
     "automationScope": "partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified",
-    "lastEvidence": "2026-10-10 deployed desktop Women/Men focus failures remain historical. Both desktop checks passed locally on 2026-10-11 after restoring disclosure focus in Navbar; account/cart/search/mobile prior deployed passes retained. Website fix is not yet deployed; public focus verification pending."
+    "lastEvidence": "Website Escape focus fix verified on deployed Zeouf for Women and Men on 2026-10-11, without retries. Expanded dialog/navigation evidence is recorded in the current ecommerce monitoring report."
   },
   "TC-CAT-06-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -93,7 +95,8 @@
   "TC-SEA-03-CORE": {
     "automationFile": "tests/ecommerce/catalog.spec.ts",
     "automationScope": "partial: no-results state for a missing query only",
-    "lastEvidence": "No-results test passed on public Zeouf in ecommerce-chromium on 2026-10-07"
+    "lastEvidence": "No-results test passed on public Zeouf in ecommerce-chromium on 2026-10-07",
+    "additionalAutomationFiles": ["tests/ecommerce/search-fixture.spec.ts"]
   },
   "TC-PDP-04-CORE": {
     "automationFile": "tests/ecommerce/product-detail.spec.ts",
@@ -102,13 +105,15 @@
   },
   "TC-NAV-006-01": {
     "automationFile": "tests/ecommerce/legacy-category-redirects.spec.ts",
-    "automationScope": "partial: three representative legacy category routes, not every mapped path",
-    "lastEvidence": "Legacy-route test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "automationScope": "partial: seven legacy main-category and fifteen legacy subcategory URLs assert their exact English redirect destination and heading, plus original three representative checks; unknown or retired legacy paths unverified",
+    "lastEvidence": "Legacy-route test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"]
   },
   "TC-OPS-01-CORE": {
     "automationFile": "tests/ecommerce/api/public-api.spec.ts",
     "automationScope": "full public health JSON shape and parseable timestamp; no database readiness inference",
-    "lastEvidence": "Health API test passed on public Zeouf in ecommerce-api on 2026-10-07"
+    "lastEvidence": "Health API test passed on public Zeouf in ecommerce-api on 2026-10-07",
+    "additionalAutomationFiles": ["tests/ecommerce/guest-boundaries.spec.ts"]
   },
   "TC-NAV-07-CORE": {
     "automationFile": "tests/ecommerce/not-found-admin-shell.spec.ts",
@@ -128,7 +133,8 @@
   "TC-AUTH-04-CORE": {
     "automationFile": "tests/ecommerce/auth-password-visibility.spec.ts",
     "automationScope": "password visibility and Sign In/Register tab behavior without form submission",
-    "lastEvidence": "Auth visibility test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "lastEvidence": "Auth visibility test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"]
   },
   "TC-PDP-06-CORE": {
     "automationFile": "tests/ecommerce/product-information.spec.ts",
@@ -143,18 +149,24 @@
   "TC-CART-06-CORE": {
     "automationFile": "tests/ecommerce/cart-browser-controls.spec.ts",
     "automationScope": "empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted",
-    "lastEvidence": "Both cart navigation branches passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "lastEvidence": "Both cart navigation branches passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"]
   },
   "TC-NAV-001-01": {
     "automationFile": "tests/ecommerce/home-hero.spec.ts",
-    "additionalAutomationFiles": ["tests/ecommerce/home-destinations.spec.ts"],
+    "additionalAutomationFiles": [
+      "tests/ecommerce/home-destinations.spec.ts",
+      "tests/ecommerce/catalog.spec.ts",
+      "tests/ecommerce/seed.spec.ts"
+    ],
     "automationScope": "partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested",
     "lastEvidence": "Nine homepage destination tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10 with writes blocked; manual/reduced-motion evidence retained from the previous batch"
   },
   "TC-CNT-02-CORE": {
     "automationFile": "tests/ecommerce/footer-content.spec.ts",
     "automationScope": "footer hrefs and GitHub attributes; privacy/terms navigation and return-home links; category targets checked as hrefs only",
-    "lastEvidence": "Footer navigation test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "lastEvidence": "Footer navigation test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/legal.spec.ts"]
   },
   "TC-CNT-03-CORE": {
     "automationFile": "tests/ecommerce/footer-content.spec.ts",
@@ -165,5 +177,53 @@
     "automationFile": "tests/ecommerce/currency-fixture.spec.ts",
     "automationScope": "partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested",
     "lastEvidence": "Four currency fixture branches passed against public Zeouf in ecommerce-chromium on 2026-10-07; region GET mocked and non-read requests blocked"
+  },
+  "TC-AUTH-05-CORE": {
+    "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
+    "automationScope": "partial: blank reset-email prompt without server writes; valid reset delivery and mailbox flow require isolated staging",
+    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+  },
+  "TC-CHK-001-01": {
+    "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
+    "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"],
+    "automationScope": "partial: signed-out empty and nonempty checkout disable payment and preserve browser cart; expired-token API denial and signed-in empty checkout require staging",
+    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+  },
+  "TC-CART-002-01": {
+    "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
+    "automationScope": "partial: fictional browser-cart restoration merges duplicate size/color tuples and keeps other variants distinct with correct subtotal; authenticated add behavior unverified",
+    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+  },
+  "TC-FAV-03-CORE": {
+    "automationFile": "tests/ecommerce/product-card-fixture.spec.ts",
+    "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"],
+    "automationScope": "partial: guest favorite prompts sign-in, stays unselected and shows empty favorites; authenticated card loading and stored favorite details require staging",
+    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+  },
+  "TC-ORD-001-01": {
+    "automationFile": "tests/ecommerce/account-cart-checkout.spec.ts",
+    "automationScope": "partial: signed-out order history prompt only; user ownership and database RLS require two disposable staging accounts",
+    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+  },
+  "TC-CAT-005-01": {
+    "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
+    "automationScope": "partial: controlled S=0/M=4 and S=1/M=0 read fixtures exercise selected-size stock filtering; actual inventory rows unverified",
+    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+  },
+  "TC-CAT-01-CORE": {
+    "automationFile": "tests/ecommerce/category-membership-fixture.spec.ts",
+    "automationScope": "partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified",
+    "lastEvidence": "Expansion run: 14 category membership checks passed; Men trousers and jacket failed because Women products also match. See docs/zeouf-men-category-regression.md and current monitoring. GET fixtures only; no database acceptance.",
+    "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"]
+  },
+  "TC-OPS-05-CORE": {
+    "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
+    "automationScope": "partial: GET schema contract checks plain SQL when available or explicit 404 when absent on the current build; controlled local file removal and clipboard failure still need local runtime fixtures",
+    "lastEvidence": "Awaiting current expansion run"
+  },
+  "TC-NFR-05-CORE": {
+    "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
+    "automationScope": "partial: existing dialog focus containment, Escape and focus restoration plus desktop disclosure keyboard behavior; screen readers, automated WCAG audit, remaining pages and full WCAG 2.2 acceptance unverified",
+    "lastEvidence": "Awaiting current expansion run"
   }
 }

@@ -1,0 +1,7 @@
+# Generated reports and archived repair evidence are not framework source.
+test-results/
+test-results-*/
+playwright-report/
+allure-results/
+allure-report/
+website-source/

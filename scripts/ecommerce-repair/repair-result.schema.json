@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "summary": { "type": "string" },
+    "requirementIds": { "type": "array", "items": { "type": "string" } },
+    "documentationReview": { "type": "string" },
+    "blockers": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["summary", "requirementIds", "documentationReview", "blockers"]
+}
