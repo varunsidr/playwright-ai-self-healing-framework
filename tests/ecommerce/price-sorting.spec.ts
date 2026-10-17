@@ -1,4 +1,5 @@
 import { expect, test } from '../../fixtures/ecommerce-base';
+import { useInrStorefrontRegion } from '../../fixtures/ecommerce-browser-cart';
 
 function parseRupeePrice(text: string): number {
   const match = /^\s*₹\s*([\d,]+(?:\.\d{1,2})?)\s*$/u.exec(text);
@@ -15,7 +16,12 @@ test.describe(
   'Dress catalog display order',
   { tag: ['@ecommerce', '@regression', '@happy'] },
   () => {
-    test('Price: Low to High orders all visible Dress product prices', async ({ storefront }) => {
+    test('Price: Low to High orders all visible Dress product prices', async ({
+      context,
+      storefront,
+    }) => {
+      // The deployed region service follows the runner's country; this check compares INR prices.
+      await useInrStorefrontRegion(context);
       // Load every product before sorting so pagination cannot change the price set under comparison.
       await storefront.openRoute('/women/dress');
       await storefront.expectCategoryLoaded('Dress');

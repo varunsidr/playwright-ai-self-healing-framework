@@ -30,3 +30,5 @@ npx.cmd playwright test tests/ecommerce/category-membership-fixture.spec.ts --pr
 ```
 
 Traces and screenshots are retained in `test-results/automation-expansion/` and the latest full read-only run's output directory. This is frontend filtering evidence; it does not verify actual database inventory or applied policies.
+
+The [reviewed website patch](patches/zeouf-category-membership.patch) applies to website commit `847e90aed04f5902449b0e36424b7a50a90eed61` and includes its required documentation review. See the [17 October CI investigation](ecommerce-ci-failure-2026-10-17.md) for verification and deployment steps. The deployed storefront remains unchanged until this website correction is merged and deployed.

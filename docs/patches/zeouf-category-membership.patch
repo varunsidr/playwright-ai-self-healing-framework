@@ -1,0 +1,113 @@
+diff --git a/docs/BRD.md b/docs/BRD.md
+index 49aee9d..0062924 100644
+--- a/docs/BRD.md
++++ b/docs/BRD.md
+@@ -693,3 +693,8 @@ Source paths identify implementation evidence; reopen them after changes. The re
+ | QA owner | Unassigned | Pending test coverage and executed evidence | — |
+ 
+ Change control: retain requirement IDs when wording changes; assign new IDs for new behavior; record version/date and impacted tests after any change to routes, roles, schema, business rules or acceptance criteria. Update the CSV from the changed rows and preserve execution history separately.
++
++
++### CAT-01 shared-label source review (17 October 2026)
++
++Ordinary subcategories require membership in the selected main collection before applying normalized category/subcategory comparisons. This prevents Women's Trousers and Women's Jacket from entering the corresponding Men's collections. Existing CAT-01 acceptance, tag routes, normalization and known gaps remain unchanged. Source review is separate from local browser results and deployed acceptance.
+diff --git a/docs/QA_TESTING_GUIDE.md b/docs/QA_TESTING_GUIDE.md
+index ec599f0..18740d0 100644
+--- a/docs/QA_TESTING_GUIDE.md
++++ b/docs/QA_TESTING_GUIDE.md
+@@ -333,3 +333,8 @@ Failures retain screenshots/traces under test-results/live. This opt-in suite do
+ The README screenshots were refreshed from the `f6b916d` UI on 4 October 2026 using isolated fallback data, INR currency and reduced motion. Desktop previews use 1440px width; category captures include product names/prices. The dashboard uses local catalog data and an empty order-response fixture. Captures wait for fonts and visible images to load; full-page capture first scrolls through every section and checks all image loads before returning to the top. The development indicator is hidden only during capture. These images are presentation references, not evidence of live Supabase permissions, stock synchronization or mail delivery.
+ 
+ Review README links/images, English route labels, setup/migration sequence, current feature limitations and checkout description when updating previews. CHK-04 has no card-number input or decline simulation; both README and UI now describe successful simulation with no charge (historical G-11). Detail shipping overrides and demo confirmation/footer/history/privacy deny fulfillment/support. The old database diagram remains historical and must not substitute for current SQL migrations.
++
++
++### CAT-01 shared-label regression (17 October 2026)
++
++Use the external framework's controlled category fixtures containing all 14 categories, including Women's/Men's Trousers and Jacket. Assert that /men/trousers and /men/jacket include only the matching Men's product, then rerun category membership, catalog filtering/sorting and storefront seed checks with unchanged expectations and zero retries. Intercepted GET fixtures prove frontend filtering only; database inventory, policies and deployed acceptance require separate evidence.
+diff --git a/docs/requirements-history.json b/docs/requirements-history.json
+index c263be9..5a3661a 100644
+--- a/docs/requirements-history.json
++++ b/docs/requirements-history.json
+@@ -7646,5 +7646,25 @@
+       "owner": "",
+       "notes": ""
+     }
++  },
++  {
++    "archived_at": "2026-10-17T10:25:32.215Z",
++    "reason": "source_change_review",
++    "changed_fields": [],
++    "row": {
++      "requirement_id": "CAT-01",
++      "module": "Catalog listing",
++      "priority": "P1",
++      "implementation_state": "I",
++      "requirement_and_acceptance": "Listings shall restrict products to the selected category/subcategory using configured English categories and normalized matching; women's and men's collections remain distinct.",
++      "source_codes": "LIST, CATDEF",
++      "qa_focus": "All 14 database categories, alias/normalization cases",
++      "known_gap_ids": "",
++      "test_case_ids": "",
++      "execution_status": "Not executed",
++      "defect_ids": "",
++      "owner": "",
++      "notes": ""
++    }
+   }
+ ]
+diff --git a/docs/requirements-reviews.json b/docs/requirements-reviews.json
+index ea5be5b..b6ec486 100644
+--- a/docs/requirements-reviews.json
++++ b/docs/requirements-reviews.json
+@@ -864,5 +864,18 @@
+     "changed_sources": [],
+     "source_digest": "08a2ff6126805a92409233c0e3007d7f7dc6f39f93b1b93fb2e9a7d2e7ee6b1e",
+     "evidence": "Documentation/source review; not test execution"
++  },
++  {
++    "reviewed_at": "2026-10-17T10:25:32.215Z",
++    "summary": "Require main-collection membership for ordinary CAT-01 subcategories; preserve acceptance and gaps, and document shared-label regression checks.",
++    "requirement_ids": [
++      "CAT-01"
++    ],
++    "no_functional_change": false,
++    "changed_sources": [
++      "src/components/ProductListing.tsx"
++    ],
++    "source_digest": "145d8bbeb81561688b2193f2fba313c891c9144a0711ddb93db40205cffac21f",
++    "evidence": "Documentation/source review; not test execution"
+   }
+ ]
+diff --git a/docs/requirements-source-snapshot.json b/docs/requirements-source-snapshot.json
+index e47e511..2278a18 100644
+--- a/docs/requirements-source-snapshot.json
++++ b/docs/requirements-source-snapshot.json
+@@ -1,6 +1,6 @@
+ {
+   "version": 1,
+-  "reviewed_at": "2026-10-11T19:23:00.434Z",
++  "reviewed_at": "2026-10-17T10:25:32.215Z",
+   "files": {
+     ".env.example": "aacd593bac4962d145bea1d7e30c519d99b26368db7350a6985539d1b4d35e2c",
+     ".github/workflows/ci-local.yml": "def9628741d7200e015816bf0a04dd1424d5e207ee84ab9d0e438064e395dc20",
+@@ -94,7 +94,7 @@
+     "src/components/Navbar.tsx": "7a573a04dfb2fec8babde90c78c3b5eb1f57cad48929c833b7897bca91ea8ecf",
+     "src/components/ProductCard.tsx": "59da1b12867e73227efc3de92a85854e9ba3a98ed9be666213574964b368c730",
+     "src/components/ProductDetailView.tsx": "5ff933f6e98717a6b424a4b5f6070ff4d2dec5cad50d12d5d298aac58777e282",
+-    "src/components/ProductListing.tsx": "ae123c915139e15a4f0360a3a9b1827d6e57001c811c0766e9ce501c08eed31c",
++    "src/components/ProductListing.tsx": "237a90424c409d9b79ff03055efc44c644627eedd99eb75e63bb4740a6d45832",
+     "src/components/SaleBanner.tsx": "ca3d35df3d9ba1df1c7a6461e84ed0dcf774ac5d7b502c77ba559cec5681685a",
+     "src/components/ShoppingAssistant.tsx": "c8263149a99196461df5a5d9547e347a7f972f5016af5b6c3403515636f0fa7b",
+     "src/components/SiteShell.tsx": "8959171c53db520746904b68b0eeb2604de87b452aa242d0066c52c2f2c19080",
+diff --git a/src/components/ProductListing.tsx b/src/components/ProductListing.tsx
+index 4297236..b1d9381 100644
+--- a/src/components/ProductListing.tsx
++++ b/src/components/ProductListing.tsx
+@@ -101,7 +101,7 @@ export default function ProductListing({ mainCategory, subCategory, subCategoryS
+     const targetCategory = normalizeValue(dbCategory);
+     const subCategoryName = normalizeValue(categoryDef?.name ?? subCategory ?? "");
+ 
+-    return Boolean(subCategoryName) && (productCategory === targetCategory ||
++    return matchesMainCategory(product) && Boolean(subCategoryName) && (productCategory === targetCategory ||
+       productCategory.includes(targetCategory) ||
+       productCategory.includes(subCategoryName));
+   }, [isMainCategoryOnly, matchesMainCategory, subCategorySlug, dbCategory, categoryDef?.name, subCategory, normalizeValue]);

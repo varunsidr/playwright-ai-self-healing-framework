@@ -23,6 +23,8 @@ npm.cmd run monitor:ecommerce -- test-results/read-only-run-results.json
 
 Continue to generate monitoring after failures. The new category membership fixtures expose Women's products leaking into Men's Jackets and Trousers; see the [developer fix](zeouf-men-category-regression.md). Preserve those assertions and report failures. The earlier desktop Escape fix has been verified on the deployment.
 
+The [17 October CI investigation](ecommerce-ci-failure-2026-10-17.md) records the runner-dependent currency correction, current website patch and separate live/candidate verification evidence.
+
 Outputs are `test-results/ecommerce-monitoring.json` and `test-results/ecommerce-monitoring.md`. The Markdown is readable case evidence; the JSON includes check IDs, observed test titles, project/file validation, retry attempts, report hashes and attachment paths. Preserve these outputs with their source JSON reports, HTML reports and failure artifacts. Local summaries overwrite the previous monitoring snapshot; copy them into your chosen run archive when retaining history.
 
 ## Evidence semantics
