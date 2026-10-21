@@ -21,11 +21,21 @@ npm.cmd run test:ecommerce:read-only -- --retries=0
 npm.cmd run monitor:ecommerce -- test-results/read-only-run-results.json
 ```
 
-Continue to generate monitoring after failures. The new category membership fixtures expose Women's products leaking into Men's Jackets and Trousers; see the [developer fix](zeouf-men-category-regression.md). Preserve those assertions and report failures. The earlier desktop Escape fix has been verified on the deployment.
+Continue to generate monitoring after failures. The category membership fixtures cover Women's products leaking into Men's Jackets and Trousers; see the [developer fix](zeouf-men-category-regression.md). Preserve those assertions and report failures. The earlier desktop Escape fix has been verified on the deployment.
 
 The [17 October CI investigation](ecommerce-ci-failure-2026-10-17.md) records the runner-dependent currency correction, current website patch and separate live/candidate verification evidence.
 
 Outputs are `test-results/ecommerce-monitoring.json` and `test-results/ecommerce-monitoring.md`. The Markdown is readable case evidence; the JSON includes check IDs, observed test titles, project/file validation, retry attempts, report hashes and attachment paths. Preserve these outputs with their source JSON reports, HTML reports and failure artifacts. Local summaries overwrite the previous monitoring snapshot; copy them into your chosen run archive when retaining history.
+
+## Product navigation diagnostics
+
+Product selection records the selected card's destination and name, clicks its link and waits for that exact URL. Product readiness then checks the matching product heading, cart and favorite actions, quantity and review controls. A collection heading alone cannot satisfy product readiness. Quantity changes and the guest review restriction retain their existing assertions.
+
+The ecommerce base fixture observes document, fetch, XHR and script requests without intercepting them. Unexpected results attach `navigation-diagnostics` JSON with request timings, status, pending/finished/failed state, RSC and prefetch flags, main-frame URL changes, page errors and console errors. Request records omit URL queries and fragments; error messages remain diagnostic text. The attachment records no request headers or bodies. Collection is capped at 500 requests and 200 events, with omitted counts reported.
+
+Set `$env:ECOMMERCE_NAVIGATION_DIAGNOSTICS = '1'` before running to retain this attachment for passing tests too. Without that setting, attachments are retained only for unexpected results. These observations support investigation; they do not establish the cause of a navigation failure by themselves.
+
+On 21 October 2026, the complete read-only allowlist passed against `https://zeouf-luxury-fashion-ecommerce.vercel.app`: **144 passed, zero failed/skipped/flaky, zero retries**, with one worker. This includes the previously failing product quantity/review check and all three checks using product selection. All 144 results contain navigation diagnostics, and the three affected TypeScript files retained their recorded hashes during validation. `npm run check` also passed, including 38 script regression tests. The raw report, HTML report, source hashes, validation summary and monitoring copies are under `test-results/navigation-resume-2026-10-21/`. The prior monitoring snapshot is preserved in its `previous-monitoring/` directory; its original failed run remains separate evidence. The current monitoring snapshot reports 144 passing checks mapped to 41 of 108 cases, with 67 cases unlinked and full acceptance still not assessed. This is working-tree evidence; no clean framework commit or independently verified deployed website revision is claimed.
 
 ## Evidence semantics
 

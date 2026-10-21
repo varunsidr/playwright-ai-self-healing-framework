@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { relative, resolve } from 'node:path';
 import { EcommerceStorefrontPage } from '../pages/ecommerce-storefront-page';
 import { isConfirmedEcommerceStaging } from '../utils/ecommerce-staging';
+import { captureEcommerceNavigation } from '../utils/ecommerce-navigation-diagnostics';
 
 const repositoryRoot = resolve(__dirname, '..');
 const checkManifest: {
@@ -15,7 +16,32 @@ export const test = base.extend<{
   storefront: EcommerceStorefrontPage;
   caseTraceability: void;
   publicWriteGuard: void;
+  navigationDiagnostics: void;
 }>({
+  navigationDiagnostics: [
+    async ({ page }, use, testInfo) => {
+      if (testInfo.project.name !== 'ecommerce-chromium') {
+        await use();
+        return;
+      }
+      const diagnostics = captureEcommerceNavigation(page);
+      try {
+        await use();
+      } finally {
+        diagnostics.stop();
+        if (
+          process.env.ECOMMERCE_NAVIGATION_DIAGNOSTICS === '1' ||
+          testInfo.status !== testInfo.expectedStatus
+        ) {
+          await testInfo.attach('navigation-diagnostics', {
+            body: JSON.stringify(diagnostics.snapshot(), null, 2),
+            contentType: 'application/json',
+          });
+        }
+      }
+    },
+    { auto: true },
+  ],
   publicWriteGuard: [
     async ({ context, baseURL }, use, testInfo) => {
       const guarded =

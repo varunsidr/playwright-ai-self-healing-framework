@@ -14,6 +14,7 @@ type ProductInformationSection = 'details' | 'measurements' | 'care' | 'shipping
 
 export class EcommerceStorefrontPage {
   private readonly page: Page;
+  private selectedProduct?: { name: string; url: string };
   readonly productCards: Locator;
   readonly productCardPrices: Locator;
   readonly perfumeNavLink: Locator;
@@ -427,7 +428,18 @@ export class EcommerceStorefrontPage {
     await this.openWomenCollection();
     await this.expectWomenCollectionLoaded();
     const availableUnsizedProduct = await this.firstPurchasableUnsizedCard();
-    await availableUnsizedProduct.getByTestId('product-card-name').click();
+    const productName = availableUnsizedProduct.getByTestId('product-card-name');
+    const productLink = availableUnsizedProduct.getByRole('link').filter({
+      has: this.page.getByTestId('product-card-name'),
+    });
+    const href = await productLink.getAttribute('href');
+    expect(href, 'The selected product must have a destination').toBeTruthy();
+    this.selectedProduct = {
+      name: (await productName.innerText()).trim(),
+      url: new URL(href!, this.page.url()).href,
+    };
+    await productLink.click();
+    await this.page.waitForURL(this.selectedProduct.url, { waitUntil: 'domcontentloaded' });
   }
 
   private async firstPurchasableUnsizedCard() {
@@ -675,9 +687,16 @@ export class EcommerceStorefrontPage {
   }
 
   async expectProductDetailLoaded() {
-    await expect(this.page.locator('main h1').last()).toBeVisible();
+    expect(this.selectedProduct, 'Select a product with openFirstProduct() first').toBeDefined();
+    const { name, url } = this.selectedProduct!;
+    await expect(this.page).toHaveURL(url);
+    await expect(
+      this.page.getByRole('main').getByRole('heading', { name, level: 1, exact: true }),
+    ).toBeVisible();
     await expect(this.page.getByTestId('product-detail-add-to-cart')).toBeVisible();
     await expect(this.page.getByTestId('product-detail-favorite-button')).toBeVisible();
+    await expect(this.quantity).toBeVisible();
+    await expect(this.reviewSubmitButton).toBeVisible();
   }
 
   async expectGuestSignInRequired() {
