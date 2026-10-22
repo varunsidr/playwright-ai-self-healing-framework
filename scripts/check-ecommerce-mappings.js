@@ -56,7 +56,11 @@ function main() {
       '--list',
       '--reporter=json',
     ],
-    { cwd: root, encoding: 'utf8' },
+    {
+      cwd: root,
+      encoding: 'utf8',
+      env: { ...process.env, ECOMMERCE_ISOLATED_FIXTURES: 'true' },
+    },
   );
   if (result.error) throw result.error;
   if (result.status !== 0) throw new Error(result.stderr || result.stdout);

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "source": "ANL-01/04/05 updated from reviewed Zeouf BRD and QA guide at website commit 843646b7d0c52ef5149f7905b19ec5d87fe5054b",
+  "sourceRevision": "843646b7d0c52ef5149f7905b19ec5d87fe5054b",
+  "sourceDocuments": [
+    "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/843646b7d0c52ef5149f7905b19ec5d87fe5054b/docs/BRD.md",
+    "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/843646b7d0c52ef5149f7905b19ec5d87fe5054b/docs/QA_TESTING_GUIDE.md",
+    "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/843646b7d0c52ef5149f7905b19ec5d87fe5054b/docs/requirements-reviews.json"
+  ],
+  "reviewedAt": "2026-10-10T19:51:32.968Z",
+  "reviewSummary": "Finalize protected admin catalog/inventory and dashboard review: remove redundant catalog fetch wrapper, align inventory QA focus, preserve scoped 31 UI/19 SQL/16 assistant/9 catalog/13 documentation results and unchanged manual evidence. Live Supabase migration/storage/security/concurrency acceptance remains pending.",
+  "reviewEvidence": "Documentation/source review; not test execution; not stakeholder sign-off",
+  "requirements": [
+    {
+      "id": "ANL-01",
+      "acceptance": "Analytics shall show active demo order value and active order count excluding cancelled orders, average active order value (zero when empty), and configured stock units in INR/base values. Failed/loading data shows an unavailable dash for its summary metrics. These are demo order values, not collected revenue. Pipeline still includes all five statuses.",
+      "qaFocus": "Known active/cancelled totals, zero orders, failed reads, average denominator, demo labels"
+    },
+    {
+      "id": "ANL-04",
+      "acceptance": "Top products shall rank up to five existing products by quantities in loaded noncancelled orders. Deleted products do not appear; ties follow existing product order and empty sales state is shown.",
+      "qaFocus": "Ties, deleted product, cancelled exclusion, no active sales"
+    },
+    {
+      "id": "ANL-05",
+      "acceptance": "Customer signal shall show approved review count and mean approved rating to one decimal, zero when no approved reviews. Pending/unapproved reviews are excluded; failed/loading review data shows unavailable rather than zero.",
+      "qaFocus": "Mixed approvals, 0/1/multiple approved, failed read, correct denominator"
+    }
+  ],
+  "cases": [
+    {
+      "id": "TC-ANL-001-01",
+      "scenario": "Given known active and cancelled orders, analytics active demo order value, count, average and top units exclude cancelled orders. Rank up to five existing products, preserve incoming product order for ties, omit deleted products, show zero values and no-sales state when empty, and unavailable summaries for failed/loading data. Live reconciliation remains separate.",
+      "mode": "Reviewed current baseline; scoped browser fixtures, live reconciliation separate"
+    },
+    {
+      "id": "TC-ANL-05-CORE",
+      "scenario": "Given approved and pending reviews, customer signal counts only approved reviews and averages their ratings to one decimal. No approved reviews yields 0 and 0.0; failed/loading reads display unavailable rather than zero. Verify using controlled fixtures, then reconcile actual authorized data in isolated staging.",
+      "mode": "Reviewed current baseline; scoped browser fixtures, live reconciliation separate"
+    }
+  ]
+}

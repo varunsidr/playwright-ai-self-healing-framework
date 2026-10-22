@@ -240,6 +240,336 @@ export class EcommerceStorefrontPage {
     await this.page.goto('/');
   }
 
+  adminRows() {
+    return this.page.getByRole('main').locator('tbody tr');
+  }
+
+  async openAdminSidebarSection(name: string) {
+    await this.page.goto('/admin/dashboard');
+    await this.page.locator('aside').getByRole('button', { name, exact: true }).click();
+  }
+
+  adminRow(name: string) {
+    return this.adminRows().filter({ has: this.page.getByText(name, { exact: true }) });
+  }
+
+  adminRowCells(name: string) {
+    return this.adminRow(name).getByRole('cell');
+  }
+
+  adminStockInput(name: string) {
+    return this.adminRow(name).getByRole('spinbutton');
+  }
+
+  accountSignOut() {
+    return this.loginPanel.getByRole('button', { name: 'Sign out', exact: true });
+  }
+
+  productDetailPrice() {
+    return this.page.locator('main h1 + p');
+  }
+
+  customerOrder(prefix: string) {
+    return this.page.getByRole('button').filter({ hasText: 'Order ' + prefix });
+  }
+
+  customerOrderButtons() {
+    return this.page.locator('article > button').filter({ hasText: /^Order / });
+  }
+
+  newsletterEmail() {
+    return this.page.getByTestId('footer-newsletter-email');
+  }
+
+  adminRetryLoading() {
+    return this.page.getByRole('button', { name: 'Retry loading data', exact: true });
+  }
+
+  async submitCheckoutTwice(method: string) {
+    await this.checkoutPaymentButton(method).evaluate((button) => {
+      const form = (button as HTMLButtonElement).form!;
+      form.requestSubmit();
+      form.requestSubmit();
+    });
+  }
+
+  reviewRemovePreview(index: number) {
+    return this.reviewImagePreviews()
+      .nth(index)
+      .locator('..')
+      .getByRole('button', { name: 'X', exact: true });
+  }
+
+  adminCancelProduct() {
+    return this.page.getByRole('main').getByRole('button', { name: 'Cancel', exact: true });
+  }
+
+  adminProductNames() {
+    return this.adminRows().locator('td:nth-child(2) p');
+  }
+
+  adminProductSearch() {
+    return this.page.getByPlaceholder(/Search products/i);
+  }
+
+  adminFilter() {
+    return this.page.getByRole('main').getByRole('combobox').first();
+  }
+
+  adminOrderSearch() {
+    return this.page.getByPlaceholder('Search order ID or user ID');
+  }
+
+  adminAddProduct() {
+    return this.page.getByRole('main').getByRole('button', { name: /^Add Product$/i });
+  }
+
+  adminFormHeading() {
+    return this.page.getByRole('heading', { name: /^(?:Add New Product|Edit Product)$/ });
+  }
+
+  adminProductNameInput() {
+    return this.page.getByPlaceholder('Product name', { exact: true });
+  }
+
+  adminProductPriceInput() {
+    return this.page.getByRole('spinbutton', { name: 'Product price', exact: true });
+  }
+
+  adminProductStockInput() {
+    return this.page.getByRole('spinbutton', { name: 'Overall stock', exact: true });
+  }
+
+  adminSaveProduct() {
+    return this.page.getByRole('main').getByRole('button', { name: 'Save', exact: true });
+  }
+
+  async openAdminProductEditor(name: string) {
+    await this.adminRow(name).hover();
+    await this.adminRow(name).getByRole('button').nth(0).click();
+  }
+
+  async deleteAdminProduct(name: string, confirm: boolean) {
+    this.page.once('dialog', (dialog) => (confirm ? dialog.accept() : dialog.dismiss()));
+    await this.adminRow(name).hover();
+    await this.adminRow(name).getByRole('button').nth(1).click();
+  }
+
+  adminImageUrlInput() {
+    return this.page.getByPlaceholder('Paste URL...', { exact: true });
+  }
+
+  adminProductImages() {
+    return this.adminImageUrlInput().locator('..').locator('..').locator('img');
+  }
+
+  async appendAdminImage(url: string) {
+    await this.adminImageUrlInput().fill(url);
+    await this.adminImageUrlInput().press('Enter');
+  }
+
+  async removeAdminImage(index: number) {
+    const image = this.adminProductImages().nth(index);
+    await image.hover();
+    await image.locator('..').getByRole('button').click();
+  }
+
+  adminSizeOption(size: string) {
+    return this.page.getByRole('main').getByRole('button', { name: size, exact: true });
+  }
+
+  adminOrderView(idPrefix: string) {
+    return this.adminRow(idPrefix).getByRole('button', { name: 'View', exact: true });
+  }
+
+  adminOrderStatus() {
+    return this.page.getByRole('main').getByRole('combobox').last();
+  }
+
+  adminOrderStatusOptions() {
+    return this.adminOrderStatus().locator('option');
+  }
+
+  adminOrderClose() {
+    return this.page.getByRole('main').getByRole('button', { name: 'Close', exact: true });
+  }
+
+  adminSection(title: string) {
+    return this.page
+      .getByRole('main')
+      .locator('section')
+      .filter({
+        has: this.page.getByRole('heading', { name: title, exact: true }),
+      });
+  }
+
+  adminPipelineEntry(status: string) {
+    return this.adminSection('Order pipeline').getByText(status, { exact: true }).locator('..');
+  }
+
+  adminInventoryValue(label: string) {
+    return this.adminSection('Inventory health')
+      .getByText(label, { exact: true })
+      .locator('..')
+      .locator('span')
+      .last();
+  }
+
+  adminDashboardValue(label: string) {
+    return this.page
+      .getByRole('main')
+      .getByText(label, { exact: true })
+      .locator('..')
+      .locator('..')
+      .locator('p')
+      .last();
+  }
+
+  adminAnalyticsValue(label: string) {
+    return this.page
+      .getByRole('main')
+      .getByText(label, { exact: true })
+      .locator('..')
+      .locator('p')
+      .first();
+  }
+
+  adminTopProductNames() {
+    return this.adminSection('Top products').locator('span.truncate');
+  }
+
+  adminTopProductUnits() {
+    return this.adminSection('Top products').locator('span.whitespace-nowrap');
+  }
+
+  adminReviewAverage() {
+    return this.adminSection('Customer signal').locator('p').nth(1);
+  }
+
+  adminApprovedReviewCount() {
+    return this.adminSection('Customer signal').locator('p').nth(2);
+  }
+
+  adminMainButtons() {
+    return this.page.getByRole('main').getByRole('button');
+  }
+
+  adminLogout() {
+    return this.page.getByRole('button', { name: 'Logout', exact: true });
+  }
+
+  adminUsername() {
+    return this.page.getByTestId('admin-login-username');
+  }
+
+  async openProductRoute(path: string, name: string) {
+    await this.page.goto(path);
+    this.selectedProduct = { name, url: this.page.url() };
+    await this.expectProductDetailLoaded();
+  }
+
+  productSize(size: string) {
+    return this.page.getByTestId('product-detail-size-' + size);
+  }
+
+  productGalleryThumbnails() {
+    return this.page.getByRole('button', { name: /^Show product image / });
+  }
+
+  sizeGuideTable() {
+    return this.page.getByRole('table').filter({ has: this.sizeGuideChestHeader });
+  }
+
+  sizeGuideRows() {
+    return this.sizeGuideTable().getByRole('row');
+  }
+
+  sizeGuideRowCells(index: number) {
+    return this.sizeGuideRows().nth(index).getByRole('cell');
+  }
+
+  visibleText(text: string | RegExp) {
+    return this.page.getByText(text, { exact: typeof text === 'string' });
+  }
+
+  mainProductImages(name: string) {
+    return this.page.locator('main').getByRole('img', { name, exact: true });
+  }
+
+  colorSelectionButtons() {
+    return this.page.locator('main button[aria-pressed][aria-label^="Select "]');
+  }
+
+  productFavoriteButton() {
+    return this.page.getByTestId('product-detail-favorite-button');
+  }
+
+  cardNumberFields() {
+    return this.page.locator('input[autocomplete="cc-number"], input[name*="cardNumber"]');
+  }
+
+  checkoutPaymentButton(method: string) {
+    return this.page.getByRole('button', {
+      name: method === 'card_demo' ? 'Simulate payment' : 'Place demo order',
+      exact: true,
+    });
+  }
+
+  continueShoppingLink() {
+    return this.page.getByRole('link', { name: 'Continue shopping', exact: true });
+  }
+
+  reviewImagePreviews() {
+    return this.page.getByAltText('Selected review image preview');
+  }
+
+  publicReviewItems() {
+    return this.page.getByTestId('product-detail-review-item');
+  }
+
+  restockSubmit() {
+    return this.page.getByRole('button', { name: 'Notify me', exact: true });
+  }
+
+  restockStatus() {
+    return this.page.getByRole('status');
+  }
+
+  relatedProductCards() {
+    return this.page.getByTestId('product-detail-complete-your-look').getByTestId('product-card');
+  }
+
+  reviewField(field: 'name' | 'comment') {
+    return this.page.getByTestId('product-detail-review-' + field);
+  }
+
+  reviewRating(rating: number) {
+    return this.page.getByTestId('product-detail-review-rating-' + rating);
+  }
+
+  reviewImages() {
+    return this.page.locator('main input[type="file"]');
+  }
+
+  restockEmail() {
+    return this.page.getByRole('textbox', { name: 'Email address for restock notification' });
+  }
+
+  checkoutShippingField(name: string) {
+    return this.page.getByRole('textbox', { name, exact: true });
+  }
+
+  async fillFictionalShippingAddress() {
+    for (const [name, value] of [
+      ['Full name', 'Fictional Shopper'],
+      ['Phone', '000'],
+      ['Address', 'Fictional test address'],
+      ['City', 'Fictional city'],
+      ['Postal code', '000'],
+    ])
+      await this.checkoutShippingField(name).fill(value);
+  }
+
   async expectCollectionCount(visible: number, matching: number) {
     await expect(this.collectionCount).toHaveText(`Showing ${visible} of ${matching} products`);
   }

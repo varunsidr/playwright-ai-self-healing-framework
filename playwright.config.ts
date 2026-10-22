@@ -24,9 +24,11 @@ export default defineConfig({
       process.env.ECOMMERCE_BASE_URL || 'https://zeouf-luxury-fashion-ecommerce.vercel.app',
     ).origin,
     ecommerceEnvironment:
-      process.env.ECOMMERCE_STAGING_CONFIRMED === 'true'
-        ? 'isolated-staging-declared'
-        : 'public-read-only',
+      process.env.ECOMMERCE_ISOLATED_FIXTURES === 'true'
+        ? 'isolated-browser-fixture'
+        : process.env.ECOMMERCE_STAGING_CONFIRMED === 'true'
+          ? 'isolated-staging-declared'
+          : 'public-read-only',
     repairEvaluationStage: process.env.ECOMMERCE_REPAIR_STAGE || null,
     repairEvaluationSourceSha256: process.env.ECOMMERCE_REPAIR_SOURCE_SHA256 || null,
     caseCatalogSha256: createHash('sha256')
@@ -137,6 +139,7 @@ export default defineConfig({
       testMatch: 'tests/ecommerce/**/*.spec.ts',
       testIgnore: [
         /ecommerce[\\/]api[\\/]/,
+        ...(process.env.ECOMMERCE_ISOLATED_FIXTURES === 'true' ? [] : ['**/isolated/**']),
         ...(process.env.ECOMMERCE_REPAIR_EVALUATION === 'true'
           ? []
           : ['**/repair-evaluation.spec.ts']),

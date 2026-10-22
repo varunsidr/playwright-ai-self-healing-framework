@@ -89,15 +89,26 @@ jobs:
       - name: Summarize ecommerce test stability
         if: always()
         run: npm run summarize:results -- test-results/ecommerce-results.json
+      - name: Checkout pinned Zeouf source for browser-only fixtures
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          repository: varunsidr/Luxury_fashion_ecommerce
+          ref: 843646b7d0c52ef5149f7905b19ec5d87fe5054b
+          path: website-source
+          persist-credentials: false
+      - name: Run isolated Zeouf browser contracts with placeholder services
+        if: always()
+        run: npm run test:ecommerce:isolated -- website-source test-results/ecommerce-isolated
       - name: Build Zeouf case execution evidence
         if: always()
         env:
           ECOMMERCE_STAGING_CONFIRMED: ${{ vars.ECOMMERCE_STAGING_CONFIRMED }}
         run: |
           if [ "$ECOMMERCE_STAGING_CONFIRMED" = "true" ]; then
-            npm run monitor:ecommerce -- test-results/ecommerce-results.json
+            npm run monitor:ecommerce -- test-results/ecommerce-results.json test-results/ecommerce-isolated/results.json
           else
-            npm run monitor:ecommerce -- test-results/ecommerce-results.json test-results/ecommerce-read-only-results.json
+            npm run monitor:ecommerce -- test-results/ecommerce-results.json test-results/ecommerce-read-only-results.json test-results/ecommerce-isolated/results.json
           fi
       - name: Generate Allure report
         if: always()

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "websiteRevision": "843646b7d0c52ef5149f7905b19ec5d87fe5054b",
+  "runner": "scripts/run-ecommerce-native.js",
+  "evidence": "test-results/native-remaining-final/result.json",
+  "review": "specs/ecommerce/25-native-and-staging-completion.md",
+  "checks": [
+    {
+      "id": "NATIVE-DOCS",
+      "caseIds": ["TC-OPS-06-CORE"],
+      "scope": "Native docs check/sync/check and source-review/manual-evidence regression fixtures; no new website review or stakeholder sign-off."
+    },
+    {
+      "id": "NATIVE-UI-CATALOG",
+      "caseIds": ["TC-OPS-07-CORE"],
+      "scope": "Pinned native UI and catalog suites run sequentially with isolated fixture servers and separate artifacts; no live database acceptance."
+    },
+    {
+      "id": "NATIVE-LIVE",
+      "caseIds": ["TC-OPS-08-CORE"],
+      "scope": "Pinned native public read-only smoke suite with no local webServer; exact public deployment revision and integration acceptance remain unverified."
+    },
+    {
+      "id": "NATIVE-PURCHASE-SQL",
+      "caseIds": ["TC-CHK-007-02", "TC-CHK-009-01", "TC-CHK-009-02", "TC-STK-004-01"],
+      "scope": "Partial SQL evidence: PGlite transaction rollback, option rejection, replay/conflict and atomic size/catalog edits. Single connection, not real API/RLS/deployment or multi-session concurrency acceptance."
+    }
+  ],
+  "manualReviews": [
+    {
+      "caseId": "TC-USR-02-CORE",
+      "outcome": "known-gap-G-20",
+      "scope": "Pinned source confirms User View has no handler; profile detail remains unimplemented and not accepted."
+    },
+    {
+      "caseId": "TC-CNT-04-CORE",
+      "outcome": "excluded-current-ui",
+      "scope": "Pinned source confirms SaleBanner is not imported/mounted; countdown excluded from current UI acceptance, future enablement requires scope confirmation."
+    }
+  ]
+}

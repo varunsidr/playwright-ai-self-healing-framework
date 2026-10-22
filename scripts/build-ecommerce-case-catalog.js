@@ -2,6 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { combineReviewedUpdates } = require('./reviewed-requirement-updates');
 
 const root = path.resolve(__dirname, '..');
 const inputDir = path.join(root, 'specs', 'ecommerce', 'requirements');
@@ -19,22 +20,11 @@ const coreDesigns = JSON.parse(
 const guideEnvironments = JSON.parse(
   fs.readFileSync(path.join(inputDir, 'guide-case-environments.json'), 'utf8'),
 );
-const updates = JSON.parse(
-  fs.readFileSync(path.join(inputDir, 'requirement-updates.json'), 'utf8'),
+const updates = combineReviewedUpdates(
+  ['requirement-updates.json', 'analytics-requirement-updates.json'].map((file) =>
+    JSON.parse(fs.readFileSync(path.join(inputDir, file), 'utf8')),
+  ),
 );
-if (
-  updates.schemaVersion !== 1 ||
-  !/^[a-f0-9]{40}$/.test(updates.sourceRevision) ||
-  !updates.source ||
-  !updates.reviewedAt ||
-  !updates.reviewSummary ||
-  !Array.isArray(updates.sourceDocuments) ||
-  !updates.sourceDocuments.length ||
-  !Array.isArray(updates.requirements) ||
-  !Array.isArray(updates.cases)
-) {
-  throw new Error('Invalid reviewed requirement updates or missing source provenance');
-}
 
 const requirements = new Map();
 for (const row of sourceRows) {
@@ -44,7 +34,7 @@ for (const row of sourceRows) {
   }
   requirements.set(id, row);
 }
-const revisedRequirementIds = new Set();
+const revisedRequirementIds = new Map();
 for (const update of updates.requirements) {
   const row = requirements.get(update.id);
   if (!row || revisedRequirementIds.has(update.id) || !update.acceptance || !update.qaFocus) {
@@ -52,7 +42,7 @@ for (const update of updates.requirements) {
   }
   row.requirement_and_acceptance = update.acceptance;
   row.qa_focus = update.qaFocus;
-  revisedRequirementIds.add(update.id);
+  revisedRequirementIds.set(update.id, update.sourceRevision);
 }
 
 const cases = [];
@@ -115,13 +105,17 @@ for (const update of updates.cases) {
     revisedCaseIds.has(update.id) ||
     !update.scenario ||
     !update.mode ||
-    !item.requirementIds.some((id) => revisedRequirementIds.has(id))
+    !item.requirementIds.some(
+      (id) =>
+        update.reviewedRequirementIds.includes(id) &&
+        revisedRequirementIds.get(id) === update.sourceRevision,
+    )
   ) {
     throw new Error(`Invalid or duplicate reviewed case update: ${update.id}`);
   }
   item.scenario = update.scenario;
   item.mode = update.mode;
-  item.sourceRevision = updates.sourceRevision;
+  item.sourceRevision = update.sourceRevision;
   revisedCaseIds.add(update.id);
 }
 
@@ -159,7 +153,7 @@ const requirementList = sourceRows.map((row) => ({
   acceptance: row.requirement_and_acceptance,
   qaFocus: row.qa_focus,
   ...(revisedRequirementIds.has(row.requirement_id)
-    ? { sourceRevision: updates.sourceRevision }
+    ? { sourceRevision: revisedRequirementIds.get(row.requirement_id) }
     : {}),
   knownGapIds: row.known_gap_ids ? row.known_gap_ids.split(/\s*,\s*/).filter(Boolean) : [],
   caseIds: cases

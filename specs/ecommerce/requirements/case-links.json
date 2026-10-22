@@ -100,8 +100,9 @@
   },
   "TC-PDP-04-CORE": {
     "automationFile": "tests/ecommerce/product-detail.spec.ts",
-    "automationScope": "partial: initial quantity one, increase to two, decrease to one on unsized product only",
-    "lastEvidence": "Product-detail quantity test passed on public Zeouf in ecommerce-chromium on 2026-10-07"
+    "automationScope": "partial: initial quantity one, increase to two, decrease to one on unsized product only Additional isolated scope: Controlled M=4/L=5 stock, minimum one, disabled increase at stock and clamp on size change; real inventory enforcement unverified.",
+    "lastEvidence": "Product-detail quantity test passed on public Zeouf in ecommerce-chromium on 2026-10-07",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/product-options.spec.ts"]
   },
   "TC-NAV-006-01": {
     "automationFile": "tests/ecommerce/legacy-category-redirects.spec.ts",
@@ -122,8 +123,9 @@
   },
   "TC-CNT-001-01": {
     "automationFile": "tests/ecommerce/newsletter-preview.spec.ts",
-    "automationScope": "partial: valid email preview and no write; invalid email validation untested",
-    "lastEvidence": "Newsletter preview test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "automationScope": "Partial: blank/malformed newsletter email fails native validation without success or writes; valid preview behavior remains separately covered. No actual subscription or delivery claim.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/reset-newsletter.spec.ts"]
   },
   "TC-SEA-01-CORE": {
     "automationFile": "tests/ecommerce/search-input.spec.ts",
@@ -180,8 +182,9 @@
   },
   "TC-AUTH-05-CORE": {
     "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
-    "automationScope": "partial: blank reset-email prompt without server writes; valid reset delivery and mailbox flow require isolated staging",
-    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+    "automationScope": "Partial: controlled password-reset success sends fictional email and origin return URL; denial preserves email and allows retry. Existing blank-email guard remains covered. Real provider delivery and reset completion unverified.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/reset-newsletter.spec.ts"]
   },
   "TC-CHK-001-01": {
     "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
@@ -202,8 +205,9 @@
   },
   "TC-ORD-001-01": {
     "automationFile": "tests/ecommerce/account-cart-checkout.spec.ts",
-    "automationScope": "partial: signed-out order history prompt only; user ownership and database RLS require two disposable staging accounts",
-    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+    "automationScope": "Partial: signed-out prompt plus controlled signed-in loading/empty/error recovery, current-user/date-order request filters, supplied row sequence, five statuses, accordion and deleted-product fallback. Real query ordering, ownership and database RLS unverified; G-07 remains open.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/order-history.spec.ts"]
   },
   "TC-CAT-005-01": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -225,5 +229,234 @@
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
     "automationScope": "partial: existing dialog focus containment, Escape and focus restoration plus desktop disclosure keyboard behavior; screen readers, automated WCAG audit, remaining pages and full WCAG 2.2 acceptance unverified",
     "lastEvidence": "Awaiting current expansion run"
+  },
+  "TC-AUTH-01-CORE": {
+    "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+    "automationScope": "Partial: required name/email/password block requests; controlled signup full_name metadata and confirmation guidance; actual signup/email policy/delivery unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-AUTH-07-CORE": {
+    "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+    "automationScope": "Partial: mocked helper success avoids signup and denial uses normal signup; real helper production authorization and account creation unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-AUTH-003-01": {
+    "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+    "automationScope": "Partial: controlled login denial retains form/panel; mock success closes panel and fake session survives reload; real credential/session acceptance unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-FAV-01-CORE": {
+    "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+    "automationScope": "Partial: detail heart follows locally fulfilled insert/delete and preserves state on failure; real uniqueness, card toggles, persistence and ownership unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-CHK-02-CORE": {
+    "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
+    "automationScope": "Partial: five blank shipping inputs prevent requests through native validation; whitespace, server limits and real checkout unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-CHK-04-CORE": {
+    "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
+    "automationScope": "Partial: both simulation labels, no card-number field, selected-method payload and mocked confirmation; saved order, charges and stock unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-CHK-08-CORE": {
+    "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
+    "automationScope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/checkout-attempts.spec.ts"]
+  },
+  "TC-PDP-05-CORE": {
+    "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
+    "automationScope": "Static XS/S/M/L clothing chest/waist table and close action on the real isolated frontend; not shoe or XL/XXL guidance.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-PDP-003-01": {
+    "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
+    "automationScope": "Partial: controlled S=0/M=4 availability, no-size disabled add and explicit M browser-bag addition with fake session; real auth, live and missing-row stock unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-PDP-02-CORE": {
+    "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
+    "automationScope": "Partial: seeded demo-product single photograph without thumbnails/colors; named color, photo correspondence and real cart colors unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-PDP-07-CORE": {
+    "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
+    "automationScope": "Partial: zero/one/twelve related fixtures, zero/one/eight cards and links, prefix/excluded-ID/limit query; live database filtering unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-CUR-01-CORE": {
+    "automationFile": "tests/ecommerce/isolated/region.spec.ts",
+    "automationScope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-REV-003-01": {
+    "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+    "automationScope": "Controlled upload/HTTP/network errors retain form/preview; pending 201 with/without image clears form with approval feedback without adding public reviews; approved-only query asserted; real writes unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-REV-002-01": {
+    "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+    "automationScope": "Partial: frontend oversize exclusion, three-preview cap, removal and multipart filenames are verified with intercepted upload; actual signature validation, fourth-file rejection, private storage and signed URLs unverified.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed."
+  },
+  "TC-RST-01-CORE": {
+    "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+    "automationScope": "Partial: invalid email blocks requests; controlled HTTP/network errors retain email for retry; outgoing product/options checked; API validation and storage unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-RST-03-CORE": {
+    "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+    "automationScope": "Partial: mocked configured/unconfigured mail responses select distinct feedback and clear email; real mail and subscription persistence unverified.",
+    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+  },
+  "TC-ADM-003-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+    "automationScope": "Partial: mocked logout failure retains flag/route, explicit successful retry clears flag and returns to login; real signed-cookie revocation and server logout contract unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-REV-006-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+    "automationScope": "Partial: controlled approved/pending rows from all-status admin read, no sidebar moderation buttons and visible error on failure; real signed-cookie authorization and RLS unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-ADM-002-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+    "automationScope": "Partial: actual isolated order GET and stock PATCH return 401 without a signed cookie despite legacy browser flag/cookie; placeholder runtime only, valid-admin and migrated staging permissions unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-ADM-001-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+    "automationScope": "Partial: both credentials required; controlled 401/429/500 give distinct feedback, clear password and never set admin flag; real hash/cookie/secret-rotation acceptance unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-STK-03-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+    "automationScope": "Partial: four sized 0/1/4/5 rows show Out/Low/Low/Available and dashboard count/units agree; unsized low-stock semantics and live inventory unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-PRD-01-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+    "automationScope": "Partial: admin mixed-case name/exact category filtering, no-match and incoming response order; actual API newest ordering and persisted catalog unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-PRD-002-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+    "automationScope": "Partial: controlled HTTP/network save denial retains editor and values; explicit mock success refreshes UI; real permission policy and database persistence unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-PRD-06-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+    "automationScope": "Partial: cancel sends no request; mocked delete failure preserves row and explicit successful retry removes it; real cascade and historical order snapshots unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-PRD-04-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+    "automationScope": "Partial: pasted-image preview, main-image removal and promoted image_url/images payload; actual upload bucket and saved images unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-PRD-05-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+    "automationScope": "Partial: new S/M form serializes selected sizes and zero overall stock; database stock-row initialization, editing and aggregate synchronization unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-AOR-02-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+    "automationScope": "Partial: controlled orders support mixed-case customer/order search with exact status, no-match versus empty response; real order ownership/data unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-AOR-004-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+    "automationScope": "Partial: all five current status options send explicit payloads and reflect local successful responses; backend transitions, unsupported status rejection and cancellation inventory unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-AOR-003-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+    "automationScope": "Partial: admin UI controlled status success and failed update retaining pending detail/list; actual persisted status and customer-history synchronization unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-ANL-02-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+    "automationScope": "Partial: zero/six controlled orders produce exact five-status counts and rounded percentages, including rounding beyond a total of 100; live data unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-ANL-03-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+    "automationScope": "Partial: controlled pending product response keeps stock units unavailable until loaded; sized/unsized inventory boundaries remain separately covered. Real inventory reconciliation unverified.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/analytics-loading.spec.ts"]
+  },
+  "TC-SET-01-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+    "automationScope": "Partial: identity, catalog/category counts, static database label and absence of save buttons with controlled reads; no live connection-health claim.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-USR-01-CORE": {
+    "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+    "automationScope": "Partial: controlled profile IDs/names, null placeholders and supplied order; actual 200-row API cap, updated_at ordering and authorization unverified; View action untested.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-CART-001-02": {
+    "automationFile": "tests/ecommerce/isolated/guest-cart-resume.spec.ts",
+    "automationScope": "Partial: interrupted guest add stays empty through fake sign-in; explicit add creates one browser line; real login, ownership and integration unverified.",
+    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+  },
+  "TC-FAV-002-01": {
+    "automationFile": "tests/ecommerce/isolated/account-switch.spec.ts",
+    "automationScope": "Partial: fictional account switch clears favorite UI, filters reads by the second user and sends their identity on insert; real sessions and database RLS remain unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-CART-004-01": {
+    "automationFile": "tests/ecommerce/isolated/account-switch.spec.ts",
+    "automationScope": "Baseline finding G-10: browser-local bag remains visible after switching fictional accounts; account-separated cart target is not accepted.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-PRD-003-01": {
+    "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+    "automationScope": "Partial: blank/whitespace product names disable Save and Cancel preserves supplied catalog without writes; server numeric validation and stored-product invariants unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-ANL-001-01": {
+    "automationFile": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+    "automationScope": "Partial: controlled pending order summaries remain unavailable and explicit failed-read retry recovers after response release; reviewed active totals/average/top-five boundaries remain separately covered. Real persisted reconciliation unverified.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/analytics-loading.spec.ts"]
+  },
+  "TC-ANL-05-CORE": {
+    "automationFile": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+    "automationScope": "Partial: controlled pending review response keeps rating/count unavailable until loaded; reviewed approved-only population boundaries remain separately covered. Real authorized data reconciliation unverified.",
+    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/analytics-loading.spec.ts"]
+  },
+  "TC-CHK-005-01": {
+    "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
+    "automationScope": "Partial: forged browser price is omitted from checkout item payload, which sends only id/quantity/size/color; backend price recomputation and stored totals unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-CUR-003-01": {
+    "automationFile": "tests/ecommerce/isolated/currency-surfaces.spec.ts",
+    "automationScope": "Partial: controlled USD detail, browser bag and supplied order history use shared formatter while admin supplied totals remain INR; actual checkout/order storage and persisted reconciliation unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-OPS-002-01": {
+    "automationFile": "tests/ecommerce/isolated/production-denials.spec.ts",
+    "automationScope": "Partial: actual fresh local production reset/seed helpers return 404 and dev create-user returns 403 before backend access; deployed environment/configuration and database no-mutation snapshots unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-ADM-002-02": {
+    "automationFile": "tests/ecommerce/isolated/production-denials.spec.ts",
+    "automationScope": "Partial: actual local DELETE rejects fictional customer bearer and retired dev key without signed admin cookie; valid-admin deletion and real database preservation unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-REV-002-02": {
+    "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+    "automationScope": "Partial: controlled 429 upload response retains review fields/preview, sends no review POST and claims no public submission; actual daily/distributed limiter unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-STK-002-01": {
+    "automationFile": "tests/ecommerce/isolated/stock-recovery.spec.ts",
+    "automationScope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified.",
+    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
   }
 }

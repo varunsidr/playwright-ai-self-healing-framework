@@ -1,0 +1,36 @@
+name: Zeouf Native Repository Checks
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  native-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Install browser system dependencies
+        run: npx playwright install-deps chromium
+      - name: Checkout reviewed website source
+        uses: actions/checkout@v4
+        with:
+          repository: varunsidr/Luxury_fashion_ecommerce
+          ref: 843646b7d0c52ef5149f7905b19ec5d87fe5054b
+          path: website-source
+          persist-credentials: false
+      - name: Run native documentation SQL and browser checks
+        run: npm run test:ecommerce:native -- website-source test-results/ecommerce-native
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeouf-native-evidence
+          path: test-results/ecommerce-native/
+          if-no-files-found: warn
+          retention-days: 30
