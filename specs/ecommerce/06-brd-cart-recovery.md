@@ -7,6 +7,8 @@
 - **Automation:** [cart-malformed-storage.spec.ts](../../tests/ecommerce/cart-malformed-storage.spec.ts)
 - **Execution:** Passed on deployed Zeouf in `ecommerce-chromium` on 2026-10-06; no non-read request attempted
 
+Stability investigation on 2026-10-26: the unchanged scenario passed ten repetitions and the initial complete read-only run. A prior missing-notice failure coincided with a reset navbar JavaScript bundle; controlled interruption reproduced missing cart restoration. That initial run had a separate mobile Men navigation failure. See [the investigation and evidence limits](../../docs/ecommerce-stability-2026-10-26.md). Subsequent complete runs, including this scenario, passed as recorded in [plan 26](26-remaining-browser-and-service-boundaries.md); these passes do not establish that the earlier intermittent loading causes are resolved.
+
 ## Steps and expected results
 
 1. Before the first navigation, seed `els-cart` with malformed JSON in the isolated browser context.

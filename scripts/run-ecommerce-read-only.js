@@ -14,6 +14,7 @@ const files = [
   'cart-malformed-storage',
   'cart-storage-fixture',
   'catalog-fixture',
+  'catalog-boundaries-fixture',
   'catalog-refinements-fixture',
   'catalog',
   'category-membership-fixture',

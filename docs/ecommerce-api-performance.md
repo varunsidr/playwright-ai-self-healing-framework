@@ -10,7 +10,7 @@ Run `npm run test:ecommerce:api`. The `ecommerce-api` project uses the existing 
 - Public JSON contract checks require `GET /api/health` to return `status: ok` and a timestamp; `GET /api/storefront/region` to return an uncached INR response or a positive USD rate for a US visitor; and `GET /api/reviews` without a product ID to return HTTP 400 and a specific error.
 - These checks are read-only. The health endpoint proves application liveness only; it does not establish database readiness.
 
-CI runs the read-only Zeouf API and browser smoke checks against the public deployment by default. When its `ECOMMERCE_BASE_URL` repository variable points to a dedicated test deployment, CI runs both full Zeouf projects instead. The public Notes API remains in the separate `api` project. The perfume checkout browser test registers an account and is skipped on the public deployment; run it only on a dedicated test deployment.
+CI runs Zeouf API smoke, the explicit public-safe browser allowlist and a separate isolated fixture build by default. Full Zeouf browser/API execution requires `ECOMMERCE_STAGING_CONFIRMED=true`, a separate HTTPS `ECOMMERCE_BASE_URL` and disposable confirmed-user credentials; URL configuration alone does not enable or prove staging isolation. The public Notes API remains in the separate `api` project. The perfume checkout journey uses an already confirmed disposable user and stays skipped on the public deployment. It does not register an account or prove email delivery; see the [staging requirements](../README.md#run-the-separate-ecommerce-storefront-suite).
 
 ## Browser Shopper Experience
 

@@ -8,7 +8,8 @@ The zeouf fashion storefront is the primary demonstration for its agent-assisted
 
 ## Quick Setup Notes
 
-- The suite runs on Chromium, Firefox, and WebKit.
+- Testers: start with the [Zeouf tester guide](docs/ecommerce-tester-guide.md) for fixture selection, shared helpers, runner steps, and failure evidence.
+- Practice-site browser examples run on Chromium, Firefox, and WebKit; the Zeouf browser suite uses `ecommerce-chromium`.
 - `playwright-report/` holds the HTML report output.
 - `test-results/` holds traces, screenshots, videos, and other failure artifacts.
 - New specs should import `test` and `expect` from their project fixture: `fixtures/ecommerce-base.ts` for Zeouf, `fixtures/api-fixtures.ts` for API tests, or `fixtures/base.ts` for practice-site examples.
@@ -151,13 +152,17 @@ For Zeouf API and performance commands, see [Zeouf API and performance checks](d
 
 The [Zeouf case catalog](specs/ecommerce/requirements/CASE_CATALOG.md) maps the current BRD and QA-guide snapshot to first-pass test cases; [automation status](specs/ecommerce/requirements/AUTOMATION_STATUS.md) distinguishes linked partial checks from full acceptance. After reviewing an updated BRD or case overlay, run `npm run cases:zeouf:catalog` to regenerate the catalog. The planner, generator, and healer profiles in both `.github/agents/` and `.codex/agents/` use this snapshot and public read-only boundary. They do not automatically update tests when application code changes.
 
-`npm run test:ecommerce:fixtures` runs controlled product-card, catalog, search, cart-storage and currency frontend checks using fictional GET responses or browser-local data. These tests block server writes and do not prove live authentication, email, inventory or transaction correctness. See the [fixture plan](specs/ecommerce/18-brd-controlled-catalog-search-cart.md) and [card/catalog/navigation plan](specs/ecommerce/19-brd-cards-catalog-navigation.md). `npm run test:ecommerce:navigation` checks keyboard dialogs, desktop/mobile menus, selected viewport boundaries and homepage destinations. The [current findings](docs/zeouf-automation-findings.md) record the scoped CAT-07 update to the reviewed visible-versus-matching contract and the desktop focus fix prepared in the separate website checkout. Local related checks pass; website deployment and a fresh CI run remain pending. The [roadmap](roadmap/FUTURE_ENHANCEMENTS.md) records future tester takeover, visual recording/editing, revision history and a local tool workflow; these are not implemented capabilities.
+`npm run test:ecommerce:fixtures` runs controlled product-card, catalog, search, cart-storage and currency frontend checks using fictional GET responses or browser-local data. These tests block server writes and do not prove live authentication, email, inventory or transaction correctness. See the [fixture plan](specs/ecommerce/18-brd-controlled-catalog-search-cart.md), [card/catalog/navigation plan](specs/ecommerce/19-brd-cards-catalog-navigation.md) and [latest boundary checks](specs/ecommerce/26-remaining-browser-and-service-boundaries.md). `npm run test:ecommerce:navigation` checks keyboard dialogs, desktop/mobile menus, selected viewport boundaries and homepage destinations. The [findings](docs/zeouf-automation-findings.md) retain earlier category/count/focus failures and their later verification; the current complete local baseline passes all 289 mapped checks. A new pushed commit still requires fresh CI. The [roadmap](roadmap/FUTURE_ENHANCEMENTS.md) records future tester takeover, visual recording/editing, revision history and a local tool workflow; these are not implemented capabilities.
 
 If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` instead.
 
 ---
 
 ## Reporting And Outputs
+
+The [remaining browser and service-boundary batch](specs/ecommerce/26-remaining-browser-and-service-boundaries.md) adds 29 checks, bringing mappings to **289 checks for 88/108 cases**: 154 public-safe checks and 135 isolated checks. The latest complete local runs passed **all 289 checks**, with zero retries/skips/failures, after the public pagination-reset fix. The suites include catalog, currency, hero and touch branches plus real local unsubscribe validation and unconfigured-limiter denials. Plan 26 retains the earlier failed reports, the unchanged fix recheck and the current complete-run evidence. Twenty cases have no browser mapping, and 17 cases still require staging or scope decisions for full acceptance; mapped cases also retain limited scopes.
+
+The [26 October stability investigation](docs/ecommerce-stability-2026-10-26.md) preserves the earlier 143-pass/one-failure read-only run, the cart-loading diagnosis, verified prior GitHub CI success and the protected immutable-deployment blocker. Later passes are recorded separately; they do not establish that intermittent loading causes are resolved or that the mutable public origin is an identified website build.
 
 `npm run demo:ecommerce:repair` runs a [controlled Zeouf failure and locator-repair rehearsal](docs/ecommerce-repair-evaluation.md). It preserves raw locator, application and environment failures, verifies the same assertion after a constrained locator change, and archives a reviewable proposal and source/report hashes. The injected-fault spec is excluded from normal suites. The manual **Zeouf controlled repair rehearsal** CI workflow retains the evidence. This is a scripted evaluation foundation; autonomous repair and independent accuracy measurement remain future work.
 

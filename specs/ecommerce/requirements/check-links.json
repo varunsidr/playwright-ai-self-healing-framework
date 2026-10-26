@@ -277,7 +277,7 @@
       "file": "tests/ecommerce/catalog-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-007-01 pagination boundary 0 @happy",
-      "scope": "TC-CAT-007-01 pagination boundary 0. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified"
+      "scope": "TC-CAT-007-01 pagination boundary 0. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
     },
     {
       "id": "CHK-CAT-007-01-77E59A08",
@@ -285,7 +285,7 @@
       "file": "tests/ecommerce/catalog-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-007-01 pagination boundary 1 @happy",
-      "scope": "TC-CAT-007-01 pagination boundary 1. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified"
+      "scope": "TC-CAT-007-01 pagination boundary 1. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
     },
     {
       "id": "CHK-CAT-007-01-21F7F3AF",
@@ -293,7 +293,7 @@
       "file": "tests/ecommerce/catalog-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-007-01 pagination boundary 24 @happy",
-      "scope": "TC-CAT-007-01 pagination boundary 24. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified"
+      "scope": "TC-CAT-007-01 pagination boundary 24. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
     },
     {
       "id": "CHK-CAT-007-01-CB163265",
@@ -301,7 +301,7 @@
       "file": "tests/ecommerce/catalog-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-007-01 pagination boundary 25 @happy",
-      "scope": "TC-CAT-007-01 pagination boundary 25. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified"
+      "scope": "TC-CAT-007-01 pagination boundary 25. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
     },
     {
       "id": "CHK-CAT-007-01-138B27B3",
@@ -309,7 +309,7 @@
       "file": "tests/ecommerce/catalog-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-007-01 pagination boundary 48 @happy",
-      "scope": "TC-CAT-007-01 pagination boundary 48. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified"
+      "scope": "TC-CAT-007-01 pagination boundary 48. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
     },
     {
       "id": "CHK-CAT-007-01-9E5CC8EC",
@@ -317,7 +317,7 @@
       "file": "tests/ecommerce/catalog-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-007-01 pagination boundary 49 @happy",
-      "scope": "TC-CAT-007-01 pagination boundary 49. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified"
+      "scope": "TC-CAT-007-01 pagination boundary 49. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
     },
     {
       "id": "CHK-CAT-003-02-7D8D4EEF",
@@ -2070,6 +2070,238 @@
       "project": "ecommerce-chromium",
       "testTitle": "TC-REV-002-01 oversized selection retains only valid preview and removal sends no upload",
       "scope": "Partial: frontend oversize exclusion, three-preview cap, removal and multipart filenames are verified with intercepted upload; actual signature validation, fourth-file rejection, private storage and signed URLs unverified."
+    },
+    {
+      "id": "CHK-CAT-02-CORE-287A7DAF",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE men new-arrivals follows tag membership @happy",
+      "scope": "TC-CAT-02-CORE men new-arrivals follows tag membership @happy. Men New Arrivals/Best Sellers/Collection tag populations with fictional GET responses; no live database or sales-ranking acceptance."
+    },
+    {
+      "id": "CHK-CAT-02-CORE-35CF86A3",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE men best-sellers follows tag membership @happy",
+      "scope": "TC-CAT-02-CORE men best-sellers follows tag membership @happy. Men New Arrivals/Best Sellers/Collection tag populations with fictional GET responses; no live database or sales-ranking acceptance."
+    },
+    {
+      "id": "CHK-CAT-02-CORE-9D8E9F61",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE men collection follows tag membership @happy",
+      "scope": "TC-CAT-02-CORE men collection follows tag membership @happy. Men New Arrivals/Best Sellers/Collection tag populations with fictional GET responses; no live database or sales-ranking acceptance."
+    },
+    {
+      "id": "CHK-CAT-005-02-C98C013D",
+      "caseIds": ["TC-CAT-005-02"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-005-02 absent stock rows fall back while present rows constrain selected size @happy",
+      "scope": "TC-CAT-005-02 absent stock rows fall back while present rows constrain selected size @happy. Positive aggregate fallback without size rows and S/M constraints when rows exist; fictional GET responses, no live inventory acceptance."
+    },
+    {
+      "id": "CHK-CAT-04-CORE-5992E0C8",
+      "caseIds": ["TC-CAT-04-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-04-CORE delayed USD detection clears both INR price bounds @happy",
+      "scope": "TC-CAT-04-CORE delayed USD detection clears both INR price bounds @happy. Delayed USD region response clears both populated INR bounds and restores all three converted prices; deterministic browser GET responses only."
+    },
+    {
+      "id": "CHK-CAT-007-01-EFC85A82",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 changing a filter resets a fully revealed collection to its first batch @happy",
+      "scope": "TC-CAT-007-01 changing a filter resets a fully revealed collection to its first batch @happy. Reviewed first-batch reset after fully loading 49 rows and applying a 30-match brand; separate empty-match clear-all restores first batch. Preserve any failed assertion."
+    },
+    {
+      "id": "CHK-CAT-007-01-01A187DF",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 clearing an empty filter result restores the first batch and load more @happy",
+      "scope": "TC-CAT-007-01 clearing an empty filter result restores the first batch and load more @happy. Reviewed first-batch reset after fully loading 49 rows and applying a 30-match brand; separate empty-match clear-all restores first batch. Preserve any failed assertion."
+    },
+    {
+      "id": "CHK-NAV-001-01-C3DAF4E1",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-hero.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 visible hero rotates automatically and pause resumes from its selected slide @happy",
+      "scope": "TC-NAV-001-01 visible hero rotates automatically and pause resumes from its selected slide @happy. Browser-clock visible rotation, pause/resume and offscreen suspension/resumption, plus reduced-motion timer invariance; actual hidden-tab behavior unverified."
+    },
+    {
+      "id": "CHK-NAV-001-01-113ED8C7",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-hero.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 offscreen hero stops rotation and resumes after returning into view @happy",
+      "scope": "TC-NAV-001-01 offscreen hero stops rotation and resumes after returning into view @happy. Browser-clock visible rotation, pause/resume and offscreen suspension/resumption, plus reduced-motion timer invariance; actual hidden-tab behavior unverified."
+    },
+    {
+      "id": "CHK-NFR-008-01-CC5B76FC",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/admin/login",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/admin/login. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-1BEBDAE6",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/checkout",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/checkout. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-F1668595",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-1F7566FE",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews/upload",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews/upload. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-7BEE1906",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/restock-notifications",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/restock-notifications. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-6557EDF6",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects missing unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects missing unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-D4AEF709",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects empty unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects empty unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-61A5144F",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects short unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects short unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-6E392066",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects long unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects long unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-CBB7FA37",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects nonhex unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects nonhex unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-253A2196",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects whitespace unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects whitespace unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-E49ABB5C",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET valid-shape token fails closed without service credentials",
+      "scope": "TC-RST-005-01 GET valid-shape token fails closed without service credentials. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-D994C8C5",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects missing unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects missing unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-EAA6D173",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects empty unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects empty unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-AF972362",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects short unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects short unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-D25FDAE8",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects long unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects long unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-8A857DCE",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects nonhex unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects nonhex unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-B5933F66",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects whitespace unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects whitespace unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-12C87429",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST valid-shape token fails closed without service credentials",
+      "scope": "TC-RST-005-01 POST valid-shape token fails closed without service credentials. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-PDP-001-01-DE4EDBAC",
+      "caseIds": ["TC-PDP-001-01"],
+      "file": "tests/ecommerce/product-card-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-001-01 touch quick-add requires sign-in and preserves the empty bag @negative",
+      "scope": "TC-PDP-001-01 touch quick-add requires sign-in and preserves the empty bag @negative. Mobile context with hasTouch/isMobile verifies coarse pointer, tap quick-add, guest sign-in denial and empty cart; fictional GET product only."
     }
   ]
 }

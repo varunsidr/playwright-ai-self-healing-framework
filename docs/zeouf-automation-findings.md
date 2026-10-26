@@ -2,11 +2,15 @@
 
 ## Current expansion
 
-The latest public read-only run contains **144 individually mapped browser checks: 142 passed and 2 failed without retries**, covering limited scopes in **41 of 108 cases**. It adds 22 tests for category membership, guest favorites, blank password reset, nonempty guest checkout, browser-cart variant merging, health and schema reads. All existing public-safe checks now have individual mappings; no browser test in this run is unmapped.
+The current inventory contains **289 checks for 88/108 cases**, split into 154 public-safe checks and 135 isolated frontend/local-handler checks. After the CAT-07 filter-reset fix, both complete batches passed, for **289 passes with zero retries/skips/failures**. The [latest execution plan](../specs/ecommerce/26-remaining-browser-and-service-boundaries.md) retains those reports, the unchanged three-repeat/30-check focused verification and the original failure. Twenty cases remain without browser mappings; the 17 staging/scope cases and unfinished backend portions of mapped cases remain open for full acceptance. The [monitoring guide](ecommerce-ci-monitoring.md) explains current evidence, inventory hashes and historical snapshots.
 
-Both failures are a new category membership regression: Men's Jackets and Trousers include the corresponding Women's products. The fixture uses the real deployed listing with intercepted GET responses and no server writes. See [the developer fix and reproduction](zeouf-men-category-regression.md). Expected membership remains enforced, so expanded CI will fail until the website is repaired and deployed.
+## Historical category expansion
 
-Current execution evidence is in `test-results/ecommerce-monitoring.md`. The [all-case backlog](../specs/ecommerce/automation-backlog.md) records 67 cases without individual checks: 58 require staging, four need additional controlled runtime fixtures, three belong to website repository CI, and two require manual scope review. Mapped cases retain partial scopes and unassessed full acceptance.
+An earlier public read-only run contained **144 individually mapped browser checks: 142 passed and 2 failed without retries**, covering limited scopes in **41 of 108 cases**. It added 22 tests for category membership, guest favorites, blank password reset, nonempty guest checkout, browser-cart variant merging, health and schema reads. All public-safe checks at that stage had individual mappings; no browser test in that run was unmapped.
+
+Both failures recorded a category membership regression: Men's Jackets and Trousers included the corresponding Women's products. The fixture used the real deployed listing with intercepted GET responses and no server writes. See [the developer fix and reproduction](zeouf-men-category-regression.md). Expected membership remains enforced; these historical failures do not describe the latest run.
+
+At that stage, the backlog recorded 67 cases without individual checks: 58 required staging, four needed additional controlled runtime fixtures, three belonged to website repository CI, and two required manual scope review. Consult the [generated backlog](../specs/ecommerce/automation-backlog.md) for current mappings and `test-results/ecommerce-monitoring.md` for the latest generated execution snapshot. Mapped cases retain partial scopes and unassessed full acceptance.
 
 ## Earlier count and keyboard repairs
 

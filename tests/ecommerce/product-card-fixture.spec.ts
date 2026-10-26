@@ -1,6 +1,33 @@
 import { expect } from '../../fixtures/ecommerce-base';
 import { catalogProducts, test } from '../../fixtures/ecommerce-catalog';
 
+test.describe(
+  'Zeouf product cards with touch input',
+  { tag: ['@ecommerce', '@regression'] },
+  () => {
+    test.use({ viewport: { width: 375, height: 900 }, isMobile: true, hasTouch: true });
+
+    test('TC-PDP-001-01 touch quick-add requires sign-in and preserves the empty bag @negative', async ({
+      catalog,
+      page,
+      storefront,
+    }) => {
+      catalog.products = [{ ...catalogProducts(1)[0], name: 'Touch Quick Add Fixture', stock: 1 }];
+      await storefront.openWomenCollection();
+      await storefront.expectCategoryLoaded('Women');
+      expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches)).toBe(true);
+      const add = storefront.cardAddAction('Touch Quick Add Fixture');
+      await expect(add).toHaveCSS('opacity', '1');
+      await add.tap();
+      await storefront.expectGuestSignInRequired();
+      await storefront.closeAccountPanel();
+      await storefront.cartToggle.tap();
+      await expect(storefront.emptyCartMessage).toBeVisible();
+      await expect(storefront.cartLines).toHaveCount(0);
+    });
+  },
+);
+
 test.describe('Zeouf product card fixtures', { tag: ['@ecommerce', '@regression'] }, () => {
   test('TC-FAV-03-CORE guest favorite prompts sign-in and stays unselected @negative', async ({
     catalog,

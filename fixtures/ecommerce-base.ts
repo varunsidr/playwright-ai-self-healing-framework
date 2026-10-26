@@ -12,6 +12,7 @@ const checkManifest: {
   readFileSync(resolve(repositoryRoot, 'specs/ecommerce/requirements/check-links.json'), 'utf8'),
 );
 
+/** Shared storefront setup; specialized fixtures extend this test to retain guards and evidence. */
 export const test = base.extend<{
   storefront: EcommerceStorefrontPage;
   caseTraceability: void;
@@ -19,6 +20,7 @@ export const test = base.extend<{
   navigationDiagnostics: void;
 }>({
   navigationDiagnostics: [
+    // An auto fixture runs for every test, without each spec requesting it explicitly.
     async ({ page }, use, testInfo) => {
       if (testInfo.project.name !== 'ecommerce-chromium') {
         await use();
@@ -43,6 +45,7 @@ export const test = base.extend<{
     { auto: true },
   ],
   publicWriteGuard: [
+    // Block unexpected writes by default; specialized mocks must fulfill their own requests locally.
     async ({ context, baseURL }, use, testInfo) => {
       const guarded =
         testInfo.project.name === 'ecommerce-chromium' && !isConfirmedEcommerceStaging(baseURL);
@@ -53,6 +56,7 @@ export const test = base.extend<{
     { auto: true },
   ],
   caseTraceability: [
+    // The exact file/project/title mapping connects raw reports to requirement coverage.
     // Playwright requires fixture dependency destructuring even when there are no dependencies.
     // eslint-disable-next-line no-empty-pattern
     async ({}, use, testInfo) => {
@@ -87,6 +91,7 @@ export const test = base.extend<{
 
 export { expect } from '@playwright/test';
 
+/** Abort writes and return the live attempt list so the caller can assert it stays empty. */
 export async function blockEcommerceWrites(context: BrowserContext): Promise<string[]> {
   const attemptedWrites: string[] = [];
   await context.route('**/*', (route) => {

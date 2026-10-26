@@ -1,18 +1,20 @@
 {
   "TC-PDP-001-01": {
     "automationFile": "tests/ecommerce/product-card-fixture.spec.ts",
-    "automationScope": "partial: controlled unsized/sized/out-of-stock card actions at 375/1440px, hover/focus reveal, size href, image failure with readable name/price/link, and guest add denial; detail gallery, genuine touch device and live stock unverified",
-    "lastEvidence": "Three controlled card tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; GET responses mocked and server writes blocked"
+    "automationScope": "Partial: controlled unsized/sized/unavailable card actions at 375/1440px, hover/focus reveal, size href, image-failure information, guest denial and emulated coarse-pointer touch quick-add. Detail galleries, physical-device behavior and live stock remain unverified.",
+    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Three controlled card tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; GET responses mocked and server writes blocked"
   },
   "TC-CAT-02-CORE": {
     "automationFile": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
-    "automationScope": "partial: Women's New Arrivals, Best Sellers and Collection with New/BEST/Featured/Populer/null tags in controlled GET fixtures; Men and real database membership unverified",
-    "lastEvidence": "Three controlled tag-route tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked"
+    "automationScope": "Partial: Women and Men English New Arrivals/Best Sellers/Collection routes select New/BEST/Featured/Populer/null tag populations with controlled GET responses. Real database membership and legacy highlight variants remain unverified; no sales ranking is inferred.",
+    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Three controlled tag-route tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-CAT-04-CORE": {
     "automationFile": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
-    "automationScope": "partial: keyboard inclusive price bounds and crossing clamps plus exact Under-tier boundary; visible-of-matching count at two and one matching cards; currency change reset unverified",
-    "lastEvidence": "Keyboard bounds and clamp check passed locally on 2026-10-11 after adopting reviewed CAT-07 v1.9 from 243b37d; Under-tier deployed pass from 2026-10-10 remains historical. Mocked GET responses and writes blocked; public rerun pending."
+    "automationScope": "Partial: keyboard inclusive bounds/crossing clamps, visible-of-matching counts, exact Under-tier boundary and delayed USD detection clearing both populated INR bounds. Controlled GET responses only; live region/rate integration remains unverified.",
+    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Keyboard bounds and clamp check passed locally on 2026-10-11 after adopting reviewed CAT-07 v1.9 from 243b37d; Under-tier deployed pass from 2026-10-10 remains historical. Mocked GET responses and writes blocked; public rerun pending.",
+    "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-NFR-04-CORE": {
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
@@ -27,13 +29,15 @@
   },
   "TC-CAT-005-02": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
-    "automationScope": "controlled S/M size-stock zero/one/four filter boundaries; missing stock rows and live inventory unverified",
-    "lastEvidence": "Passed on deployed Zeouf with mocked products/stock GET responses in ecommerce-chromium on 2026-10-10; server writes blocked"
+    "automationScope": "Partial: controlled S/M size-stock zero/one/four boundaries, positive aggregate fallback when size rows are missing, and selected-size constraints when rows exist. Live inventory remains unverified.",
+    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Passed on deployed Zeouf with mocked products/stock GET responses in ecommerce-chromium on 2026-10-10; server writes blocked",
+    "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-CAT-007-01": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
-    "automationScope": "partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset remains unverified",
-    "lastEvidence": "2026-10-10 deployed failures used the old matching-versus-collection contract. On 2026-10-11, focused 25/48/49 checks passed against local 243b37d plus the menu fix after adopting reviewed CAT-07 v1.9; mocked GET responses and writes blocked. Public rerun pending."
+    "automationScope": "Partial: controlled 0/1/24/25/48/49 batching, visible-of-matching counts, final button absence, filter-change reset to the first 24 of 30 matching products, subsequent reveal to 30 and no-match/clear-all recovery. Fictional GET responses; full live catalog acceptance remains unassessed.",
+    "lastEvidence": "Deployed fix verified on 2026-10-26: unchanged filter-reset regression passed three repetitions; all 30 related catalog checks passed with zero retries/skips. Evidence: test-results/pagination-fix-check-17dc508f53af48da843f5ac2b2513a0f/ and test-results/pagination-fix-catalog-2aee786377ae4696a8e515bf3479bddf/. Earlier 30-versus-24 failures remain archived. See specs/ecommerce/26-remaining-browser-and-service-boundaries.md for scope and complete-run history; targeted passes do not retrospectively certify the earlier full run.",
+    "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-CAT-08-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -161,8 +165,8 @@
       "tests/ecommerce/catalog.spec.ts",
       "tests/ecommerce/seed.spec.ts"
     ],
-    "automationScope": "partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested",
-    "lastEvidence": "Nine homepage destination tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10 with writes blocked; manual/reduced-motion evidence retained from the previous batch"
+    "automationScope": "Partial: manual selection, pause/resume, reduced-motion still imagery and timer invariance, browser-clock auto-rotation and offscreen suspension/resumption; six editorial destinations, both collection panels, blouse edit and seven homepage category hrefs. Real hidden-tab playback remains unverified.",
+    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Nine homepage destination tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10 with writes blocked; manual/reduced-motion evidence retained from the previous batch"
   },
   "TC-CNT-02-CORE": {
     "automationFile": "tests/ecommerce/footer-content.spec.ts",
@@ -458,5 +462,15 @@
     "automationFile": "tests/ecommerce/isolated/stock-recovery.spec.ts",
     "automationScope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified.",
     "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+  },
+  "TC-NFR-008-01": {
+    "automationFile": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+    "automationScope": "Partial: real isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact HTTP 503 feedback when shared limiter configuration is absent. No multi-instance counters, deployed proxy trust, RPC-failure or fifth/sixth-attempt acceptance.",
+    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed."
+  },
+  "TC-RST-005-01": {
+    "automationFile": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+    "automationScope": "Partial: real isolated production GET/POST unsubscribe rejects missing/empty/short/long/nonhex/whitespace tokens with HTTP 400 and valid-shape tokens without service credentials with HTTP 503. No real deletion/replay/RLS acceptance.",
+    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed."
   }
 }

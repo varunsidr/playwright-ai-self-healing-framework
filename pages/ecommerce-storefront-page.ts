@@ -12,6 +12,7 @@ type ShopperRegistrationInput = ShopperRegistration & {
 
 type ProductInformationSection = 'details' | 'measurements' | 'care' | 'shipping';
 
+/** Storefront locators and reusable UI actions; service responses and test data belong in fixtures. */
 export class EcommerceStorefrontPage {
   private readonly page: Page;
   private selectedProduct?: { name: string; url: string };

@@ -22,20 +22,30 @@ On Windows PowerShell, if `npx` is blocked by execution policy, use `npx.cmd` in
 npx.cmd playwright install
 ```
 
-- Run lint and format locally:
+- Run the quality gate locally:
 
 ```powershell
-npm run lint
-npm run format
+npm run check
 ```
 
-- Run the test suite before pushing:
+- For Zeouf changes, run the public-safe suite with zero retries and a separate evidence directory before pushing. Follow the [tester guide](docs/ecommerce-tester-guide.md) to set the `PW_*` output paths so previous reports are retained:
 
 ```powershell
-npm test
+npm run test:ecommerce:read-only -- --workers=1 --retries=0
 ```
 
-For Zeouf BRD work, review the source snapshot and [case catalog](specs/ecommerce/requirements/CASE_CATALOG.md). Add or revise scenarios in the catalog input JSON files, then run `npm run cases:zeouf:catalog`. Put browser plans in `specs/ecommerce/` and tests in `tests/ecommerce/` using `fixtures/ecommerce-base` and project `ecommerce-chromium`. Link verified automation and its exact scope in `case-links.json`; a partial or unrun check is not accepted requirement coverage. Run `npm run test:ecommerce` and `npm run check` before proposing the change.
+For Zeouf BRD work, review the source snapshot and [case catalog](specs/ecommerce/requirements/CASE_CATALOG.md). Add or revise scenarios in the catalog input JSON files, then run `npm run cases:zeouf:catalog`. Put browser plans in `specs/ecommerce/` and tests in `tests/ecommerce/` using the base or specialized storefront fixtures and project `ecommerce-chromium`. Link exact case scope in `case-links.json` and stable individual check IDs/selectors in `check-links.json`; a partial or unrun check is not accepted requirement coverage. Regenerate `npm run cases:zeouf:backlog` when mappings change. Catalog/manifest edits change evidence hashes, so retain the original reports and capture new results against the new inventory.
+
+Use `npm run test:ecommerce:isolated -- <clean-website-checkout> <new-evidence-directory>` for isolated fixture and local-handler changes. Use the native runner separately for website-native evidence. `npm test` runs all configured projects, including the separate practice examples; `npm run test:ecommerce` includes staging-gated storefront specs. Choose the suites appropriate to the changed layer and retain failures rather than adding skips, retry masking or weaker assertions.
+
+For documentation changes, keep [ARCHITECTURE.md](ARCHITECTURE.md), README, tester/monitoring guides and the relevant execution plan consistent. Record current results alongside dated historical failures. Do not claim full-suite or CI success from a focused recheck. Format only the edited Markdown files, for example:
+
+```powershell
+npx prettier --write ARCHITECTURE.md README.md CONTRIBUTING.md
+npx prettier --check ARCHITECTURE.md README.md CONTRIBUTING.md
+```
+
+Check that relative links in edited files resolve from each document's directory. Raw `test-results/`, reports, credentials and disposable website checkouts stay ignored; commit the documentation, reviewed input JSON, regenerated catalog/backlog and source tests. Before pushing, review `git status --short`, `git diff --check` and your intended diff so new documents/specs are included and unrelated local work is preserved. A new commit needs its own GitHub Actions result; prior successful CI verifies only its recorded commit.
 
 Public Zeouf runs are read-only. Account creation, checkout, review, stock, admin, and email-delivery checks need an isolated staging deployment with its own Supabase project, disposable identities, controlled inboxes, and verified cleanup. A confirmed account from `/api/test/seed-user` is a login fixture, not email-delivery evidence. See the [current automation status](specs/ecommerce/requirements/AUTOMATION_STATUS.md) for blockers.
 

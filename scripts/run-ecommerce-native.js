@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Run the reviewed Zeouf repository's own suites and retain evidence for each stage.
+ * Order: validate inputs -> disposable clone -> docs/SQL -> UI/catalog/live -> verify inputs.
+ * Tester walkthrough and shared helpers: docs/ecommerce-tester-guide.md.
+ */
 const fs = require('node:fs');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
@@ -9,6 +14,7 @@ const root = path.resolve(__dirname, '..');
 const revision = '843646b7d0c52ef5149f7905b19ec5d87fe5054b';
 const hash = (value) => createHash('sha256').update(value).digest('hex');
 
+/** Extend the shared secret filter with database/Redis settings this runner must not inherit. */
 function nativeEnvironment(inherited = runtime.cleanEnvironment()) {
   return Object.fromEntries(
     Object.entries(inherited).filter(
@@ -17,6 +23,7 @@ function nativeEnvironment(inherited = runtime.cleanEnvironment()) {
   );
 }
 
+/** Native live smoke checks receive an origin, without credentials, paths or query parameters. */
 function liveOrigin(value) {
   const url = new URL(value);
   if (
@@ -31,6 +38,7 @@ function liveOrigin(value) {
   return url.origin;
 }
 
+/** A successful exit alone is insufficient: require nonempty Node TAP totals with no skips. */
 function tapStats(text) {
   const count = (label) =>
     Number(text.match(new RegExp('^# ' + label + ' (\\d+)\\s*$', 'm'))?.[1] ?? NaN);
@@ -47,6 +55,7 @@ function tapStats(text) {
   return stats;
 }
 
+/** Match execution to discovery so missing checks, retries and skips cannot count as clean evidence. */
 function browserStats(report, discovered) {
   const observed = collectChecks(report.suites);
   const identity = ({ spec, test }) => JSON.stringify([spec.file, spec.title, test.projectName]);
@@ -65,6 +74,7 @@ function browserStats(report, discovered) {
   return report.stats;
 }
 
+/** Normalize text line endings so Git's Windows checkout conversion does not look like a source edit. */
 function sourceHashes(website) {
   return Object.fromEntries(
     runtime
@@ -92,6 +102,7 @@ async function main(args = process.argv.slice(2)) {
     );
   const source = path.resolve(args[0]),
     output = path.resolve(args[1]);
+  // Validate before creating evidence; a rerun must never overwrite an earlier investigation.
   if (fs.existsSync(output))
     throw new Error('Use a new evidence directory; previous results are retained');
   if (
@@ -103,6 +114,7 @@ async function main(args = process.argv.slice(2)) {
     process.env.ECOMMERCE_BASE_URL || 'https://zeouf-luxury-fashion-ecommerce.vercel.app',
   );
   fs.mkdirSync(output, { recursive: true });
+  // Use a short temporary clone to avoid Windows path limits and preserve the supplied checkout.
   const website = path.join(runtime.makeWorkspace(), 'website');
   const result = {
     schemaVersion: 1,
@@ -126,6 +138,7 @@ async function main(args = process.argv.slice(2)) {
       path.join(output, 'website-inputs.json'),
       JSON.stringify(before, null, 2) + '\n',
     );
+    // All stages use the shared process runner and record their own log and exit status.
     const execute = async (name, command, args, env = nativeEnvironment()) => {
       const log = path.join(output, name + '.log');
       const execution = await runtime.run(command, args, website, log, { env });
@@ -147,6 +160,7 @@ async function main(args = process.argv.slice(2)) {
     if (install.code !== 0) throw new Error('Native dependency installation failed');
     const npm = (name, script) =>
       execute(name, process.execPath, [runtime.npmCli(), 'run', script]);
+    // Check both before and after sync; the final source hash comparison also detects drift.
     for (const script of ['docs:check', 'docs:sync', 'docs:check']) {
       const stage = await npm(
         'website-' + script.replace(':', '-') + '-' + result.stages.length,
@@ -154,6 +168,7 @@ async function main(args = process.argv.slice(2)) {
       );
       if (stage.code !== 0) throw new Error('Native documentation command failed: ' + script);
     }
+    // These are native documentation and in-memory SQL tests, not deployed database validation.
     for (const [name, file] of [
       ['documentation-tests', 'requirements.test.mjs'],
       ['purchase-sql-tests', 'purchase.test.mjs'],
@@ -173,6 +188,7 @@ async function main(args = process.argv.slice(2)) {
       'chromium',
     ]);
     if (browserInstall.code !== 0) throw new Error('Native Chromium installation failed');
+    // Native configs belong to the website clone. Run sequentially to avoid server/port conflicts.
     for (const [name, config] of [
       ['ui', 'playwright.config.ts'],
       ['catalog', 'playwright.catalog.config.ts'],
@@ -188,6 +204,7 @@ async function main(args = process.argv.slice(2)) {
           process.execPath,
           [cli, 'test', '--config=' + config, '--list', '--reporter=json'],
           website,
+          // Discovery must return JSON on stdout; only execution writes the evidence report file.
           { env: { ...env, PLAYWRIGHT_JSON_OUTPUT_FILE: undefined } },
         ),
       );
@@ -227,6 +244,7 @@ async function main(args = process.argv.slice(2)) {
     result.sourceInputsUnchanged = JSON.stringify(before) === JSON.stringify(sourceHashes(website));
     if (!result.sourceInputsUnchanged)
       throw new Error('Native validation changed tracked website inputs');
+    // Associate native stages with case groups while retaining their limited acceptance scope.
     result.caseEvidence = [
       {
         caseId: 'TC-OPS-06-CORE',
@@ -261,6 +279,7 @@ async function main(args = process.argv.slice(2)) {
     result.status = 'failed';
     result.error = error.message;
   } finally {
+    // Retain completed stages and the failure reason even when a later stage cannot finish.
     fs.writeFileSync(path.join(output, 'result.json'), JSON.stringify(result, null, 2) + '\n');
     console.log('Native Zeouf checks: ' + result.status + '. Evidence: ' + output);
     if (result.status !== 'passed') process.exitCode = 1;
