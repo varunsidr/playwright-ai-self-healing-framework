@@ -92,6 +92,8 @@ test.describe(
       }) => {
         await seedRawBrowserCart(context, raw);
         await storefront.openHome();
+        // Account restoration can close the bag; finish recovery before opening it.
+        await expect(storefront.cartRecoveryNotice).toBeAttached();
         await storefront.openCart();
         await expect(storefront.emptyCartMessage).toBeVisible();
         await expect(storefront.cartRecoveryNotice).toBeVisible();

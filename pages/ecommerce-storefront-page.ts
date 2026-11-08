@@ -162,7 +162,7 @@ export class EcommerceStorefrontPage {
         'Your browser cannot save this bag. Items will stay available while this page is open.',
     });
     this.emptyCartMessage = page.getByText('Your cart is empty');
-    this.cartRecoveryNotice = this.cartPanel.getByRole('status').filter({
+    this.cartRecoveryNotice = this.cartPanel.getByRole('status', { includeHidden: true }).filter({
       hasText: 'Some saved bag items could not be restored.',
     });
     this.cartLines = this.cartPanel.getByTestId('navbar-cart-item');

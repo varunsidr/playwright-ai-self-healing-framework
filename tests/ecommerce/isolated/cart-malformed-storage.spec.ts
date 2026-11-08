@@ -10,6 +10,8 @@ test.describe('Zeouf saved cart recovery', { tag: ['@ecommerce', '@regression'] 
       await seedRawBrowserCart(context, '{not-json');
 
       await storefront.openHome();
+      // Account restoration can close the bag; finish recovery before opening it.
+      await expect(storefront.cartRecoveryNotice).toBeAttached();
       await storefront.openCart();
 
       await expect(storefront.emptyCartMessage).toBeVisible();

@@ -157,6 +157,21 @@ async function main(args = process.argv.slice(2)) {
   } catch (error) {
     result.status = 'failed';
     result.error = error.message;
+    console.error(error.message);
+    const failedLog = [
+      'website-install.log',
+      'website-lint.log',
+      'website-typecheck.log',
+      'website-build.log',
+      'browser.log',
+    ]
+      .map((file) => path.join(output, file))
+      .filter((file) => fs.existsSync(file))
+      .at(-1);
+    if (failedLog) {
+      console.error(`Last 100 lines of ${path.basename(failedLog)}:`);
+      console.error(fs.readFileSync(failedLog, 'utf8').split('\n').slice(-100).join('\n'));
+    }
     process.exitCode = 1;
   } finally {
     if (server) server.stop();
