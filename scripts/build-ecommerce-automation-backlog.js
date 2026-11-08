@@ -37,13 +37,17 @@ const lines = [
   '',
   `Generated from the reviewed catalog and manifest: ${catalog.cases.length} cases; ${mapped.size} have individual browser check mappings; ${catalog.cases.length - mapped.size} have no browser check mappings.`,
   '',
-  'No staging environment is available. Mapped checks cover their stated frontend/read-only scopes; full case acceptance remains unassessed. Isolated browser batches cover product options, checkout/account feedback, account switching, favorites, reviews, restock, currency, admin UI, stock recovery and reviewed analytics with placeholder services, plus actual local production denials. Shared-cart behavior is recorded as the G-10 finding. A mapped staging case still needs authenticated integration coverage; manual and website CI cases retain their own evidence requirements.',
+  'No staging environment is available. Mapped checks cover their stated frontend/read-only scopes; full case acceptance remains unassessed. Isolated browser batches cover product options, checkout/account feedback, account-scoped bags, favorites, reviews, restock, currency, admin UI, stock recovery and reviewed analytics with placeholder services, plus actual local production denials. Historical shared-cart findings remain in the archived baseline. A mapped staging case still needs authenticated integration coverage; manual and website CI cases retain their own evidence requirements.',
   '',
   'Regenerate with `npm run cases:zeouf:backlog`. Execution results and failures are in `test-results/ecommerce-monitoring.md`; this inventory does not infer pass status.',
   '',
-  'Separate native automation and manual source findings are registered in `requirements/non-browser-check-links.json` and plan 25. They do not add browser check mappings or infer full acceptance. Inspect the native runner result for execution status; the 17 staging cases still need their real integration environment or scope decisions.',
+  'Separate native automation and dated source findings are registered in `requirements/non-browser-check-links.json`; see plan 27 for the reviewed baseline continuation. They do not add browser check mappings or infer full acceptance. Inspect each native stage result for execution status. Live provider, database, concurrency, delivery and product decisions retain their separate prerequisites.',
   '',
 ];
+for (const item of catalog.cases) {
+  if (!Object.hasOwn(prerequisites, item.environment))
+    throw new Error(`Case ${item.id} has no reviewed execution environment: ${item.environment}`);
+}
 for (const environment of Object.keys(prerequisites)) {
   const cases = catalog.cases.filter((item) => item.environment === environment);
   lines.push(

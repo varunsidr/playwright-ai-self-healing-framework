@@ -65,8 +65,9 @@ test.describe('Zeouf isolated review feedback', { tag: ['@ecommerce', '@regressi
         await expect(
           storefront.visibleText('No reviews yet. Be the first to leave one.'),
         ).toBeVisible();
-        const read = shop.reads.find((url) => url.pathname.endsWith('/reviews'));
-        expect(read?.searchParams.get('approved')).toBe('eq.true');
+        const read = shop.reads.find((url) => url.pathname === '/api/reviews');
+        expect(read?.searchParams.get('productId')).toBe(shop.products.sized.id);
+        // Approval and viewer visibility are enforced by the server, outside this UI fixture.
       },
     );
   }

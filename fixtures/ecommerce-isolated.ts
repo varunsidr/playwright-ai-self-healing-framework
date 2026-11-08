@@ -1,6 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { expect, test as base } from './ecommerce-base';
-import { useInrStorefrontRegion } from './ecommerce-browser-cart';
+import {
+  browserCartKey,
+  browserCartOwnerId,
+  useInrStorefrontRegion,
+} from './ecommerce-browser-cart';
 import type { BrowserContext, Route } from '@playwright/test';
 
 export type IsolatedProduct = {
@@ -19,7 +23,7 @@ type RecordedCall = {
 };
 type Mode = 'success' | 'error' | 'network';
 const fixtureHost = 'supabase.co.catalog-fixture.invalid';
-export const customerId = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+export const customerId = browserCartOwnerId;
 export const secondCustomerId = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 const customer = {
   id: customerId,
@@ -52,6 +56,10 @@ export type IsolatedShop = {
   checkoutGate: Promise<void> | null;
   checkoutOrderId: string | null;
   resetMode: 'success' | 'error';
+  signupMode: 'success' | 'error';
+  passwordUpdateMode: 'success' | 'error';
+  logoutMode: 'success' | 'error';
+  userMode: 'success' | 'error';
   ordersMode: 'success' | 'error';
   ordersGate: Promise<void> | null;
   reviewMode: Mode;
@@ -70,8 +78,15 @@ export type IsolatedShop = {
 };
 
 /** The runner supplies a fresh local build, fake Supabase host and seeded product identities. */
-export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean }>({
+export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean; isolatedSetup: void }>({
   signedIn: [true, { option: true }],
+  isolatedSetup: [
+    async ({ shop }, use) => {
+      void shop;
+      await use();
+    },
+    { auto: true },
+  ],
   shop: async ({ context, baseURL, signedIn }, use, testInfo) => {
     const origin = new URL(baseURL!);
     if (
@@ -92,6 +107,10 @@ export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean }>({
       checkoutGate: null,
       checkoutOrderId: 'isolated-order-001',
       resetMode: 'success',
+      signupMode: 'success',
+      passwordUpdateMode: 'success',
+      logoutMode: 'success',
+      userMode: 'success',
       ordersMode: 'success',
       ordersGate: null,
       reviewMode: 'success',
@@ -177,7 +196,19 @@ export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean }>({
     await context.route('https://' + fixtureHost + '/auth/v1/**', async (route) => {
       const url = new URL(route.request().url());
       if (url.pathname.endsWith('/user') && route.request().method() === 'GET')
-        return route.fulfill({ json: fixtureCustomer(shop.loginUserId) });
+        return route.fulfill(
+          shop.userMode === 'error'
+            ? { status: 401, json: { msg: 'Invalid fixture session' } }
+            : { json: fixtureCustomer(shop.loginUserId) },
+        );
+      if (url.pathname.endsWith('/user') && route.request().method() === 'PUT') {
+        record(route);
+        return route.fulfill(
+          shop.passwordUpdateMode === 'error'
+            ? { status: 422, json: { msg: 'Controlled password update rejected' } }
+            : { json: fixtureCustomer(shop.loginUserId) },
+        );
+      }
       if (url.pathname.endsWith('/token') && url.searchParams.get('grant_type') === 'password') {
         record(route);
         return route.fulfill({
@@ -187,8 +218,16 @@ export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean }>({
             : session(shop.loginUserId),
         });
       }
-      if (url.pathname.endsWith('/signup'))
-        return respond(route, 'success', { user: customer, session: null });
+      if (url.pathname.endsWith('/signup')) {
+        record(route);
+        return route.fulfill({
+          status: shop.signupMode === 'error' ? 400 : 200,
+          json:
+            shop.signupMode === 'error'
+              ? { msg: 'Controlled fixture unavailable' }
+              : { user: customer, session: null },
+        });
+      }
       if (url.pathname.endsWith('/recover')) {
         record(route);
         return route.fulfill({
@@ -198,7 +237,11 @@ export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean }>({
       }
       if (url.pathname.endsWith('/logout')) {
         record(route);
-        return route.fulfill({ status: 204 });
+        return route.fulfill(
+          shop.logoutMode === 'error'
+            ? { status: 503, json: { msg: 'Controlled logout rejected' } }
+            : { status: 204 },
+        );
       }
       return route.fallback();
     });
@@ -262,6 +305,10 @@ export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean }>({
         shop.checkoutGate,
       ),
     );
+    await context.route(origin.origin + '/api/reviews?*', (route) => {
+      shop.reads.push(new URL(route.request().url()));
+      return route.fulfill({ json: { reviews: [] } });
+    });
     await context.route(origin.origin + '/api/reviews', (route) =>
       respond(route, shop.reviewMode, { status: 'pending' }, 201),
     );
@@ -302,9 +349,29 @@ export const test = base.extend<{ shop: IsolatedShop; signedIn: boolean }>({
   },
 });
 
-export async function savedBrowserCart(context: BrowserContext) {
+export async function savedBrowserCart(context: BrowserContext, ownerId = customerId) {
   const page = context.pages()[0];
-  return page.evaluate(() => JSON.parse(localStorage.getItem('els-cart') || '[]'));
+  return page.evaluate(
+    (key) => JSON.parse(localStorage.getItem(key) || '[]'),
+    browserCartKey(ownerId),
+  );
+}
+
+/** Deliver a fictional SDK identity event; no provider or account mutation occurs. */
+export async function setFictionalSession(
+  context: BrowserContext,
+  ownerId: string,
+  event = 'SIGNED_IN',
+) {
+  await context.pages()[0].evaluate(
+    ({ saved, authEvent }) => {
+      localStorage.setItem('sb-supabase-auth-token', JSON.stringify(saved));
+      const channel = new BroadcastChannel('sb-supabase-auth-token');
+      channel.postMessage({ event: authEvent, session: saved });
+      channel.close();
+    },
+    { saved: session(ownerId), authEvent: event },
+  );
 }
 
 /** Explicit release controls a response; tests always release in finally to preserve teardown. */

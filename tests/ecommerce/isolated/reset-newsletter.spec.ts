@@ -18,21 +18,19 @@ for (const rejected of [false, true]) {
       await storefront.forgotPasswordButton.click();
       const request = await requested;
       expect(new URL(request.url()).searchParams.get('redirect_to')).toBe(
-        new URL(baseURL!).origin + '/',
+        new URL(baseURL!).origin + '/reset-password',
       );
       expect(request.postDataJSON()).toMatchObject({ email: 'reset-fixture@example.invalid' });
       if (rejected) {
         await expect(storefront.visibleText('Controlled reset rejected')).toBeVisible();
         await expect(storefront.loginEmail).toHaveValue('reset-fixture@example.invalid');
-        await expect(
-          storefront.visibleText('Password reset instructions sent. Check your inbox.'),
-        ).toHaveCount(0);
+        await expect(storefront.visibleText(/If an account exists for this address/)).toHaveCount(
+          0,
+        );
         shop.resetMode = 'success';
         await storefront.forgotPasswordButton.click();
       }
-      await expect(
-        storefront.visibleText('Password reset instructions sent. Check your inbox.'),
-      ).toBeVisible();
+      await expect(storefront.visibleText(/If an account exists for this address/)).toBeVisible();
       await expect(storefront.loginSubmit).toBeEnabled();
       expect(shop.calls.filter((call) => call.path === '/auth/v1/recover')).toHaveLength(
         rejected ? 2 : 1,

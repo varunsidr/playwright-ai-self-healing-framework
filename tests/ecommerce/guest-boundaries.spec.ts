@@ -1,7 +1,7 @@
 import { blockEcommerceWrites, expect, test } from '../../fixtures/ecommerce-base';
 import {
   fictionalCartVariants,
-  seedBrowserCart,
+  seedRawBrowserCart,
   useInrStorefrontRegion,
 } from '../../fixtures/ecommerce-browser-cart';
 
@@ -18,42 +18,19 @@ test.describe('Zeouf read-only guest boundaries', { tag: ['@ecommerce', '@regres
     expect(writes).toEqual([]);
   });
 
-  test('TC-CHK-001-01 signed-out nonempty checkout preserves the browser bag @negative', async ({
+  test('TC-CHK-001-01 signed-out checkout discards the unowned legacy bag @negative', async ({
     context,
     page,
     storefront,
   }) => {
     const writes = await blockEcommerceWrites(context);
     await useInrStorefrontRegion(context);
-    await seedBrowserCart(context, fictionalCartVariants);
+    await seedRawBrowserCart(context, JSON.stringify(fictionalCartVariants), null);
     await storefront.openRoute('/checkout');
     await expect(storefront.checkoutSignInMessage).toBeVisible();
-    await expect(storefront.checkoutEmptyMessage).toBeHidden();
+    await expect(storefront.checkoutEmptyMessage).toBeVisible();
     await expect(storefront.simulatePaymentButton).toBeDisabled();
-    await expect
-      .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('els-cart') || '[]')))
-      .toEqual(fictionalCartVariants);
-    expect(writes).toEqual([]);
-  });
-
-  test('TC-CART-002-01 restored duplicate variants merge by size and color @happy', async ({
-    context,
-    page,
-    storefront,
-  }) => {
-    const writes = await blockEcommerceWrites(context);
-    await useInrStorefrontRegion(context);
-    const redM = { ...fictionalCartVariants[0], size: 'M', color: 'Red', quantity: 1 };
-    const redL = { ...redM, size: 'L' };
-    const blueM = { ...redM, color: 'Blue' };
-    await seedBrowserCart(context, [redM, redM, redL, blueM]);
-    await storefront.openHome();
-    await storefront.openCart();
-    await expect(storefront.cartLines).toHaveCount(3);
-    await expect(storefront.cartSubtotal).toContainText('₹4,000');
-    await expect
-      .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('els-cart') || '[]')))
-      .toEqual([{ ...redM, quantity: 2 }, redL, blueM]);
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('els-cart'))).toBeNull();
     expect(writes).toEqual([]);
   });
 

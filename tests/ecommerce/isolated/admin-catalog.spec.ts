@@ -129,7 +129,12 @@ test.describe('Zeouf isolated admin catalog', { tag: ['@ecommerce', '@regression
     await expect(storefront.adminProductImages()).toHaveCount(2);
     await storefront.removeAdminImage(0);
     await expect(storefront.adminProductImages()).toHaveCount(1);
-    await expect(storefront.adminProductImages()).toHaveAttribute('src', '/kadin-product-2.jpg');
+    const preview = new URL(
+      (await storefront.adminProductImages().getAttribute('src'))!,
+      'http://localhost',
+    );
+    expect(preview.pathname).toBe('/_next/image');
+    expect(preview.searchParams.get('url')).toBe('/kadin-product-2.jpg');
     await storefront.adminSaveProduct().click();
     await expect(storefront.adminFormHeading()).toHaveCount(0);
     expect(adminWrites(shop, '/api/admin/products/' + product.id)[0].body).toMatchObject({

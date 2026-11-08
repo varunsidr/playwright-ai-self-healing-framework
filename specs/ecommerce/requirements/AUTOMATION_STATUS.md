@@ -1,10 +1,16 @@
 # Zeouf case and automation status
 
+Current reviewed baseline, **5 November 2026**: BRD v2.0 at website revision `df94db96826c3226abc77422d2234c7d3db92ea1`, with **137 requirements and 140 cases**. The manifest maps **304 browser checks to 93 cases**: 128 public-safe and 176 isolated. Native coverage now includes assistant, restock SQL and photo checks; **209 native tests passed**, with unchanged tracked website inputs. The separate read-only audit collected 15 samples and found serious color-contrast issues in all 15. These findings remain open.
+
+Final verification passed **all 304 mapped browser checks**: 128 public and 176 isolated, with zero retries/skips/flaky results and matching inventory hashes. The final isolated run verified unchanged framework and tracked website inputs. All 48 framework script regressions and the full quality gate passed. Evidence and earlier failed migration/connection-reset reports remain under `test-results/scenarios-2026-11-05/`; no fresh CI result or complete acceptance is inferred.
+
+See [plan 27](../27-reviewed-baseline-scenarios.md) for all 32 new cases, raw evidence, framework verification and remaining work. Twenty-nine new cases have scoped executable/observational coverage; three still need a real provider or isolated API/concurrency environment. Partial checks do not establish complete acceptance. The text below preserves the historical October inventory and execution history; its counts and source baseline do not describe the refreshed catalog.
+
 Source baseline: Zeouf BRD v1.5 draft, QA guide and traceability CSV from website commit `481a090`, copied on 2026-10-06. Target for public checks: `https://zeouf-luxury-fashion-ecommerce.vercel.app/`, project `ecommerce-chromium`.
 
 Historical scoped revision on 2026-10-11: `requirement-updates.json` updated CAT-07 and its guide case to the reviewed v1.9 visible-versus-matching count contract from website commit `243b37d`; other requirements retained their independent source provenance. Five catalog assertions were repaired against that contract, and a separate website change restored desktop Women/Men Escape focus. All 43 related ecommerce checks and both website focus regressions passed locally. Framework checks and website lint/typecheck/docs/build passed; deployment and fresh CI were pending at that point. Those original deployed failures remain historical evidence. Current inventory and verification follow below; see [the findings](../../../docs/zeouf-automation-findings.md) for the earlier repairs.
 
-## Current inventory
+## Historical October inventory
 
 | Measure                               |    Count | Meaning                                                                                               |
 | ------------------------------------- | -------: | ----------------------------------------------------------------------------------------------------- |

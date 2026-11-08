@@ -1,0 +1,2307 @@
+{
+  "schemaVersion": 1,
+  "checks": [
+    {
+      "id": "CHK-AUTH-CONFIRMATION-MISMATCH",
+      "caseIds": ["TC-AUTH-002-01"],
+      "file": "tests/ecommerce/auth-confirmation-mismatch.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Mismatched confirmation blocks signup without server writes."
+    },
+    {
+      "id": "CHK-AUTH-CONFIRMATION-BLANK",
+      "caseIds": ["TC-AUTH-002-02"],
+      "file": "tests/ecommerce/auth-confirmation-blank.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Blank confirmation is required and blocks signup without server writes."
+    },
+    {
+      "id": "CHK-CART-GUEST-DENIAL",
+      "caseIds": ["TC-CART-001-01"],
+      "file": "tests/ecommerce/cart-guest-denial.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Guest add prompts for sign-in and leaves the bag empty; signed-in cart unverified."
+    },
+    {
+      "id": "CHK-CART-MALFORMED-RECOVERY",
+      "caseIds": ["TC-CART-004-04"],
+      "file": "tests/ecommerce/cart-malformed-storage.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Malformed browser-local JSON recovers to an empty bag with notice; ownership unverified."
+    },
+    {
+      "id": "CHK-NEWSLETTER-PREVIEW",
+      "caseIds": ["TC-CNT-001-01"],
+      "file": "tests/ecommerce/newsletter-preview.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Valid email displays preview without server writes; invalid email unverified."
+    },
+    {
+      "id": "CHK-AUTH-PASSWORD-VISIBILITY",
+      "caseIds": ["TC-AUTH-04-CORE"],
+      "file": "tests/ecommerce/auth-password-visibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Password visibility and tab state without submitting credentials."
+    },
+    {
+      "id": "CHK-SEARCH-INPUT",
+      "caseIds": ["TC-SEA-01-CORE"],
+      "file": "tests/ecommerce/search-input.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Search focus, blank submit, trimmed encoded query and panel closure."
+    },
+    {
+      "id": "CHK-PRODUCT-INFORMATION",
+      "caseIds": ["TC-PDP-06-CORE"],
+      "file": "tests/ecommerce/product-information.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Exclusive information panels on one available product; content variants unverified."
+    },
+    {
+      "id": "CHK-NAV-DESKTOP-WOMEN",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Desktop Women keyboard disclosure, Escape focus return, hover and inert closure; later assertions may not execute after failure. Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-NAV-DESKTOP-MEN",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "scope": "Desktop Men keyboard disclosure, Escape focus return, hover and inert closure; later assertions may not execute after failure. Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-FAV-03-CORE-008D6485",
+      "caseIds": ["TC-FAV-03-CORE"],
+      "file": "tests/ecommerce/account-cart-checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "shows the guest empty favorites state",
+      "scope": "shows the guest empty favorites state. Reviewed coverage: partial: guest favorite prompts sign-in, stays unselected and shows empty favorites; authenticated card loading and stored favorite details require staging"
+    },
+    {
+      "id": "CHK-CART-06-CORE-16F5E197",
+      "caseIds": ["TC-CART-06-CORE"],
+      "file": "tests/ecommerce/account-cart-checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens and closes an empty cart @happy",
+      "scope": "opens and closes an empty cart. Reviewed coverage: empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted"
+    },
+    {
+      "id": "CHK-CHK-001-01-4C9E3F08",
+      "caseIds": ["TC-CHK-001-01"],
+      "file": "tests/ecommerce/account-cart-checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "blocks checkout for a signed-out shopper with an empty cart",
+      "scope": "blocks checkout for a signed-out shopper with an empty cart. Reviewed coverage: partial: signed-out empty and nonempty checkout disable payment and preserve browser cart; expired-token API denial and signed-in empty checkout require staging"
+    },
+    {
+      "id": "CHK-ORD-001-01-779AA10D",
+      "caseIds": ["TC-ORD-001-01"],
+      "file": "tests/ecommerce/account-cart-checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "shows the signed-out order history state",
+      "scope": "shows the signed-out order history state. Reviewed coverage: partial: signed-out order history prompt only; user ownership and database RLS require two disposable staging accounts"
+    },
+    {
+      "id": "CHK-AUTH-04-CORE-1A077852",
+      "caseIds": ["TC-AUTH-04-CORE"],
+      "file": "tests/ecommerce/account-cart-checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens account registration without submitting data @happy",
+      "scope": "opens account registration without submitting data. Reviewed coverage: password visibility and Sign In/Register tab behavior without form submission"
+    },
+    {
+      "id": "CHK-CART-03-CORE-D72EA5D1",
+      "caseIds": ["TC-CART-03-CORE"],
+      "file": "tests/ecommerce/cart-browser-controls.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-03-CORE shows variants and updates quantity, line totals and subtotal @happy",
+      "scope": "TC-CART-03-CORE shows variants and updates quantity, line totals and subtotal. Reviewed coverage: browser-local two-variant drawer rendering, quantity updates, line/subtotal calculations, below-one and explicit removal; fictional data only"
+    },
+    {
+      "id": "CHK-CART-06-CORE-EF972D1C",
+      "caseIds": ["TC-CART-06-CORE"],
+      "file": "tests/ecommerce/cart-browser-controls.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-06-CORE empty bag closes with Start Shopping @happy",
+      "scope": "TC-CART-06-CORE empty bag closes with Start Shopping. Reviewed coverage: empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted"
+    },
+    {
+      "id": "CHK-CART-06-CORE-6F9161DF",
+      "caseIds": ["TC-CART-06-CORE"],
+      "file": "tests/ecommerce/cart-browser-controls.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-06-CORE nonempty bag closes and navigates to checkout @happy",
+      "scope": "TC-CART-06-CORE nonempty bag closes and navigates to checkout. Reviewed coverage: empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted"
+    },
+    {
+      "id": "CHK-CART-004-02-7C35AB6E",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes null row and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes null row and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-FF5477EA",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes empty ID and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes empty ID and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-C0E0B54E",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes blank name and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes blank name and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-F54C82C3",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes negative price and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes negative price and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-8A317369",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes nonnumeric price and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes nonnumeric price and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-9E845A6F",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes null price and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes null price and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-DA6034A2",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes zero quantity and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes zero quantity and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-2621D8F6",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes fractional quantity and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes fractional quantity and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-8BCBFAB7",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes unsafe quantity and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes unsafe quantity and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-7AEB06FC",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes invalid option and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes invalid option and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-4D6EE598",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 removes unsupported image protocol and persists valid edits @negative",
+      "scope": "TC-CART-004-02 removes unsupported image protocol and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-02-A2BA4FDA",
+      "caseIds": ["TC-CART-004-02"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-02 normalizes missing/empty/null colors and merges recovered tuples @happy",
+      "scope": "TC-CART-004-02 normalizes missing/empty/null colors and merges recovered tuples. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
+    },
+    {
+      "id": "CHK-CART-004-04-203E61C1",
+      "caseIds": ["TC-CART-004-04"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-04 nonarray null recovers to empty @negative",
+      "scope": "TC-CART-004-04 nonarray null recovers to empty. Reviewed coverage: partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified"
+    },
+    {
+      "id": "CHK-CART-004-04-1FB0C1B7",
+      "caseIds": ["TC-CART-004-04"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-04 nonarray {} recovers to empty @negative",
+      "scope": "TC-CART-004-04 nonarray {} recovers to empty. Reviewed coverage: partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified"
+    },
+    {
+      "id": "CHK-CART-004-04-3C1E8CFB",
+      "caseIds": ["TC-CART-004-04"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-04 nonarray \"not an array\" recovers to empty @negative",
+      "scope": "TC-CART-004-04 nonarray \"not an array\" recovers to empty. Reviewed coverage: partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified"
+    },
+    {
+      "id": "CHK-CART-004-03-71BCF8D0",
+      "caseIds": ["TC-CART-004-03"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-03 blocked reads show a persistence notice and usable empty bag @negative",
+      "scope": "TC-CART-004-03 blocked reads show a persistence notice and usable empty bag. Reviewed coverage: controlled cart-key SecurityError read and QuotaExceededError write; visible persistence notice, bag dismissal, in-memory quantity/subtotal and removal; cross-account state unverified"
+    },
+    {
+      "id": "CHK-CART-004-03-08F09DBC",
+      "caseIds": ["TC-CART-004-03"],
+      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-03 quota failure preserves in-memory quantity and removal @negative",
+      "scope": "TC-CART-004-03 quota failure preserves in-memory quantity and removal. Reviewed coverage: controlled cart-key SecurityError read and QuotaExceededError write; visible persistence notice, bag dismissal, in-memory quantity/subtotal and removal; cross-account state unverified"
+    },
+    {
+      "id": "CHK-CAT-007-01-41A3E26B",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 pagination boundary 0 @happy",
+      "scope": "TC-CAT-007-01 pagination boundary 0. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
+    },
+    {
+      "id": "CHK-CAT-007-01-77E59A08",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 pagination boundary 1 @happy",
+      "scope": "TC-CAT-007-01 pagination boundary 1. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
+    },
+    {
+      "id": "CHK-CAT-007-01-21F7F3AF",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 pagination boundary 24 @happy",
+      "scope": "TC-CAT-007-01 pagination boundary 24. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
+    },
+    {
+      "id": "CHK-CAT-007-01-CB163265",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 pagination boundary 25 @happy",
+      "scope": "TC-CAT-007-01 pagination boundary 25. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
+    },
+    {
+      "id": "CHK-CAT-007-01-138B27B3",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 pagination boundary 48 @happy",
+      "scope": "TC-CAT-007-01 pagination boundary 48. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
+    },
+    {
+      "id": "CHK-CAT-007-01-9E5CC8EC",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 pagination boundary 49 @happy",
+      "scope": "TC-CAT-007-01 pagination boundary 49. Reviewed coverage: partial: controlled 0/1/24/25/48/49 matching totals, visible-of-matching count at each 24-item reveal batch and final button absence; filter reset is covered by its separate mapped regression"
+    },
+    {
+      "id": "CHK-CAT-003-02-7D8D4EEF",
+      "caseIds": ["TC-CAT-003-02"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-003-02 brand and stock filters combine and clear @happy",
+      "scope": "TC-CAT-003-02 brand and stock filters combine and clear. Reviewed coverage: controlled brand/unsized-stock combination, visible-of-matching count including zero matches and Clear all; missing brand/size metadata selector omission; other combinations untested"
+    },
+    {
+      "id": "CHK-CAT-005-02-4BE6D1E6",
+      "caseIds": ["TC-CAT-005-02", "TC-CAT-005-01"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-005-02 sized stock respects selected size @happy",
+      "scope": "TC-CAT-005-02 sized stock respects selected size. Reviewed coverage: controlled S/M size-stock zero/one/four filter boundaries; missing stock rows and live inventory unverified"
+    },
+    {
+      "id": "CHK-CAT-06-CORE-6D3935B0",
+      "caseIds": ["TC-CAT-06-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-06-CORE price-low preserves products and breaks price ties by name @happy",
+      "scope": "TC-CAT-06-CORE price-low preserves products and breaks price ties by name. Reviewed coverage: partial: controlled low/high price ordering with name ties, Recommended incoming order, and New Arrivals new-tag/date/name precedence; live Dress price-low multiset; missing dates/tags beyond the selected fixtures unverified"
+    },
+    {
+      "id": "CHK-CAT-06-CORE-7252AC88",
+      "caseIds": ["TC-CAT-06-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-06-CORE price-high preserves products and breaks price ties by name @happy",
+      "scope": "TC-CAT-06-CORE price-high preserves products and breaks price ties by name. Reviewed coverage: partial: controlled low/high price ordering with name ties, Recommended incoming order, and New Arrivals new-tag/date/name precedence; live Dress price-low multiset; missing dates/tags beyond the selected fixtures unverified"
+    },
+    {
+      "id": "CHK-CAT-06-CORE-DA657DFE",
+      "caseIds": ["TC-CAT-06-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-06-CORE recommended preserves products and breaks price ties by name @happy",
+      "scope": "TC-CAT-06-CORE recommended preserves products and breaks price ties by name. Reviewed coverage: partial: controlled low/high price ordering with name ties, Recommended incoming order, and New Arrivals new-tag/date/name precedence; live Dress price-low multiset; missing dates/tags beyond the selected fixtures unverified"
+    },
+    {
+      "id": "CHK-CAT-08-CORE-4923498B",
+      "caseIds": ["TC-CAT-08-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-08-CORE products error and retry recovery @negative",
+      "scope": "TC-CAT-08-CORE products error and retry recovery. Reviewed coverage: controlled product/stock 503 and pending-request timeout, loading/demo/stock-warning distinction, successful retry, empty success and navigation cancellation; fixture results do not prove backend readiness"
+    },
+    {
+      "id": "CHK-CAT-08-CORE-21253DA5",
+      "caseIds": ["TC-CAT-08-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-08-CORE products pending and retry recovery @negative",
+      "scope": "TC-CAT-08-CORE products pending and retry recovery. Reviewed coverage: controlled product/stock 503 and pending-request timeout, loading/demo/stock-warning distinction, successful retry, empty success and navigation cancellation; fixture results do not prove backend readiness"
+    },
+    {
+      "id": "CHK-CAT-08-CORE-DC818561",
+      "caseIds": ["TC-CAT-08-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-08-CORE stock error and retry recovery @negative",
+      "scope": "TC-CAT-08-CORE stock error and retry recovery. Reviewed coverage: controlled product/stock 503 and pending-request timeout, loading/demo/stock-warning distinction, successful retry, empty success and navigation cancellation; fixture results do not prove backend readiness"
+    },
+    {
+      "id": "CHK-CAT-08-CORE-B23AC290",
+      "caseIds": ["TC-CAT-08-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-08-CORE stock pending and retry recovery @negative",
+      "scope": "TC-CAT-08-CORE stock pending and retry recovery. Reviewed coverage: controlled product/stock 503 and pending-request timeout, loading/demo/stock-warning distinction, successful retry, empty success and navigation cancellation; fixture results do not prove backend readiness"
+    },
+    {
+      "id": "CHK-CAT-08-CORE-32913AED",
+      "caseIds": ["TC-CAT-08-CORE"],
+      "file": "tests/ecommerce/catalog-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-08-CORE abandoned product request cancels on navigation @negative",
+      "scope": "TC-CAT-08-CORE abandoned product request cancels on navigation. Reviewed coverage: controlled product/stock 503 and pending-request timeout, loading/demo/stock-warning distinction, successful retry, empty success and navigation cancellation; fixture results do not prove backend readiness"
+    },
+    {
+      "id": "CHK-CAT-04-CORE-B2AEA3CD",
+      "caseIds": ["TC-CAT-04-CORE"],
+      "file": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-04-CORE keyboard price bounds are inclusive and cannot cross @happy",
+      "scope": "TC-CAT-04-CORE keyboard price bounds are inclusive and cannot cross. Reviewed coverage: partial: keyboard inclusive price bounds and crossing clamps plus exact Under-tier boundary; visible-of-matching count at two and one matching cards; currency change reset unverified"
+    },
+    {
+      "id": "CHK-CAT-04-CORE-CDC0A55B",
+      "caseIds": ["TC-CAT-04-CORE"],
+      "file": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-04-CORE Under tier includes its exact price and excludes the next price @happy",
+      "scope": "TC-CAT-04-CORE Under tier includes its exact price and excludes the next price. Reviewed coverage: partial: keyboard inclusive price bounds and crossing clamps plus exact Under-tier boundary; visible-of-matching count at two and one matching cards; currency change reset unverified"
+    },
+    {
+      "id": "CHK-CAT-003-02-0EE04065",
+      "caseIds": ["TC-CAT-003-02"],
+      "file": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-003-02 missing brand/size metadata omits unusable selectors @happy",
+      "scope": "TC-CAT-003-02 missing brand/size metadata omits unusable selectors. Reviewed coverage: controlled brand/unsized-stock combination, visible-of-matching count including zero matches and Clear all; missing brand/size metadata selector omission; other combinations untested"
+    },
+    {
+      "id": "CHK-CAT-02-CORE-45E87000",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE new-arrivals uses tag membership rather than sales ranking @happy",
+      "scope": "TC-CAT-02-CORE new-arrivals uses tag membership rather than sales ranking. Reviewed coverage: partial: Women's New Arrivals, Best Sellers and Collection with New/BEST/Featured/Populer/null tags in controlled GET fixtures; Men and real database membership unverified"
+    },
+    {
+      "id": "CHK-CAT-02-CORE-D9027CF0",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE best-sellers uses tag membership rather than sales ranking @happy",
+      "scope": "TC-CAT-02-CORE best-sellers uses tag membership rather than sales ranking. Reviewed coverage: partial: Women's New Arrivals, Best Sellers and Collection with New/BEST/Featured/Populer/null tags in controlled GET fixtures; Men and real database membership unverified"
+    },
+    {
+      "id": "CHK-CAT-02-CORE-0166312B",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE collection uses tag membership rather than sales ranking @happy",
+      "scope": "TC-CAT-02-CORE collection uses tag membership rather than sales ranking. Reviewed coverage: partial: Women's New Arrivals, Best Sellers and Collection with New/BEST/Featured/Populer/null tags in controlled GET fixtures; Men and real database membership unverified"
+    },
+    {
+      "id": "CHK-CAT-06-CORE-7A966D8A",
+      "caseIds": ["TC-CAT-06-CORE"],
+      "file": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-06-CORE New Arrivals orders new tags before date and name ties @happy",
+      "scope": "TC-CAT-06-CORE New Arrivals orders new tags before date and name ties. Reviewed coverage: partial: controlled low/high price ordering with name ties, Recommended incoming order, and New Arrivals new-tag/date/name precedence; live Dress price-low multiset; missing dates/tags beyond the selected fixtures unverified"
+    },
+    {
+      "id": "CHK-NAV-001-01-FA6DC093",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "home page loads with storefront actions @happy",
+      "scope": "home page loads with storefront actions. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-SEA-03-CORE-288CC397",
+      "caseIds": ["TC-SEA-03-CORE"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "shows an empty state for a search with no matches",
+      "scope": "shows an empty state for a search with no matches. Reviewed coverage: partial: no-results state for a missing query only"
+    },
+    {
+      "id": "CHK-NAV-005-01-8C2EF835",
+      "caseIds": ["TC-NAV-005-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "navigates to a collection from the mobile menu",
+      "scope": "navigates to a collection from the mobile menu. Reviewed coverage: partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-572E3917",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /women includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /women includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-93F36AA4",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /men includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /men includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-DCD97558",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /shoes includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /shoes includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-0A5846E5",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /bags includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /bags includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-CA946B22",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /accessories includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /accessories includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-8ECB39F7",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /perfume includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /perfume includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-09643880",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /makeup includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /makeup includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-48135F98",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /women/dress includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /women/dress includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-98819E13",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /women/blouse includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /women/blouse includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-7E091102",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /women/jacket includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /women/jacket includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-335FD800",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /women/skirt includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /women/skirt includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-5819E643",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /women/trousers includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /women/trousers includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-950BB24C",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /men/suits includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /men/suits includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-374AC0EA",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /men/shirts includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /men/shirts includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-E812EA32",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /men/trousers includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /men/trousers includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-54CF7189",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/category-membership-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-01-CORE /men/jacket includes only matching categories @happy",
+      "scope": "TC-CAT-01-CORE /men/jacket includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified"
+    },
+    {
+      "id": "CHK-CUR-02-CORE-F16A92D0",
+      "caseIds": ["TC-CUR-02-CORE"],
+      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-02-CORE valid USD rate formats the browser cart subtotal @negative",
+      "scope": "TC-CUR-02-CORE valid USD rate formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
+    },
+    {
+      "id": "CHK-CUR-02-CORE-B9CB04CD",
+      "caseIds": ["TC-CUR-02-CORE"],
+      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-02-CORE zero USD rate formats the browser cart subtotal @negative",
+      "scope": "TC-CUR-02-CORE zero USD rate formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
+    },
+    {
+      "id": "CHK-CUR-02-CORE-720B2180",
+      "caseIds": ["TC-CUR-02-CORE"],
+      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-02-CORE invalid USD rate formats the browser cart subtotal @negative",
+      "scope": "TC-CUR-02-CORE invalid USD rate formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
+    },
+    {
+      "id": "CHK-CUR-02-CORE-66DD139B",
+      "caseIds": ["TC-CUR-02-CORE"],
+      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-02-CORE failed region request formats the browser cart subtotal @negative",
+      "scope": "TC-CUR-02-CORE failed region request formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
+    },
+    {
+      "id": "CHK-CNT-02-CORE-86E53685",
+      "caseIds": ["TC-CNT-02-CORE"],
+      "file": "tests/ecommerce/footer-content.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CNT-02-CORE footer destinations and information-page return links @happy",
+      "scope": "TC-CNT-02-CORE footer destinations and information-page return links. Reviewed coverage: footer hrefs and GitHub attributes; privacy/terms navigation and return-home links; category targets checked as hrefs only"
+    },
+    {
+      "id": "CHK-CNT-03-CORE-A411C403",
+      "caseIds": ["TC-CNT-03-CORE"],
+      "file": "tests/ecommerce/footer-content.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CNT-03-CORE records current demo disclosures without a purchase @happy",
+      "scope": "TC-CNT-03-CORE records current demo disclosures without a purchase. Reviewed coverage: partial: current home, guest checkout, privacy and terms demo wording; known G-22 copy conflicts remain open"
+    },
+    {
+      "id": "CHK-AUTH-05-CORE-4FFEFFD0",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/guest-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE blank password reset stays local @negative",
+      "scope": "TC-AUTH-05-CORE blank password reset stays local. Reviewed coverage: partial: blank reset-email prompt without server writes; valid reset delivery and mailbox flow require isolated staging"
+    },
+    {
+      "id": "CHK-CHK-001-01-24E72A63",
+      "caseIds": ["TC-CHK-001-01"],
+      "file": "tests/ecommerce/guest-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-001-01 signed-out nonempty checkout preserves the browser bag @negative",
+      "scope": "TC-CHK-001-01 signed-out nonempty checkout preserves the browser bag. Reviewed coverage: partial: signed-out empty and nonempty checkout disable payment and preserve browser cart; expired-token API denial and signed-in empty checkout require staging"
+    },
+    {
+      "id": "CHK-CART-002-01-8F6C4181",
+      "caseIds": ["TC-CART-002-01"],
+      "file": "tests/ecommerce/guest-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-002-01 restored duplicate variants merge by size and color @happy",
+      "scope": "TC-CART-002-01 restored duplicate variants merge by size and color. Reviewed coverage: partial: fictional browser-cart restoration merges duplicate size/color tuples and keeps other variants distinct with correct subtotal; authenticated add behavior unverified"
+    },
+    {
+      "id": "CHK-OPS-01-CORE-C4726DE0",
+      "caseIds": ["TC-OPS-01-CORE"],
+      "file": "tests/ecommerce/guest-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-OPS-01-CORE health reports liveness without database readiness claims @happy",
+      "scope": "TC-OPS-01-CORE health reports liveness without database readiness claims. Reviewed coverage: full public health JSON shape and parseable timestamp; no database readiness inference"
+    },
+    {
+      "id": "CHK-NAV-001-01-FD59EC34",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 editorial /bags reaches its collection @happy",
+      "scope": "TC-NAV-001-01 editorial /bags reaches its collection. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-744368DD",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 editorial /shoes reaches its collection @happy",
+      "scope": "TC-NAV-001-01 editorial /shoes reaches its collection. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-29E5D831",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 editorial /accessories reaches its collection @happy",
+      "scope": "TC-NAV-001-01 editorial /accessories reaches its collection. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-532106C5",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 editorial /women/jacket reaches its collection @happy",
+      "scope": "TC-NAV-001-01 editorial /women/jacket reaches its collection. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-8600A7D9",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 editorial /perfume reaches its collection @happy",
+      "scope": "TC-NAV-001-01 editorial /perfume reaches its collection. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-022B4A4B",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 editorial /men/suits reaches its collection @happy",
+      "scope": "TC-NAV-001-01 editorial /men/suits reaches its collection. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-42CFE140",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 women collection panel reaches its destination @happy",
+      "scope": "TC-NAV-001-01 women collection panel reaches its destination. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-895BC89C",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 men collection panel reaches its destination @happy",
+      "scope": "TC-NAV-001-01 men collection panel reaches its destination. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-849C3E91",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-destinations.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 blouse edit and all seven category links have intended destinations @happy",
+      "scope": "TC-NAV-001-01 blouse edit and all seven category links have intended destinations. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-F17B4B19",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-hero.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 manually switches women and men slides and pauses media @happy",
+      "scope": "TC-NAV-001-01 manually switches women and men slides and pauses media. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-001-01-3050B747",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-hero.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 reduced motion keeps manual selection and still poster @happy",
+      "scope": "TC-NAV-001-01 reduced motion keeps manual selection and still poster. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-NAV-006-01-E7049091",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/legacy-category-redirects.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-006-01 redirects representative legacy category URLs @happy",
+      "scope": "TC-NAV-006-01 redirects representative legacy category URLs. Reviewed coverage: partial: three representative legacy category routes, not every mapped path"
+    },
+    {
+      "id": "CHK-CNT-02-CORE-F6745A71",
+      "caseIds": ["TC-CNT-02-CORE"],
+      "file": "tests/ecommerce/legal.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "renders the terms of service page",
+      "scope": "renders the terms of service page. Reviewed coverage: footer hrefs and GitHub attributes; privacy/terms navigation and return-home links; category targets checked as hrefs only"
+    },
+    {
+      "id": "CHK-NAV-005-01-50D6AC47",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-005-01 account contains focus, closes with Escape and restores trigger @happy",
+      "scope": "TC-NAV-005-01 account contains focus, closes with Escape and restores trigger. Reviewed coverage: partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-NAV-005-01-D7FF33D5",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-005-01 cart contains focus, closes with Escape and restores trigger @happy",
+      "scope": "TC-NAV-005-01 cart contains focus, closes with Escape and restores trigger. Reviewed coverage: partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-NAV-005-01-DF0709ED",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-005-01 search contains focus, closes with Escape and restores trigger @happy",
+      "scope": "TC-NAV-005-01 search contains focus, closes with Escape and restores trigger. Reviewed coverage: partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-NAV-005-01-57CE40E9",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-005-01 mobile contains focus, closes with Escape and restores trigger @happy",
+      "scope": "TC-NAV-005-01 mobile contains focus, closes with Escape and restores trigger. Reviewed coverage: partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-NAV-005-01-716A7869",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-005-01 mobile women clothing expands and closes after navigation @happy",
+      "scope": "TC-NAV-005-01 mobile women clothing expands and closes after navigation. Reviewed coverage: partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-NAV-005-01-1B2ABD7C",
+      "caseIds": ["TC-NAV-005-01", "TC-NFR-05-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-005-01 mobile men clothing expands and closes after navigation @happy",
+      "scope": "TC-NAV-005-01 mobile men clothing expands and closes after navigation. Reviewed coverage: partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified Accessibility scope covers keyboard behavior here only; other pages, screen readers and full WCAG acceptance remain unverified."
+    },
+    {
+      "id": "CHK-NFR-04-CORE-C1634740",
+      "caseIds": ["TC-NFR-04-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-04-CORE home and open bag fit 375px Chromium viewport @happy",
+      "scope": "TC-NFR-04-CORE home and open bag fit 375px Chromium viewport. Reviewed coverage: partial: homepage and open empty bag without horizontal overflow at 375/768/1440px in Chromium; essential empty-bag action within viewport; catalog/detail/admin and Firefox/WebKit unverified"
+    },
+    {
+      "id": "CHK-NFR-04-CORE-68FE86FE",
+      "caseIds": ["TC-NFR-04-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-04-CORE home and open bag fit 768px Chromium viewport @happy",
+      "scope": "TC-NFR-04-CORE home and open bag fit 768px Chromium viewport. Reviewed coverage: partial: homepage and open empty bag without horizontal overflow at 375/768/1440px in Chromium; essential empty-bag action within viewport; catalog/detail/admin and Firefox/WebKit unverified"
+    },
+    {
+      "id": "CHK-NFR-04-CORE-42FBBA0A",
+      "caseIds": ["TC-NFR-04-CORE"],
+      "file": "tests/ecommerce/navigation-accessibility.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-04-CORE home and open bag fit 1440px Chromium viewport @happy",
+      "scope": "TC-NFR-04-CORE home and open bag fit 1440px Chromium viewport. Reviewed coverage: partial: homepage and open empty bag without horizontal overflow at 375/768/1440px in Chromium; essential empty-bag action within viewport; catalog/detail/admin and Firefox/WebKit unverified"
+    },
+    {
+      "id": "CHK-NAV-07-CORE-B7E0E157",
+      "caseIds": ["TC-NAV-07-CORE"],
+      "file": "tests/ecommerce/not-found-admin-shell.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-07-CORE unknown routes show not-found and admin omits storefront chrome @negative",
+      "scope": "TC-NAV-07-CORE unknown routes show not-found and admin omits storefront chrome. Reviewed coverage: partial: unknown product and subcategory 404 plus admin chrome absence; route refresh untested"
+    },
+    {
+      "id": "CHK-CAT-06-CORE-14996BB6",
+      "caseIds": ["TC-CAT-06-CORE"],
+      "file": "tests/ecommerce/price-sorting.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "Price: Low to High orders all visible Dress product prices",
+      "scope": "Price: Low to High orders all visible Dress product prices. Reviewed coverage: partial: controlled low/high price ordering with name ties, Recommended incoming order, and New Arrivals new-tag/date/name precedence; live Dress price-low multiset; missing dates/tags beyond the selected fixtures unverified"
+    },
+    {
+      "id": "CHK-FAV-03-CORE-ADF57247",
+      "caseIds": ["TC-FAV-03-CORE"],
+      "file": "tests/ecommerce/product-card-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-FAV-03-CORE guest favorite prompts sign-in and stays unselected @negative",
+      "scope": "TC-FAV-03-CORE guest favorite prompts sign-in and stays unselected. Reviewed coverage: partial: guest favorite prompts sign-in, stays unselected and shows empty favorites; authenticated card loading and stored favorite details require staging"
+    },
+    {
+      "id": "CHK-PDP-001-01-153CE482",
+      "caseIds": ["TC-PDP-001-01"],
+      "file": "tests/ecommerce/product-card-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-001-01 sized/unsized/unavailable actions at 375px @happy",
+      "scope": "TC-PDP-001-01 sized/unsized/unavailable actions at 375px. Reviewed coverage: partial: controlled unsized/sized/out-of-stock card actions at 375/1440px, hover/focus reveal, size href, image failure with readable name/price/link, and guest add denial; detail gallery, genuine touch device and live stock unverified"
+    },
+    {
+      "id": "CHK-PDP-001-01-FE313EA4",
+      "caseIds": ["TC-PDP-001-01"],
+      "file": "tests/ecommerce/product-card-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-001-01 sized/unsized/unavailable actions at 1440px @happy",
+      "scope": "TC-PDP-001-01 sized/unsized/unavailable actions at 1440px. Reviewed coverage: partial: controlled unsized/sized/out-of-stock card actions at 375/1440px, hover/focus reveal, size href, image failure with readable name/price/link, and guest add denial; detail gallery, genuine touch device and live stock unverified"
+    },
+    {
+      "id": "CHK-PDP-001-01-C8AC1910",
+      "caseIds": ["TC-PDP-001-01"],
+      "file": "tests/ecommerce/product-card-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-001-01 image failure retains readable name/price/link and guest action @negative",
+      "scope": "TC-PDP-001-01 image failure retains readable name/price/link and guest action. Reviewed coverage: partial: controlled unsized/sized/out-of-stock card actions at 375/1440px, hover/focus reveal, size href, image failure with readable name/price/link, and guest add denial; detail gallery, genuine touch device and live stock unverified"
+    },
+    {
+      "id": "CHK-PDP-04-CORE-F2121BEC",
+      "caseIds": ["TC-PDP-04-CORE"],
+      "file": "tests/ecommerce/product-detail.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens a product and checks quantity and review form @happy",
+      "scope": "opens a product and checks quantity and review form. Reviewed coverage: partial: initial quantity one, increase to two, decrease to one on unsized product only"
+    },
+    {
+      "id": "CHK-CART-001-01-1F4F3BDB",
+      "caseIds": ["TC-CART-001-01"],
+      "file": "tests/ecommerce/product-detail.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "requires sign in before adding a product to the cart",
+      "scope": "requires sign in before adding a product to the cart. Reviewed coverage: guest-denial branch; no signed-in add/replay"
+    },
+    {
+      "id": "CHK-SEA-002-01-81E52C50",
+      "caseIds": ["TC-SEA-002-01"],
+      "file": "tests/ecommerce/search-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-SEA-002-01 unions name/category matches and deduplicates product IDs @happy",
+      "scope": "TC-SEA-002-01 unions name/category matches and deduplicates product IDs. Reviewed coverage: controlled mixed-case name/category request union, both-match ID deduplication and unrelated-product exclusion; actual database query behavior unverified"
+    },
+    {
+      "id": "CHK-SEA-03-CORE-FC9D2CA5",
+      "caseIds": ["TC-SEA-03-CORE"],
+      "file": "tests/ecommerce/search-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-SEA-03-CORE successful empty search shows no results without demo substitution @negative",
+      "scope": "TC-SEA-03-CORE successful empty search shows no results without demo substitution. Reviewed coverage: partial: no-results state for a missing query only"
+    },
+    {
+      "id": "CHK-NAV-001-01-9E5933DD",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/seed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "zeouf storefront seed @ecommerce @smoke",
+      "scope": "zeouf storefront seed. Reviewed coverage: partial: manual women/men selection, pause and reduced-motion still media; all six editorial destinations, both collection panels and blouse edit resolve; seven homepage category hrefs checked; timed/offscreen/hidden playback untested"
+    },
+    {
+      "id": "CHK-CAT-01-CORE-EC355A9C",
+      "caseIds": ["TC-CAT-01-CORE"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "women collection displays products @happy",
+      "scope": "Public Women collection loads with at least one card; membership and exact data counts use separate controlled fixtures."
+    },
+    {
+      "id": "CHK-NAV-006-01-057C5DEF",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens the women collection @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-BD889BF3",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens the men collection @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-EE7488AE",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens the perfume collection @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-AC69280B",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens the shoes collection @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-829BFAA4",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens the accessories collection @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-7FECB08A",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens the bags collection @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-4C312C11",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens the makeup collection @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-DE90F39E",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/elbise subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-F0E8C60C",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/bluz subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-95C17CFF",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/ceket subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-0E45BA64",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/etek subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-FF543CB1",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/pantolon subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-3D6100F7",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/yeni subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-5B3FDC99",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/cok-satan subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-9757DF99",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /kadin/koleksiyon subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-0709E2AD",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /erkek/takim subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-519ECE30",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /erkek/gomlek subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-52A01A25",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /erkek/pantolon subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-A692B375",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /erkek/ceket subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-59318CF8",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /erkek/yeni subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-5DF5F9E1",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /erkek/cok-satan subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-NAV-006-01-3FB4A8D8",
+      "caseIds": ["TC-NAV-006-01"],
+      "file": "tests/ecommerce/catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "opens /erkek/koleksiyon subcategory @happy",
+      "scope": "Exact canonical redirect URL and expected heading for this legacy category route; other redirects require their separate checks."
+    },
+    {
+      "id": "CHK-OPS-05-CORE-BD55F8B0",
+      "caseIds": ["TC-OPS-05-CORE"],
+      "file": "tests/ecommerce/guest-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-OPS-05-CORE schema read reports SQL or an explicit missing file @happy",
+      "scope": "Read-only schema response contract for the current build only; controlled available/missing states and clipboard failure unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-01-CORE-4F5EE392",
+      "caseIds": ["TC-AUTH-01-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-01-CORE required registration fullName blocks requests",
+      "scope": "Partial: required name/email/password block requests; controlled signup full_name metadata and confirmation guidance; actual signup/email policy/delivery unverified. Check: TC-AUTH-01-CORE required registration fullName blocks requests."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-01-CORE-2C7FC601",
+      "caseIds": ["TC-AUTH-01-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-01-CORE required registration email blocks requests",
+      "scope": "Partial: required name/email/password block requests; controlled signup full_name metadata and confirmation guidance; actual signup/email policy/delivery unverified. Check: TC-AUTH-01-CORE required registration email blocks requests."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-01-CORE-84FF13D5",
+      "caseIds": ["TC-AUTH-01-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-01-CORE required registration password blocks requests",
+      "scope": "Partial: required name/email/password block requests; controlled signup full_name metadata and confirmation guidance; actual signup/email policy/delivery unverified. Check: TC-AUTH-01-CORE required registration password blocks requests."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-07-CORE-E8F2D06D",
+      "caseIds": ["TC-AUTH-07-CORE", "TC-AUTH-01-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-07-CORE helper denial falls back to signup",
+      "scope": "Partial: mocked helper success avoids signup and denial uses normal signup; real helper production authorization and account creation unverified. Check: TC-AUTH-07-CORE helper denial falls back to signup."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-07-CORE-D6B9518C",
+      "caseIds": ["TC-AUTH-07-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-07-CORE helper success",
+      "scope": "Partial: mocked helper success avoids signup and denial uses normal signup; real helper production authorization and account creation unverified. Check: TC-AUTH-07-CORE helper success."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-003-01-11D53454",
+      "caseIds": ["TC-AUTH-003-01"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-003-01 login error retains form and success survives reload",
+      "scope": "Partial: controlled login denial retains form/panel; mock success closes panel and fake session survives reload; real credential/session acceptance unverified. Check: TC-AUTH-003-01 login error retains form and success survives reload."
+    },
+    {
+      "id": "CHK-ISOLATED-FAV-01-CORE-2A7CFE7E",
+      "caseIds": ["TC-FAV-01-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-FAV-01-CORE favorite none response updates only on success",
+      "scope": "Partial: detail heart follows locally fulfilled insert/delete and preserves state on failure; real uniqueness, card toggles, persistence and ownership unverified. Check: TC-FAV-01-CORE favorite none response updates only on success."
+    },
+    {
+      "id": "CHK-ISOLATED-FAV-01-CORE-21707F70",
+      "caseIds": ["TC-FAV-01-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-FAV-01-CORE favorite insert response updates only on success",
+      "scope": "Partial: detail heart follows locally fulfilled insert/delete and preserves state on failure; real uniqueness, card toggles, persistence and ownership unverified. Check: TC-FAV-01-CORE favorite insert response updates only on success."
+    },
+    {
+      "id": "CHK-ISOLATED-FAV-01-CORE-D70121D5",
+      "caseIds": ["TC-FAV-01-CORE"],
+      "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-FAV-01-CORE favorite delete response updates only on success",
+      "scope": "Partial: detail heart follows locally fulfilled insert/delete and preserves state on failure; real uniqueness, card toggles, persistence and ownership unverified. Check: TC-FAV-01-CORE favorite delete response updates only on success."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-02-CORE-550E028E",
+      "caseIds": ["TC-CHK-02-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-02-CORE blank Full name prevents a checkout request",
+      "scope": "Partial: five blank shipping inputs prevent requests through native validation; whitespace, server limits and real checkout unverified. Check: TC-CHK-02-CORE blank Full name prevents a checkout request."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-02-CORE-BB6C8C03",
+      "caseIds": ["TC-CHK-02-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-02-CORE blank Phone prevents a checkout request",
+      "scope": "Partial: five blank shipping inputs prevent requests through native validation; whitespace, server limits and real checkout unverified. Check: TC-CHK-02-CORE blank Phone prevents a checkout request."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-02-CORE-89CB125A",
+      "caseIds": ["TC-CHK-02-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-02-CORE blank Address prevents a checkout request",
+      "scope": "Partial: five blank shipping inputs prevent requests through native validation; whitespace, server limits and real checkout unverified. Check: TC-CHK-02-CORE blank Address prevents a checkout request."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-02-CORE-209E5F55",
+      "caseIds": ["TC-CHK-02-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-02-CORE blank City prevents a checkout request",
+      "scope": "Partial: five blank shipping inputs prevent requests through native validation; whitespace, server limits and real checkout unverified. Check: TC-CHK-02-CORE blank City prevents a checkout request."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-02-CORE-436DBCE2",
+      "caseIds": ["TC-CHK-02-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-02-CORE blank Postal code prevents a checkout request",
+      "scope": "Partial: five blank shipping inputs prevent requests through native validation; whitespace, server limits and real checkout unverified. Check: TC-CHK-02-CORE blank Postal code prevents a checkout request."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-04-CORE-C0BF6C4C",
+      "caseIds": ["TC-CHK-04-CORE", "TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-04-CORE card_demo is a simulation and successful response clears bag",
+      "scope": "Partial: both simulation labels, no card-number field, selected-method payload and mocked confirmation; saved order, charges and stock unverified. Check: TC-CHK-04-CORE card_demo is a simulation and successful response clears bag."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-04-CORE-43FCA4A0",
+      "caseIds": ["TC-CHK-04-CORE", "TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-04-CORE cash_on_delivery is a simulation and successful response clears bag",
+      "scope": "Partial: both simulation labels, no card-number field, selected-method payload and mocked confirmation; saved order, charges and stock unverified. Check: TC-CHK-04-CORE cash_on_delivery is a simulation and successful response clears bag."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-08-CORE-EE9134B2",
+      "caseIds": ["TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-08-CORE error preserves cart and permits explicit retry",
+      "scope": "Partial: mocked HTTP/network failure preserves browser bag/form for retry; mock success clears bag and shows order ID/Continue shopping; real persistence unverified. Check: TC-CHK-08-CORE error preserves cart and permits explicit retry."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-08-CORE-6E3A2F45",
+      "caseIds": ["TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-08-CORE network preserves cart and permits explicit retry",
+      "scope": "Partial: mocked HTTP/network failure preserves browser bag/form for retry; mock success clears bag and shows order ID/Continue shopping; real persistence unverified. Check: TC-CHK-08-CORE network preserves cart and permits explicit retry."
+    },
+    {
+      "id": "CHK-ISOLATED-PDP-05-CORE-D2381854",
+      "caseIds": ["TC-PDP-05-CORE"],
+      "file": "tests/ecommerce/isolated/product-options.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-05-CORE static clothing guide shows four reference rows and closes",
+      "scope": "Static XS/S/M/L clothing chest/waist table and close action on the real isolated frontend; not shoe or XL/XXL guidance. Check: TC-PDP-05-CORE static clothing guide shows four reference rows and closes."
+    },
+    {
+      "id": "CHK-ISOLATED-PDP-003-01-57A13412",
+      "caseIds": ["TC-PDP-003-01"],
+      "file": "tests/ecommerce/isolated/product-options.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-003-01 unavailable size cannot be selected and available M enters browser bag",
+      "scope": "Partial: controlled S=0/M=4 availability, no-size disabled add and explicit M browser-bag addition with fake session; real auth, live and missing-row stock unverified. Check: TC-PDP-003-01 unavailable size cannot be selected and available M enters browser bag."
+    },
+    {
+      "id": "CHK-ISOLATED-PDP-04-CORE-709D7941",
+      "caseIds": ["TC-PDP-04-CORE"],
+      "file": "tests/ecommerce/isolated/product-options.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-04-CORE quantity clamps to selected size stock and never falls below one",
+      "scope": "Controlled M=4/L=5 stock, minimum one, disabled increase at stock and clamp on size change; real inventory enforcement unverified. Check: TC-PDP-04-CORE quantity clamps to selected size stock and never falls below one."
+    },
+    {
+      "id": "CHK-ISOLATED-PDP-02-CORE-2C92D470",
+      "caseIds": ["TC-PDP-02-CORE"],
+      "file": "tests/ecommerce/isolated/product-options.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-02-CORE demo product hides color controls and extra gallery images",
+      "scope": "Partial: seeded demo-product single photograph without thumbnails/colors; named color, photo correspondence and real cart colors unverified. Check: TC-PDP-02-CORE demo product hides color controls and extra gallery images."
+    },
+    {
+      "id": "CHK-ISOLATED-PDP-07-CORE-F96E11BD",
+      "caseIds": ["TC-PDP-07-CORE"],
+      "file": "tests/ecommerce/isolated/product-options.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-07-CORE related product boundary 0",
+      "scope": "Partial: zero/one/twelve related fixtures, zero/one/eight cards and links, prefix/excluded-ID/limit query; live database filtering unverified. Check: TC-PDP-07-CORE related product boundary 0."
+    },
+    {
+      "id": "CHK-ISOLATED-PDP-07-CORE-D86409DD",
+      "caseIds": ["TC-PDP-07-CORE"],
+      "file": "tests/ecommerce/isolated/product-options.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-07-CORE related product boundary 1",
+      "scope": "Partial: zero/one/twelve related fixtures, zero/one/eight cards and links, prefix/excluded-ID/limit query; live database filtering unverified. Check: TC-PDP-07-CORE related product boundary 1."
+    },
+    {
+      "id": "CHK-ISOLATED-PDP-07-CORE-6D22CA19",
+      "caseIds": ["TC-PDP-07-CORE"],
+      "file": "tests/ecommerce/isolated/product-options.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-07-CORE related product boundary 12",
+      "scope": "Partial: zero/one/twelve related fixtures, zero/one/eight cards and links, prefix/excluded-ID/limit query; live database filtering unverified. Check: TC-PDP-07-CORE related product boundary 12."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-01-CORE-9CAFD4C1",
+      "caseIds": ["TC-CUR-01-CORE"],
+      "file": "tests/ecommerce/isolated/region.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-01-CORE Vercel India overrides USD fallback",
+      "scope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified. Check: TC-CUR-01-CORE Vercel India overrides USD fallback."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-01-CORE-01BF631E",
+      "caseIds": ["TC-CUR-01-CORE"],
+      "file": "tests/ecommerce/isolated/region.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-01-CORE Cloudflare Britain overrides USD fallback",
+      "scope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified. Check: TC-CUR-01-CORE Cloudflare Britain overrides USD fallback."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-01-CORE-A769D579",
+      "caseIds": ["TC-CUR-01-CORE"],
+      "file": "tests/ecommerce/isolated/region.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-01-CORE Vercel France precedes Cloudflare US",
+      "scope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified. Check: TC-CUR-01-CORE Vercel France precedes Cloudflare US."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-01-CORE-8050B00C",
+      "caseIds": ["TC-CUR-01-CORE"],
+      "file": "tests/ecommerce/isolated/region.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-01-CORE India time zone overrides US language",
+      "scope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified. Check: TC-CUR-01-CORE India time zone overrides US language."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-01-CORE-7011BE61",
+      "caseIds": ["TC-CUR-01-CORE"],
+      "file": "tests/ecommerce/isolated/region.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-01-CORE America time zone selects USD",
+      "scope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified. Check: TC-CUR-01-CORE America time zone selects USD."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-01-CORE-EFE059B5",
+      "caseIds": ["TC-CUR-01-CORE"],
+      "file": "tests/ecommerce/isolated/region.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-01-CORE US language outside India selects USD",
+      "scope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified. Check: TC-CUR-01-CORE US language outside India selects USD."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-01-CORE-C5077BB4",
+      "caseIds": ["TC-CUR-01-CORE"],
+      "file": "tests/ecommerce/isolated/region.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-01-CORE other language and time zone select INR",
+      "scope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified. Check: TC-CUR-01-CORE other language and time zone select INR."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-003-01-E7C47672",
+      "caseIds": ["TC-REV-003-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-003-01 upload error preserves or clears the form accurately",
+      "scope": "Controlled upload/HTTP/network errors retain form/preview; pending 201 with/without image clears form with approval feedback without adding public reviews; approved-only query asserted; real writes unverified. Check: TC-REV-003-01 upload error preserves or clears the form accurately."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-003-01-FD13CB36",
+      "caseIds": ["TC-REV-003-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-003-01 review error preserves or clears the form accurately",
+      "scope": "Controlled upload/HTTP/network errors retain form/preview; pending 201 with/without image clears form with approval feedback without adding public reviews; approved-only query asserted; real writes unverified. Check: TC-REV-003-01 review error preserves or clears the form accurately."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-003-01-8A456027",
+      "caseIds": ["TC-REV-003-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-003-01 review network preserves or clears the form accurately",
+      "scope": "Controlled upload/HTTP/network errors retain form/preview; pending 201 with/without image clears form with approval feedback without adding public reviews; approved-only query asserted; real writes unverified. Check: TC-REV-003-01 review network preserves or clears the form accurately."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-003-01-433106DA",
+      "caseIds": ["TC-REV-003-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-003-01 success without image preserves or clears the form accurately",
+      "scope": "Controlled upload/HTTP/network errors retain form/preview; pending 201 with/without image clears form with approval feedback without adding public reviews; approved-only query asserted; real writes unverified. Check: TC-REV-003-01 success without image preserves or clears the form accurately."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-003-01-17C0F3E2",
+      "caseIds": ["TC-REV-003-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-003-01 success with image preserves or clears the form accurately",
+      "scope": "Controlled upload/HTTP/network errors retain form/preview; pending 201 with/without image clears form with approval feedback without adding public reviews; approved-only query asserted; real writes unverified. Check: TC-REV-003-01 success with image preserves or clears the form accurately."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-002-01-D8D88580",
+      "caseIds": ["TC-REV-002-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-002-01 oversized image is rejected before upload",
+      "scope": "Partial: browser rejects over-2-MiB image before upload; private bucket, signature, server size/count/auth and real uploads unverified. Check: TC-REV-002-01 oversized image is rejected before upload."
+    },
+    {
+      "id": "CHK-ISOLATED-RST-01-CORE-FBFEFFEC",
+      "caseIds": ["TC-RST-01-CORE"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-01-CORE invalid email prevents a request",
+      "scope": "Partial: invalid email blocks requests; controlled HTTP/network errors retain email for retry; outgoing product/options checked; API validation and storage unverified. Check: TC-RST-01-CORE invalid email prevents a request."
+    },
+    {
+      "id": "CHK-ISOLATED-RST-03-CORE-6991EE6B",
+      "caseIds": ["TC-RST-03-CORE"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-03-CORE email configuration false selects accurate feedback",
+      "scope": "Partial: mocked configured/unconfigured mail responses select distinct feedback and clear email; real mail and subscription persistence unverified. Check: TC-RST-03-CORE email configuration false selects accurate feedback."
+    },
+    {
+      "id": "CHK-ISOLATED-RST-03-CORE-01E9C284",
+      "caseIds": ["TC-RST-03-CORE"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-03-CORE email configuration true selects accurate feedback",
+      "scope": "Partial: mocked configured/unconfigured mail responses select distinct feedback and clear email; real mail and subscription persistence unverified. Check: TC-RST-03-CORE email configuration true selects accurate feedback."
+    },
+    {
+      "id": "CHK-ISOLATED-RST-01-CORE-8B9D2885",
+      "caseIds": ["TC-RST-01-CORE"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-01-CORE error preserves email and enables retry",
+      "scope": "Partial: invalid email blocks requests; controlled HTTP/network errors retain email for retry; outgoing product/options checked; API validation and storage unverified. Check: TC-RST-01-CORE error preserves email and enables retry."
+    },
+    {
+      "id": "CHK-ISOLATED-RST-01-CORE-77AE67D1",
+      "caseIds": ["TC-RST-01-CORE"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-01-CORE network preserves email and enables retry",
+      "scope": "Partial: invalid email blocks requests; controlled HTTP/network errors retain email for retry; outgoing product/options checked; API validation and storage unverified. Check: TC-RST-01-CORE network preserves email and enables retry."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-003-01-C122FD46",
+      "caseIds": ["TC-ADM-003-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-003-01 logout failure retains local state and explicit retry clears it",
+      "scope": "Partial: mocked logout failure retains flag/route, explicit successful retry clears flag and returns to login; real signed-cookie revocation and server logout contract unverified. Check: TC-ADM-003-01 logout failure retains local state and explicit retry clears it."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-006-01-ECD20F6C",
+      "caseIds": ["TC-REV-006-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-006-01 admin review response renders approved and pending feedback without moderation buttons",
+      "scope": "Partial: controlled approved/pending rows from all-status admin read, no sidebar moderation buttons and visible error on failure; real signed-cookie authorization and RLS unverified. Check: TC-REV-006-01 admin review response renders approved and pending feedback without moderation buttons."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-006-01-852D3BCD",
+      "caseIds": ["TC-REV-006-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-006-01 failed admin review read reports the service error",
+      "scope": "Partial: controlled approved/pending rows from all-status admin read, no sidebar moderation buttons and visible error on failure; real signed-cookie authorization and RLS unverified. Check: TC-REV-006-01 failed admin review read reports the service error."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-002-01-7BF4C8CA",
+      "caseIds": ["TC-ADM-002-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-002-01 local browser flag cannot authorize the real isolated order or stock endpoints",
+      "scope": "Partial: actual isolated order GET and stock PATCH return 401 without a signed cookie despite legacy browser flag/cookie; placeholder runtime only, valid-admin and migrated staging permissions unverified. Check: TC-ADM-002-01 local browser flag cannot authorize the real isolated order or stock endpoints."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-001-01-29E6ADEF",
+      "caseIds": ["TC-ADM-001-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-001-01 both credentials are needed before sign-in can be submitted",
+      "scope": "Partial: both credentials required; controlled 401/429/500 give distinct feedback, clear password and never set admin flag; real hash/cookie/secret-rotation acceptance unverified. Check: TC-ADM-001-01 both credentials are needed before sign-in can be submitted."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-001-01-36423AD8",
+      "caseIds": ["TC-ADM-001-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-001-01 response 401 gives accurate feedback without a local admin session",
+      "scope": "Partial: both credentials required; controlled 401/429/500 give distinct feedback, clear password and never set admin flag; real hash/cookie/secret-rotation acceptance unverified. Check: TC-ADM-001-01 response 401 gives accurate feedback without a local admin session."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-001-01-6DD194C9",
+      "caseIds": ["TC-ADM-001-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-001-01 response 429 gives accurate feedback without a local admin session",
+      "scope": "Partial: both credentials required; controlled 401/429/500 give distinct feedback, clear password and never set admin flag; real hash/cookie/secret-rotation acceptance unverified. Check: TC-ADM-001-01 response 429 gives accurate feedback without a local admin session."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-001-01-754110F3",
+      "caseIds": ["TC-ADM-001-01"],
+      "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-001-01 response 500 gives accurate feedback without a local admin session",
+      "scope": "Partial: both credentials required; controlled 401/429/500 give distinct feedback, clear password and never set admin flag; real hash/cookie/secret-rotation acceptance unverified. Check: TC-ADM-001-01 response 500 gives accurate feedback without a local admin session."
+    },
+    {
+      "id": "CHK-ISOLATED-STK-03-CORE-83C6E3DB",
+      "caseIds": ["TC-STK-03-CORE"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-STK-03-CORE sized stock zero one four five has matching row and dashboard boundaries",
+      "scope": "Partial: four sized 0/1/4/5 rows show Out/Low/Low/Available and dashboard count/units agree; unsized low-stock semantics and live inventory unverified. Check: TC-STK-03-CORE sized stock zero one four five has matching row and dashboard boundaries."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-01-CORE-E2FC134E",
+      "caseIds": ["TC-PRD-01-CORE"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-01-CORE name search and exact category combine without changing incoming order",
+      "scope": "Partial: admin mixed-case name/exact category filtering, no-match and incoming response order; actual API newest ordering and persisted catalog unverified. Check: TC-PRD-01-CORE name search and exact category combine without changing incoming order."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-002-01-C3D68897",
+      "caseIds": ["TC-PRD-002-01"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-002-01 error keeps the editor and supports explicit save retry",
+      "scope": "Partial: controlled HTTP/network save denial retains editor and values; explicit mock success refreshes UI; real permission policy and database persistence unverified. Check: TC-PRD-002-01 error keeps the editor and supports explicit save retry."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-002-01-0F892923",
+      "caseIds": ["TC-PRD-002-01"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-002-01 network keeps the editor and supports explicit save retry",
+      "scope": "Partial: controlled HTTP/network save denial retains editor and values; explicit mock success refreshes UI; real permission policy and database persistence unverified. Check: TC-PRD-002-01 network keeps the editor and supports explicit save retry."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-06-CORE-AC1986A9",
+      "caseIds": ["TC-PRD-06-CORE"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-06-CORE cancelling deletion sends no request and leaves the product",
+      "scope": "Partial: cancel sends no request; mocked delete failure preserves row and explicit successful retry removes it; real cascade and historical order snapshots unverified. Check: TC-PRD-06-CORE cancelling deletion sends no request and leaves the product."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-06-CORE-277309D4",
+      "caseIds": ["TC-PRD-06-CORE"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-06-CORE failed deletion preserves product and explicit successful retry removes its row",
+      "scope": "Partial: cancel sends no request; mocked delete failure preserves row and explicit successful retry removes it; real cascade and historical order snapshots unverified. Check: TC-PRD-06-CORE failed deletion preserves product and explicit successful retry removes its row."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-04-CORE-A2246B3F",
+      "caseIds": ["TC-PRD-04-CORE"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-04-CORE removing main preview promotes the remaining pasted image in save payload",
+      "scope": "Partial: pasted-image preview, main-image removal and promoted image_url/images payload; actual upload bucket and saved images unverified. Check: TC-PRD-04-CORE removing main preview promotes the remaining pasted image in save payload."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-05-CORE-8FCB3D43",
+      "caseIds": ["TC-PRD-05-CORE"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-05-CORE new sized product serializes selected sizes with zero overall stock",
+      "scope": "Partial: new S/M form serializes selected sizes and zero overall stock; database stock-row initialization, editing and aggregate synchronization unverified. Check: TC-PRD-05-CORE new sized product serializes selected sizes with zero overall stock."
+    },
+    {
+      "id": "CHK-ISOLATED-AOR-02-CORE-0211C08D",
+      "caseIds": ["TC-AOR-02-CORE"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AOR-02-CORE mixed case customer search and exact status combine with distinct no-match state",
+      "scope": "Partial: controlled orders support mixed-case customer/order search with exact status, no-match versus empty response; real order ownership/data unverified. Check: TC-AOR-02-CORE mixed case customer search and exact status combine with distinct no-match state."
+    },
+    {
+      "id": "CHK-ISOLATED-AOR-02-CORE-966C4133",
+      "caseIds": ["TC-AOR-02-CORE"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AOR-02-CORE empty order response has the no-orders state",
+      "scope": "Partial: controlled orders support mixed-case customer/order search with exact status, no-match versus empty response; real order ownership/data unverified. Check: TC-AOR-02-CORE empty order response has the no-orders state."
+    },
+    {
+      "id": "CHK-ISOLATED-AOR-004-01-FCB6E7DE",
+      "caseIds": ["TC-AOR-004-01", "TC-AOR-003-01"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AOR-004-01 five status controls send explicit requests and reflect local successful responses",
+      "scope": "Partial: all five current status options send explicit payloads and reflect local successful responses; backend transitions, unsupported status rejection and cancellation inventory unverified. Check: TC-AOR-004-01 five status controls send explicit requests and reflect local successful responses."
+    },
+    {
+      "id": "CHK-ISOLATED-AOR-003-01-2DB92322",
+      "caseIds": ["TC-AOR-003-01"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AOR-003-01 failed status response keeps the displayed pending order",
+      "scope": "Partial: admin UI controlled status success and failed update retaining pending detail/list; actual persisted status and customer-history synchronization unverified. Check: TC-AOR-003-01 failed status response keeps the displayed pending order."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-02-CORE-8CF2F46B",
+      "caseIds": ["TC-ANL-02-CORE"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-02-CORE pipeline counts and rounded percentages for six orders",
+      "scope": "Partial: zero/six controlled orders produce exact five-status counts and rounded percentages, including rounding beyond a total of 100; live data unverified. Check: TC-ANL-02-CORE pipeline counts and rounded percentages for six orders."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-02-CORE-95DDD56E",
+      "caseIds": ["TC-ANL-02-CORE"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-02-CORE pipeline counts and rounded percentages for zero orders",
+      "scope": "Partial: zero/six controlled orders produce exact five-status counts and rounded percentages, including rounding beyond a total of 100; live data unverified. Check: TC-ANL-02-CORE pipeline counts and rounded percentages for zero orders."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-03-CORE-B4EDEBDE",
+      "caseIds": ["TC-ANL-03-CORE"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-03-CORE inventory health uses sized rows and unsized overall stock",
+      "scope": "Partial: four sized boundaries and one healthy unsized fixture give expected healthy/low/out counts and total units; live stock and additional low-stock semantics unverified. Check: TC-ANL-03-CORE inventory health uses sized rows and unsized overall stock."
+    },
+    {
+      "id": "CHK-ISOLATED-SET-01-CORE-2596F212",
+      "caseIds": ["TC-SET-01-CORE"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-SET-01-CORE settings render identity and catalog counts without save controls",
+      "scope": "Partial: identity, catalog/category counts, static database label and absence of save buttons with controlled reads; no live connection-health claim. Check: TC-SET-01-CORE settings render identity and catalog counts without save controls."
+    },
+    {
+      "id": "CHK-ISOLATED-USR-01-CORE-35E1CD66",
+      "caseIds": ["TC-USR-01-CORE"],
+      "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-USR-01-CORE user response renders identity and missing-field placeholders in supplied order",
+      "scope": "Partial: controlled profile IDs/names, null placeholders and supplied order; actual 200-row API cap, updated_at ordering and authorization unverified; View action untested. Check: TC-USR-01-CORE user response renders identity and missing-field placeholders in supplied order."
+    },
+    {
+      "id": "CHK-ISOLATED-CART-001-02-E071B898",
+      "caseIds": ["TC-CART-001-02"],
+      "file": "tests/ecommerce/isolated/guest-cart-resume.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-001-02 sign-in does not replay a guest add and explicit add creates one browser line",
+      "scope": "Partial: interrupted guest add stays empty through fake sign-in; explicit add creates one browser line; real login, ownership and integration unverified. Check: TC-CART-001-02 sign-in does not replay a guest add and explicit add creates one browser line."
+    },
+    {
+      "id": "CHK-ISOLATED-FAV-002-01-E3989B3A",
+      "caseIds": ["TC-FAV-002-01"],
+      "file": "tests/ecommerce/isolated/account-switch.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-FAV-002-01 sign-out clears favorites and a second fictional user reads their own filter",
+      "scope": "Partial: fictional account switch clears favorite UI, filters reads by the second user and sends their identity on insert; real sessions and database RLS remain unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CART-004-01-5878A541",
+      "caseIds": ["TC-CART-004-01"],
+      "file": "tests/ecommerce/isolated/account-switch.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CART-004-01 baseline finding: the browser bag remains shared across fictional accounts",
+      "scope": "Baseline finding G-10: browser-local bag remains visible after switching fictional accounts; account-separated cart target is not accepted."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-003-01-7E2B179B",
+      "caseIds": ["TC-PRD-003-01"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-003-01 blank name disables save and cancel preserves catalog",
+      "scope": "Partial: blank/whitespace product names disable Save and Cancel preserves supplied catalog without writes; server numeric validation and stored-product invariants unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-PRD-003-01-CEB60443",
+      "caseIds": ["TC-PRD-003-01"],
+      "file": "tests/ecommerce/isolated/admin-catalog.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PRD-003-01 whitespace name disables save and cancel preserves catalog",
+      "scope": "Partial: blank/whitespace product names disable Save and Cancel preserves supplied catalog without writes; server numeric validation and stored-product invariants unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-001-01-C2F1B8BF",
+      "caseIds": ["TC-ANL-001-01"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-001-01 active order metrics exclude cancelled totals and use the active denominator",
+      "scope": "Partial: reviewed active-order totals/average, empty/cancelled-only, failed reads, top-five units/ties/deleted exclusion use deterministic admin responses; loading and real persisted analytics reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-001-01-C8E3ECD8",
+      "caseIds": ["TC-ANL-001-01"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-001-01 empty has zero active metrics and no sales",
+      "scope": "Partial: reviewed active-order totals/average, empty/cancelled-only, failed reads, top-five units/ties/deleted exclusion use deterministic admin responses; loading and real persisted analytics reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-001-01-C4C021BB",
+      "caseIds": ["TC-ANL-001-01"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-001-01 cancelled only has zero active metrics and no sales",
+      "scope": "Partial: reviewed active-order totals/average, empty/cancelled-only, failed reads, top-five units/ties/deleted exclusion use deterministic admin responses; loading and real persisted analytics reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-001-01-0179D3D4",
+      "caseIds": ["TC-ANL-001-01"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-001-01 failed order read renders unavailable summaries instead of zero",
+      "scope": "Partial: reviewed active-order totals/average, empty/cancelled-only, failed reads, top-five units/ties/deleted exclusion use deterministic admin responses; loading and real persisted analytics reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-001-01-E3F6B764",
+      "caseIds": ["TC-ANL-001-01"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-001-01 top five excludes cancelled and deleted products with stable ties",
+      "scope": "Partial: reviewed active-order totals/average, empty/cancelled-only, failed reads, top-five units/ties/deleted exclusion use deterministic admin responses; loading and real persisted analytics reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-05-CORE-F8FC8A60",
+      "caseIds": ["TC-ANL-05-CORE"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-05-CORE mixed uses only approved ratings or explicit unavailable feedback",
+      "scope": "Partial: reviewed approved-only counts/one-decimal means for mixed/single/pending/empty and failed reads use controlled responses; loading and authorized live data reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-05-CORE-E7ADCE54",
+      "caseIds": ["TC-ANL-05-CORE"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-05-CORE single approved uses only approved ratings or explicit unavailable feedback",
+      "scope": "Partial: reviewed approved-only counts/one-decimal means for mixed/single/pending/empty and failed reads use controlled responses; loading and authorized live data reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-05-CORE-B49A40DD",
+      "caseIds": ["TC-ANL-05-CORE"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-05-CORE pending only uses only approved ratings or explicit unavailable feedback",
+      "scope": "Partial: reviewed approved-only counts/one-decimal means for mixed/single/pending/empty and failed reads use controlled responses; loading and authorized live data reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-05-CORE-F3F057A4",
+      "caseIds": ["TC-ANL-05-CORE"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-05-CORE empty uses only approved ratings or explicit unavailable feedback",
+      "scope": "Partial: reviewed approved-only counts/one-decimal means for mixed/single/pending/empty and failed reads use controlled responses; loading and authorized live data reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-05-CORE-0C6CE5FD",
+      "caseIds": ["TC-ANL-05-CORE"],
+      "file": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-05-CORE unavailable uses only approved ratings or explicit unavailable feedback",
+      "scope": "Partial: reviewed approved-only counts/one-decimal means for mixed/single/pending/empty and failed reads use controlled responses; loading and authorized live data reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-005-01-84E3B430",
+      "caseIds": ["TC-CHK-005-01"],
+      "file": "tests/ecommerce/isolated/checkout.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-005-01 forged browser prices are omitted from the checkout request",
+      "scope": "Partial: forged browser price is omitted from checkout item payload, which sends only id/quantity/size/color; backend price recomputation and stored totals unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CUR-003-01-D994D07C",
+      "caseIds": ["TC-CUR-003-01"],
+      "file": "tests/ecommerce/isolated/currency-surfaces.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CUR-003-01 controlled USD detail bag and order displays leave admin response values in INR",
+      "scope": "Partial: controlled USD detail, browser bag and supplied order history use shared formatter while admin supplied totals remain INR; actual checkout/order storage and persisted reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-OPS-002-01-FB66EA76",
+      "caseIds": ["TC-OPS-002-01"],
+      "file": "tests/ecommerce/isolated/production-denials.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-OPS-002-01 real local production /api/test/reset denies helper access",
+      "scope": "Partial: actual fresh local production reset/seed helpers return 404 and dev create-user returns 403 before backend access; deployed environment/configuration and database no-mutation snapshots unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-OPS-002-01-5239D2F8",
+      "caseIds": ["TC-OPS-002-01"],
+      "file": "tests/ecommerce/isolated/production-denials.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-OPS-002-01 real local production /api/test/seed-user denies helper access",
+      "scope": "Partial: actual fresh local production reset/seed helpers return 404 and dev create-user returns 403 before backend access; deployed environment/configuration and database no-mutation snapshots unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-OPS-002-01-03335481",
+      "caseIds": ["TC-OPS-002-01"],
+      "file": "tests/ecommerce/isolated/production-denials.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-OPS-002-01 real local production /api/dev/create-user denies helper access",
+      "scope": "Partial: actual fresh local production reset/seed helpers return 404 and dev create-user returns 403 before backend access; deployed environment/configuration and database no-mutation snapshots unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-002-02-D641CE37",
+      "caseIds": ["TC-ADM-002-02"],
+      "file": "tests/ecommerce/isolated/production-denials.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-002-02 real local review delete denies customer bearer without signed admin cookie",
+      "scope": "Partial: actual local DELETE rejects fictional customer bearer and retired dev key without signed admin cookie; valid-admin deletion and real database preservation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ADM-002-02-1D36432B",
+      "caseIds": ["TC-ADM-002-02"],
+      "file": "tests/ecommerce/isolated/production-denials.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-002-02 real local review delete denies legacy dev key without signed admin cookie",
+      "scope": "Partial: actual local DELETE rejects fictional customer bearer and retired dev key without signed admin cookie; valid-admin deletion and real database preservation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-002-02-734B67CC",
+      "caseIds": ["TC-REV-002-02"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-002-02 upload limit response retains review without claiming submission",
+      "scope": "Partial: controlled 429 upload response retains review fields/preview, sends no review POST and claims no public submission; actual daily/distributed limiter unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-STK-002-01-98E9EB75",
+      "caseIds": ["TC-STK-002-01"],
+      "file": "tests/ecommerce/isolated/stock-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-STK-002-01 controlled M edit updates the displayed size and aggregate after reload",
+      "scope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-STK-002-01-1E484170",
+      "caseIds": ["TC-STK-002-01"],
+      "file": "tests/ecommerce/isolated/stock-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-STK-002-01 error keeps the aggregate unchanged until explicit retry succeeds",
+      "scope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-STK-002-01-C865406E",
+      "caseIds": ["TC-STK-002-01"],
+      "file": "tests/ecommerce/isolated/stock-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-STK-002-01 network keeps the aggregate unchanged until explicit retry succeeds",
+      "scope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-STK-002-01-DB4861B8",
+      "caseIds": ["TC-STK-002-01"],
+      "file": "tests/ecommerce/isolated/stock-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-STK-002-01 stock -1 is rejected before any request",
+      "scope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-STK-002-01-5E44AE4F",
+      "caseIds": ["TC-STK-002-01"],
+      "file": "tests/ecommerce/isolated/stock-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-STK-002-01 stock 1.5 is rejected before any request",
+      "scope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-STK-002-01-DA12DBC9",
+      "caseIds": ["TC-STK-002-01"],
+      "file": "tests/ecommerce/isolated/stock-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-STK-002-01 stock 2147483648 is rejected before any request",
+      "scope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-001-01-32170CE5",
+      "caseIds": ["TC-ANL-001-01"],
+      "file": "tests/ecommerce/isolated/analytics-loading.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-001-01 held orders response keeps dependent summary unavailable until loaded",
+      "scope": "Partial: controlled pending order summaries remain unavailable and explicit failed-read retry recovers after response release; reviewed active totals/average/top-five boundaries remain separately covered. Real persisted reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-05-CORE-798E5E70",
+      "caseIds": ["TC-ANL-05-CORE"],
+      "file": "tests/ecommerce/isolated/analytics-loading.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-05-CORE held reviews response keeps dependent summary unavailable until loaded",
+      "scope": "Partial: controlled pending review response keeps rating/count unavailable until loaded; reviewed approved-only population boundaries remain separately covered. Real authorized data reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-03-CORE-6BCAC5F0",
+      "caseIds": ["TC-ANL-03-CORE"],
+      "file": "tests/ecommerce/isolated/analytics-loading.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-03-CORE held products response keeps dependent summary unavailable until loaded",
+      "scope": "Partial: controlled pending product response keeps stock units unavailable until loaded; sized/unsized inventory boundaries remain separately covered. Real inventory reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ANL-001-01-37EA7062",
+      "caseIds": ["TC-ANL-001-01"],
+      "file": "tests/ecommerce/isolated/analytics-loading.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ANL-001-01 failed order metrics recover only after explicit loading retry",
+      "scope": "Partial: controlled pending order summaries remain unavailable and explicit failed-read retry recovers after response release; reviewed active totals/average/top-five boundaries remain separately covered. Real persisted reconciliation unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-08-CORE-C2792790",
+      "caseIds": ["TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-08-CORE card_demo locks pending checkout and suppresses repeated form submissions",
+      "scope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-08-CORE-FF374AB8",
+      "caseIds": ["TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-08-CORE cash_on_delivery locks pending checkout and suppresses repeated form submissions",
+      "scope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-08-CORE-F91714BA",
+      "caseIds": ["TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-08-CORE unchanged retry after reload reuses client key and changed details get a new key",
+      "scope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-08-CORE-CE897E4A",
+      "caseIds": ["TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-08-CORE unavailable attempt storage retains the in-memory key for explicit retry",
+      "scope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CHK-08-CORE-D9AAE14F",
+      "caseIds": ["TC-CHK-08-CORE"],
+      "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-08-CORE successful HTTP response without order ID preserves cart and attempt for retry",
+      "scope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-ORD-001-01-D901323F",
+      "caseIds": ["TC-ORD-001-01"],
+      "file": "tests/ecommerce/isolated/order-history.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ORD-001-01 pending read shows loading before an empty signed-in history",
+      "scope": "Partial: signed-out prompt plus controlled signed-in loading/empty/error recovery, current-user/date-order request filters, supplied row sequence, five statuses, accordion and deleted-product fallback. Real query ordering, ownership and database RLS unverified; G-07 remains open."
+    },
+    {
+      "id": "CHK-ISOLATED-ORD-001-01-0C5EE8AE",
+      "caseIds": ["TC-ORD-001-01"],
+      "file": "tests/ecommerce/isolated/order-history.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ORD-001-01 failed history read shows error rather than empty and reload can recover",
+      "scope": "Partial: signed-out prompt plus controlled signed-in loading/empty/error recovery, current-user/date-order request filters, supplied row sequence, five statuses, accordion and deleted-product fallback. Real query ordering, ownership and database RLS unverified; G-07 remains open."
+    },
+    {
+      "id": "CHK-ISOLATED-ORD-001-01-AB4924FB",
+      "caseIds": ["TC-ORD-001-01"],
+      "file": "tests/ecommerce/isolated/order-history.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ORD-001-01 supplied order sequence and five status labels render with one expanded order",
+      "scope": "Partial: signed-out prompt plus controlled signed-in loading/empty/error recovery, current-user/date-order request filters, supplied row sequence, five statuses, accordion and deleted-product fallback. Real query ordering, ownership and database RLS unverified; G-07 remains open."
+    },
+    {
+      "id": "CHK-ISOLATED-ORD-001-01-9E625929",
+      "caseIds": ["TC-ORD-001-01"],
+      "file": "tests/ecommerce/isolated/order-history.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ORD-001-01 deleted product fallback unknown status and cash-on-delivery detail remain readable",
+      "scope": "Partial: signed-out prompt plus controlled signed-in loading/empty/error recovery, current-user/date-order request filters, supplied row sequence, five statuses, accordion and deleted-product fallback. Real query ordering, ownership and database RLS unverified; G-07 remains open."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-05-CORE-1C064B81",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/reset-newsletter.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE controlled reset success sends email and return URL",
+      "scope": "Partial: controlled password-reset success sends fictional email and origin return URL; denial preserves email and allows retry. Existing blank-email guard remains covered. Real provider delivery and reset completion unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-AUTH-05-CORE-F62BDB39",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/reset-newsletter.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE controlled reset denial retains email and permits retry",
+      "scope": "Partial: controlled password-reset success sends fictional email and origin return URL; denial preserves email and allows retry. Existing blank-email guard remains covered. Real provider delivery and reset completion unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-CNT-001-01-50B68E76",
+      "caseIds": ["TC-CNT-001-01"],
+      "file": "tests/ecommerce/isolated/reset-newsletter.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CNT-001-01 blank newsletter email prevents preview success",
+      "scope": "Partial: blank/malformed newsletter email fails native validation without success or writes; valid preview behavior remains separately covered. No actual subscription or delivery claim."
+    },
+    {
+      "id": "CHK-ISOLATED-CNT-001-01-5460C0E0",
+      "caseIds": ["TC-CNT-001-01"],
+      "file": "tests/ecommerce/isolated/reset-newsletter.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CNT-001-01 malformed newsletter email prevents preview success",
+      "scope": "Partial: blank/malformed newsletter email fails native validation without success or writes; valid preview behavior remains separately covered. No actual subscription or delivery claim."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-002-01-F82E082C",
+      "caseIds": ["TC-REV-002-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-002-01 four selected images cap at three and removal excludes its file from upload",
+      "scope": "Partial: frontend oversize exclusion, three-preview cap, removal and multipart filenames are verified with intercepted upload; actual signature validation, fourth-file rejection, private storage and signed URLs unverified."
+    },
+    {
+      "id": "CHK-ISOLATED-REV-002-01-181BDE2C",
+      "caseIds": ["TC-REV-002-01"],
+      "file": "tests/ecommerce/isolated/reviews-restock.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-REV-002-01 oversized selection retains only valid preview and removal sends no upload",
+      "scope": "Partial: frontend oversize exclusion, three-preview cap, removal and multipart filenames are verified with intercepted upload; actual signature validation, fourth-file rejection, private storage and signed URLs unverified."
+    },
+    {
+      "id": "CHK-CAT-02-CORE-287A7DAF",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE men new-arrivals follows tag membership @happy",
+      "scope": "TC-CAT-02-CORE men new-arrivals follows tag membership @happy. Men New Arrivals/Best Sellers/Collection tag populations with fictional GET responses; no live database or sales-ranking acceptance."
+    },
+    {
+      "id": "CHK-CAT-02-CORE-35CF86A3",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE men best-sellers follows tag membership @happy",
+      "scope": "TC-CAT-02-CORE men best-sellers follows tag membership @happy. Men New Arrivals/Best Sellers/Collection tag populations with fictional GET responses; no live database or sales-ranking acceptance."
+    },
+    {
+      "id": "CHK-CAT-02-CORE-9D8E9F61",
+      "caseIds": ["TC-CAT-02-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-02-CORE men collection follows tag membership @happy",
+      "scope": "TC-CAT-02-CORE men collection follows tag membership @happy. Men New Arrivals/Best Sellers/Collection tag populations with fictional GET responses; no live database or sales-ranking acceptance."
+    },
+    {
+      "id": "CHK-CAT-005-02-C98C013D",
+      "caseIds": ["TC-CAT-005-02"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-005-02 absent stock rows fall back while present rows constrain selected size @happy",
+      "scope": "TC-CAT-005-02 absent stock rows fall back while present rows constrain selected size @happy. Positive aggregate fallback without size rows and S/M constraints when rows exist; fictional GET responses, no live inventory acceptance."
+    },
+    {
+      "id": "CHK-CAT-04-CORE-5992E0C8",
+      "caseIds": ["TC-CAT-04-CORE"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-04-CORE delayed USD detection clears both INR price bounds @happy",
+      "scope": "TC-CAT-04-CORE delayed USD detection clears both INR price bounds @happy. Delayed USD region response clears both populated INR bounds and restores all three converted prices; deterministic browser GET responses only."
+    },
+    {
+      "id": "CHK-CAT-007-01-EFC85A82",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 changing a filter resets a fully revealed collection to its first batch @happy",
+      "scope": "TC-CAT-007-01 changing a filter resets a fully revealed collection to its first batch @happy. Reviewed first-batch reset after fully loading 49 rows and applying a 30-match brand; separate empty-match clear-all restores first batch. Preserve any failed assertion."
+    },
+    {
+      "id": "CHK-CAT-007-01-01A187DF",
+      "caseIds": ["TC-CAT-007-01"],
+      "file": "tests/ecommerce/catalog-boundaries-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CAT-007-01 clearing an empty filter result restores the first batch and load more @happy",
+      "scope": "TC-CAT-007-01 clearing an empty filter result restores the first batch and load more @happy. Reviewed first-batch reset after fully loading 49 rows and applying a 30-match brand; separate empty-match clear-all restores first batch. Preserve any failed assertion."
+    },
+    {
+      "id": "CHK-NAV-001-01-C3DAF4E1",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-hero.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 visible hero rotates automatically and pause resumes from its selected slide @happy",
+      "scope": "TC-NAV-001-01 visible hero rotates automatically and pause resumes from its selected slide @happy. Browser-clock visible rotation, pause/resume and offscreen suspension/resumption, plus reduced-motion timer invariance; actual hidden-tab behavior unverified."
+    },
+    {
+      "id": "CHK-NAV-001-01-113ED8C7",
+      "caseIds": ["TC-NAV-001-01"],
+      "file": "tests/ecommerce/home-hero.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NAV-001-01 offscreen hero stops rotation and resumes after returning into view @happy",
+      "scope": "TC-NAV-001-01 offscreen hero stops rotation and resumes after returning into view @happy. Browser-clock visible rotation, pause/resume and offscreen suspension/resumption, plus reduced-motion timer invariance; actual hidden-tab behavior unverified."
+    },
+    {
+      "id": "CHK-NFR-008-01-CC5B76FC",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/admin/login",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/admin/login. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-1BEBDAE6",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/checkout",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/checkout. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-F1668595",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-1F7566FE",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews/upload",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/reviews/upload. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-NFR-008-01-7BEE1906",
+      "caseIds": ["TC-NFR-008-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-NFR-008-01 unconfigured production limiter denies /api/restock-notifications",
+      "scope": "TC-NFR-008-01 unconfigured production limiter denies /api/restock-notifications. Actual isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact 503 feedback when shared limiter configuration is absent; no multi-instance/proxy/RPC/counter-limit acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-6557EDF6",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects missing unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects missing unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-D4AEF709",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects empty unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects empty unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-61A5144F",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects short unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects short unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-6E392066",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects long unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects long unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-CBB7FA37",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects nonhex unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects nonhex unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-253A2196",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET rejects whitespace unsubscribe token before service access",
+      "scope": "TC-RST-005-01 GET rejects whitespace unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-E49ABB5C",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 GET valid-shape token fails closed without service credentials",
+      "scope": "TC-RST-005-01 GET valid-shape token fails closed without service credentials. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-D994C8C5",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects missing unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects missing unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-EAA6D173",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects empty unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects empty unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-AF972362",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects short unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects short unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-D25FDAE8",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects long unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects long unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-8A857DCE",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects nonhex unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects nonhex unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-B5933F66",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST rejects whitespace unsubscribe token before service access",
+      "scope": "TC-RST-005-01 POST rejects whitespace unsubscribe token before service access. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-RST-005-01-12C87429",
+      "caseIds": ["TC-RST-005-01"],
+      "file": "tests/ecommerce/isolated/service-boundaries.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-RST-005-01 POST valid-shape token fails closed without service credentials",
+      "scope": "TC-RST-005-01 POST valid-shape token fails closed without service credentials. Real isolated production GET/POST unsubscribe rejects malformed tokens with 400 and valid-shape tokens without service credentials with 503; no real deletion/replay/RLS acceptance."
+    },
+    {
+      "id": "CHK-PDP-001-01-DE4EDBAC",
+      "caseIds": ["TC-PDP-001-01"],
+      "file": "tests/ecommerce/product-card-fixture.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-PDP-001-01 touch quick-add requires sign-in and preserves the empty bag @negative",
+      "scope": "TC-PDP-001-01 touch quick-add requires sign-in and preserves the empty bag @negative. Mobile context with hasTouch/isMobile verifies coarse pointer, tap quick-add, guest sign-in denial and empty cart; fictional GET product only."
+    }
+  ]
+}

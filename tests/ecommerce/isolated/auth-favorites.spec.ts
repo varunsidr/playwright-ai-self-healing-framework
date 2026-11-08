@@ -38,33 +38,34 @@ test.describe(
       );
     }
 
-    for (const helperSuccess of [false, true]) {
+    for (const signupFailure of [false, true]) {
       test(
-        'TC-AUTH-07-CORE helper ' + (helperSuccess ? 'success' : 'denial falls back to signup'),
+        'TC-AUTH-07-CORE registration uses only signup ' +
+          (signupFailure ? 'after explicit retry' : 'on success'),
         async ({ storefront, shop }) => {
-          shop.helperSuccess = helperSuccess;
+          shop.signupMode = signupFailure ? 'error' : 'success';
           await storefront.registerTab.click();
           await storefront.registerFullName.fill('Fictional Shopper');
           await storefront.registerEmail.fill('browser-fixture@example.invalid');
           await storefront.registerPassword.fill('Fictional-password-123!');
           await storefront.registerConfirmPassword.fill('Fictional-password-123!');
           await storefront.registerSubmit.click();
-          await expect(
-            storefront.visibleText(
-              helperSuccess ? /you can sign in now/ : /Please verify your email/,
-            ),
-          ).toBeVisible();
+          if (signupFailure) {
+            await expect(storefront.visibleText('Controlled fixture unavailable')).toBeVisible();
+            await expect(storefront.registerEmail).toHaveValue('browser-fixture@example.invalid');
+            shop.signupMode = 'success';
+            await storefront.registerSubmit.click();
+          }
+          await expect(storefront.visibleText(/Please verify your email/)).toBeVisible();
           await expect(storefront.loginSubmit).toBeVisible();
           const helper = shop.calls.filter((call) => call.path === '/api/dev/create-user');
-          expect(helper).toHaveLength(1);
-          expect(helper[0].body).toMatchObject({
-            fullName: 'Fictional Shopper',
-            email: 'browser-fixture@example.invalid',
-          });
+          expect(helper).toEqual([]);
           const signup = shop.calls.filter((call) => call.path === '/auth/v1/signup');
-          expect(signup).toHaveLength(helperSuccess ? 0 : 1);
-          if (!helperSuccess)
-            expect(signup[0].body).toMatchObject({ data: { full_name: 'Fictional Shopper' } });
+          expect(signup).toHaveLength(signupFailure ? 2 : 1);
+          expect(signup[0].body).toMatchObject({
+            email: 'browser-fixture@example.invalid',
+            data: { full_name: 'Fictional Shopper' },
+          });
         },
       );
     }

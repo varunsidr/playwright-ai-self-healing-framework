@@ -45,11 +45,15 @@ test.describe('Zeouf homepage destinations', { tag: ['@ecommerce', '@regression'
   test('TC-NAV-001-01 blouse edit and all seven category links have intended destinations @happy', async ({
     context,
     storefront,
+    page,
   }) => {
     const writes = await blockEcommerceWrites(context);
     await storefront.useReducedMotion();
+    // The reviewed homepage exposes this category strip only below the desktop breakpoint.
+    await page.setViewportSize({ width: 390, height: 844 });
     await storefront.openHome();
     for (const name of ['Women', 'Men', 'Perfume', 'Shoes', 'Accessories', 'Bags', 'Makeup']) {
+      await expect(storefront.homeCategoryLink(name)).toBeVisible();
       await expect(storefront.homeCategoryLink(name)).toHaveAttribute(
         'href',
         `/${name.toLowerCase()}`,

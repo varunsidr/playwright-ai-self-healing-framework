@@ -25,7 +25,7 @@
     {
       "id": "CHK-CART-MALFORMED-RECOVERY",
       "caseIds": ["TC-CART-004-04"],
-      "file": "tests/ecommerce/cart-malformed-storage.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-malformed-storage.spec.ts",
       "project": "ecommerce-chromium",
       "scope": "Malformed browser-local JSON recovers to an empty bag with notice; ownership unverified."
     },
@@ -114,7 +114,7 @@
     {
       "id": "CHK-CART-03-CORE-D72EA5D1",
       "caseIds": ["TC-CART-03-CORE"],
-      "file": "tests/ecommerce/cart-browser-controls.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-browser-controls.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-03-CORE shows variants and updates quantity, line totals and subtotal @happy",
       "scope": "TC-CART-03-CORE shows variants and updates quantity, line totals and subtotal. Reviewed coverage: browser-local two-variant drawer rendering, quantity updates, line/subtotal calculations, below-one and explicit removal; fictional data only"
@@ -122,7 +122,7 @@
     {
       "id": "CHK-CART-06-CORE-EF972D1C",
       "caseIds": ["TC-CART-06-CORE"],
-      "file": "tests/ecommerce/cart-browser-controls.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-browser-controls.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-06-CORE empty bag closes with Start Shopping @happy",
       "scope": "TC-CART-06-CORE empty bag closes with Start Shopping. Reviewed coverage: empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted"
@@ -130,7 +130,7 @@
     {
       "id": "CHK-CART-06-CORE-6F9161DF",
       "caseIds": ["TC-CART-06-CORE"],
-      "file": "tests/ecommerce/cart-browser-controls.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-browser-controls.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-06-CORE nonempty bag closes and navigates to checkout @happy",
       "scope": "TC-CART-06-CORE nonempty bag closes and navigates to checkout. Reviewed coverage: empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted"
@@ -138,7 +138,7 @@
     {
       "id": "CHK-CART-004-02-7C35AB6E",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes null row and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes null row and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -146,7 +146,7 @@
     {
       "id": "CHK-CART-004-02-FF5477EA",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes empty ID and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes empty ID and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -154,7 +154,7 @@
     {
       "id": "CHK-CART-004-02-C0E0B54E",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes blank name and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes blank name and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -162,7 +162,7 @@
     {
       "id": "CHK-CART-004-02-F54C82C3",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes negative price and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes negative price and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -170,7 +170,7 @@
     {
       "id": "CHK-CART-004-02-8A317369",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes nonnumeric price and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes nonnumeric price and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -178,7 +178,7 @@
     {
       "id": "CHK-CART-004-02-9E845A6F",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes null price and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes null price and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -186,7 +186,7 @@
     {
       "id": "CHK-CART-004-02-DA6034A2",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes zero quantity and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes zero quantity and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -194,7 +194,7 @@
     {
       "id": "CHK-CART-004-02-2621D8F6",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes fractional quantity and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes fractional quantity and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -202,7 +202,7 @@
     {
       "id": "CHK-CART-004-02-8BCBFAB7",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes unsafe quantity and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes unsafe quantity and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -210,7 +210,7 @@
     {
       "id": "CHK-CART-004-02-7AEB06FC",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes invalid option and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes invalid option and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -218,7 +218,7 @@
     {
       "id": "CHK-CART-004-02-4D6EE598",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 removes unsupported image protocol and persists valid edits @negative",
       "scope": "TC-CART-004-02 removes unsupported image protocol and persists valid edits. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -226,7 +226,7 @@
     {
       "id": "CHK-CART-004-02-A2BA4FDA",
       "caseIds": ["TC-CART-004-02"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-02 normalizes missing/empty/null colors and merges recovered tuples @happy",
       "scope": "TC-CART-004-02 normalizes missing/empty/null colors and merges recovered tuples. Reviewed coverage: browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10"
@@ -234,7 +234,7 @@
     {
       "id": "CHK-CART-004-04-203E61C1",
       "caseIds": ["TC-CART-004-04"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-04 nonarray null recovers to empty @negative",
       "scope": "TC-CART-004-04 nonarray null recovers to empty. Reviewed coverage: partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified"
@@ -242,7 +242,7 @@
     {
       "id": "CHK-CART-004-04-1FB0C1B7",
       "caseIds": ["TC-CART-004-04"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-04 nonarray {} recovers to empty @negative",
       "scope": "TC-CART-004-04 nonarray {} recovers to empty. Reviewed coverage: partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified"
@@ -250,7 +250,7 @@
     {
       "id": "CHK-CART-004-04-3C1E8CFB",
       "caseIds": ["TC-CART-004-04"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-04 nonarray \"not an array\" recovers to empty @negative",
       "scope": "TC-CART-004-04 nonarray \"not an array\" recovers to empty. Reviewed coverage: partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified"
@@ -258,7 +258,7 @@
     {
       "id": "CHK-CART-004-03-71BCF8D0",
       "caseIds": ["TC-CART-004-03"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-03 blocked reads show a persistence notice and usable empty bag @negative",
       "scope": "TC-CART-004-03 blocked reads show a persistence notice and usable empty bag. Reviewed coverage: controlled cart-key SecurityError read and QuotaExceededError write; visible persistence notice, bag dismissal, in-memory quantity/subtotal and removal; cross-account state unverified"
@@ -266,7 +266,7 @@
     {
       "id": "CHK-CART-004-03-08F09DBC",
       "caseIds": ["TC-CART-004-03"],
-      "file": "tests/ecommerce/cart-storage-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-004-03 quota failure preserves in-memory quantity and removal @negative",
       "scope": "TC-CART-004-03 quota failure preserves in-memory quantity and removal. Reviewed coverage: controlled cart-key SecurityError read and QuotaExceededError write; visible persistence notice, bag dismissal, in-memory quantity/subtotal and removal; cross-account state unverified"
@@ -593,7 +593,7 @@
     },
     {
       "id": "CHK-CAT-01-CORE-E812EA32",
-      "caseIds": ["TC-CAT-01-CORE"],
+      "caseIds": ["TC-CAT-01-CORE", "TC-CAT-001-01"],
       "file": "tests/ecommerce/category-membership-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-01-CORE /men/trousers includes only matching categories @happy",
@@ -601,7 +601,7 @@
     },
     {
       "id": "CHK-CAT-01-CORE-54CF7189",
-      "caseIds": ["TC-CAT-01-CORE"],
+      "caseIds": ["TC-CAT-01-CORE", "TC-CAT-001-01"],
       "file": "tests/ecommerce/category-membership-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CAT-01-CORE /men/jacket includes only matching categories @happy",
@@ -610,7 +610,7 @@
     {
       "id": "CHK-CUR-02-CORE-F16A92D0",
       "caseIds": ["TC-CUR-02-CORE"],
-      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/currency-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CUR-02-CORE valid USD rate formats the browser cart subtotal @negative",
       "scope": "TC-CUR-02-CORE valid USD rate formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
@@ -618,7 +618,7 @@
     {
       "id": "CHK-CUR-02-CORE-B9CB04CD",
       "caseIds": ["TC-CUR-02-CORE"],
-      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/currency-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CUR-02-CORE zero USD rate formats the browser cart subtotal @negative",
       "scope": "TC-CUR-02-CORE zero USD rate formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
@@ -626,7 +626,7 @@
     {
       "id": "CHK-CUR-02-CORE-720B2180",
       "caseIds": ["TC-CUR-02-CORE"],
-      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/currency-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CUR-02-CORE invalid USD rate formats the browser cart subtotal @negative",
       "scope": "TC-CUR-02-CORE invalid USD rate formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
@@ -634,7 +634,7 @@
     {
       "id": "CHK-CUR-02-CORE-66DD139B",
       "caseIds": ["TC-CUR-02-CORE"],
-      "file": "tests/ecommerce/currency-fixture.spec.ts",
+      "file": "tests/ecommerce/isolated/currency-fixture.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CUR-02-CORE failed region request formats the browser cart subtotal @negative",
       "scope": "TC-CUR-02-CORE failed region request formats the browser cart subtotal. Reviewed coverage: partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested"
@@ -668,13 +668,13 @@
       "caseIds": ["TC-CHK-001-01"],
       "file": "tests/ecommerce/guest-boundaries.spec.ts",
       "project": "ecommerce-chromium",
-      "testTitle": "TC-CHK-001-01 signed-out nonempty checkout preserves the browser bag @negative",
+      "testTitle": "TC-CHK-001-01 signed-out checkout discards the unowned legacy bag @negative",
       "scope": "TC-CHK-001-01 signed-out nonempty checkout preserves the browser bag. Reviewed coverage: partial: signed-out empty and nonempty checkout disable payment and preserve browser cart; expired-token API denial and signed-in empty checkout require staging"
     },
     {
       "id": "CHK-CART-002-01-8F6C4181",
       "caseIds": ["TC-CART-002-01"],
-      "file": "tests/ecommerce/guest-boundaries.spec.ts",
+      "file": "tests/ecommerce/isolated/cart-variants.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CART-002-01 restored duplicate variants merge by size and color @happy",
       "scope": "TC-CART-002-01 restored duplicate variants merge by size and color. Reviewed coverage: partial: fictional browser-cart restoration merges duplicate size/color tuples and keeps other variants distinct with correct subtotal; authenticated add behavior unverified"
@@ -913,7 +913,7 @@
     },
     {
       "id": "CHK-PDP-04-CORE-F2121BEC",
-      "caseIds": ["TC-PDP-04-CORE"],
+      "caseIds": ["TC-PDP-04-CORE", "TC-PDP-001-02"],
       "file": "tests/ecommerce/product-detail.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "opens a product and checks quantity and review form @happy",
@@ -921,7 +921,7 @@
     },
     {
       "id": "CHK-CART-001-01-1F4F3BDB",
-      "caseIds": ["TC-CART-001-01"],
+      "caseIds": ["TC-CART-001-01", "TC-PDP-001-02"],
       "file": "tests/ecommerce/product-detail.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "requires sign in before adding a product to the cart",
@@ -1172,16 +1172,16 @@
       "caseIds": ["TC-AUTH-07-CORE", "TC-AUTH-01-CORE"],
       "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
       "project": "ecommerce-chromium",
-      "testTitle": "TC-AUTH-07-CORE helper denial falls back to signup",
-      "scope": "Partial: mocked helper success avoids signup and denial uses normal signup; real helper production authorization and account creation unverified. Check: TC-AUTH-07-CORE helper denial falls back to signup."
+      "testTitle": "TC-AUTH-07-CORE registration uses only signup on success",
+      "scope": "Reviewed df94db9 contract migration: TC-AUTH-07-CORE registration uses only signup on success. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance."
     },
     {
       "id": "CHK-ISOLATED-AUTH-07-CORE-D6B9518C",
       "caseIds": ["TC-AUTH-07-CORE"],
       "file": "tests/ecommerce/isolated/auth-favorites.spec.ts",
       "project": "ecommerce-chromium",
-      "testTitle": "TC-AUTH-07-CORE helper success",
-      "scope": "Partial: mocked helper success avoids signup and denial uses normal signup; real helper production authorization and account creation unverified. Check: TC-AUTH-07-CORE helper success."
+      "testTitle": "TC-AUTH-07-CORE registration uses only signup after explicit retry",
+      "scope": "Reviewed df94db9 contract migration: TC-AUTH-07-CORE registration uses only signup after explicit retry. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance."
     },
     {
       "id": "CHK-ISOLATED-AUTH-003-01-11D53454",
@@ -1300,8 +1300,8 @@
       "caseIds": ["TC-PDP-003-01"],
       "file": "tests/ecommerce/isolated/product-options.spec.ts",
       "project": "ecommerce-chromium",
-      "testTitle": "TC-PDP-003-01 unavailable size cannot be selected and available M enters browser bag",
-      "scope": "Partial: controlled S=0/M=4 availability, no-size disabled add and explicit M browser-bag addition with fake session; real auth, live and missing-row stock unverified. Check: TC-PDP-003-01 unavailable size cannot be selected and available M enters browser bag."
+      "testTitle": "TC-PDP-003-01 sold-out S offers restock without purchase and available M enters browser bag",
+      "scope": "Reviewed df94db9 contract migration: TC-PDP-003-01 sold-out S offers restock without purchase and available M enters browser bag. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance."
     },
     {
       "id": "CHK-ISOLATED-PDP-04-CORE-709D7941",
@@ -1500,8 +1500,8 @@
       "caseIds": ["TC-REV-006-01"],
       "file": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
       "project": "ecommerce-chromium",
-      "testTitle": "TC-REV-006-01 admin review response renders approved and pending feedback without moderation buttons",
-      "scope": "Partial: controlled approved/pending rows from all-status admin read, no sidebar moderation buttons and visible error on failure; real signed-cookie authorization and RLS unverified. Check: TC-REV-006-01 admin review response renders approved and pending feedback without moderation buttons."
+      "testTitle": "TC-REV-006-01 admin review filters show pending and approved feedback with moderation controls",
+      "scope": "Reviewed df94db9 contract migration: TC-REV-006-01 admin review filters show pending and approved feedback with moderation controls. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance."
     },
     {
       "id": "CHK-ISOLATED-REV-006-01-852D3BCD",
@@ -1636,8 +1636,8 @@
       "caseIds": ["TC-AOR-004-01", "TC-AOR-003-01"],
       "file": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
       "project": "ecommerce-chromium",
-      "testTitle": "TC-AOR-004-01 five status controls send explicit requests and reflect local successful responses",
-      "scope": "Partial: all five current status options send explicit payloads and reflect local successful responses; backend transitions, unsupported status rejection and cancellation inventory unverified. Check: TC-AOR-004-01 five status controls send explicit requests and reflect local successful responses."
+      "testTitle": "TC-AOR-004-01 forward status controls reflect responses and delivered orders are terminal",
+      "scope": "Reviewed df94db9 contract migration: TC-AOR-004-01 forward status controls reflect responses and delivered orders are terminal. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance."
     },
     {
       "id": "CHK-ISOLATED-AOR-003-01-2DB92322",
@@ -1708,7 +1708,7 @@
       "caseIds": ["TC-CART-004-01"],
       "file": "tests/ecommerce/isolated/account-switch.spec.ts",
       "project": "ecommerce-chromium",
-      "testTitle": "TC-CART-004-01 baseline finding: the browser bag remains shared across fictional accounts",
+      "testTitle": "TC-CART-004-01 sign-out and account switching restore only the current account bag",
       "scope": "Baseline finding G-10: browser-local bag remains visible after switching fictional accounts; account-separated cart target is not accepted."
     },
     {
@@ -1953,7 +1953,7 @@
     },
     {
       "id": "CHK-ISOLATED-CHK-08-CORE-C2792790",
-      "caseIds": ["TC-CHK-08-CORE"],
+      "caseIds": ["TC-CHK-08-CORE", "TC-CHK-010-02"],
       "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CHK-08-CORE card_demo locks pending checkout and suppresses repeated form submissions",
@@ -1961,7 +1961,7 @@
     },
     {
       "id": "CHK-ISOLATED-CHK-08-CORE-FF374AB8",
-      "caseIds": ["TC-CHK-08-CORE"],
+      "caseIds": ["TC-CHK-08-CORE", "TC-CHK-010-02"],
       "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CHK-08-CORE cash_on_delivery locks pending checkout and suppresses repeated form submissions",
@@ -1969,7 +1969,7 @@
     },
     {
       "id": "CHK-ISOLATED-CHK-08-CORE-F91714BA",
-      "caseIds": ["TC-CHK-08-CORE"],
+      "caseIds": ["TC-CHK-08-CORE", "TC-CHK-010-02"],
       "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CHK-08-CORE unchanged retry after reload reuses client key and changed details get a new key",
@@ -1977,7 +1977,7 @@
     },
     {
       "id": "CHK-ISOLATED-CHK-08-CORE-CE897E4A",
-      "caseIds": ["TC-CHK-08-CORE"],
+      "caseIds": ["TC-CHK-08-CORE", "TC-CHK-010-02"],
       "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CHK-08-CORE unavailable attempt storage retains the in-memory key for explicit retry",
@@ -1985,7 +1985,7 @@
     },
     {
       "id": "CHK-ISOLATED-CHK-08-CORE-D9AAE14F",
-      "caseIds": ["TC-CHK-08-CORE"],
+      "caseIds": ["TC-CHK-08-CORE", "TC-CHK-010-02"],
       "file": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
       "project": "ecommerce-chromium",
       "testTitle": "TC-CHK-08-CORE successful HTTP response without order ID preserves cart and attempt for retry",
@@ -2302,6 +2302,126 @@
       "project": "ecommerce-chromium",
       "testTitle": "TC-PDP-001-01 touch quick-add requires sign-in and preserves the empty bag @negative",
       "scope": "TC-PDP-001-01 touch quick-add requires sign-in and preserves the empty bag @negative. Mobile context with hasTouch/isMobile verifies coarse pointer, tap quick-add, guest sign-in denial and empty cart; fictional GET product only."
+    },
+    {
+      "id": "CHK-RECOVERY-01",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/password-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE mismatched passwords make no provider update",
+      "scope": "Fictional SDK session/provider UI contract at pinned df94db9; no real mailbox, password policy or hosted auth acceptance."
+    },
+    {
+      "id": "CHK-RECOVERY-02",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/password-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE failed update preserves passwords and retry signs out locally",
+      "scope": "Fictional SDK session/provider UI contract at pinned df94db9; no real mailbox, password policy or hosted auth acceptance."
+    },
+    {
+      "id": "CHK-RECOVERY-03",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/password-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE saved password with failed logout asks the customer to sign out",
+      "scope": "Fictional SDK session/provider UI contract at pinned df94db9; no real mailbox, password policy or hosted auth acceptance."
+    },
+    {
+      "id": "CHK-RECOVERY-04",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/password-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE rejected verified session offers a new recovery link",
+      "scope": "Fictional SDK session/provider UI contract at pinned df94db9; no real mailbox, password policy or hosted auth acceptance."
+    },
+    {
+      "id": "CHK-RECOVERY-05",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/password-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE expired recovery link removes its error fragment",
+      "scope": "Fictional SDK session/provider UI contract at pinned df94db9; no real mailbox, password policy or hosted auth acceptance."
+    },
+    {
+      "id": "CHK-RECOVERY-06",
+      "caseIds": ["TC-AUTH-05-CORE"],
+      "file": "tests/ecommerce/isolated/password-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-AUTH-05-CORE missing session never offers password update",
+      "scope": "Fictional SDK session/provider UI contract at pinned df94db9; no real mailbox, password policy or hosted auth acceptance."
+    },
+    {
+      "id": "CHK-RELOAD-1",
+      "caseIds": ["TC-CHK-010-01"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-01 card_demo lost response survives reload with the same attempt key",
+      "scope": "Mocked network loss followed by reload and explicit retry: identical payload/key, digest-only storage, cart/attempt cleanup and honest demo feedback. No backend replay or transaction acceptance."
+    },
+    {
+      "id": "CHK-RELOAD-2",
+      "caseIds": ["TC-CHK-010-01"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-01 cash_on_delivery lost response survives reload with the same attempt key",
+      "scope": "Mocked network loss followed by reload and explicit retry: identical payload/key, digest-only storage, cart/attempt cleanup and honest demo feedback. No backend replay or transaction acceptance."
+    },
+    {
+      "id": "CHK-ATTEMPT-CHANGE-ADDRESS",
+      "caseIds": ["TC-CHK-010-02"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-02 changed address creates a different attempt key",
+      "scope": "Fictional client attempt fingerprint changes, with A/B owner isolation; no server persistence acceptance."
+    },
+    {
+      "id": "CHK-ATTEMPT-CHANGE-METHOD",
+      "caseIds": ["TC-CHK-010-02"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-02 changed method creates a different attempt key",
+      "scope": "Fictional client attempt fingerprint changes, with A/B owner isolation; no server persistence acceptance."
+    },
+    {
+      "id": "CHK-ATTEMPT-CHANGE-ITEMS",
+      "caseIds": ["TC-CHK-010-02"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-02 changed items creates a different attempt key",
+      "scope": "Fictional client attempt fingerprint changes, with A/B owner isolation; no server persistence acceptance."
+    },
+    {
+      "id": "CHK-ATTEMPT-CHANGE-CUSTOMER",
+      "caseIds": ["TC-CHK-010-02"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-02 changed customer creates a different attempt key",
+      "scope": "Fictional client attempt fingerprint changes, with A/B owner isolation; no server persistence acceptance."
+    },
+    {
+      "id": "CHK-ATTEMPT-INVALID-3",
+      "caseIds": ["TC-CHK-010-02"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-02 invalid JSON attempt storage recovers with a UUID key",
+      "scope": "Malformed client attempt storage recovers on submission; mocked successful service response, not real API validation."
+    },
+    {
+      "id": "CHK-ATTEMPT-INVALID-4",
+      "caseIds": ["TC-CHK-010-02"],
+      "file": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-CHK-010-02 invalid record attempt storage recovers with a UUID key",
+      "scope": "Malformed client attempt storage recovers on submission; mocked successful service response, not real API validation."
+    },
+    {
+      "id": "CHK-DASHBOARD-RECOVERY",
+      "caseIds": ["TC-ADM-005-01"],
+      "file": "tests/ecommerce/isolated/dashboard-recovery.spec.ts",
+      "project": "ecommerce-chromium",
+      "testTitle": "TC-ADM-005-01 dashboard refresh failure shows unavailable values and explicit retry restores summaries",
+      "scope": "Fictional dashboard aggregates, refresh error/unavailable values, explicit retry, pending queue and Add product form. No cookie authorization or real database acceptance."
     }
   ]
 }

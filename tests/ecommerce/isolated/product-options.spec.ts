@@ -23,14 +23,17 @@ test.describe('Zeouf isolated product options', { tag: ['@ecommerce', '@regressi
     await expect(storefront.sizeGuideButton).toBeVisible();
   });
 
-  test('TC-PDP-003-01 unavailable size cannot be selected and available M enters browser bag', async ({
+  test('TC-PDP-003-01 sold-out S offers restock without purchase and available M enters browser bag', async ({
     context,
     storefront,
     shop,
   }) => {
     await storefront.openProductRoute('/women/' + shop.products.sized.id, shop.products.sized.name);
     await expect(storefront.addToCartButton).toBeDisabled();
-    await expect(storefront.productSize('S')).toBeDisabled();
+    await storefront.productSize('S').click();
+    await expect(storefront.productSize('S')).toHaveAttribute('data-selected', 'true');
+    await expect(storefront.addToCartButton).toBeDisabled();
+    await expect(storefront.restockEmail()).toBeVisible();
     expect(await savedBrowserCart(context)).toEqual([]);
     await storefront.productSize('M').click();
     await expect(storefront.productSize('M')).toHaveAttribute('data-selected', 'true');

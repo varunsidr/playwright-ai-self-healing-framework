@@ -2,90 +2,90 @@
   "TC-PDP-001-01": {
     "automationFile": "tests/ecommerce/product-card-fixture.spec.ts",
     "automationScope": "Partial: controlled unsized/sized/unavailable card actions at 375/1440px, hover/focus reveal, size href, image-failure information, guest denial and emulated coarse-pointer touch quick-add. Detail galleries, physical-device behavior and live stock remain unverified.",
-    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Three controlled card tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; GET responses mocked and server writes blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CAT-02-CORE": {
     "automationFile": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
     "automationScope": "Partial: Women and Men English New Arrivals/Best Sellers/Collection routes select New/BEST/Featured/Populer/null tag populations with controlled GET responses. Real database membership and legacy highlight variants remain unverified; no sales ranking is inferred.",
-    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Three controlled tag-route tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-CAT-04-CORE": {
     "automationFile": "tests/ecommerce/catalog-refinements-fixture.spec.ts",
     "automationScope": "Partial: keyboard inclusive bounds/crossing clamps, visible-of-matching counts, exact Under-tier boundary and delayed USD detection clearing both populated INR bounds. Controlled GET responses only; live region/rate integration remains unverified.",
-    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Keyboard bounds and clamp check passed locally on 2026-10-11 after adopting reviewed CAT-07 v1.9 from 243b37d; Under-tier deployed pass from 2026-10-10 remains historical. Mocked GET responses and writes blocked; public rerun pending.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-NFR-04-CORE": {
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
     "automationScope": "partial: homepage and open empty bag without horizontal overflow at 375/768/1440px in Chromium; essential empty-bag action within viewport; catalog/detail/admin and Firefox/WebKit unverified",
-    "lastEvidence": "Three viewport checks passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; server writes blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CAT-003-02": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
     "additionalAutomationFiles": ["tests/ecommerce/catalog-refinements-fixture.spec.ts"],
     "automationScope": "controlled brand/unsized-stock combination, visible-of-matching count including zero matches and Clear all; missing brand/size metadata selector omission; other combinations untested",
-    "lastEvidence": "Combined filter/count/clear check passed locally on 2026-10-11 after adopting reviewed CAT-07 v1.9 from 243b37d; missing-selector deployed pass from 2026-10-10 remains historical. GET responses mocked and writes blocked; public rerun pending."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CAT-005-02": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
     "automationScope": "Partial: controlled S/M size-stock zero/one/four boundaries, positive aggregate fallback when size rows are missing, and selected-size constraints when rows exist. Live inventory remains unverified.",
-    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Passed on deployed Zeouf with mocked products/stock GET responses in ecommerce-chromium on 2026-10-10; server writes blocked",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-CAT-007-01": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
     "automationScope": "Partial: controlled 0/1/24/25/48/49 batching, visible-of-matching counts, final button absence, filter-change reset to the first 24 of 30 matching products, subsequent reveal to 30 and no-match/clear-all recovery. Fictional GET responses; full live catalog acceptance remains unassessed.",
-    "lastEvidence": "Deployed fix verified on 2026-10-26: unchanged filter-reset regression passed three repetitions; all 30 related catalog checks passed with zero retries/skips. Evidence: test-results/pagination-fix-check-17dc508f53af48da843f5ac2b2513a0f/ and test-results/pagination-fix-catalog-2aee786377ae4696a8e515bf3479bddf/. Earlier 30-versus-24 failures remain archived. See specs/ecommerce/26-remaining-browser-and-service-boundaries.md for scope and complete-run history; targeted passes do not retrospectively certify the earlier full run.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/catalog-boundaries-fixture.spec.ts"]
   },
   "TC-CAT-08-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
     "automationScope": "controlled product/stock 503 and pending-request timeout, loading/demo/stock-warning distinction, successful retry, empty success and navigation cancellation; fixture results do not prove backend readiness",
-    "lastEvidence": "Five recovery/cancellation tests and empty collection boundary passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; catalog reads mocked and server writes blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-SEA-002-01": {
     "automationFile": "tests/ecommerce/search-fixture.spec.ts",
     "automationScope": "controlled mixed-case name/category request union, both-match ID deduplication and unrelated-product exclusion; actual database query behavior unverified",
-    "lastEvidence": "Passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; search GET responses mocked and server writes blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-004-02": {
-    "automationFile": "tests/ecommerce/cart-storage-fixture.spec.ts",
-    "automationScope": "browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; account ownership remains unverified G-10",
-    "lastEvidence": "Twelve recovery/normalization tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; fictional localStorage only and server writes blocked"
+    "automationFile": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
+    "automationScope": "browser-local mixed valid/invalid rows across eleven boundaries, edits persisted after reload, missing/empty/null color normalization and recovered tuple merging; actual provider identity transitions remain unverified; fictional account-scoped ownership is separately covered by TC-CART-004-01",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-004-03": {
-    "automationFile": "tests/ecommerce/cart-storage-fixture.spec.ts",
+    "automationFile": "tests/ecommerce/isolated/cart-storage-fixture.spec.ts",
     "automationScope": "controlled cart-key SecurityError read and QuotaExceededError write; visible persistence notice, bag dismissal, in-memory quantity/subtotal and removal; cross-account state unverified",
-    "lastEvidence": "Both storage-failure tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10; fictional localStorage only and server writes blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AUTH-002-01": {
     "automationFile": "tests/ecommerce/auth-confirmation-mismatch.spec.ts",
     "automationScope": "partial: mismatch branch only",
-    "lastEvidence": "Mismatch branch passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AUTH-002-02": {
     "automationFile": "tests/ecommerce/auth-confirmation-blank.spec.ts",
     "automationScope": "blank confirmation branch",
-    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-001-01": {
     "automationFile": "tests/ecommerce/cart-guest-denial.spec.ts",
     "automationScope": "guest-denial branch; no signed-in add/replay",
-    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/product-detail.spec.ts"]
   },
   "TC-CART-004-04": {
-    "automationFile": "tests/ecommerce/cart-malformed-storage.spec.ts",
+    "automationFile": "tests/ecommerce/isolated/cart-malformed-storage.spec.ts",
     "automationScope": "partial: malformed JSON and three non-array storage values recover to an empty bag with a notice; ownership unverified",
-    "lastEvidence": "Passed on public Zeouf in ecommerce-chromium on 2026-10-06; non-read requests blocked",
-    "additionalAutomationFiles": ["tests/ecommerce/cart-storage-fixture.spec.ts"]
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/cart-storage-fixture.spec.ts"]
   },
   "TC-NAV-005-01": {
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
     "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"],
     "automationScope": "partial: account/cart/search/mobile keyboard focus cycles, scroll lock, Escape and trigger restoration; mobile women/men clothing navigation and seven hrefs; desktop Women/Men keyboard disclosure, Escape focus return, inert closure and hover reopening; backdrop and additional paths unverified",
-    "lastEvidence": "Website Escape focus fix verified on deployed Zeouf for Women and Men on 2026-10-11, without retries. Expanded dialog/navigation evidence is recorded in the current ecommerce monitoring report."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CAT-06-CORE": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
@@ -94,68 +94,68 @@
       "tests/ecommerce/price-sorting.spec.ts"
     ],
     "automationScope": "partial: controlled low/high price ordering with name ties, Recommended incoming order, and New Arrivals new-tag/date/name precedence; live Dress price-low multiset; missing dates/tags beyond the selected fixtures unverified",
-    "lastEvidence": "Three controlled sort branches passed earlier on 2026-10-10; New Arrivals precedence passed in the next batch; live Dress price-low evidence retained from the prior full run"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-SEA-03-CORE": {
     "automationFile": "tests/ecommerce/catalog.spec.ts",
     "automationScope": "partial: no-results state for a missing query only",
-    "lastEvidence": "No-results test passed on public Zeouf in ecommerce-chromium on 2026-10-07",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/search-fixture.spec.ts"]
   },
   "TC-PDP-04-CORE": {
     "automationFile": "tests/ecommerce/product-detail.spec.ts",
     "automationScope": "partial: initial quantity one, increase to two, decrease to one on unsized product only Additional isolated scope: Controlled M=4/L=5 stock, minimum one, disabled increase at stock and clamp on size change; real inventory enforcement unverified.",
-    "lastEvidence": "Product-detail quantity test passed on public Zeouf in ecommerce-chromium on 2026-10-07",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/isolated/product-options.spec.ts"]
   },
   "TC-NAV-006-01": {
     "automationFile": "tests/ecommerce/legacy-category-redirects.spec.ts",
     "automationScope": "partial: seven legacy main-category and fifteen legacy subcategory URLs assert their exact English redirect destination and heading, plus original three representative checks; unknown or retired legacy paths unverified",
-    "lastEvidence": "Legacy-route test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"]
   },
   "TC-OPS-01-CORE": {
     "automationFile": "tests/ecommerce/api/public-api.spec.ts",
     "automationScope": "full public health JSON shape and parseable timestamp; no database readiness inference",
-    "lastEvidence": "Health API test passed on public Zeouf in ecommerce-api on 2026-10-07",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/guest-boundaries.spec.ts"]
   },
   "TC-NAV-07-CORE": {
     "automationFile": "tests/ecommerce/not-found-admin-shell.spec.ts",
     "automationScope": "partial: unknown product and subcategory 404 plus admin chrome absence; route refresh untested",
-    "lastEvidence": "Route fallback test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CNT-001-01": {
     "automationFile": "tests/ecommerce/newsletter-preview.spec.ts",
     "automationScope": "Partial: blank/malformed newsletter email fails native validation without success or writes; valid preview behavior remains separately covered. No actual subscription or delivery claim.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/isolated/reset-newsletter.spec.ts"]
   },
   "TC-SEA-01-CORE": {
     "automationFile": "tests/ecommerce/search-input.spec.ts",
     "automationScope": "focus, blank submit, trim/encode ampersand and Unicode, and closed search panel",
-    "lastEvidence": "Header search test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AUTH-04-CORE": {
     "automationFile": "tests/ecommerce/auth-password-visibility.spec.ts",
     "automationScope": "password visibility and Sign In/Register tab behavior without form submission",
-    "lastEvidence": "Auth visibility test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"]
   },
   "TC-PDP-06-CORE": {
     "automationFile": "tests/ecommerce/product-information.spec.ts",
     "automationScope": "partial: four panels open one at a time with nonempty text on one available product; supplied/fallback variants untested",
-    "lastEvidence": "Product information test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-03-CORE": {
-    "automationFile": "tests/ecommerce/cart-browser-controls.spec.ts",
+    "automationFile": "tests/ecommerce/isolated/cart-browser-controls.spec.ts",
     "automationScope": "browser-local two-variant drawer rendering, quantity updates, line/subtotal calculations, below-one and explicit removal; fictional data only",
-    "lastEvidence": "Cart controls passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-06-CORE": {
-    "automationFile": "tests/ecommerce/cart-browser-controls.spec.ts",
+    "automationFile": "tests/ecommerce/isolated/cart-browser-controls.spec.ts",
     "automationScope": "empty and nonempty drawer actions and checkout navigation; upper quantity limit remains unimplemented and unasserted",
-    "lastEvidence": "Both cart navigation branches passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"]
   },
   "TC-NAV-001-01": {
@@ -166,311 +166,341 @@
       "tests/ecommerce/seed.spec.ts"
     ],
     "automationScope": "Partial: manual selection, pause/resume, reduced-motion still imagery and timer invariance, browser-clock auto-rotation and offscreen suspension/resumption; six editorial destinations, both collection panels, blouse edit and seven homepage category hrefs. Real hidden-tab playback remains unverified.",
-    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed. Historical evidence: Nine homepage destination tests passed on deployed Zeouf in ecommerce-chromium on 2026-10-10 with writes blocked; manual/reduced-motion evidence retained from the previous batch"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CNT-02-CORE": {
     "automationFile": "tests/ecommerce/footer-content.spec.ts",
     "automationScope": "footer hrefs and GitHub attributes; privacy/terms navigation and return-home links; category targets checked as hrefs only",
-    "lastEvidence": "Footer navigation test passed on public Zeouf in ecommerce-chromium on 2026-10-07; non-read requests blocked",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/legal.spec.ts"]
   },
   "TC-CNT-03-CORE": {
     "automationFile": "tests/ecommerce/footer-content.spec.ts",
-    "automationScope": "partial: current home, guest checkout, privacy and terms demo wording; known G-22 copy conflicts remain open",
-    "lastEvidence": "Current demo disclosure assertions passed on 2026-10-10 after accepting the expanded privacy list while preserving no card details, charge or shipment; writes blocked; copied-source G-22 remains unresolved"
+    "automationScope": "Current home/guest-checkout/privacy/terms demo copy slices; historical fulfillment promises corrected in reviewed source. Attribution/license inconsistency remains G-22; assistant/provider/data disclosures still require full review.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CUR-02-CORE": {
-    "automationFile": "tests/ecommerce/currency-fixture.spec.ts",
+    "automationFile": "tests/ecommerce/isolated/currency-fixture.spec.ts",
     "automationScope": "partial: one fictional browser-cart price with controlled positive, zero, invalid and failed region responses; other price surfaces and live exchange provider untested",
-    "lastEvidence": "Four currency fixture branches passed against public Zeouf in ecommerce-chromium on 2026-10-07; region GET mocked and non-read requests blocked"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AUTH-05-CORE": {
     "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
     "automationScope": "Partial: controlled password-reset success sends fictional email and origin return URL; denial preserves email and allows retry. Existing blank-email guard remains covered. Real provider delivery and reset completion unverified.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
-    "additionalAutomationFiles": ["tests/ecommerce/isolated/reset-newsletter.spec.ts"]
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
+    "additionalAutomationFiles": [
+      "tests/ecommerce/isolated/reset-newsletter.spec.ts",
+      "tests/ecommerce/isolated/password-recovery.spec.ts"
+    ]
   },
   "TC-CHK-001-01": {
     "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
     "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"],
     "automationScope": "partial: signed-out empty and nonempty checkout disable payment and preserve browser cart; expired-token API denial and signed-in empty checkout require staging",
-    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-002-01": {
     "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
     "automationScope": "partial: fictional browser-cart restoration merges duplicate size/color tuples and keeps other variants distinct with correct subtotal; authenticated add behavior unverified",
-    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/cart-variants.spec.ts"]
   },
   "TC-FAV-03-CORE": {
     "automationFile": "tests/ecommerce/product-card-fixture.spec.ts",
     "additionalAutomationFiles": ["tests/ecommerce/account-cart-checkout.spec.ts"],
     "automationScope": "partial: guest favorite prompts sign-in, stays unselected and shows empty favorites; authenticated card loading and stored favorite details require staging",
-    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ORD-001-01": {
     "automationFile": "tests/ecommerce/account-cart-checkout.spec.ts",
-    "automationScope": "Partial: signed-out prompt plus controlled signed-in loading/empty/error recovery, current-user/date-order request filters, supplied row sequence, five statuses, accordion and deleted-product fallback. Real query ordering, ownership and database RLS unverified; G-07 remains open.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "automationScope": "Partial: signed-out prompt plus controlled signed-in loading/empty/error recovery, current-user/date-order request filters, supplied row sequence, five statuses, accordion and deleted-product fallback. Real query ordering, ownership and database RLS unverified; native variants/address/payment rendering has separate evidence; real persisted presentation remains unverified.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/isolated/order-history.spec.ts"]
   },
   "TC-CAT-005-01": {
     "automationFile": "tests/ecommerce/catalog-fixture.spec.ts",
     "automationScope": "partial: controlled S=0/M=4 and S=1/M=0 read fixtures exercise selected-size stock filtering; actual inventory rows unverified",
-    "lastEvidence": "Awaiting current automation expansion run; see ecommerce monitoring for execution evidence."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CAT-01-CORE": {
     "automationFile": "tests/ecommerce/category-membership-fixture.spec.ts",
     "automationScope": "partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified",
-    "lastEvidence": "Expansion run: 14 category membership checks passed; Men trousers and jacket failed because Women products also match. See docs/zeouf-men-category-regression.md and current monitoring. GET fixtures only; no database acceptance.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/catalog.spec.ts"]
   },
   "TC-OPS-05-CORE": {
     "automationFile": "tests/ecommerce/guest-boundaries.spec.ts",
     "automationScope": "partial: GET schema contract checks plain SQL when available or explicit 404 when absent on the current build; controlled local file removal and clipboard failure still need local runtime fixtures",
-    "lastEvidence": "Awaiting current expansion run"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-NFR-05-CORE": {
     "automationFile": "tests/ecommerce/navigation-accessibility.spec.ts",
     "automationScope": "partial: existing dialog focus containment, Escape and focus restoration plus desktop disclosure keyboard behavior; screen readers, automated WCAG audit, remaining pages and full WCAG 2.2 acceptance unverified",
-    "lastEvidence": "Awaiting current expansion run"
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AUTH-01-CORE": {
     "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
     "automationScope": "Partial: required name/email/password block requests; controlled signup full_name metadata and confirmation guidance; actual signup/email policy/delivery unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AUTH-07-CORE": {
     "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
-    "automationScope": "Partial: mocked helper success avoids signup and denial uses normal signup; real helper production authorization and account creation unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "automationScope": "Reviewed df94db9 contract migration: TC-AUTH-07-CORE registration uses only signup on success. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance. Reviewed df94db9 contract migration: TC-AUTH-07-CORE registration uses only signup after explicit retry. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AUTH-003-01": {
     "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
     "automationScope": "Partial: controlled login denial retains form/panel; mock success closes panel and fake session survives reload; real credential/session acceptance unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-FAV-01-CORE": {
     "automationFile": "tests/ecommerce/isolated/auth-favorites.spec.ts",
     "automationScope": "Partial: detail heart follows locally fulfilled insert/delete and preserves state on failure; real uniqueness, card toggles, persistence and ownership unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CHK-02-CORE": {
     "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
     "automationScope": "Partial: five blank shipping inputs prevent requests through native validation; whitespace, server limits and real checkout unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CHK-04-CORE": {
     "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
     "automationScope": "Partial: both simulation labels, no card-number field, selected-method payload and mocked confirmation; saved order, charges and stock unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CHK-08-CORE": {
     "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
     "automationScope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/isolated/checkout-attempts.spec.ts"]
   },
   "TC-PDP-05-CORE": {
     "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
     "automationScope": "Static XS/S/M/L clothing chest/waist table and close action on the real isolated frontend; not shoe or XL/XXL guidance.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PDP-003-01": {
     "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
-    "automationScope": "Partial: controlled S=0/M=4 availability, no-size disabled add and explicit M browser-bag addition with fake session; real auth, live and missing-row stock unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "automationScope": "Reviewed df94db9 contract migration: TC-PDP-003-01 sold-out S offers restock without purchase and available M enters browser bag. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PDP-02-CORE": {
     "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
     "automationScope": "Partial: seeded demo-product single photograph without thumbnails/colors; named color, photo correspondence and real cart colors unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PDP-07-CORE": {
     "automationFile": "tests/ecommerce/isolated/product-options.spec.ts",
     "automationScope": "Partial: zero/one/twelve related fixtures, zero/one/eight cards and links, prefix/excluded-ID/limit query; live database filtering unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CUR-01-CORE": {
     "automationFile": "tests/ecommerce/isolated/region.spec.ts",
     "automationScope": "Partial: India/America/time-zone/language browser fallback and real isolated non-US header precedence/no-store; US server exchange-provider branch unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-REV-003-01": {
     "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
     "automationScope": "Controlled upload/HTTP/network errors retain form/preview; pending 201 with/without image clears form with approval feedback without adding public reviews; approved-only query asserted; real writes unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-REV-002-01": {
     "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
     "automationScope": "Partial: frontend oversize exclusion, three-preview cap, removal and multipart filenames are verified with intercepted upload; actual signature validation, fourth-file rejection, private storage and signed URLs unverified.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-RST-01-CORE": {
     "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
     "automationScope": "Partial: invalid email blocks requests; controlled HTTP/network errors retain email for retry; outgoing product/options checked; API validation and storage unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-RST-03-CORE": {
     "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
     "automationScope": "Partial: mocked configured/unconfigured mail responses select distinct feedback and clear email; real mail and subscription persistence unverified.",
-    "lastEvidence": "Controlled browser coverage added 2026-10-21. Execution outcomes are recorded separately in test-results/ecommerce-monitoring.md; no backend acceptance is claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ADM-003-01": {
     "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
     "automationScope": "Partial: mocked logout failure retains flag/route, explicit successful retry clears flag and returns to login; real signed-cookie revocation and server logout contract unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-REV-006-01": {
     "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
-    "automationScope": "Partial: controlled approved/pending rows from all-status admin read, no sidebar moderation buttons and visible error on failure; real signed-cookie authorization and RLS unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "automationScope": "Reviewed df94db9 contract migration: TC-REV-006-01 admin review filters show pending and approved feedback with moderation controls. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance. Partial: controlled approved/pending rows from all-status admin read, no sidebar moderation buttons and visible error on failure; real signed-cookie authorization and RLS unverified. Check: TC-REV-006-01 failed admin review read reports the service error.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ADM-002-01": {
     "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
     "automationScope": "Partial: actual isolated order GET and stock PATCH return 401 without a signed cookie despite legacy browser flag/cookie; placeholder runtime only, valid-admin and migrated staging permissions unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ADM-001-01": {
     "automationFile": "tests/ecommerce/isolated/admin-access-feedback.spec.ts",
     "automationScope": "Partial: both credentials required; controlled 401/429/500 give distinct feedback, clear password and never set admin flag; real hash/cookie/secret-rotation acceptance unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-STK-03-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
     "automationScope": "Partial: four sized 0/1/4/5 rows show Out/Low/Low/Available and dashboard count/units agree; unsized low-stock semantics and live inventory unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PRD-01-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
     "automationScope": "Partial: admin mixed-case name/exact category filtering, no-match and incoming response order; actual API newest ordering and persisted catalog unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PRD-002-01": {
     "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
     "automationScope": "Partial: controlled HTTP/network save denial retains editor and values; explicit mock success refreshes UI; real permission policy and database persistence unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PRD-06-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
     "automationScope": "Partial: cancel sends no request; mocked delete failure preserves row and explicit successful retry removes it; real cascade and historical order snapshots unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PRD-04-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
     "automationScope": "Partial: pasted-image preview, main-image removal and promoted image_url/images payload; actual upload bucket and saved images unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PRD-05-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
     "automationScope": "Partial: new S/M form serializes selected sizes and zero overall stock; database stock-row initialization, editing and aggregate synchronization unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AOR-02-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
     "automationScope": "Partial: controlled orders support mixed-case customer/order search with exact status, no-match versus empty response; real order ownership/data unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AOR-004-01": {
     "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
-    "automationScope": "Partial: all five current status options send explicit payloads and reflect local successful responses; backend transitions, unsupported status rejection and cancellation inventory unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "automationScope": "Reviewed df94db9 contract migration: TC-AOR-004-01 forward status controls reflect responses and delivered orders are terminal. Fictional browser-service responses; no hosted auth, authorization, database, delivery or transaction acceptance.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-AOR-003-01": {
     "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
     "automationScope": "Partial: admin UI controlled status success and failed update retaining pending detail/list; actual persisted status and customer-history synchronization unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ANL-02-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
     "automationScope": "Partial: zero/six controlled orders produce exact five-status counts and rounded percentages, including rounding beyond a total of 100; live data unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ANL-03-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
     "automationScope": "Partial: controlled pending product response keeps stock units unavailable until loaded; sized/unsized inventory boundaries remain separately covered. Real inventory reconciliation unverified.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/isolated/analytics-loading.spec.ts"]
   },
   "TC-SET-01-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
     "automationScope": "Partial: identity, catalog/category counts, static database label and absence of save buttons with controlled reads; no live connection-health claim.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-USR-01-CORE": {
     "automationFile": "tests/ecommerce/isolated/admin-orders-insights.spec.ts",
     "automationScope": "Partial: controlled profile IDs/names, null placeholders and supplied order; actual 200-row API cap, updated_at ordering and authorization unverified; View action untested.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-001-02": {
     "automationFile": "tests/ecommerce/isolated/guest-cart-resume.spec.ts",
     "automationScope": "Partial: interrupted guest add stays empty through fake sign-in; explicit add creates one browser line; real login, ownership and integration unverified.",
-    "lastEvidence": "Continued isolated browser coverage. Observed outcomes are recorded separately in test-results/ecommerce-monitoring.md; no live backend acceptance claimed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-FAV-002-01": {
     "automationFile": "tests/ecommerce/isolated/account-switch.spec.ts",
     "automationScope": "Partial: fictional account switch clears favorite UI, filters reads by the second user and sends their identity on insert; real sessions and database RLS remain unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CART-004-01": {
     "automationFile": "tests/ecommerce/isolated/account-switch.spec.ts",
-    "automationScope": "Baseline finding G-10: browser-local bag remains visible after switching fictional accounts; account-separated cart target is not accepted.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "automationScope": "Account-scoped browser ownership with fictional A/B sessions: sign-out empties/closes the bag, B sees only its bag, token refresh preserves it, A restores after switch/reload and legacy ownerless data is discarded. Real auth/database acceptance remains separate; historical G-10 evidence is archived.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-PRD-003-01": {
     "automationFile": "tests/ecommerce/isolated/admin-catalog.spec.ts",
     "automationScope": "Partial: blank/whitespace product names disable Save and Cancel preserves supplied catalog without writes; server numeric validation and stored-product invariants unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ANL-001-01": {
     "automationFile": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
     "automationScope": "Partial: controlled pending order summaries remain unavailable and explicit failed-read retry recovers after response release; reviewed active totals/average/top-five boundaries remain separately covered. Real persisted reconciliation unverified.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/isolated/analytics-loading.spec.ts"]
   },
   "TC-ANL-05-CORE": {
     "automationFile": "tests/ecommerce/isolated/analytics-reviewed.spec.ts",
     "automationScope": "Partial: controlled pending review response keeps rating/count unavailable until loaded; reviewed approved-only population boundaries remain separately covered. Real authorized data reconciliation unverified.",
-    "lastEvidence": "See specs/ecommerce/24-browser-only-recovery-and-loading.md and retained execution reports; full acceptance remains unassessed.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed.",
     "additionalAutomationFiles": ["tests/ecommerce/isolated/analytics-loading.spec.ts"]
   },
   "TC-CHK-005-01": {
     "automationFile": "tests/ecommerce/isolated/checkout.spec.ts",
     "automationScope": "Partial: forged browser price is omitted from checkout item payload, which sends only id/quantity/size/color; backend price recomputation and stored totals unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-CUR-003-01": {
     "automationFile": "tests/ecommerce/isolated/currency-surfaces.spec.ts",
     "automationScope": "Partial: controlled USD detail, browser bag and supplied order history use shared formatter while admin supplied totals remain INR; actual checkout/order storage and persisted reconciliation unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-OPS-002-01": {
     "automationFile": "tests/ecommerce/isolated/production-denials.spec.ts",
     "automationScope": "Partial: actual fresh local production reset/seed helpers return 404 and dev create-user returns 403 before backend access; deployed environment/configuration and database no-mutation snapshots unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-ADM-002-02": {
     "automationFile": "tests/ecommerce/isolated/production-denials.spec.ts",
     "automationScope": "Partial: actual local DELETE rejects fictional customer bearer and retired dev key without signed admin cookie; valid-admin deletion and real database preservation unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-REV-002-02": {
     "automationFile": "tests/ecommerce/isolated/reviews-restock.spec.ts",
     "automationScope": "Partial: controlled 429 upload response retains review fields/preview, sends no review POST and claims no public submission; actual daily/distributed limiter unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-STK-002-01": {
     "automationFile": "tests/ecommerce/isolated/stock-recovery.spec.ts",
     "automationScope": "Partial: controlled M=4 to 2 response refreshes size and aggregate 9 to 7; HTTP/network failure preserves aggregate until retry; invalid stock sends no request. Real atomic persistence and email delivery unverified.",
-    "lastEvidence": "Scoped browser checks and retained execution evidence are documented in specs/ecommerce/23-browser-only-accounts-stock-analytics.md; full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-NFR-008-01": {
     "automationFile": "tests/ecommerce/isolated/service-boundaries.spec.ts",
     "automationScope": "Partial: real isolated production admin-login/checkout/review/upload/restock handlers fail closed with exact HTTP 503 feedback when shared limiter configuration is absent. No multi-instance counters, deployed proxy trust, RPC-failure or fifth/sixth-attempt acceptance.",
-    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   },
   "TC-RST-005-01": {
     "automationFile": "tests/ecommerce/isolated/service-boundaries.spec.ts",
     "automationScope": "Partial: real isolated production GET/POST unsubscribe rejects missing/empty/short/long/nonhex/whitespace tokens with HTTP 400 and valid-shape tokens without service credentials with HTTP 503. No real deletion/replay/RLS acceptance.",
-    "lastEvidence": "Current scoped results and retained failures: specs/ecommerce/26-remaining-browser-and-service-boundaries.md. Full acceptance remains unassessed."
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
+  },
+  "TC-CAT-001-01": {
+    "automationFile": "tests/ecommerce/category-membership-fixture.spec.ts",
+    "automationScope": "TC-CAT-01-CORE /men/trousers includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified TC-CAT-01-CORE /men/jacket includes only matching categories. Reviewed coverage: partial: controlled reads of 14 English categories with mixed casing; seven main and nine subcategory routes assert exact membership, counts, and Women/Men separation; database query semantics and imported Turkish labels unverified",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
+  },
+  "TC-PDP-001-02": {
+    "automationFile": "tests/ecommerce/product-detail.spec.ts",
+    "automationScope": "opens a product and checks quantity and review form. Reviewed coverage: partial: initial quantity one, increase to two, decrease to one on unsized product only requires sign in before adding a product to the cart. Reviewed coverage: guest-denial branch; no signed-in add/replay",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
+  },
+  "TC-CHK-010-01": {
+    "automationFile": "tests/ecommerce/isolated/checkout-recovery.spec.ts",
+    "automationScope": "Mocked network loss followed by reload and explicit retry: identical payload/key, digest-only storage, cart/attempt cleanup and honest demo feedback. No backend replay or transaction acceptance.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
+  },
+  "TC-CHK-010-02": {
+    "automationFile": "tests/ecommerce/isolated/checkout-attempts.spec.ts",
+    "additionalAutomationFiles": ["tests/ecommerce/isolated/checkout-recovery.spec.ts"],
+    "automationScope": "Partial: controlled pending payment blocks repeated client submits; retry keys persist across unchanged/reloaded attempts and rotate on changed details, including storage-denied fallback; missing order ID preserves bag for retry. Existing success/error feedback remains covered. Backend idempotency and persistence unverified. Fictional client attempt fingerprint changes, with A/B owner isolation; no server persistence acceptance. Malformed client attempt storage recovers on submission; mocked successful service response, not real API validation.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
+  },
+  "TC-ADM-005-01": {
+    "automationFile": "tests/ecommerce/isolated/dashboard-recovery.spec.ts",
+    "automationScope": "Fictional dashboard aggregates, refresh error/unavailable values, explicit retry, pending queue and Add product form. No cookie authorization or real database acceptance.",
+    "lastEvidence": "5 November 2026: see plan 27 and test-results/scenarios-2026-11-05/public-complete/results.json and isolated-complete/results.json for the latest primary outcomes. Historical failed migrations and connection-reset evidence remain separately retained; complete acceptance is not assessed."
   }
 }

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "sourceRevision": "df94db96826c3226abc77422d2234c7d3db92ea1",
+  "source": "Zeouf BRD v2.0 and QA guide at website commit df94db96826c3226abc77422d2234c7d3db92ea1",
+  "reviewedAt": "2026-11-02",
+  "reviewEvidence": "Framework source/document comparison; website docs:check and 13 documentation-tool checks passed. Not stakeholder sign-off, live deployment verification or requirement acceptance.",
+  "documents": [
+    {
+      "file": "BRD.md",
+      "sha256": "d3872b3af3d2287f6fb6298afaa724417086b17f1742a1339f36c8352a82bb63",
+      "url": "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/df94db96826c3226abc77422d2234c7d3db92ea1/docs/BRD.md"
+    },
+    {
+      "file": "QA_TESTING_GUIDE.md",
+      "sha256": "5af543ee8538f3abfef0c0f862e05acf0602fd9527004f78626557aebaf8ba35",
+      "url": "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/df94db96826c3226abc77422d2234c7d3db92ea1/docs/QA_TESTING_GUIDE.md"
+    },
+    {
+      "file": "REQUIREMENTS_TRACEABILITY.csv",
+      "sha256": "73757cc5357885dfec303f24abb0e3bdae34faeb84188c2a35855ab2894594b3",
+      "url": "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/df94db96826c3226abc77422d2234c7d3db92ea1/docs/REQUIREMENTS_TRACEABILITY.csv"
+    },
+    {
+      "file": "requirements-reviews.json",
+      "sha256": "123d3d16185bc86342260012da11957ce2b8424434ced816263fe70466a331f2",
+      "url": "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/df94db96826c3226abc77422d2234c7d3db92ea1/docs/requirements-reviews.json"
+    },
+    {
+      "file": "requirements-source-snapshot.json",
+      "sha256": "97adf188c7c22749cf1422fe0882b42922baf28ba7e5c6044b803619c543df31",
+      "url": "https://github.com/varunsidr/Luxury_fashion_ecommerce/blob/df94db96826c3226abc77422d2234c7d3db92ea1/docs/requirements-source-snapshot.json"
+    }
+  ]
+}

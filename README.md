@@ -152,7 +152,7 @@ For Zeouf API and performance commands, see [Zeouf API and performance checks](d
 
 The [Zeouf case catalog](specs/ecommerce/requirements/CASE_CATALOG.md) maps the current BRD and QA-guide snapshot to first-pass test cases; [automation status](specs/ecommerce/requirements/AUTOMATION_STATUS.md) distinguishes linked partial checks from full acceptance. After reviewing an updated BRD or case overlay, run `npm run cases:zeouf:catalog` to regenerate the catalog. The planner, generator, and healer profiles in both `.github/agents/` and `.codex/agents/` use this snapshot and public read-only boundary. They do not automatically update tests when application code changes.
 
-`npm run test:ecommerce:fixtures` runs controlled product-card, catalog, search, cart-storage and currency frontend checks using fictional GET responses or browser-local data. These tests block server writes and do not prove live authentication, email, inventory or transaction correctness. See the [fixture plan](specs/ecommerce/18-brd-controlled-catalog-search-cart.md), [card/catalog/navigation plan](specs/ecommerce/19-brd-cards-catalog-navigation.md) and [latest boundary checks](specs/ecommerce/26-remaining-browser-and-service-boundaries.md). `npm run test:ecommerce:navigation` checks keyboard dialogs, desktop/mobile menus, selected viewport boundaries and homepage destinations. The [findings](docs/zeouf-automation-findings.md) retain earlier category/count/focus failures and their later verification; the current complete local baseline passes all 289 mapped checks. A new pushed commit still requires fresh CI. The [roadmap](roadmap/FUTURE_ENHANCEMENTS.md) records future tester takeover, visual recording/editing, revision history and a local tool workflow; these are not implemented capabilities.
+`npm run test:ecommerce:fixtures` runs controlled product-card, catalog and search frontend checks using fictional GET responses or browser-local data. These tests block server writes and do not prove live authentication, email, inventory or transaction correctness. See the [fixture plan](specs/ecommerce/18-brd-controlled-catalog-search-cart.md), [card/catalog/navigation plan](specs/ecommerce/19-brd-cards-catalog-navigation.md) and [latest boundary checks](specs/ecommerce/26-remaining-browser-and-service-boundaries.md). `npm run test:ecommerce:navigation` checks keyboard dialogs, desktop/mobile menus, selected viewport boundaries and homepage destinations. The [findings](docs/zeouf-automation-findings.md) retain earlier category/count/focus failures and their later verification; the October complete baseline passed all 289 then-mapped checks; current verification is recorded in plan 27. A new pushed commit still requires fresh CI. The [roadmap](roadmap/FUTURE_ENHANCEMENTS.md) records future tester takeover, visual recording/editing, revision history and a local tool workflow; these are not implemented capabilities.
 
 If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` instead.
 
@@ -160,7 +160,7 @@ If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` inst
 
 ## Reporting And Outputs
 
-The [remaining browser and service-boundary batch](specs/ecommerce/26-remaining-browser-and-service-boundaries.md) adds 29 checks, bringing mappings to **289 checks for 88/108 cases**: 154 public-safe checks and 135 isolated checks. The latest complete local runs passed **all 289 checks**, with zero retries/skips/failures, after the public pagination-reset fix. The suites include catalog, currency, hero and touch branches plus real local unsubscribe validation and unconfigured-limiter denials. Plan 26 retains the earlier failed reports, the unchanged fix recheck and the current complete-run evidence. Twenty cases have no browser mapping, and 17 cases still require staging or scope decisions for full acceptance; mapped cases also retain limited scopes.
+The [reviewed v2.0 continuation](specs/ecommerce/27-reviewed-baseline-scenarios.md) tracks 304 browser checks across 93/140 cases and 209 passing native checks. It connects 29 of 32 new cases to scoped executable or observational evidence; provider smoke, authenticated malformed-input checks and independent-session stock races still need their environments. Serious contrast findings remain open. Full requirement acceptance and fresh CI are not inferred.
 
 The [26 October stability investigation](docs/ecommerce-stability-2026-10-26.md) preserves the earlier 143-pass/one-failure read-only run, the cart-loading diagnosis, verified prior GitHub CI success and the protected immutable-deployment blocker. Later passes are recorded separately; they do not establish that intermittent loading causes are resolved or that the mutable public origin is an identified website build.
 
@@ -242,6 +242,8 @@ Switching providers is manual. VS Code does not automatically change from Copilo
 
 ## Current Coverage Snapshot
 
+The reviewed Zeouf v2.0 catalog has **137 requirements and 140 cases**, with **304 mapped browser checks** (128 public-safe, 176 isolated). The separate native runner passed **209 checks**, including assistant, restock, purchase SQL and UI/catalog scenarios. See [the November continuation](specs/ecommerce/27-reviewed-baseline-scenarios.md) for current execution, all 32 new cases and unresolved integration/provider/contrast findings. Scoped fixtures do not establish complete requirement acceptance.
+
 - **Homepage:** verifies the homepage loads and opens the inputs demo.
 - **Inputs demo:** fills and displays all configured values, clears the form, and checks output for partially completed fields.
 - **Registration UI:** submits registration data through the homepage link and checks that a failure flash message is shown.
@@ -254,7 +256,7 @@ Switching providers is manual. VS Code does not automatically change from Copilo
 - **API state cache:** verifies that shared state is reused within a cache scope.
 - UI tests run in Chromium, Firefox, and WebKit. API tests run in the dedicated API project.
 - Ecommerce tests run in the dedicated `ecommerce-chromium` project. Authenticated order placement and admin data changes need a dedicated test account/database and are not part of this read-only baseline.
-- **Size-guide fixture gap:** the public catalog currently exposes no sized product in the loaded women, men, or shoes collections. The public product-detail test checks quantity and review form state; PDP-05 size-guide acceptance remains unverified until a controlled sized fixture is available.
+- **Size-guide scope:** the isolated suite verifies the controlled clothing-guide rows and closure. Public catalog availability and full live product-option acceptance remain separate.
 
 ---
 

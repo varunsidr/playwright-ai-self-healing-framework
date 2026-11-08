@@ -11,7 +11,7 @@ const { createHash } = require('node:crypto');
 const runtime = require('./ecommerce-repair/runtime');
 const { collectChecks, checkOutcome } = require('./build-ecommerce-monitoring');
 const root = path.resolve(__dirname, '..');
-const revision = '843646b7d0c52ef5149f7905b19ec5d87fe5054b';
+const revision = 'df94db96826c3226abc77422d2234c7d3db92ea1';
 const hash = (value) => createHash('sha256').update(value).digest('hex');
 
 /** Extend the shared secret filter with database/Redis settings this runner must not inherit. */
@@ -172,6 +172,7 @@ async function main(args = process.argv.slice(2)) {
     for (const [name, file] of [
       ['documentation-tests', 'requirements.test.mjs'],
       ['purchase-sql-tests', 'purchase.test.mjs'],
+      ['restock-sql-tests', 'restock.test.mjs'],
     ]) {
       const stage = await execute(name, process.execPath, [
         '--test',
@@ -188,10 +189,13 @@ async function main(args = process.argv.slice(2)) {
       'chromium',
     ]);
     if (browserInstall.code !== 0) throw new Error('Native Chromium installation failed');
+    const photos = await npm('product-photo-audit', 'audit:product-photos');
+    if (photos.code !== 0) throw new Error('Native product photo audit failed');
     // Native configs belong to the website clone. Run sequentially to avoid server/port conflicts.
     for (const [name, config] of [
       ['ui', 'playwright.config.ts'],
       ['catalog', 'playwright.catalog.config.ts'],
+      ['assistant', 'playwright.assistant.config.ts'],
       ['live', 'playwright.live.config.ts'],
     ]) {
       const env = {
@@ -228,6 +232,7 @@ async function main(args = process.argv.slice(2)) {
       );
       const reportFile = env.PLAYWRIGHT_JSON_OUTPUT_FILE;
       if (!fs.existsSync(reportFile)) {
+        stage.status = 'failed';
         stage.error = 'Missing native JSON report';
         continue;
       }
@@ -266,6 +271,43 @@ async function main(args = process.argv.slice(2)) {
         scope:
           'Native hosted read-only smoke suite; no local webServer, writes denied by its guard. Public deployed revision remains independently unverified.',
       },
+      {
+        caseId: 'TC-OPS-010-01',
+        stages: ['purchase-sql-tests'],
+        scope:
+          'Native single-connection PGlite purchase/catalog/permission regressions; no deployed API or independent-session concurrency acceptance.',
+      },
+      {
+        caseId: 'TC-RST-06-CORE',
+        stages: ['restock-sql-tests', 'native-ui'],
+        scope:
+          'Native SQL and local fake-provider delivery regressions; no real inbox, deployed scheduler or provider delivery acceptance.',
+      },
+      {
+        caseId: 'TC-PDP-10-CORE',
+        stages: ['product-photo-audit', 'native-ui'],
+        scope:
+          'Manifest checksums/dimensions/provenance and native photo UI regressions; no business approval of synthetic imagery.',
+      },
+      ...[
+        'TC-AST-001-01',
+        'TC-AST-002-01',
+        'TC-AST-003-01',
+        'TC-AST-006-01',
+        'TC-AST-008-01',
+        'TC-AST-009-01',
+        'TC-AST-010-01',
+        'TC-AST-002-03',
+        'TC-AST-11-CORE',
+        'TC-AST-12-CORE',
+        'TC-AST-13-CORE',
+        'TC-AST-14-CORE',
+      ].map((caseId) => ({
+        caseId,
+        stages: ['native-assistant'],
+        scope:
+          'Pinned native assistant suite with injected model, SDK, stock and browser fixtures; scope limited to executed assertions. Live provider, concurrent stock and real intent acceptance remain separate.',
+      })),
     ].map((item) => ({
       ...item,
       outcome: item.stages.every(

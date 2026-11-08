@@ -1,5 +1,6 @@
-import { blockEcommerceWrites, expect, test } from '../../fixtures/ecommerce-base';
-import { fictionalCartVariants, seedBrowserCart } from '../../fixtures/ecommerce-browser-cart';
+import { expect } from '../../../fixtures/ecommerce-base';
+import { test } from '../../../fixtures/ecommerce-isolated';
+import { fictionalCartVariants, seedBrowserCart } from '../../../fixtures/ecommerce-browser-cart';
 
 const cases = [
   {
@@ -34,7 +35,6 @@ test.describe('Zeouf browser currency fallback', { tag: ['@ecommerce', '@regress
       context,
       storefront,
     }) => {
-      const attemptedWrites = await blockEcommerceWrites(context);
       await context.route(/\/api\/storefront\/region\?/, (route) =>
         route.fulfill({
           status: scenario.status,
@@ -47,7 +47,6 @@ test.describe('Zeouf browser currency fallback', { tag: ['@ecommerce', '@regress
       await storefront.openHome();
       await storefront.openCart();
       await expect(storefront.cartSubtotal).toContainText(scenario.expectedSubtotal);
-      expect(attemptedWrites).toEqual([]);
     });
   }
 });

@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: varunsidr/Luxury_fashion_ecommerce
-          ref: 843646b7d0c52ef5149f7905b19ec5d87fe5054b
+          ref: df94db96826c3226abc77422d2234c7d3db92ea1
           path: website-source
           persist-credentials: false
       - name: Run native documentation SQL and browser checks

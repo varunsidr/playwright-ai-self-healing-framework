@@ -77,16 +77,19 @@ test('TC-ADM-003-01 logout failure retains local state and explicit retry clears
   ]);
 });
 
-test('TC-REV-006-01 admin review response renders approved and pending feedback without moderation buttons', async ({
+test('TC-REV-006-01 admin review filters show pending and approved feedback with moderation controls', async ({
   storefront,
   admin,
   shop,
 }) => {
   await storefront.openAdminSidebarSection('Reviews');
-  await expect(storefront.visibleText('Approved fictional feedback')).toBeVisible();
   await expect(storefront.visibleText('Pending fictional feedback')).toBeVisible();
-  await expect(storefront.visibleText('2 reviews')).toBeVisible();
-  await expect(storefront.adminMainButtons()).toHaveCount(0);
+  await expect(storefront.visibleText('Approved fictional feedback')).toHaveCount(0);
+  await expect(storefront.adminAction('Approve')).toBeVisible();
+  await storefront.adminReviewFilter().selectOption('all');
+  await expect(storefront.visibleText('Approved fictional feedback')).toBeVisible();
+  await expect(storefront.adminReviewCards()).toHaveCount(2);
+  await expect(storefront.adminAction('Unpublish')).toBeVisible();
   expect(
     admin.reads.find((url) => url.pathname === '/api/admin/reviews')?.searchParams.get('status'),
   ).toBe('all');

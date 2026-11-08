@@ -28,9 +28,8 @@
     "environment": "public-read-only"
   },
   "SEA-03": {
-    "scenario": "Given slow, empty, failing and rapidly changed search responses, when searching then clearing the query, then loading/count/results/no-results states are honest; record missing service-error/retry and blank-query clearing as G-15.",
-    "environment": "isolated-fixture",
-    "mode": "Baseline plus target gap G-15"
+    "scenario": "Controlled search success/empty/error/hung responses distinguish no matches from failure, allow retry after the eight-second deadline, cancel obsolete queries and clear blank queries without stale cards.",
+    "environment": "isolated-fixture"
   },
   "PDP-02": {
     "scenario": "Given P-COLOR with distinct photos and P-DEMO, when selecting color and adding with U-A, then swatch, image and cart color agree; demo-image product hides colors and shows one photo.",
@@ -69,12 +68,11 @@
     "environment": "public-read-only"
   },
   "AUTH-05": {
-    "scenario": "Given existing disposable account and controlled inbox, when reset is requested with empty/valid email, then empty is rejected and valid request reaches provider; link completion remains G-02 until implemented.",
-    "environment": "isolated-staging",
-    "mode": "Baseline plus target gap G-02"
+    "scenario": "Request recovery for blank/valid email; verify the /reset-password redirect, non-enumerating feedback, invalid/expired/current verified sessions, matching 8–128 character passwords, failed update/retry and local sign-out. Real mailbox/redirect/provider policy needs staging.",
+    "environment": "isolated-staging"
   },
   "AUTH-07": {
-    "scenario": "Given nonproduction helper and fallback configurations, when registering, then the observed helper or Supabase path matches policy; production disables helper. Helper success never proves email confirmation.",
+    "scenario": "Browser registration always uses normal Supabase signup and never calls or receives credentials for the privileged dev helper. Verify provider success/error/retry separately from keyed nonproduction tooling, production denial and real email confirmation.",
     "environment": "isolated-fixture"
   },
   "FAV-01": {
@@ -106,17 +104,17 @@
     "environment": "isolated-staging"
   },
   "ORD-03": {
-    "scenario": "Given order with size/color snapshots, when customer and admin open it, then stored options should display; current omission is G-07 and must be recorded as unmet target.",
+    "scenario": "Given persisted size/color/address/payment snapshots, customer history and the admin detail dialog show the actual stored values after reload, with honest absent-field and deleted-product fallbacks. Native fixtures cover presentation; real persisted reads and authorization require staging.",
     "environment": "isolated-staging",
-    "mode": "Target requirement; known gap G-07"
+    "mode": "Current reviewed contract; historical G-07 retained separately"
   },
   "REV-07": {
-    "scenario": "Given approved review and admin, when reply save/remove is attempted, then persisted reply should be customer-visible; missing controls/columns are G-05 and require implementation before pass.",
+    "scenario": "Use the shared moderation queue to save/remove bounded replies, retain failed drafts and verify reload. Only approved review replies appear publicly. Native injected/UI checks are separate from real migration, cookie/limiter, signing and customer-read acceptance.",
     "environment": "isolated-staging",
-    "mode": "Target requirement; known gap G-05"
+    "mode": "Current reviewed contract; historical G-05 retained separately"
   },
   "RST-01": {
-    "scenario": "Given unavailable product and chosen size/color, when visitor submits valid/invalid email or product IDs, then valid alert stores without login and invalid inputs fail; unavailable-size selection remains G-09.",
+    "scenario": "Request unavailable products or selected unavailable configured sizes with valid/invalid email/options. Purchase stays disabled for unavailable size; currently available options return 409, unknown products 404 and unconfigured service 503. Verify normalized persisted requests and subscription/stock races in staging.",
     "environment": "isolated-staging"
   },
   "RST-03": {
@@ -132,9 +130,9 @@
     "environment": "isolated-staging"
   },
   "PRD-05": {
-    "scenario": "Given admin, when creating XS–XXL/36–44 sized product, then zero stock rows initialize; later size edits should synchronize rows/aggregate but current G-18 is reported separately.",
+    "scenario": "Create sized products with zero-stock rows, retain selected quantities when editing, remove retired sizes and initialize new ones at zero. Verify aggregate consistency, rollback and metadata edits after depletion; native single-connection SQL is separate from staging concurrency and seed repair.",
     "environment": "isolated-staging",
-    "mode": "Baseline plus target gap G-18"
+    "mode": "Current reviewed atomic catalog contract; live concurrency remains open"
   },
   "PRD-06": {
     "scenario": "Given admin and disposable product with dependent records/order snapshot, when confirming Delete, then product/dependents disappear and historical price/quantity survive; cancel or permission failure leaves product unchanged.",
@@ -153,9 +151,9 @@
     "environment": "isolated-staging"
   },
   "USR-02": {
-    "scenario": "Given current Users table, when pressing View, record absent detail handler; no passing profile-detail test until a future requirement and implementation are approved.",
-    "environment": "manual-review",
-    "mode": "Out of current implemented scope"
+    "scenario": "User View opens a read-only native profile dialog with name/ID/update-time fallbacks. Escape/Close restores focus; View customer orders opens an exact-customer search. Verify failed profile reads/retry and real permissions separately; email/edit/disable/delete remain unsupported.",
+    "environment": "isolated-staging",
+    "mode": "Current reviewed profile dialog; historical G-20 retained separately"
   },
   "ANL-02": {
     "scenario": "Given orders in all five statuses, when admin opens analytics, then each pipeline count and rounded percent matches loaded data; rounded percentages need not sum to 100.",
@@ -178,9 +176,9 @@
     "environment": "public-read-only"
   },
   "CNT-03": {
-    "scenario": "Given visitor, when reading home, guest checkout, privacy and terms, then demo/no-charge/no-shipment/data claims agree; record generic shipping/return or confirmation conflicts as G-22.",
+    "scenario": "Check current demo/no-charge/no-shipment/no-support and data/assistant-memory/provider disclosures across home/detail/checkout/history/privacy/terms/footer. Historical fulfillment-copy findings stay archived; remaining attribution/license inconsistency is G-22.",
     "environment": "public-read-only",
-    "mode": "Baseline content review plus gap G-22"
+    "mode": "Current demo-content review; attribution gap G-22 remains"
   },
   "CNT-04": {
     "scenario": "Confirm countdown is not mounted and exclude it from current UI acceptance. If owner enables it, use controlled clock for local 31 Dec 2026 boundary/zero clamp without a discount claim.",
@@ -224,5 +222,37 @@
   "NFR-07": {
     "scenario": "Given public demo copy and staging analytics/stock/mail data, when inspecting claims and concurrent order/notification paths, then claims/metric population match capability and no false success or unsafe state appears.",
     "environment": "isolated-staging"
+  },
+  "AOR-04": {
+    "scenario": "Verify forward and terminal status transitions, repeated status idempotency, pre-shipment cancellation restoring each configured variant once, rollback on incompatible options, deleted and historical rows, and real independent-session races.",
+    "environment": "isolated-staging"
+  },
+  "RST-06": {
+    "scenario": "Use isolated SQL and fake-provider fixtures for durable exact payloads, stable provider keys, retry/backoff/lease recovery, permanent errors and 23-hour parking; verify scheduler credentials, separate admin authority and live sandbox delivery only in configured staging.",
+    "environment": "isolated-staging"
+  },
+  "PDP-10": {
+    "scenario": "Audit all 280 originals and 243 versioned portrait replacements; preserve high-resolution/external URLs and saved bag records, inspect mobile/desktop actual and synthetic photos, provenance, hover, failures and manifest integrity.",
+    "environment": "website-repository-ci"
+  },
+  "OPS-11": {
+    "scenario": "Inspect read-only storefront audit output and its documented scope without promoting a structural or fixture pass to full acceptance.",
+    "environment": "website-repository-ci"
+  },
+  "AST-11": {
+    "scenario": "Use the native assistant browser fixtures to verify reduced motion, inert close and immediate reopen, 320/390px layout, simulated keyboard viewport, multiline composer and reader-follow/resume behavior. Keep actual mobile keyboard and assistive-technology acceptance separate.",
+    "environment": "website-repository-ci"
+  },
+  "AST-12": {
+    "scenario": "With injected current catalog facts, verify bounded material, care negation, fit, measurements, features and fresh ordinal answers; reject instruction-bearing fields, qualify name hints and retain Not listed for absent evidence. Real provider topic selection and catalog truth remain separate.",
+    "environment": "website-repository-ci"
+  },
+  "AST-13": {
+    "scenario": "Use native injected tools and browser fixtures for two/three unique products, duplicate/removed rejection, fresh ordered prices, INR/USD precision, missing attributes, size/budget rows and accessible mobile comparison navigation. Do not infer quality or comfort rankings.",
+    "environment": "website-repository-ci"
+  },
+  "AST-14": {
+    "scenario": "Use native preference/parser/API and browser fixtures to verify refinements, denominations, exclusions/null removals, family switches, validation, bounded-history retention, clearing/retry and identity/reset cleanup without persistent profiling. Real provider interpretation remains unverified.",
+    "environment": "website-repository-ci"
   }
 }

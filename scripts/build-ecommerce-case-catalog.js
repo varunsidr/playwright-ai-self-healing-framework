@@ -2,7 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { combineReviewedUpdates } = require('./reviewed-requirement-updates');
+const { createHash } = require('node:crypto');
 
 const root = path.resolve(__dirname, '..');
 const inputDir = path.join(root, 'specs', 'ecommerce', 'requirements');
@@ -20,11 +20,19 @@ const coreDesigns = JSON.parse(
 const guideEnvironments = JSON.parse(
   fs.readFileSync(path.join(inputDir, 'guide-case-environments.json'), 'utf8'),
 );
-const updates = combineReviewedUpdates(
-  ['requirement-updates.json', 'analytics-requirement-updates.json'].map((file) =>
-    JSON.parse(fs.readFileSync(path.join(inputDir, file), 'utf8')),
-  ),
-);
+const baseline = JSON.parse(fs.readFileSync(path.join(inputDir, 'source-baseline.json'), 'utf8'));
+if (baseline.schemaVersion !== 1 || !/^[a-f0-9]{40}$/.test(baseline.sourceRevision))
+  throw new Error('Invalid requirements snapshot provenance');
+for (const document of baseline.documents) {
+  if (
+    path.basename(document.file) !== document.file ||
+    !document.url.includes('/blob/' + baseline.sourceRevision + '/docs/') ||
+    createHash('sha256')
+      .update(fs.readFileSync(path.join(inputDir, document.file)))
+      .digest('hex') !== document.sha256
+  )
+    throw new Error('Requirements snapshot differs from reviewed source: ' + document.file);
+}
 
 const requirements = new Map();
 for (const row of sourceRows) {
@@ -33,16 +41,6 @@ for (const row of sourceRows) {
     throw new Error(`Invalid or duplicate requirement ID: ${id}`);
   }
   requirements.set(id, row);
-}
-const revisedRequirementIds = new Map();
-for (const update of updates.requirements) {
-  const row = requirements.get(update.id);
-  if (!row || revisedRequirementIds.has(update.id) || !update.acceptance || !update.qaFocus) {
-    throw new Error(`Invalid or duplicate reviewed requirement update: ${update.id}`);
-  }
-  row.requirement_and_acceptance = update.acceptance;
-  row.qa_focus = update.qaFocus;
-  revisedRequirementIds.set(update.id, update.sourceRevision);
 }
 
 const cases = [];
@@ -53,6 +51,8 @@ for (const line of guide.split(/\r?\n/)) {
     .split('|')
     .slice(1, -1)
     .map((cell) => cell.trim());
+  // Presentation examples use a separate three-column table, not requirement-linked seeds.
+  if (cells.length === 3 && cells[1].startsWith('AST-PRESENTATION:')) continue;
   if (cells.length !== 4) throw new Error(`Unexpected guide case row: ${line}`);
   const [id, requirementText, scenario, mode] = cells;
   addCase({
@@ -70,7 +70,20 @@ for (const id of Object.keys(guideEnvironments)) {
 }
 
 for (const item of additionalCases) {
+  if (caseIds.has(item.id)) continue; // The current guide now owns some earlier curated seeds.
   addCase({ ...item, designStatus: 'curated' });
+}
+
+// Retain stable curated case IDs when newer guide seeds cover the same requirement.
+for (const [id, design] of Object.entries(coreDesigns)) {
+  if (!requirements.has(id)) throw new Error(`Core design references unknown requirement ${id}`);
+  addCase({
+    id: `TC-${id}-CORE`,
+    requirementIds: [id],
+    ...design,
+    mode: design.mode || 'Current reviewed contract; integration acceptance remains separate',
+    designStatus: 'curated',
+  });
 }
 
 for (const row of sourceRows) {
@@ -88,35 +101,6 @@ for (const row of sourceRows) {
     environment: design?.environment || 'unassigned',
     designStatus: design ? 'curated' : 'needs-detailed-steps',
   });
-}
-
-for (const id of Object.keys(coreDesigns)) {
-  if (!requirements.has(id)) throw new Error(`Core design references unknown requirement ${id}`);
-  if (!cases.some((item) => item.id === `TC-${id}-CORE`)) {
-    throw new Error(`Core design duplicates a guide or additional case for ${id}`);
-  }
-}
-
-const revisedCaseIds = new Set();
-for (const update of updates.cases) {
-  const item = cases.find((entry) => entry.id === update.id);
-  if (
-    !item ||
-    revisedCaseIds.has(update.id) ||
-    !update.scenario ||
-    !update.mode ||
-    !item.requirementIds.some(
-      (id) =>
-        update.reviewedRequirementIds.includes(id) &&
-        revisedRequirementIds.get(id) === update.sourceRevision,
-    )
-  ) {
-    throw new Error(`Invalid or duplicate reviewed case update: ${update.id}`);
-  }
-  item.scenario = update.scenario;
-  item.mode = update.mode;
-  item.sourceRevision = update.sourceRevision;
-  revisedCaseIds.add(update.id);
 }
 
 for (const [id, link] of Object.entries(links)) {
@@ -152,9 +136,7 @@ const requirementList = sourceRows.map((row) => ({
   implementationState: row.implementation_state,
   acceptance: row.requirement_and_acceptance,
   qaFocus: row.qa_focus,
-  ...(revisedRequirementIds.has(row.requirement_id)
-    ? { sourceRevision: revisedRequirementIds.get(row.requirement_id) }
-    : {}),
+  sourceRevision: baseline.sourceRevision,
   knownGapIds: row.known_gap_ids ? row.known_gap_ids.split(/\s*,\s*/).filter(Boolean) : [],
   caseIds: cases
     .filter((item) => item.requirementIds.includes(row.requirement_id))
@@ -162,7 +144,8 @@ const requirementList = sourceRows.map((row) => ({
 }));
 
 const catalog = {
-  source: `Zeouf BRD v1.5 and QA guide snapshot from website commit 481a090; ${updates.source}`,
+  source: baseline.source,
+  sourceRevision: baseline.sourceRevision,
   requirementCount: requirementList.length,
   caseCount: cases.length,
   requirements: requirementList,
@@ -183,7 +166,13 @@ function addCase(item) {
       throw new Error(`Case ${item.id} references unknown requirement ${id}`);
   }
   caseIds.add(item.id);
-  cases.push({ ...item, automationFile: null, automationScope: null, lastEvidence: null });
+  cases.push({
+    ...item,
+    sourceRevision: baseline.sourceRevision,
+    automationFile: null,
+    automationScope: null,
+    lastEvidence: null,
+  });
 }
 
 function parseRequirementReferences(value) {

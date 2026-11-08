@@ -31,7 +31,6 @@ test('TC-STK-002-01 controlled M edit updates the displayed size and aggregate a
   });
   expect(adminWrites(shop, '/api/admin/restock-alerts/notify')[0].body).toEqual({
     productId: admin.products[0].id,
-    size: 'M',
   });
   await page.reload();
   await storefront.openAdminSidebarSection('Stock Management');

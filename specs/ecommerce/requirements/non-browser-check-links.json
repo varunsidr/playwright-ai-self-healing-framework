@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "websiteRevision": "843646b7d0c52ef5149f7905b19ec5d87fe5054b",
+  "websiteRevision": "df94db96826c3226abc77422d2234c7d3db92ea1",
   "runner": "scripts/run-ecommerce-native.js",
-  "evidence": "test-results/native-remaining-final/result.json",
-  "review": "specs/ecommerce/25-native-and-staging-completion.md",
+  "evidence": "test-results/scenarios-2026-11-05/native/result.json",
+  "review": "specs/ecommerce/27-reviewed-baseline-scenarios.md",
   "checks": [
     {
       "id": "NATIVE-DOCS",
@@ -22,20 +22,91 @@
     },
     {
       "id": "NATIVE-PURCHASE-SQL",
-      "caseIds": ["TC-CHK-007-02", "TC-CHK-009-01", "TC-CHK-009-02", "TC-STK-004-01"],
-      "scope": "Partial SQL evidence: PGlite transaction rollback, option rejection, replay/conflict and atomic size/catalog edits. Single connection, not real API/RLS/deployment or multi-session concurrency acceptance."
+      "caseIds": [
+        "TC-CHK-007-02",
+        "TC-CHK-009-01",
+        "TC-CHK-009-02",
+        "TC-STK-004-01",
+        "TC-CHK-009-03",
+        "TC-PRD-005-01",
+        "TC-PRD-006-01",
+        "TC-OPS-010-01",
+        "TC-AOR-04-CORE"
+      ],
+      "scope": "Pinned single-connection PGlite regressions for purchase rollback, options, replay/conflict/customer-key isolation, atomic catalog edits, deletion history and order lifecycle/cancellation restoration. No real API, independent-session concurrency, deployed roles/migrations or complete case acceptance."
+    },
+    {
+      "id": "NATIVE-ASSISTANT",
+      "caseIds": [
+        "TC-AST-001-01",
+        "TC-AST-002-01",
+        "TC-AST-003-01",
+        "TC-AST-006-01",
+        "TC-AST-008-01",
+        "TC-AST-009-01",
+        "TC-AST-010-01",
+        "TC-AST-002-03",
+        "TC-AST-11-CORE",
+        "TC-AST-12-CORE",
+        "TC-AST-13-CORE",
+        "TC-AST-14-CORE"
+      ],
+      "stages": ["native-assistant"],
+      "scope": "Pinned injected tool/API/SDK and intercepted browser fixtures only, including factual answers, comparisons, preferences and motion. Extra raw-history/body/model/decimal boundaries, real provider intent, ingress cancellation and concurrent stock acceptance remain open. Inspect exact executed native test titles; no live model call."
+    },
+    {
+      "id": "NATIVE-RESTOCK",
+      "caseIds": ["TC-RST-06-CORE"],
+      "stages": ["restock-sql-tests", "native-ui"],
+      "scope": "Single-connection SQL plus injected worker/provider/authority tests: durable payloads, stable provider keys, lease/retry/parking and failure feedback. No deployed scheduler, real delivery or independent-session concurrency acceptance."
+    },
+    {
+      "id": "NATIVE-PHOTOS",
+      "caseIds": ["TC-PDP-10-CORE"],
+      "stages": ["product-photo-audit", "native-ui"],
+      "scope": "Manifest dimensions/checksums/provenance and actual/synthetic photo browser fixtures; business visual approval and live asset deployment remain separate."
+    },
+    {
+      "id": "NATIVE-UI-BASELINE",
+      "caseIds": [
+        "TC-PDP-009-01",
+        "TC-NFR-005-01",
+        "TC-ADM-005-01",
+        "TC-PRD-004-01",
+        "TC-OPS-004-01",
+        "TC-REV-07-CORE",
+        "TC-USR-02-CORE",
+        "TC-ORD-03-CORE"
+      ],
+      "stages": ["native-ui"],
+      "scope": "Existing native tests cover seven-family metadata, one-main landmarks, dashboard summary/failure, selected upload/helper guards, review reply UI, user dialog and order variants. Exact tested branches only; additional file-size/type limits, real roles/storage/persistence and complete acceptance remain open."
+    },
+    {
+      "id": "NATIVE-AUDIT-COLLECTION",
+      "caseIds": ["TC-OPS-11-CORE"],
+      "evidence": "test-results/scenarios-2026-11-05/audit/result.json",
+      "scope": "Native read-only audit collected 15 observations across five routes and three viewports. All HTTP 200, no writes or horizontal overflow; serious color-contrast findings on every page/viewport. Observation collection succeeded; accessibility/performance acceptance has not passed. Mutable deployment revision unknown."
     }
   ],
   "manualReviews": [
     {
       "caseId": "TC-USR-02-CORE",
       "outcome": "known-gap-G-20",
-      "scope": "Pinned source confirms User View has no handler; profile detail remains unimplemented and not accepted."
+      "scope": "Pinned source confirms User View has no handler; profile detail remains unimplemented and not accepted. Historical source finding; current native workflow evidence is registered separately and does not infer live acceptance.",
+      "websiteRevision": "843646b7d0c52ef5149f7905b19ec5d87fe5054b",
+      "historical": true
     },
     {
       "caseId": "TC-CNT-04-CORE",
       "outcome": "excluded-current-ui",
-      "scope": "Pinned source confirms SaleBanner is not imported/mounted; countdown excluded from current UI acceptance, future enablement requires scope confirmation."
+      "scope": "Pinned source confirms SaleBanner is not imported/mounted; countdown excluded from current UI acceptance, future enablement requires scope confirmation. Historical source finding; current native workflow evidence is registered separately and does not infer live acceptance.",
+      "websiteRevision": "843646b7d0c52ef5149f7905b19ec5d87fe5054b",
+      "historical": true
     }
-  ]
+  ],
+  "historicalEvidence": {
+    "websiteRevision": "843646b7d0c52ef5149f7905b19ec5d87fe5054b",
+    "evidence": "test-results/native-remaining-final/result.json",
+    "review": "specs/ecommerce/25-native-and-staging-completion.md"
+  }
 }

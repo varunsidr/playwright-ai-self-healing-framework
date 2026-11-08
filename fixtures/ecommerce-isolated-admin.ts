@@ -188,7 +188,9 @@ export const test = base.extend<{ admin: AdminFixture; adminSession: boolean }>(
         admin.orders = admin.orders.map((order) =>
           order.id === body.id ? { ...order, status: body.status } : order,
         );
-        return reply(route, 'success', { status: 'ok' });
+        return reply(route, 'success', {
+          order: admin.orders.find((order) => order.id === body.id),
+        });
       }
       if (url.pathname === '/api/admin/stock' && method === 'PATCH') {
         record(route);

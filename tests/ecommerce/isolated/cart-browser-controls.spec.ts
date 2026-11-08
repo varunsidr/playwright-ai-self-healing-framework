@@ -1,16 +1,16 @@
-import { blockEcommerceWrites, expect, test } from '../../fixtures/ecommerce-base';
+import { expect } from '../../../fixtures/ecommerce-base';
+import { test } from '../../../fixtures/ecommerce-isolated';
 import {
   fictionalCartVariants,
   seedBrowserCart,
   useInrStorefrontRegion,
-} from '../../fixtures/ecommerce-browser-cart';
+} from '../../../fixtures/ecommerce-browser-cart';
 
 test.describe('Zeouf browser-local cart controls', { tag: ['@ecommerce', '@regression'] }, () => {
   test('TC-CART-03-CORE shows variants and updates quantity, line totals and subtotal @happy', async ({
     context,
     storefront,
   }) => {
-    const attemptedWrites = await blockEcommerceWrites(context);
     await useInrStorefrontRegion(context);
     await seedBrowserCart(context, fictionalCartVariants);
 
@@ -43,14 +43,9 @@ test.describe('Zeouf browser-local cart controls', { tag: ['@ecommerce', '@regre
     await expect(medium).toHaveCount(1);
     await storefront.removeCartLine('M');
     await expect(storefront.emptyCartMessage).toBeVisible();
-    expect(attemptedWrites).toEqual([]);
   });
 
-  test('TC-CART-06-CORE empty bag closes with Start Shopping @happy', async ({
-    context,
-    storefront,
-  }) => {
-    const attemptedWrites = await blockEcommerceWrites(context);
+  test('TC-CART-06-CORE empty bag closes with Start Shopping @happy', async ({ storefront }) => {
     await storefront.openHome();
     await storefront.openCart();
     await expect(storefront.emptyCartMessage).toBeVisible();
@@ -59,14 +54,12 @@ test.describe('Zeouf browser-local cart controls', { tag: ['@ecommerce', '@regre
     await storefront.startShoppingButton.click();
     await expect(storefront.cartPanel).toHaveAttribute('data-state', 'closed');
     await storefront.expectUrl(/\/$/);
-    expect(attemptedWrites).toEqual([]);
   });
 
   test('TC-CART-06-CORE nonempty bag closes and navigates to checkout @happy', async ({
     context,
     storefront,
   }) => {
-    const attemptedWrites = await blockEcommerceWrites(context);
     await useInrStorefrontRegion(context);
     await seedBrowserCart(context, fictionalCartVariants.slice(0, 1));
     await storefront.openHome();
@@ -77,7 +70,6 @@ test.describe('Zeouf browser-local cart controls', { tag: ['@ecommerce', '@regre
     await storefront.expectUrl(/\/checkout$/);
     await expect(storefront.cartPanel).toHaveAttribute('data-state', 'closed');
     await expect(storefront.checkoutHeading).toBeVisible();
-    await expect(storefront.checkoutSignInMessage).toBeVisible();
-    expect(attemptedWrites).toEqual([]);
+    await expect(storefront.checkoutSignInMessage).toHaveCount(0);
   });
 });

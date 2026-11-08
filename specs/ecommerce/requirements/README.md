@@ -1,20 +1,21 @@
 # Zeouf requirements snapshot
 
-Native website checks and manual source observations are registered separately in `non-browser-check-links.json`; see [plan 25](../25-native-and-staging-completion.md). They do not alter browser check IDs, inflate browser totals or promote complete requirement acceptance. Run them with `npm run test:ecommerce:native -- <clean-pinned-website-checkout> <new-evidence-directory>` and inspect the resulting native report.
+The current reviewed baseline is **BRD v2.0 at `df94db96826c3226abc77422d2234c7d3db92ea1`**, imported on 2 November 2026. It contains **137 requirements and 140 cases**, including 32 cases added since the October baseline. See [plan 27](../27-reviewed-baseline-scenarios.md) for current execution, new-case coverage and remaining work. Native website checks and dated source findings remain separately registered in `non-browser-check-links.json`; they do not inflate browser totals or establish full requirement acceptance.
 
-These files are a read-only input snapshot copied from the separate Zeouf website repository at commit `481a090` on 2026-10-06:
+These files are read-only inputs from that reviewed website revision:
 
-- `BRD.md` (version 1.5, draft for business and QA review)
+- `BRD.md` (version 2.0; source review is not stakeholder sign-off)
 - `QA_TESTING_GUIDE.md`
 - `REQUIREMENTS_TRACEABILITY.csv`
+- `requirements-reviews.json` and `requirements-source-snapshot.json`
 
 The website repository owns these documents. Refresh this snapshot from a reviewed website revision before claiming coverage against a new build. Preserve requirement IDs and record the revision used for every generated case and execution result. The copied CSV is source input, not this framework's live execution report; do not overwrite it with unverified pass claims.
 
-`requirement-updates.json` records a scoped CAT-07 revision from the website's BRD v1.9 and QA guide at commit `243b37ddf2a7f1eb46c3cf2f369daaa2088a4ebb`, including its 2026-10-09 documentation review and exact source links. The current count contract is `Showing {visible} of {matching} products`, including every pagination batch and filtered result. The generator applies only this requirement and its linked guide scenario over the original snapshot, retaining their IDs and explicit revision provenance. The other scoped import is described below; remaining requirements retain the original baseline. This is not a full requirements refresh or a claim of business sign-off.
+`source-baseline.json` pins the full revision, source links and SHA-256 hashes of all five inputs. Catalog generation rejects document drift. The October baseline and its evidence remain in `history/2026-10-26/`; historical CAT-07 and analytics overlay files remain for their dated provenance and regression tests. The current generator uses the complete v2.0 snapshot rather than applying those overlays to an older baseline.
 
-`analytics-requirement-updates.json` imports only ANL-01, ANL-04 and ANL-05 from reviewed website commit `843646b7d0c52ef5149f7905b19ec5d87fe5054b`, with its 2026-10-10 documentation review and exact source links. Active metrics/top units exclude cancelled orders; customer signal includes approved reviews only. Each requirement and revised scenario retains its own source revision. Duplicate IDs or missing/mismatched provenance fail generation. The original source snapshots and CAT-07 provenance remain intact. This documentation review is not stakeholder sign-off or live test execution.
+The reviewed count contract remains `Showing {visible} of {matching} products`. Active order metrics exclude cancelled orders and customer signal uses approved reviews. Source review alone does not verify these behaviors on the deployed website.
 
-Run `npm run cases:zeouf:catalog` to rebuild `case-catalog.json` and `CASE_CATALOG.md` from the snapshot, the QA guide's seeded cases, `guide-case-environments.json`, `additional-cases.json`, `core-case-designs.json`, and `case-links.json`. The generated catalog contains first-pass case scenarios and execution environments for all 116 requirements. The 54 core designs are human-curated additions to the guide's seeded cases. Every scenario still needs tester review against the BRD and may need more boundary cases, fixture data, and detailed execution steps. `case-links.json` records only reviewed automation links and the scope of observed evidence; it does not promote partial checks into full requirement acceptance.
+Run `npm run cases:zeouf:catalog` to rebuild `case-catalog.json` and `CASE_CATALOG.md` from the snapshot, guide cases, environment/design overlays and `case-links.json`. The current catalog has 67 guide cases and 73 curated cases, with explicit environments for all 140. Stable earlier core IDs remain when the new guide adds a case for the same requirement. Presentation examples are not requirement-linked cases. Cases still need detailed tester review and may need additional boundaries. Automation links record scoped evidence, not complete acceptance.
 
 An automation link has a primary `automationFile` and may list `additionalAutomationFiles` when several specs cover different parts of the same case. The generator validates every referenced path and includes all linked files in both catalog outputs. Record partial scope and current failures in `automationScope` and `lastEvidence`; retaining an older passing result alone would hide a regression.
 

@@ -34,7 +34,7 @@ test('TC-AOR-02-CORE empty order response has the no-orders state', async ({
   await expect(storefront.visibleText('No orders match the current filters.')).toHaveCount(0);
 });
 
-test('TC-AOR-004-01 five status controls send explicit requests and reflect local successful responses', async ({
+test('TC-AOR-004-01 forward status controls reflect responses and delivered orders are terminal', async ({
   storefront,
   admin,
   shop,
@@ -45,23 +45,23 @@ test('TC-AOR-004-01 five status controls send explicit requests and reflect loca
   await expect(storefront.adminOrderStatusOptions()).toHaveText([
     'pending',
     'processing',
-    'shipped',
-    'delivered',
     'cancelled',
   ]);
-  for (const status of ['processing', 'shipped', 'delivered', 'cancelled', 'pending']) {
+  for (const status of ['processing', 'shipped', 'delivered']) {
     await storefront.adminOrderStatus().selectOption(status);
     await expect
       .poll(() => adminWrites(shop, '/api/admin/orders').length)
-      .toBe(['processing', 'shipped', 'delivered', 'cancelled', 'pending'].indexOf(status) + 1);
+      .toBe(['processing', 'shipped', 'delivered'].indexOf(status) + 1);
     await expect(storefront.adminOrderStatus()).toHaveValue(status);
     expect(adminWrites(shop, '/api/admin/orders').slice(-1)[0].body).toEqual({
       id: order.id,
       status,
     });
   }
+  await expect(storefront.adminOrderStatusOptions()).toHaveText(['delivered']);
+  await expect(storefront.adminOrderStatus()).toBeDisabled();
   await storefront.adminOrderClose().click();
-  await expect(storefront.adminRowCells(order.id.slice(0, 8)).nth(3)).toHaveText('pending');
+  await expect(storefront.adminRowCells(order.id.slice(0, 8)).nth(3)).toHaveText('delivered');
 });
 
 test('TC-AOR-003-01 failed status response keeps the displayed pending order', async ({
@@ -74,7 +74,7 @@ test('TC-AOR-003-01 failed status response keeps the displayed pending order', a
   await storefront.openRoute('/admin/orders');
   await storefront.adminOrderView(order.id.slice(0, 8)).click();
   await storefront.adminOrderStatus().selectOption('processing');
-  await expect(storefront.visibleText('Failed to update order status')).toBeVisible();
+  await expect(storefront.adminDialogAlert()).toHaveText('Controlled admin service unavailable');
   await expect(storefront.adminOrderStatus()).toHaveValue('pending');
   expect(adminWrites(shop, '/api/admin/orders')).toHaveLength(1);
   await storefront.adminOrderClose().click();
@@ -128,7 +128,7 @@ test('TC-SET-01-CORE settings render identity and catalog counts without save co
   await storefront.openRoute('/admin/settings');
   await expect(storefront.visibleText('zeouf Luxury Fashion & Lifestyle')).toBeVisible();
   await expect(storefront.visibleText('3 products across 2 categories')).toBeVisible();
-  await expect(storefront.visibleText('Supabase connection configured')).toBeVisible();
+  await expect(storefront.visibleText('Protected catalog request succeeded.')).toBeVisible();
   await expect(storefront.adminMainButtons()).toHaveCount(0);
   expect(admin.reads.some((url) => url.pathname === '/api/admin/products')).toBe(true);
   expect(shop.calls).toEqual([]);

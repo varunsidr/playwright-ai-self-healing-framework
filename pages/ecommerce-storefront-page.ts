@@ -384,7 +384,55 @@ export class EcommerceStorefrontPage {
   }
 
   adminOrderStatus() {
-    return this.page.getByRole('main').getByRole('combobox').last();
+    return this.page.getByRole('dialog').getByRole('combobox', { name: 'Order status' });
+  }
+
+  adminDialogAlert() {
+    return this.page.getByRole('dialog').getByRole('alert');
+  }
+
+  adminReviewFilter() {
+    return this.page.getByLabel('Review status');
+  }
+
+  adminReviewCards() {
+    return this.page.getByRole('article');
+  }
+
+  adminAction(name: string | RegExp) {
+    return this.page.getByRole('button', { name, exact: typeof name === 'string' });
+  }
+
+  adminAlerts() {
+    return this.page.getByRole('main').getByRole('alert');
+  }
+
+  adminHeading(name: string) {
+    return this.page.getByRole('main').getByRole('heading', { name, exact: true });
+  }
+
+  adminActiveOrderValue() {
+    return this.page.getByText('Active demo order value', { exact: true }).locator('..');
+  }
+
+  recoveryField(name: 'New password' | 'Confirm new password' | 'Email address') {
+    return this.page.getByLabel(name, { exact: true });
+  }
+
+  recoveryUpdateButton() {
+    return this.page.getByRole('button', { name: 'Update password', exact: true });
+  }
+
+  recoveryLinkButton() {
+    return this.page.getByRole('button', { name: 'Send a new recovery link', exact: true });
+  }
+
+  alertWithText(text: string) {
+    return this.page.getByRole('alert').filter({ hasText: text });
+  }
+
+  statusWithText(text: string) {
+    return this.page.getByRole('status').filter({ hasText: text });
   }
 
   adminOrderStatusOptions() {
@@ -392,7 +440,7 @@ export class EcommerceStorefrontPage {
   }
 
   adminOrderClose() {
-    return this.page.getByRole('main').getByRole('button', { name: 'Close', exact: true });
+    return this.page.getByRole('dialog').getByRole('button', { name: 'Close', exact: true });
   }
 
   adminSection(title: string) {
@@ -855,26 +903,53 @@ export class EcommerceStorefrontPage {
 
   async openCart() {
     await this.cartToggle.click();
+    await expect(this.cartPanel).toHaveAttribute('data-state', 'open');
+    await expect(this.cartPanel).toBeInViewport();
   }
 
   cartLineForSize(size: string) {
     return this.cartLines.filter({ hasText: `Size: ${size}` });
   }
 
-  cartLineImage(size: string) {
-    return this.cartLineForSize(size).getByRole('img', { name: 'Playwright Browser Cart Item' });
-  }
-
-  cartLineQuantity(size: string) {
+  cartVariantQuantity(size: string, color: string) {
     return this.cartLineForSize(size)
-      .getByRole('button', { name: 'Decrease quantity of Playwright Browser Cart Item' })
+      .filter({ hasText: `Color: ${color}` })
+      .getByRole('button', {
+        name: 'Decrease quantity of Playwright Browser Cart Item',
+        exact: true,
+      })
       .locator('..')
       .locator('span');
   }
 
-  async changeCartQuantity(size: string, direction: 'Increase' | 'Decrease') {
+  async increaseCartVariant(size: string, color: string) {
     await this.cartLineForSize(size)
-      .getByRole('button', { name: `${direction} quantity of Playwright Browser Cart Item` })
+      .filter({ hasText: `Color: ${color}` })
+      .getByRole('button', {
+        name: 'Increase quantity of Playwright Browser Cart Item',
+        exact: true,
+      })
+      .click();
+  }
+
+  cartLineImage(size: string) {
+    return this.cartLineForSize(size).getByRole('img', { name: 'Playwright Browser Cart Item' });
+  }
+
+  cartLineQuantity(size: string, name = 'Playwright Browser Cart Item') {
+    return this.cartLineForSize(size)
+      .getByRole('button', { name: `Decrease quantity of ${name}`, exact: true })
+      .locator('..')
+      .locator('span');
+  }
+
+  async changeCartQuantity(
+    size: string,
+    direction: 'Increase' | 'Decrease',
+    name = 'Playwright Browser Cart Item',
+  ) {
+    await this.cartLineForSize(size)
+      .getByRole('button', { name: `${direction} quantity of ${name}`, exact: true })
       .click();
   }
 

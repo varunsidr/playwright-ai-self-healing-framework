@@ -11,18 +11,34 @@ type BrowserCartItem = {
   quantity: number;
 };
 
+export const browserCartOwnerId = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+export const browserCartKey = (ownerId = browserCartOwnerId) =>
+  'els-cart:' + encodeURIComponent(ownerId);
+
 /** Seed fictional, browser-local cart data once per tab; navigation keeps subsequent edits. */
-export async function seedBrowserCart(context: BrowserContext, items: BrowserCartItem[]) {
-  await seedRawBrowserCart(context, JSON.stringify(items));
+export async function seedBrowserCart(
+  context: BrowserContext,
+  items: BrowserCartItem[],
+  ownerId = browserCartOwnerId,
+) {
+  await seedRawBrowserCart(context, JSON.stringify(items), ownerId);
 }
 
 /** Seed once, so a reload tests application persistence rather than reapplying a fixture. */
-export async function seedRawBrowserCart(context: BrowserContext, value: string) {
-  await context.addInitScript((savedValue) => {
-    if (window.sessionStorage.getItem('zeouf-playwright-cart-seeded')) return;
-    window.localStorage.setItem('els-cart', savedValue);
-    window.sessionStorage.setItem('zeouf-playwright-cart-seeded', '1');
-  }, value);
+export async function seedRawBrowserCart(
+  context: BrowserContext,
+  value: string,
+  ownerId: string | null = browserCartOwnerId,
+) {
+  await context.addInitScript(
+    ({ savedValue, key }) => {
+      const marker = 'zeouf-playwright-cart-seeded:' + key;
+      if (window.sessionStorage.getItem(marker)) return;
+      window.localStorage.setItem(key, savedValue);
+      window.sessionStorage.setItem(marker, '1');
+    },
+    { savedValue: value, key: ownerId === null ? 'els-cart' : browserCartKey(ownerId) },
+  );
 }
 
 /** Limit fault injection to the cart key; session/auth storage continues normally. */
@@ -32,13 +48,13 @@ export async function failBrowserCartStorage(
   initialCart?: string,
 ) {
   await context.addInitScript(
-    ({ fault, savedCart }) => {
+    ({ fault, savedCart, key: cartKey }) => {
       // Seed and patch within one script; ordering among separate init scripts is unspecified.
       if (
         savedCart !== undefined &&
         !window.sessionStorage.getItem('zeouf-playwright-cart-seeded')
       ) {
-        window.localStorage.setItem('els-cart', savedCart);
+        window.localStorage.setItem(cartKey, savedCart);
         window.sessionStorage.setItem('zeouf-playwright-cart-seeded', '1');
       }
       const method = fault === 'read' ? 'getItem' : 'setItem';
@@ -46,7 +62,7 @@ export async function failBrowserCartStorage(
       Object.defineProperty(Storage.prototype, method, {
         configurable: true,
         value: function (this: Storage, key: string, value?: string) {
-          if (this === window.localStorage && key === 'els-cart') {
+          if (this === window.localStorage && key === cartKey) {
             throw new DOMException(
               'Controlled cart storage failure',
               fault === 'read' ? 'SecurityError' : 'QuotaExceededError',
@@ -56,7 +72,7 @@ export async function failBrowserCartStorage(
         },
       });
     },
-    { fault: failure, savedCart: initialCart },
+    { fault: failure, savedCart: initialCart, key: browserCartKey() },
   );
 }
 
