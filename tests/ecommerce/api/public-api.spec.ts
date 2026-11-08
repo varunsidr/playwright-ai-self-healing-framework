@@ -37,6 +37,6 @@ test.describe('Zeouf public API contracts', { tag: ['@ecommerce', '@api', '@smok
 
     expect(response.status()).toBe(400);
     expect(response.headers()['content-type']).toMatch(/application\/json/i);
-    expect(await response.json()).toEqual({ error: 'productId required' });
+    expect(await response.json()).toEqual({ error: 'Valid productId required' });
   });
 });
