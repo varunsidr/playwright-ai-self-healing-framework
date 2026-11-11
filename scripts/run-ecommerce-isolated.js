@@ -61,6 +61,21 @@ async function main(args = process.argv.slice(2)) {
     const productsFile = path.join(output, 'products.json');
     fs.writeFileSync(productsFile, JSON.stringify(selected, null, 2) + '\n');
     await runtime.install(website, output, 'website');
+    const contracts = await runtime.run(
+      process.execPath,
+      [
+        path.join(root, 'scripts/run-ecommerce-contracts.js'),
+        website,
+        path.join(output, 'contracts'),
+      ],
+      root,
+      path.join(output, 'contracts-runner.log'),
+    );
+    if (contracts.code !== 0)
+      throw new Error('Local checkout/review contracts failed; inspect contracts/contracts.log.');
+    result.contracts = JSON.parse(
+      fs.readFileSync(path.join(output, 'contracts/result.json'), 'utf8'),
+    );
     await runtime.buildWebsite(website, output, 'website');
     server = await runtime.startWebsite(website, output, 'website');
     const reportFile = path.join(output, 'results.json');
@@ -160,6 +175,7 @@ async function main(args = process.argv.slice(2)) {
     console.error(error.message);
     const failedLog = [
       'website-install.log',
+      'contracts-runner.log',
       'website-lint.log',
       'website-typecheck.log',
       'website-build.log',

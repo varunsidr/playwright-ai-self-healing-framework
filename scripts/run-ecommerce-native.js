@@ -11,7 +11,7 @@ const { createHash } = require('node:crypto');
 const runtime = require('./ecommerce-repair/runtime');
 const { collectChecks, checkOutcome } = require('./build-ecommerce-monitoring');
 const root = path.resolve(__dirname, '..');
-const revision = 'df94db96826c3226abc77422d2234c7d3db92ea1';
+const revision = require('./ecommerce-project').websiteRevision;
 const hash = (value) => createHash('sha256').update(value).digest('hex');
 
 /** Extend the shared secret filter with database/Redis settings this runner must not inherit. */
@@ -158,6 +158,15 @@ async function main(args = process.argv.slice(2)) {
       '--no-fund',
     ]);
     if (install.code !== 0) throw new Error('Native dependency installation failed');
+    const contracts = await execute('framework-route-contracts', process.execPath, [
+      path.join(root, 'scripts/run-ecommerce-contracts.js'),
+      website,
+      path.join(output, 'contracts'),
+    ]);
+    if (contracts.code !== 0) throw new Error('Local checkout/review contracts failed');
+    contracts.stats = JSON.parse(
+      fs.readFileSync(path.join(output, 'contracts/result.json'), 'utf8'),
+    ).stats;
     const npm = (name, script) =>
       execute(name, process.execPath, [runtime.npmCli(), 'run', script]);
     // Check both before and after sync; the final source hash comparison also detects drift.
@@ -282,6 +291,30 @@ async function main(args = process.argv.slice(2)) {
         stages: ['restock-sql-tests', 'native-ui'],
         scope:
           'Native SQL and local fake-provider delivery regressions; no real inbox, deployed scheduler or provider delivery acceptance.',
+      },
+      ...['TC-CHK-003-01', 'TC-CHK-009-04', 'TC-REV-004-01', 'TC-REV-004-02'].map((caseId) => ({
+        caseId,
+        stages: ['framework-route-contracts'],
+        scope:
+          'Actual pinned handlers with fictional auth/storage/RPCs and real in-memory PostgreSQL review policies. No hosted API, independent-session race or applied Supabase acceptance.',
+      })),
+      ...['TC-RST-002-01', 'TC-RST-004-01'].map((caseId) => ({
+        caseId,
+        stages: ['restock-sql-tests'],
+        scope:
+          'Existing exact-tuple subscription, stock transition, queue/lease and stale-worker SQL assertions. Single connection; no concurrent-session or email delivery acceptance.',
+      })),
+      {
+        caseId: 'TC-OPS-009-01',
+        stages: ['purchase-sql-tests'],
+        scope:
+          'Existing catalog inspector query and permission-regression assertions in isolated PostgreSQL; full deployed security inspector remains pending.',
+      },
+      {
+        caseId: 'TC-NFR-07-CORE',
+        stages: ['native-ui'],
+        scope:
+          'Existing dashboard demo-value, cancelled-order, approved-rating and unavailable-data assertions. Real delivery, permissions and concurrency remain pending.',
       },
       {
         caseId: 'TC-PDP-10-CORE',

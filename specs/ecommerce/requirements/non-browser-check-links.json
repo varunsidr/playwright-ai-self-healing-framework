@@ -2,9 +2,16 @@
   "schemaVersion": 1,
   "websiteRevision": "df94db96826c3226abc77422d2234c7d3db92ea1",
   "runner": "scripts/run-ecommerce-native.js",
-  "evidence": "test-results/scenarios-2026-11-05/native/result.json",
-  "review": "specs/ecommerce/27-reviewed-baseline-scenarios.md",
+  "evidence": "test-results/remaining-coverage-2026-11-09/native-final/result.json",
+  "review": "specs/ecommerce/28-local-contract-completion.md",
   "checks": [
+    {
+      "id": "LOCAL-SUPABASE-CONCURRENCY",
+      "caseIds": ["TC-CHK-007-01", "TC-STK-004-02"],
+      "runner": "scripts/run-ecommerce-integration.js",
+      "evidence": "test-results/framework-completion-2026-11-09/integration-initial/result.json",
+      "scope": "Pinned production checkout API against a unique disposable local Supabase project, real Auth tokens and independent PostgreSQL connections. Last-unit purchases, identical-attempt replay, crossed product orders and stock-edit/purchase races verify persisted orders, rollback and stock aggregates. No frontend login-to-checkout, hosted deployment, distributed limiter or complete case acceptance."
+    },
     {
       "id": "NATIVE-DOCS",
       "caseIds": ["TC-OPS-06-CORE"],
@@ -31,9 +38,10 @@
         "TC-PRD-005-01",
         "TC-PRD-006-01",
         "TC-OPS-010-01",
+        "TC-OPS-009-01",
         "TC-AOR-04-CORE"
       ],
-      "scope": "Pinned single-connection PGlite regressions for purchase rollback, options, replay/conflict/customer-key isolation, atomic catalog edits, deletion history and order lifecycle/cancellation restoration. No real API, independent-session concurrency, deployed roles/migrations or complete case acceptance."
+      "scope": "Pinned single-connection PGlite regressions for purchase rollback, options, replay/conflict/customer-key isolation, atomic catalog edits, deletion history, order lifecycle/cancellation restoration and catalog security-inspector query/permission regression. No real API, independent-session concurrency, full applied Supabase inspector or complete case acceptance."
     },
     {
       "id": "NATIVE-ASSISTANT",
@@ -56,9 +64,9 @@
     },
     {
       "id": "NATIVE-RESTOCK",
-      "caseIds": ["TC-RST-06-CORE"],
+      "caseIds": ["TC-RST-06-CORE", "TC-RST-002-01", "TC-RST-004-01"],
       "stages": ["restock-sql-tests", "native-ui"],
-      "scope": "Single-connection SQL plus injected worker/provider/authority tests: durable payloads, stable provider keys, lease/retry/parking and failure feedback. No deployed scheduler, real delivery or independent-session concurrency acceptance."
+      "scope": "Single-connection SQL plus injected worker/provider/authority tests: exact normalized subscription tuples including literal email wildcards, genuine stock transitions, queue eligibility, batches above 100, lease/stale-worker recovery, durable payloads and failure feedback. No deployed scheduler, real delivery or independent-session concurrency acceptance."
     },
     {
       "id": "NATIVE-PHOTOS",
@@ -76,10 +84,19 @@
         "TC-OPS-004-01",
         "TC-REV-07-CORE",
         "TC-USR-02-CORE",
+        "TC-NFR-07-CORE",
         "TC-ORD-03-CORE"
       ],
       "stages": ["native-ui"],
-      "scope": "Existing native tests cover seven-family metadata, one-main landmarks, dashboard summary/failure, selected upload/helper guards, review reply UI, user dialog and order variants. Exact tested branches only; additional file-size/type limits, real roles/storage/persistence and complete acceptance remain open."
+      "scope": "Existing native tests cover seven-family metadata, one-main landmarks, dashboard summary/failure, cancelled demo-value exclusion, approved-only ratings, selected upload/helper guards, review reply UI, user dialog and order variants. Exact tested branches only; additional file-size/type limits, real roles/storage/persistence and complete acceptance remain open."
+    },
+    {
+      "id": "LOCAL-CHECKOUT-REVIEW-CONTRACTS",
+      "caseIds": ["TC-CHK-003-01", "TC-CHK-009-04", "TC-REV-004-01", "TC-REV-004-02"],
+      "runner": "scripts/run-ecommerce-contracts.js",
+      "stages": ["framework-route-contracts"],
+      "evidence": "test-results/remaining-coverage-2026-11-09/native-final/contracts/result.json",
+      "scope": "Actual pinned checkout/review handlers with fictional verified auth, RPCs and storage; quantity/options/key boundaries, normalization, pending-only creation, safe approved-only public query and private image signing. Real in-memory PostgreSQL migrations verify anonymous/author visibility, denied browser inserts/approval/replies/deletes and service moderation. No hosted integration, independent-session concurrency, applied Supabase or delivery acceptance."
     },
     {
       "id": "NATIVE-AUDIT-COLLECTION",

@@ -38,7 +38,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version-file: framework/.nvmrc
       - name: Install the trusted test framework
         working-directory: framework
         run: npm ci --no-audit --no-fund

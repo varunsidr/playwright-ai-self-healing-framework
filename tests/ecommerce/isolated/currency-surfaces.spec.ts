@@ -41,6 +41,7 @@ test('TC-CUR-003-01 controlled USD detail bag and order displays leave admin res
   expect(shop.products.sized.price).toBe(8900);
   await storefront.openProductRoute('/women/' + shop.products.sized.id, shop.products.sized.name);
   await expect(storefront.productDetailPrice()).toHaveText('$223');
+  await storefront.expectCartRestored(1);
   await storefront.openCart();
   await expect(storefront.cartSubtotal).toContainText('$25');
   await storefront.openRoute('/orders');

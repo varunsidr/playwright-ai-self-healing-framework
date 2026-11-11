@@ -15,6 +15,7 @@ test('TC-CART-002-01 restored duplicate variants merge by size and color @happy'
   const blueM = { ...redM, color: 'Blue' };
   await seedBrowserCart(context, [redM, redM, redL, blueM]);
   await storefront.openHome();
+  await storefront.expectCartRestored(4);
   await storefront.openCart();
   await expect(storefront.cartLines).toHaveCount(3);
   await expect(storefront.cartSubtotal).toContainText('₹4,000');

@@ -45,6 +45,7 @@ test.describe('Zeouf browser currency fallback', { tag: ['@ecommerce', '@regress
       await seedBrowserCart(context, [fictionalCartVariants[1]]);
 
       await storefront.openHome();
+      await storefront.expectCartRestored(1);
       await storefront.openCart();
       await expect(storefront.cartSubtotal).toContainText(scenario.expectedSubtotal);
     });

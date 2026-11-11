@@ -10,6 +10,10 @@ This repository is a code-first Playwright TypeScript framework. The Zeouf store
 
 The reviewed v2.0 inventory contains **304 individually mapped checks across 93 of 140 cases**: **128 public-safe and 176 isolated checks** in ecommerce-chromium. Native website tests remain separate; the expanded runner passed 209 checks against pinned df94db9. Scoped automation does not establish complete case acceptance. See [plan 27](specs/ecommerce/27-reviewed-baseline-scenarios.md) for current evidence, all 32 new cases and open provider/staging/quality work.
 
+The [local contract continuation](specs/ecommerce/28-local-contract-completion.md) adds actual-handler and PostgreSQL review-permission checks, now 66 checks including limiter outages. The [10 November increment](docs/framework-improvements-2026-11-10.md) adds real disposable local Supabase integration, bringing scoped executable linkage to 137/140 cases. `tests/ecommerce/contracts/*.test.js` use the controlled source harness; `tests/ecommerce/integration/*.test.js` require the strict loopback target guard. Browser specs retain their fixture and page-object rules. Both isolated CI and native verification execute the contract stage. Hosted acceptance remains separate.
+
+`config/ecommerce-project.json` centralizes the reviewed website identity and Node policy. `playwright.matrix.config.ts` adds selected read-only browser/device journeys. `scripts/record-ecommerce-history.js` retains original first-attempt outcomes; report publication downloads the authoritative run rather than rerunning tests. `scripts/run-ecommerce-agent-benchmark.js` now permits only offline evaluation. `scripts/ecommerce-workspace.js` serves the repository-local case/run/evidence interface with reviewed public-safe execution only; its assets live under `tools/ecommerce-workspace/`.
+
 ## Mental Model For A Selenium Java User
 
 Think of the current stack like this:

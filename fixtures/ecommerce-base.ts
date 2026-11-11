@@ -4,6 +4,7 @@ import { relative, resolve } from 'node:path';
 import { EcommerceStorefrontPage } from '../pages/ecommerce-storefront-page';
 import { isConfirmedEcommerceStaging } from '../utils/ecommerce-staging';
 import { captureEcommerceNavigation } from '../utils/ecommerce-navigation-diagnostics';
+import { isEcommerceBrowserProject } from '../utils/ecommerce-project-policy';
 
 const repositoryRoot = resolve(__dirname, '..');
 const checkManifest: {
@@ -22,7 +23,7 @@ export const test = base.extend<{
   navigationDiagnostics: [
     // An auto fixture runs for every test, without each spec requesting it explicitly.
     async ({ page }, use, testInfo) => {
-      if (testInfo.project.name !== 'ecommerce-chromium') {
+      if (!isEcommerceBrowserProject(testInfo.project.name)) {
         await use();
         return;
       }
@@ -48,7 +49,7 @@ export const test = base.extend<{
     // Block unexpected writes by default; specialized mocks must fulfill their own requests locally.
     async ({ context, baseURL }, use, testInfo) => {
       const guarded =
-        testInfo.project.name === 'ecommerce-chromium' && !isConfirmedEcommerceStaging(baseURL);
+        isEcommerceBrowserProject(testInfo.project.name) && !isConfirmedEcommerceStaging(baseURL);
       const writes = guarded ? await blockEcommerceWrites(context) : [];
       await use();
       expect(writes, 'Read-only ecommerce tests must not attempt server writes').toEqual([]);

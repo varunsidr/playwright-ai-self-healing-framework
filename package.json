@@ -21,6 +21,7 @@
     "demo:ecommerce:repair": "node scripts/evaluate-ecommerce-repair.js",
     "test:repair-evaluation": "node --test scripts/evaluate-ecommerce-repair.test.js",
     "test:ecommerce:api": "playwright test --project=ecommerce-api",
+    "test:ecommerce:contracts": "node scripts/run-ecommerce-contracts.js",
     "cases:zeouf:catalog": "node scripts/build-ecommerce-case-catalog.js && prettier --write specs/ecommerce/requirements/CASE_CATALOG.md specs/ecommerce/requirements/case-catalog.json",
     "perf:ecommerce:smoke": "k6 run performance/ecommerce/smoke.js",
     "perf:ecommerce:baseline": "node scripts/collect-ecommerce-browser-metrics.js",
@@ -39,8 +40,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts --max-warnings=0",
     "format": "prettier --write .",
-    "format:check": "prettier --check \"fixtures/**/*.ts\" \"tests/**/*.ts\" \"utils/**/*.ts\" \"flows/**/*.ts\" \"pages/**/*.ts\" \"scripts/**/*.js\" playwright.config.ts tsconfig.json package.json",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run analyze && npm run test:monitoring && npm run test:repair-evaluation && npm run cases:zeouf:mappings && npm run test:mappings && npm run test:repair-loop && npm run test:requirements-updates && npm run test:native-runner",
+    "format:check": "prettier --check \"fixtures/**/*.ts\" \"tests/**/*.ts\" \"tests/**/*.js\" \"utils/**/*.ts\" \"flows/**/*.ts\" \"pages/**/*.ts\" \"scripts/**/*.js\" \"tools/ecommerce-workspace/*\" playwright.config.ts playwright.matrix.config.ts tsconfig.json package.json",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run analyze && npm run test:monitoring && npm run test:repair-evaluation && npm run cases:zeouf:mappings && npm run test:mappings && npm run test:repair-loop && npm run test:requirements-updates && npm run test:native-runner && npm run test:ci-report && npm run test:history && npm run test:integration-policy && npm run test:workspace",
     "prepare": "husky install",
     "test:ecommerce:read-only": "node scripts/run-ecommerce-read-only.js",
     "cases:zeouf:mappings": "node scripts/check-ecommerce-mappings.js",
@@ -54,7 +55,17 @@
     "prepare:website-integration": "node scripts/ecommerce-repair/prepare-website-integration.js",
     "test:requirements-updates": "node --test scripts/reviewed-requirement-updates.test.js",
     "test:ecommerce:native": "node scripts/run-ecommerce-native.js",
-    "test:native-runner": "node --test scripts/run-ecommerce-native.test.js"
+    "test:native-runner": "node --test scripts/run-ecommerce-native.test.js",
+    "test:ci-report": "node --test scripts/ci-report.test.js",
+    "test:ecommerce:integration": "node scripts/run-ecommerce-integration.js",
+    "test:ecommerce:matrix": "playwright test --config=playwright.matrix.config.ts",
+    "history:ecommerce": "node scripts/record-ecommerce-history.js",
+    "test:history": "node --test scripts/ecommerce-history.test.js",
+    "test:integration-policy": "node --test scripts/ecommerce-integration/target.test.js",
+    "benchmark:ecommerce:offline": "node scripts/run-ecommerce-agent-benchmark.js",
+    "workspace:ecommerce": "node scripts/ecommerce-workspace.js",
+    "test:workspace": "node --test scripts/ecommerce-workspace.test.js",
+    "verify:workspace": "node scripts/verify-ecommerce-workspace.js"
   },
   "keywords": [
     "playwright",
@@ -78,6 +89,14 @@
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.0",
     "lint-staged": "^17.5.1",
-    "prettier": "^3.2.0"
+    "prettier": "^3.2.0",
+    "supabase": "3.1.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "overrides": {
+    "glob@>=9 <14.0.2": "14.0.2",
+    "minimatch@>=7 <11.0.1": "11.0.1"
   }
 }

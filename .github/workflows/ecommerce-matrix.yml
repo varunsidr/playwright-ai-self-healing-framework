@@ -1,0 +1,36 @@
+name: Zeouf Browser Matrix
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ECOMMERCE_BASE_URL: ${{ vars.ECOMMERCE_BASE_URL }}
+      ECOMMERCE_STAGING_CONFIRMED: 'false'
+      PW_OUTPUT_DIR: test-results/browser-matrix/artifacts
+      PW_HTML_REPORT_DIR: test-results/browser-matrix/html
+      PW_JSON_REPORT_PATH: test-results/browser-matrix/results.json
+      PW_JUNIT_REPORT_PATH: test-results/browser-matrix/junit.xml
+      PW_ALLURE_RESULTS_DIR: test-results/browser-matrix/allure
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - name: Check Zeouf in Chromium, Firefox, WebKit and mobile Chromium
+        run: npm run test:ecommerce:matrix
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeouf-browser-matrix
+          path: test-results/browser-matrix/
+          retention-days: 30

@@ -70,18 +70,27 @@ function scanFile(filePath) {
 
   if (isTest) {
     const isEcommerceTest = normalizedPath.includes('/tests/ecommerce/');
-    const expectedFixture = isApiTest
-      ? 'fixtures/api-fixtures'
-      : isEcommerceTest
-        ? 'fixtures/ecommerce-base'
-        : 'fixtures/base';
+    const isContractTest =
+      normalizedPath.includes('/tests/ecommerce/contracts/') && normalizedPath.endsWith('.test.js');
+    const isIntegrationTest =
+      normalizedPath.includes('/tests/ecommerce/integration/') &&
+      normalizedPath.endsWith('.test.js');
+    const expectedFixture = isIntegrationTest
+      ? 'scripts/ecommerce-integration/target'
+      : isContractTest
+        ? 'scripts/ecommerce-contracts/source'
+        : isApiTest
+          ? 'fixtures/api-fixtures'
+          : isEcommerceTest
+            ? 'fixtures/ecommerce-base'
+            : 'fixtures/base';
     if (!source.includes(expectedFixture)) {
       addIssue(
         issues,
         filePath,
         1,
         'tests-import-project-fixture',
-        `Specs should import from \`${expectedFixture}.ts\`.`,
+        `Specs should import from \`${expectedFixture}\`.`,
       );
     }
   }

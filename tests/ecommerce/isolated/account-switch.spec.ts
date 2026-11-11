@@ -80,6 +80,7 @@ test('TC-CART-004-01 sign-out and account switching restore only the current acc
     null,
   );
   await storefront.openHome();
+  await storefront.expectCartRestored(1);
   await storefront.openCart();
   await expect(storefront.cartLines).toContainText(fictionalCartVariants[1].name);
   await expect(storefront.statusWithText('Bags are now saved per account')).toBeVisible();

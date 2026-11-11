@@ -29,6 +29,10 @@ The local customer test installs `shop` automatically before navigation; request
 
 The reviewed v2.0 inventory has 137 requirements and 140 cases. Its 304 `ecommerce-chromium` checks comprise 128 public-safe checks and 176 isolated checks, mapped to 93 cases. Native documentation, SQL, restock, assistant, UI/catalog and photo checks remain in a separate registry. See [plan 27](../specs/ecommerce/27-reviewed-baseline-scenarios.md) for execution results and unresolved integration/provider/quality work. Earlier plans retain their historical counts and failures.
 
+The [local contract continuation](../specs/ecommerce/28-local-contract-completion.md) added 58 checkout/review handler and PostgreSQL permission checks; eight limiter regressions bring the suite to 66. Its Node tests live in `tests/ecommerce/contracts/` and import the controlled source harness. Real local Supabase tests in `tests/ecommerce/integration/` import a strict loopback/disposable-target guard and run separately. Browser/native/local layers now map 137/140 cases; this is scoped coverage, not full acceptance. [Project status](ecommerce-project-status.md) lists the three unmapped cases and acceptance prerequisites.
+
+Use Node 24. `npm run workspace:ecommerce` opens the local case/run/evidence workflow at the printed URL. It displays all cases and can run reviewed public-safe file batches; isolated/native checks retain their own runners. `npm run test:ecommerce:matrix` runs selected read-only journeys across Chromium, Firefox, WebKit and mobile Chromium. See [the improvement report](framework-improvements-2026-11-10.md) for Docker integration, offline repair evaluation and exact scopes.
+
 The [service-boundary spec](../tests/ecommerce/isolated/service-boundaries.spec.ts) requests `shop` to enforce the loopback configuration, then uses `request` to reach real local production handlers. APIRequestContext bypasses browser route mocks and the browser write guard. These checks therefore belong only in the credential-free isolated runner: invalid unsubscribe inputs and missing limiter/service configuration establish their specific denial branches, not real deletion, distributed rate limiting or database acceptance.
 
 Playwright fixture code before `await use(value)` sets up the test. Code after it, usually in `finally`, runs teardown, attaches evidence, and checks unexpected calls. An `{ auto: true }` fixture runs without the spec requesting it by name. Registered route handlers run when the browser makes the matching request.
@@ -51,6 +55,7 @@ This proves the browser's request and response handling. A fulfilled fake checko
 
 1. Require the clean pinned Zeouf revision and a new evidence directory.
 2. Clone into a short temporary path, reject environment files, hash tracked inputs, and install dependencies with a filtered environment.
+   Execute the framework checkout/review contracts against that clean pinned checkout, with separate TAP/source-hash evidence under `contracts/`. The default isolated runner runs the same stage before its website build.
 3. Check documentation, sync it, then check again. Run documentation and in-memory SQL tests; parse their Node TAP totals.
 4. Install native Chromium. Discover and run UI, catalog, and public read-only suites sequentially, each with one worker and zero retries.
 5. Match each browser run to discovery, verify unchanged tracked source, map evidence to case groups, and write `result.json` with stage logs and reports.
@@ -70,6 +75,10 @@ npm run test:ecommerce:isolated -- 'C:/checkouts/zeouf' 'test-results/tester-iso
 
 # Run the pinned website repository's native suites.
 npm run test:ecommerce:native -- 'C:/checkouts/zeouf-pinned' 'test-results/tester-native-01'
+
+# Run only the new handlers and in-memory PostgreSQL review policies.
+# Install the pinned website's lockfile dependencies first; no live service configuration is used.
+npm run test:ecommerce:contracts -- 'C:/checkouts/zeouf-pinned' 'test-results/tester-contracts-01'
 
 # Public allowlist: preserve earlier reports in a new directory for each run.
 $env:PW_OUTPUT_DIR = 'test-results/tester-public-01/artifacts'

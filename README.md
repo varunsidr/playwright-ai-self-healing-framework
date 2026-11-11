@@ -8,8 +8,9 @@ The zeouf fashion storefront is the primary demonstration for its agent-assisted
 
 ## Quick Setup Notes
 
+- Current increment: [verified capabilities and remaining work](docs/framework-improvements-2026-11-10.md). Use Node 24. Start the local case/run/evidence screen with `npm run workspace:ecommerce`.
 - Testers: start with the [Zeouf tester guide](docs/ecommerce-tester-guide.md) for fixture selection, shared helpers, runner steps, and failure evidence.
-- Practice-site browser examples run on Chromium, Firefox, and WebKit; the Zeouf browser suite uses `ecommerce-chromium`.
+- The full Zeouf browser suite uses `ecommerce-chromium`; `npm run test:ecommerce:matrix` adds selected read-only journeys in Firefox, WebKit and mobile Chromium.
 - `playwright-report/` holds the HTML report output.
 - `test-results/` holds traces, screenshots, videos, and other failure artifacts.
 - New specs should import `test` and `expect` from their project fixture: `fixtures/ecommerce-base.ts` for Zeouf, `fixtures/api-fixtures.ts` for API tests, or `fixtures/base.ts` for practice-site examples.
@@ -152,6 +153,8 @@ For Zeouf API and performance commands, see [Zeouf API and performance checks](d
 
 The [Zeouf case catalog](specs/ecommerce/requirements/CASE_CATALOG.md) maps the current BRD and QA-guide snapshot to first-pass test cases; [automation status](specs/ecommerce/requirements/AUTOMATION_STATUS.md) distinguishes linked partial checks from full acceptance. After reviewing an updated BRD or case overlay, run `npm run cases:zeouf:catalog` to regenerate the catalog. The planner, generator, and healer profiles in both `.github/agents/` and `.codex/agents/` use this snapshot and public read-only boundary. They do not automatically update tests when application code changes.
 
+The [current project status](docs/ecommerce-project-status.md) reports coverage across browser, native and local handler/SQL layers. The [remaining local contracts](specs/ecommerce/28-local-contract-completion.md) add checkout validation and review privacy/permission checks. Run them independently with `npm run test:ecommerce:contracts -- <clean-pinned-website> <new-evidence-directory>`; the normal isolated CI path also runs them. Full hosted acceptance still needs staging.
+
 `npm run test:ecommerce:fixtures` runs controlled product-card, catalog and search frontend checks using fictional GET responses or browser-local data. These tests block server writes and do not prove live authentication, email, inventory or transaction correctness. See the [fixture plan](specs/ecommerce/18-brd-controlled-catalog-search-cart.md), [card/catalog/navigation plan](specs/ecommerce/19-brd-cards-catalog-navigation.md) and [latest boundary checks](specs/ecommerce/26-remaining-browser-and-service-boundaries.md). `npm run test:ecommerce:navigation` checks keyboard dialogs, desktop/mobile menus, selected viewport boundaries and homepage destinations. The [findings](docs/zeouf-automation-findings.md) retain earlier category/count/focus failures and their later verification; the October complete baseline passed all 289 then-mapped checks; current verification is recorded in plan 27. A new pushed commit still requires fresh CI. The [roadmap](roadmap/FUTURE_ENHANCEMENTS.md) records future tester takeover, visual recording/editing, revision history and a local tool workflow; these are not implemented capabilities.
 
 If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` instead.
@@ -160,7 +163,7 @@ If PowerShell blocks the `npm` or `npx` scripts, use `npm.cmd` or `npx.cmd` inst
 
 ## Reporting And Outputs
 
-The [reviewed v2.0 continuation](specs/ecommerce/27-reviewed-baseline-scenarios.md) tracks 304 browser checks across 93/140 cases and 209 passing native checks. It connects 29 of 32 new cases to scoped executable or observational evidence; provider smoke, authenticated malformed-input checks and independent-session stock races still need their environments. Serious contrast findings remain open. Full requirement acceptance and fresh CI are not inferred.
+The [reviewed v2.0 continuation](specs/ecommerce/27-reviewed-baseline-scenarios.md) retains the earlier 304-browser/209-native-check baseline. The [10 November increment](docs/framework-improvements-2026-11-10.md) verifies 176 isolated browser checks, 66 handler/SQL contracts, 11 real local Supabase checks and 20 selected browser/device checks. Combined scoped linkage is 137/140 cases (97.9%); this is not project completion. The offline benchmark and local tester workspace are implemented. Real-provider smoke, performance budgets, excluded countdown scope and full hosted acceptance remain separate; serious website contrast findings remain open. New changes still need a fresh pushed CI run.
 
 The [26 October stability investigation](docs/ecommerce-stability-2026-10-26.md) preserves the earlier 143-pass/one-failure read-only run, the cart-loading diagnosis, verified prior GitHub CI success and the protected immutable-deployment blocker. Later passes are recorded separately; they do not establish that intermittent loading causes are resolved or that the mutable public origin is an identified website build.
 

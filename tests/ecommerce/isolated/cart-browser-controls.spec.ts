@@ -15,6 +15,7 @@ test.describe('Zeouf browser-local cart controls', { tag: ['@ecommerce', '@regre
     await seedBrowserCart(context, fictionalCartVariants);
 
     await storefront.openHome();
+    await storefront.expectCartRestored(3);
     await storefront.openCart();
 
     const small = storefront.cartLineForSize('S');
@@ -63,6 +64,7 @@ test.describe('Zeouf browser-local cart controls', { tag: ['@ecommerce', '@regre
     await useInrStorefrontRegion(context);
     await seedBrowserCart(context, fictionalCartVariants.slice(0, 1));
     await storefront.openHome();
+    await storefront.expectCartRestored(2);
     await storefront.openCart();
     await expect(storefront.proceedToCheckoutButton).toBeVisible();
     await expect(storefront.startShoppingButton).toHaveCount(0);

@@ -231,8 +231,7 @@ async function install(root, directory, label) {
   );
   if (result.code !== 0) throw new Error(`${label} dependency installation failed`);
 }
-async function buildWebsite(website, directory, label) {
-  const env = websiteEnvironment();
+async function buildWebsite(website, directory, label, env = websiteEnvironment()) {
   for (const [name, args] of [
     ['lint', [npmCli(), 'run', 'lint']],
     ['typecheck', [path.join(website, 'node_modules/typescript/bin/tsc'), '--noEmit']],
@@ -248,7 +247,7 @@ async function buildWebsite(website, directory, label) {
     if (result.code !== 0) throw new Error(`Website ${name} failed; inspect ${label}-${name}.log`);
   }
 }
-async function startWebsite(website, directory, label) {
+async function startWebsite(website, directory, label, env = websiteEnvironment()) {
   const port = await new Promise((resolve, reject) => {
     const server = net.createServer();
     server.once('error', reject);
@@ -268,7 +267,7 @@ async function startWebsite(website, directory, label) {
       '--port',
       String(port),
     ],
-    { cwd: website, env: websiteEnvironment(), stdio: ['ignore', log, log] },
+    { cwd: website, env, stdio: ['ignore', log, log] },
   );
   server.once('error', () => {});
   const url = `http://127.0.0.1:${port}`;

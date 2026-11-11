@@ -157,10 +157,12 @@ export class EcommerceStorefrontPage {
     this.discoverCollectionLink = page.getByRole('link', { name: 'Discover Collection' });
     this.cartToggle = page.getByTestId('navbar-cart-toggle');
     this.cartPanel = page.getByTestId('navbar-cart-panel');
-    this.cartPersistenceNotice = this.cartPanel.getByRole('status').filter({
-      hasText:
-        'Your browser cannot save this bag. Items will stay available while this page is open.',
-    });
+    this.cartPersistenceNotice = this.cartPanel
+      .getByRole('status', { includeHidden: true })
+      .filter({
+        hasText:
+          'Your browser cannot save this bag. Items will stay available while this page is open.',
+      });
     this.emptyCartMessage = page.getByText('Your cart is empty');
     this.cartRecoveryNotice = this.cartPanel.getByRole('status', { includeHidden: true }).filter({
       hasText: 'Some saved bag items could not be restored.',
@@ -907,6 +909,14 @@ export class EcommerceStorefrontPage {
     await expect(this.cartPanel).toBeInViewport();
   }
 
+  async expectCartRestored(quantity: number) {
+    await expect(this.cartToggle.getByTestId('navbar-cart-count')).toHaveText(String(quantity));
+  }
+
+  async expectCartPersistenceReady() {
+    await expect(this.cartPersistenceNotice).toBeAttached();
+  }
+
   cartLineForSize(size: string) {
     return this.cartLines.filter({ hasText: `Size: ${size}` });
   }
@@ -987,7 +997,14 @@ export class EcommerceStorefrontPage {
   }
 
   async openAccountPanel() {
-    await this.openAccountButton.click();
+    if (await this.openAccountButton.isVisible()) {
+      await this.openAccountButton.click();
+    } else {
+      await this.mobileMenuToggle.click();
+      await this.navigationDialog('mobile')
+        .getByRole('button', { name: 'Account', exact: true })
+        .click();
+    }
   }
 
   async switchToRegister() {

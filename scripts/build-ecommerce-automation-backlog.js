@@ -32,16 +32,27 @@ const escape = (text) =>
     .replaceAll('|', '\\|')
     .replace(/\r?\n/g, ' ');
 const mapped = new Set(manifest.checks.flatMap((check) => check.caseIds));
+const nativeCases = new Set(native.checks.flatMap((check) => check.caseIds));
+const automated = new Set([...mapped, ...nativeCases]);
 const lines = [
   '# Zeouf automation backlog',
   '',
   `Generated from the reviewed catalog and manifest: ${catalog.cases.length} cases; ${mapped.size} have individual browser check mappings; ${catalog.cases.length - mapped.size} have no browser check mappings.`,
   '',
+  `Across browser and native/local contract layers, ${automated.size}/${catalog.cases.length} cases (${((automated.size / catalog.cases.length) * 100).toFixed(1)}%) have scoped executable coverage. ${catalog.cases.length - automated.size} have no automation mapping. This is case linkage, not a project-completion or full-acceptance percentage.`,
+  '',
+  'Cases without executable mappings: ' +
+    catalog.cases
+      .filter((item) => !automated.has(item.id))
+      .map((item) => '`' + item.id + '`')
+      .join(', ') +
+    '.',
+  '',
   'No staging environment is available. Mapped checks cover their stated frontend/read-only scopes; full case acceptance remains unassessed. Isolated browser batches cover product options, checkout/account feedback, account-scoped bags, favorites, reviews, restock, currency, admin UI, stock recovery and reviewed analytics with placeholder services, plus actual local production denials. Historical shared-cart findings remain in the archived baseline. A mapped staging case still needs authenticated integration coverage; manual and website CI cases retain their own evidence requirements.',
   '',
   'Regenerate with `npm run cases:zeouf:backlog`. Execution results and failures are in `test-results/ecommerce-monitoring.md`; this inventory does not infer pass status.',
   '',
-  'Separate native automation and dated source findings are registered in `requirements/non-browser-check-links.json`; see plan 27 for the reviewed baseline continuation. They do not add browser check mappings or infer full acceptance. Inspect each native stage result for execution status. Live provider, database, concurrency, delivery and product decisions retain their separate prerequisites.',
+  'Separate native automation, real disposable local Supabase concurrency checks and dated source findings are registered in `requirements/non-browser-check-links.json`; see the project status for current evidence. They do not add browser check mappings or infer full acceptance. Inspect each stage result for execution status. Hosted integration, external providers/delivery and product decisions retain their separate prerequisites.',
   '',
 ];
 for (const item of catalog.cases) {

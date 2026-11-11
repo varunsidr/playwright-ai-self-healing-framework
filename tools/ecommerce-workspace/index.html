@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="workspace-token" content="__SESSION_TOKEN__" />
+    <title>Zeouf · Test workspace</title>
+    <link rel="stylesheet" href="/workspace.css" />
+    <script defer src="/workspace.js"></script>
+  </head>
+  <body>
+    <header>
+      <a href="/" aria-label="Zeouf test workspace home" class="brand"
+        >Z<span>Zeouf / Quality</span></a
+      ><span class="local">Local workspace</span>
+    </header>
+    <main>
+      <div class="intro">
+        <p class="eyebrow">TEST OPERATIONS</p>
+        <h1>From a case to its evidence.</h1>
+        <p>Explore the reviewed inventory, run a public-safe batch, and inspect what happened.</p>
+      </div>
+      <div class="metrics" aria-label="Inventory summary">
+        <div><strong id="case-count">—</strong><span>Designed cases</span></div>
+        <div><strong id="linked-count">—</strong><span>Cases with scoped checks</span></div>
+        <div><strong id="run-count">—</strong><span>Saved workspace runs</span></div>
+      </div>
+      <p class="scope">
+        Case linkage is not acceptance. Isolated integration and native checks use their own
+        runners. Public runs preserve the website and use no customer credentials.
+      </p>
+      <div class="layout">
+        <section class="panel inventory" aria-labelledby="inventory-title">
+          <div class="panel-head">
+            <h2 id="inventory-title">Case inventory</h2>
+            <label class="sr-only" for="search">Search cases</label
+            ><input id="search" type="search" placeholder="Find an ID, requirement, or scenario" />
+          </div>
+          <div id="cases" class="case-list"></div>
+        </section>
+        <section class="panel detail" aria-labelledby="case-title">
+          <p class="eyebrow" id="case-id">SELECT A CASE</p>
+          <h2 id="case-title">Choose where to begin</h2>
+          <p id="scenario">Your case scope and available checks will appear here.</p>
+          <div id="requirements" class="tags"></div>
+          <h3>Executable scope</h3>
+          <div id="checks"></div>
+          <div class="action">
+            <button id="run" disabled>Run read-only batch</button>
+            <p id="run-scope"></p>
+          </div>
+          <p id="message" role="status" aria-live="polite"></p>
+        </section>
+        <section class="panel evidence" aria-labelledby="evidence-title">
+          <div class="panel-head">
+            <h2 id="evidence-title">Run evidence</h2>
+            <p>Original outcomes stay visible.</p>
+          </div>
+          <div id="runs"></div>
+          <div id="run-detail"><p>Select a saved run to see its checks and log.</p></div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      Zeouf test workspace · Local execution and retained evidence · Full release acceptance remains
+      separate.
+    </footer>
+  </body>
+</html>

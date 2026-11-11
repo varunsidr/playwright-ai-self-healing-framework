@@ -37,7 +37,7 @@ test.describe(
         await useInrStorefrontRegion(context);
         await seedRawBrowserCart(context, JSON.stringify([valid, invalid.value]));
         await storefront.openHome();
-        await expect(storefront.cartToggle).toContainText('2');
+        await storefront.expectCartRestored(2);
         await storefront.openCart();
         await expect(storefront.cartLines).toHaveCount(1);
         await expect(storefront.cartRecoveryNotice).toBeVisible();
@@ -46,7 +46,7 @@ test.describe(
         await expect(storefront.cartLineQuantity('S')).toHaveText('3');
         await expect.poll(() => savedBrowserCart(context)).toEqual([{ ...valid, quantity: 3 }]);
         await page.reload();
-        await expect(storefront.cartToggle).toContainText('3');
+        await storefront.expectCartRestored(3);
         await storefront.openCart();
         await expect(storefront.cartLines).toHaveCount(1);
         await expect(storefront.cartLineQuantity('S')).toHaveText('3');
@@ -71,6 +71,7 @@ test.describe(
         ]),
       );
       await storefront.openHome();
+      await storefront.expectCartRestored(4);
       await storefront.openCart();
       await expect(storefront.cartLines).toHaveCount(2);
       await expect(storefront.cartLineQuantity('S')).toHaveText('3');
@@ -106,6 +107,7 @@ test.describe(
     }) => {
       await failBrowserCartStorage(context, 'read');
       await storefront.openHome();
+      await storefront.expectCartPersistenceReady();
       await storefront.openCart();
       await expect(storefront.emptyCartMessage).toBeVisible();
       await expect(storefront.cartPersistenceNotice).toBeVisible();
@@ -120,6 +122,7 @@ test.describe(
       await useInrStorefrontRegion(context);
       await failBrowserCartStorage(context, 'write', JSON.stringify([valid]));
       await storefront.openHome();
+      await storefront.expectCartRestored(2);
       await storefront.openCart();
       await expect(storefront.cartLineQuantity('S')).toHaveText('2');
       await storefront.changeCartQuantity('S', 'Increase');
