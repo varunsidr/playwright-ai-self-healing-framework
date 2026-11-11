@@ -32,11 +32,13 @@ test.describe('Zeouf footer and demo information', { tag: ['@ecommerce', '@regre
     await expect(storefront.privacyHeading).toBeVisible();
     await storefront.privacyBackToStoreLink.click();
     await storefront.expectUrl(/\/$/);
+    await expect(storefront.heroWomenLink).toBeVisible();
     await storefront.footerLink('Terms').click();
     await expect(storefront.termsHeading).toBeVisible();
-    await expect(storefront.termsOpenSourceHeading).toBeVisible();
+    await expect(storefront.termsProjectHeading).toBeVisible();
     await storefront.termsBackHomeLink.click();
     await storefront.expectUrl(/\/$/);
+    await expect(storefront.heroWomenLink).toBeVisible();
     expect(attemptedWrites).toEqual([]);
   });
 

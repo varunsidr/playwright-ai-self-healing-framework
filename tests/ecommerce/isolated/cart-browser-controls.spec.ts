@@ -48,6 +48,8 @@ test.describe('Zeouf browser-local cart controls', { tag: ['@ecommerce', '@regre
 
   test('TC-CART-06-CORE empty bag closes with Start Shopping @happy', async ({ storefront }) => {
     await storefront.openHome();
+    // Account restoration closes the drawer; finish it before exercising empty-bag controls.
+    await expect(storefront.openAccountButton).toContainText('Fictional Shopper');
     await storefront.openCart();
     await expect(storefront.emptyCartMessage).toBeVisible();
     await expect(storefront.startShoppingButton).toBeVisible();

@@ -69,7 +69,7 @@ export class EcommerceStorefrontPage {
   readonly orderHistoryHeading: Locator;
   readonly signedOutOrdersHeading: Locator;
   readonly termsHeading: Locator;
-  readonly termsOpenSourceHeading: Locator;
+  readonly termsProjectHeading: Locator;
   readonly openAccountButton: Locator;
   readonly registerTab: Locator;
   readonly loginTab: Locator;
@@ -118,7 +118,7 @@ export class EcommerceStorefrontPage {
     this.perfumeNavLink = page.getByTestId('navbar-nav-link-/perfume');
     this.sortSelect = page.getByTestId('product-listing-sort-select');
     this.loadMoreProducts = page.getByRole('button', { name: 'Load more products' });
-    this.collectionLoading = page.getByTestId('product-listing-loading');
+    this.collectionLoading = page.getByRole('main').getByTestId('product-listing-loading');
     this.collectionFallback = page.getByText(/You're browsing demo products/);
     this.collectionStockWarning = page.getByText(/size availability/i);
     this.collectionRetry = page.getByRole('button', { name: 'Retry collection' });
@@ -182,7 +182,10 @@ export class EcommerceStorefrontPage {
       name: 'Sign in to view your orders',
     });
     this.termsHeading = page.getByRole('heading', { name: 'Terms of Service' });
-    this.termsOpenSourceHeading = page.getByRole('heading', { name: '1. Open Source Project' });
+    this.termsProjectHeading = page.getByRole('heading', {
+      name: '1. Portfolio Project',
+      exact: true,
+    });
     this.openAccountButton = page.getByTestId('navbar-account-toggle');
     this.registerTab = page.getByTestId('navbar-auth-tab-register');
     this.loginTab = page.getByTestId('navbar-auth-tab-login');
@@ -1086,13 +1089,13 @@ export class EcommerceStorefrontPage {
 
   async expectWomenCollectionLoaded() {
     await expect(this.page.getByRole('heading', { name: 'Women', level: 1 })).toBeVisible();
-    await expect(this.page.getByTestId('product-listing-loading')).toBeHidden();
+    await expect(this.collectionLoading).toBeHidden();
     await expect(this.productCards.first()).toBeVisible();
   }
 
   async expectCategoryLoaded(name: string) {
     await expect(this.page.getByRole('heading', { name, level: 1 })).toBeVisible();
-    await expect(this.page.getByTestId('product-listing-loading')).toBeHidden();
+    await expect(this.collectionLoading).toBeHidden();
   }
 
   async expectNotFound() {
