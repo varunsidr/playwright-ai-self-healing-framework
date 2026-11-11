@@ -1,12 +1,12 @@
 {
-  "runId": 43005978302,
+  "runId": 43012304897,
   "runAttempt": 1,
-  "frameworkRevision": "a5f0628eaa2522e2f3b0fb298d766987d5e0306c",
+  "frameworkRevision": "a920982b0c9e32fa1a02f45bd9359487d5611808",
   "repository": "varunsidr/playwright-ai-self-healing-framework",
   "branch": "main",
-  "testConclusion": "failure",
-  "workflowUrl": "https://github.com/varunsidr/playwright-ai-self-healing-framework/actions/runs/43005978302",
-  "completedAt": "2026-11-11T10:52:20Z",
+  "testConclusion": "success",
+  "workflowUrl": "https://github.com/varunsidr/playwright-ai-self-healing-framework/actions/runs/43012304897",
+  "completedAt": "2026-11-11T11:37:24Z",
   "reports": [
     "reports/demo/index.html",
     "reports/ecommerce/index.html",
