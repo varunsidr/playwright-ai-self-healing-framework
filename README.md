@@ -209,6 +209,14 @@ Shared inputs live in `fixtures/test-data.ts` so the same values can be reused a
 
 The healer agent investigates failing storefront tests and can propose or apply a code repair, then verify it. Locator design and page objects keep tests understandable and repairable. This is agent-assisted repair; tests do not rewrite locators or recover autonomously during runtime.
 
+Recorded failures supply bounded trace, ARIA, and navigation evidence to diagnosis. The local workspace supports guarded browser inspection, tester takeover, recording drafts, and separate fresh automated verification. See [agent evidence and interactive inspection](docs/ecommerce-agent-evidence-and-inspection.md) for the workflow and its limits.
+
+The [real-agent validation report](docs/ecommerce-real-agent-validation-2026-11-12.md) records the controlled planner/generator/healer rehearsal, model usage, eight-case held-out evaluation, search synchronization fix, and Linux browser matrix. Use `rehearse:ecommerce:agents` and `evaluate:ecommerce:real-agent` for explicitly requested real-model runs; ordinary repository checks and the offline benchmark do not call a model.
+
+The [expanded real-model evaluation](docs/ecommerce-expanded-agent-evaluation.md) adds forty controlled faults across five flows and explicit acceptance thresholds. It independently verifies proposals and rejects unsafe changes; passing qualifies only for a reviewed observation pilot.
+
+The manual [CI observation pilot](docs/ecommerce-ci-observation-pilot.md) diagnoses real pinned-run failures, verifies isolated proposals and publishes reviewable reports without creating branches or PRs. Its `observe:ecommerce` command rebuilds reports and aggregates human-reviewed pilot metrics without model calls.
+
 ### 5) Agent-Friendly Entry Points
 
 The seed spec and architecture document give automation agents a stable starting point for regeneration, repair, and future expansion.

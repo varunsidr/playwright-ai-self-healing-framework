@@ -852,7 +852,19 @@ export class EcommerceStorefrontPage {
 
   async submitOpenSearch(query: string) {
     await this.searchInput.fill(query);
-    await this.searchInput.press('Enter');
+    if (!query.trim()) {
+      await this.searchInput.press('Enter');
+      return;
+    }
+    // Submitting an SPA form completes before its RSC navigation. Wait for the exact
+    // destination using the navigation deadline before callers assert page contents.
+    await Promise.all([
+      this.page.waitForURL(
+        (url) => url.pathname === '/search' && url.searchParams.get('q') === query.trim(),
+        { waitUntil: 'domcontentloaded' },
+      ),
+      this.searchInput.press('Enter'),
+    ]);
   }
 
   async expectUrl(pattern: RegExp) {

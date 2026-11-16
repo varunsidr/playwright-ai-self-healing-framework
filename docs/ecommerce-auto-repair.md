@@ -4,6 +4,8 @@ The repair workflow handles mapped failures from the public, read-only `ecommerc
 
 ## Manual pilot before publication
 
+For observation without any publication path, use the separate [manual CI observation pilot](ecommerce-ci-observation-pilot.md). It reuses the existing proposal and verification guards and adds measured reports and human-reviewed metrics. The workflow below retains its own explicit publication opt-ins.
+
 The workflow must be present on the framework repository's default branch. In that repository's **Settings → Secrets and variables → Actions**, configure:
 
 | Setting                       | Kind     | Value or purpose                                                                                                                              |

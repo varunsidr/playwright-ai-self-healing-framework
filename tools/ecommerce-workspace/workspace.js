@@ -34,6 +34,7 @@ function renderCases() {
 }
 function updateAction() {
   element('run').disabled = !selected?.runnableFiles.length || Boolean(active);
+  element('inspect').disabled = !selected?.runnableFiles.length || Boolean(active);
 }
 function selectCase(item) {
   selected = item;
@@ -75,6 +76,53 @@ async function showRun(id) {
   );
   for (const check of job.checks || [])
     detail.append(node('p', `${check.outcome}: ${check.title}`));
+  if (job.kind === 'inspection') {
+    detail.append(
+      node('p', 'Inspection does not establish acceptance. Recordings are unverified drafts.'),
+    );
+    for (const event of job.interventions || [])
+      detail.append(node('p', `${event.action}: ${event.status || event.detail || ''}`));
+    for (const recording of job.recordings || []) {
+      const link = node('a', `View recording draft: ${recording.file}`);
+      link.href = `/api/runs/${job.id}/recordings/${recording.file}`;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      detail.append(link);
+    }
+    if (job.status === 'running') {
+      const controls = node('div', '', 'action');
+      for (const [action, label] of [
+        ['dashboard', 'Open browser controls'],
+        ['resume', 'Resume test'],
+        ['step', 'Next test action'],
+        ['record-start', 'Start recording'],
+        ['record-stop', 'Save recording draft'],
+        ['stop', 'End inspection'],
+      ]) {
+        const button = node('button', label);
+        button.disabled = !job.session && action !== 'stop';
+        button.onclick = async () => {
+          button.disabled = true;
+          try {
+            await api('/api/control', postOptions({ runId: job.id, action }));
+            await refreshRuns();
+          } catch (error) {
+            showError(error);
+            button.disabled = false;
+          }
+        };
+        controls.append(button);
+      }
+      detail.append(controls);
+    } else {
+      const verify = node('button', 'Run fresh automated verification');
+      verify.disabled = Boolean(active);
+      verify.onclick = () => startRun('/api/run', job.caseId, job.id).catch(showError);
+      detail.append(verify);
+    }
+  }
+  if (job.verificationOf)
+    detail.append(node('p', `Fresh verification after inspection ${job.verificationOf}`));
   if (job.log) {
     const disclosure = document.createElement('details');
     disclosure.append(node('summary', 'Runner log'), node('pre', job.log));
@@ -106,25 +154,37 @@ function showError(error) {
   element('message').textContent = error.message;
 }
 element('search').addEventListener('input', renderCases);
-element('run').onclick = async () => {
+function postOptions(body) {
+  return {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-workspace-token': document.querySelector('meta[name="workspace-token"]').content,
+    },
+    body: JSON.stringify(body),
+  };
+}
+async function startRun(endpoint, caseId, verificationOf) {
   try {
     element('run').disabled = true;
-    const job = await api('/api/run', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-workspace-token': document.querySelector('meta[name="workspace-token"]').content,
-      },
-      body: JSON.stringify({ caseId: selected.id }),
-    });
+    element('inspect').disabled = true;
+    const job = await api(
+      endpoint,
+      postOptions({ caseId, ...(verificationOf ? { verificationOf } : {}) }),
+    );
     selectedRun = job.id;
-    element('message').textContent = 'Batch started. Results will appear in Run evidence.';
+    element('message').textContent =
+      endpoint === '/api/inspect'
+        ? 'Inspection started. Browser controls appear in Run evidence when the session attaches.'
+        : 'Batch started. Results will appear in Run evidence.';
     await refreshRuns();
   } catch (error) {
     showError(error);
     updateAction();
   }
-};
+}
+element('run').onclick = () => startRun('/api/run', selected.id);
+element('inspect').onclick = () => startRun('/api/inspect', selected.id);
 (async () => {
   const data = await api('/api/cases');
   cases = data.cases;

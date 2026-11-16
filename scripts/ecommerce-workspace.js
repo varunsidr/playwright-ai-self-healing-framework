@@ -2,13 +2,14 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
-const { randomBytes, randomUUID } = require('node:crypto');
+const { randomBytes, randomUUID, createHash } = require('node:crypto');
 const { spawn } = require('node:child_process');
 const { files: publicFiles } = require('./run-ecommerce-read-only');
 const { nativeEnvironment } = require('./run-ecommerce-native');
 const { collectChecks, checkOutcome } = require('./build-ecommerce-monitoring');
 const { record } = require('./record-ecommerce-history');
 const project = require('./ecommerce-project');
+const { launchInspection } = require('./ecommerce-inspection');
 const root = path.resolve(__dirname, '..');
 const catalog = require('../specs/ecommerce/requirements/case-catalog.json');
 const manifest = require('../specs/ecommerce/requirements/check-links.json');
@@ -71,6 +72,7 @@ function launch(files, directory) {
 function createWorkspace({
   directory = path.join(root, 'test-results/workspace'),
   launcher = launch,
+  inspector = launchInspection,
 } = {}) {
   directory = path.resolve(directory);
   fs.mkdirSync(path.join(directory, 'runs'), { recursive: true });
@@ -149,6 +151,19 @@ function createWorkspace({
           });
         if (url.pathname === '/api/runs')
           return send(200, { active: active?.id || null, jobs: jobs() });
+        const recording = /^\/api\/runs\/([a-f0-9-]{36})\/recordings\/(recording-\d+\.txt)$/.exec(
+          url.pathname,
+        );
+        if (recording) {
+          const job = jobs().find((item) => item.id === recording[1]);
+          if (!job?.recordings?.some((item) => item.file === recording[2]))
+            return send(404, { error: 'Unknown recording draft' });
+          return send(
+            200,
+            fs.readFileSync(path.join(directory, 'runs', job.id, recording[2]), 'utf8'),
+            'text/plain',
+          );
+        }
         const detail = /^\/api\/runs\/([a-f0-9-]{36})$/.exec(url.pathname);
         if (detail) {
           const job = jobs().find((item) => item.id === detail[1]);
@@ -161,7 +176,10 @@ function createWorkspace({
         }
         return send(404, { error: 'Not found' });
       }
-      if (request.method !== 'POST' || url.pathname !== '/api/run')
+      if (
+        request.method !== 'POST' ||
+        !['/api/run', '/api/inspect', '/api/control'].includes(url.pathname)
+      )
         return send(405, { error: 'Unsupported operation' });
       if (request.headers.origin !== origin || request.headers['x-workspace-token'] !== token)
         return send(403, { error: 'Open this workspace locally before starting a run' });
@@ -173,8 +191,78 @@ function createWorkspace({
         if (body.length > 4096) return send(413, { error: 'Request too large' });
       }
       const input = JSON.parse(body);
-      if (Object.keys(input).length !== 1 || typeof input.caseId !== 'string')
-        return send(400, { error: 'Supply only a catalog caseId' });
+      if (url.pathname === '/api/control') {
+        if (
+          Object.keys(input).sort().join(',') !== 'action,runId' ||
+          !['dashboard', 'resume', 'step', 'record-start', 'record-stop', 'stop'].includes(
+            input.action,
+          )
+        )
+          return send(400, { error: 'Supply a runId and a supported browser action' });
+        if (!active || input.runId !== active.id || !active.control)
+          return send(409, { error: 'No matching active inspection' });
+        const job = active.job;
+        job.interventions.push({
+          action: input.action,
+          session: job.session || null,
+          at: new Date().toISOString(),
+          status: 'requested',
+        });
+        const event = job.interventions.at(-1);
+        active.save();
+        try {
+          const result =
+            input.action === 'stop' ? active.stop() : await active.control(input.action);
+          event.status = 'completed';
+          if (input.action === 'record-stop') {
+            const content = String(result);
+            const file = `recording-${job.recordings.length + 1}.txt`;
+            fs.writeFileSync(path.join(directory, 'runs', job.id, file), content, { flag: 'wx' });
+            job.recordings.push({
+              file,
+              sha256: createHash('sha256').update(content).digest('hex'),
+              at: event.at,
+              status: 'draft-unverified',
+            });
+          }
+          fs.writeFileSync(
+            path.join(directory, 'runs', job.id, 'job.json'),
+            JSON.stringify(job, null, 2),
+          );
+          return send(200, { status: 'completed', recordings: job.recordings });
+        } catch (error) {
+          event.status = 'failed';
+          event.error = error.message;
+          fs.writeFileSync(
+            path.join(directory, 'runs', job.id, 'job.json'),
+            JSON.stringify(job, null, 2),
+          );
+          return send(409, { error: error.message });
+        }
+      }
+      if (
+        Object.keys(input).some((key) => !['caseId', 'verificationOf'].includes(key)) ||
+        typeof input.caseId !== 'string' ||
+        (input.verificationOf !== undefined && typeof input.verificationOf !== 'string')
+      )
+        return send(400, {
+          error: 'Supply a catalog caseId and optional inspection verificationOf',
+        });
+      if (url.pathname === '/api/inspect' && input.verificationOf !== undefined)
+        return send(400, { error: 'Start a fresh automated run to verify an inspection' });
+      if (
+        input.verificationOf &&
+        !jobs().some(
+          (job) =>
+            job.id === input.verificationOf &&
+            job.kind === 'inspection' &&
+            job.caseId === input.caseId &&
+            job.status !== 'running',
+        )
+      )
+        return send(422, {
+          error: 'Verification must reference a finished inspection of the same case',
+        });
       let files;
       try {
         files = selection(input.caseId);
@@ -193,20 +281,67 @@ function createWorkspace({
         startedAt: new Date().toISOString(),
         origin: project.publicOrigin,
         websiteRevision: null,
+        kind: url.pathname === '/api/inspect' ? 'inspection' : 'verification',
+        verificationOf: input.verificationOf || null,
+        interventions: [],
+        recordings: [],
+        sessions: [],
+        provenance: {
+          playwrightVersion: require('@playwright/test/package.json').version,
+          inputsSha256: createHash('sha256')
+            .update(
+              JSON.stringify([
+                catalog.cases.find((item) => item.id === input.caseId),
+                ...files.map((file) => fs.readFileSync(path.join(root, file), 'utf8')),
+                ...[
+                  'fixtures/ecommerce-base.ts',
+                  'pages/ecommerce-storefront-page.ts',
+                  'playwright.config.ts',
+                  'package-lock.json',
+                ].map((file) => fs.readFileSync(path.join(root, file), 'utf8')),
+              ]),
+            )
+            .digest('hex'),
+        },
         scope:
           'All tests in the reviewed public-safe files for this case; a batch can include other cases. Read-only, zero retries. Hosted revision is unknown.',
       };
+      if (job.kind === 'inspection')
+        job.scope =
+          'Interactive inspection of the reviewed public-safe files. Manual actions and recording drafts are retained. Requires a separate fresh automated verification; this run cannot establish acceptance.';
+      if (job.verificationOf)
+        job.provenance.inspectionInputsUnchanged =
+          jobs().find((item) => item.id === job.verificationOf)?.provenance.inputsSha256 ===
+          job.provenance.inputsSha256;
       const save = () =>
         fs.writeFileSync(path.join(folder, 'job.json'), JSON.stringify(job, null, 2));
       save();
-      active = { id, stop() {} };
+      active = { id, job, save, stop() {} };
       try {
-        const execution = launcher(files, folder);
+        const execution =
+          job.kind === 'inspection'
+            ? inspector(files, folder, {
+                onSession(session) {
+                  job.session = session;
+                  job.sessions.push({ session, attachedAt: new Date().toISOString() });
+                  save();
+                },
+                onEvent(action, detail) {
+                  job.interventions.push({ action, detail, at: new Date().toISOString() });
+                  save();
+                },
+              })
+            : launcher(files, folder);
         active.stop = execution.stop;
+        active.control = execution.control;
         execution.completion
           .then((code) => {
             job.exitCode = code;
             const reportFile = path.join(folder, 'results.json');
+            if (job.kind === 'inspection' && !fs.existsSync(reportFile)) {
+              job.status = 'inspection-ended';
+              return;
+            }
             if (!fs.existsSync(reportFile))
               throw new Error('Runner did not produce a results report');
             const report = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
@@ -223,10 +358,13 @@ function createWorkspace({
               checks.every((check) => check.outcome === 'passed' && check.attempts === 1)
                 ? 'passed'
                 : 'failed';
-            record(reportFile, path.join(directory, 'history'));
+            if (job.kind === 'inspection') {
+              job.automatedOutcome = job.status;
+              job.status = 'inspection-ended';
+            } else record(reportFile, path.join(directory, 'history'));
           })
           .catch((error) => {
-            job.status = 'failed';
+            job.status = job.kind === 'inspection' ? 'inspection-ended' : 'failed';
             job.error = error.message;
           })
           .finally(() => {
@@ -235,7 +373,7 @@ function createWorkspace({
             active = null;
           });
       } catch (error) {
-        job.status = 'failed';
+        job.status = job.kind === 'inspection' ? 'inspection-ended' : 'failed';
         job.error = error.message;
         active = null;
         save();

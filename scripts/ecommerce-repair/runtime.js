@@ -145,6 +145,10 @@ function sourceEvidence(framework, website, packet) {
       .join('\n\n'),
     requirements: packet.requirements.map((item) => `${item.id}: ${item.acceptance}`).join('\n'),
   };
+  for (const failure of packet.failures)
+    for (const [index, item] of (failure.evidence || []).entries())
+      sources[`browser/${failure.checkId}/${index}-${item.name}`] =
+        `Attempt ${item.attempt}; retry ${item.retry}; artifact SHA256 ${item.sha256}; truncated ${item.truncated}\n${item.content}`;
   for (const file of new Set([
     ...packet.failures.map((item) => item.file),
     'pages/ecommerce-storefront-page.ts',
@@ -168,8 +172,32 @@ function sourceEvidence(framework, website, packet) {
 async function codex(cwd, prompt, schemaFile, resultFile, logFile, readOnly) {
   const env = cleanEnvironment();
   if (process.env.CODEX_API_KEY) env.CODEX_API_KEY = process.env.CODEX_API_KEY;
+  // An empty table merges with project/user configuration; disable resolved servers explicitly.
+  const binary = process.env.REPAIR_CODEX_BIN || 'codex';
+  const servers = JSON.parse(command(binary, ['mcp', 'list', '--json'], cwd, { env }));
+  const disabledServers = disableMcpServers(servers);
+  const resolved = JSON.parse(
+    command(binary, [...disabledServers, 'mcp', 'list', '--json'], cwd, { env }),
+  );
+  if (resolved.some((server) => server.enabled))
+    throw new Error('Recorded-evidence mode still has an enabled MCP server');
+  fs.writeFileSync(
+    logFile + '.capabilities.json',
+    JSON.stringify(
+      {
+        mode: 'recorded-evidence',
+        disabledMcpServers: servers.map((server) => server.name),
+        resolvedMcpServers: resolved.map((server) => ({
+          name: server.name,
+          enabled: server.enabled,
+        })),
+      },
+      null,
+      2,
+    ),
+  );
   const result = await run(
-    process.env.REPAIR_CODEX_BIN || 'codex',
+    binary,
     [
       'exec',
       '--sandbox',
@@ -177,8 +205,7 @@ async function codex(cwd, prompt, schemaFile, resultFile, logFile, readOnly) {
       '--ephemeral',
       '--color',
       'never',
-      '-c',
-      'mcp_servers={}',
+      ...disabledServers,
       '--output-schema',
       schemaFile,
       '--output-last-message',
@@ -192,6 +219,15 @@ async function codex(cwd, prompt, schemaFile, resultFile, logFile, readOnly) {
   if (result.code !== 0 || !fs.existsSync(resultFile))
     throw new Error(`Agent failed (${result.code}); inspect ${path.basename(logFile)}`);
   return JSON.parse(fs.readFileSync(resultFile, 'utf8'));
+}
+function disableMcpServers(servers) {
+  const entries = servers.map((server) => {
+    if (typeof server.name !== 'string' || !/^[a-zA-Z0-9_:@/.-]+$/.test(server.name))
+      throw new Error('Unsupported MCP server name; cannot safely address its CLI configuration');
+    // Quote keys inside the TOML value; CLI dotted-key segments are not unquoted.
+    return `${JSON.stringify(server.name)}={enabled=false}`;
+  });
+  return entries.length ? ['-c', `mcp_servers={${entries.join(',')}}`] : [];
 }
 function trackedHashes(root) {
   const files = command('git', ['ls-files', '-z'], root).split('\0').filter(Boolean);
@@ -390,6 +426,7 @@ module.exports = {
   snapshot,
   sourceEvidence,
   codex,
+  disableMcpServers,
   trackedHashes,
   assertFrozen,
   changedFiles,

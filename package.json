@@ -41,7 +41,7 @@
     "lint": "eslint . --ext .ts --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check \"fixtures/**/*.ts\" \"tests/**/*.ts\" \"tests/**/*.js\" \"utils/**/*.ts\" \"flows/**/*.ts\" \"pages/**/*.ts\" \"scripts/**/*.js\" \"tools/ecommerce-workspace/*\" playwright.config.ts playwright.matrix.config.ts tsconfig.json package.json",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run analyze && npm run test:monitoring && npm run test:repair-evaluation && npm run cases:zeouf:mappings && npm run test:mappings && npm run test:repair-loop && npm run test:requirements-updates && npm run test:native-runner && npm run test:ci-report && npm run test:history && npm run test:integration-policy && npm run test:workspace",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run analyze && npm run test:monitoring && npm run test:repair-evaluation && npm run cases:zeouf:mappings && npm run test:mappings && npm run test:repair-loop && npm run test:agents && npm run test:requirements-updates && npm run test:native-runner && npm run test:ci-report && npm run test:history && npm run test:integration-policy && npm run test:workspace",
     "prepare": "husky install",
     "test:ecommerce:read-only": "node scripts/run-ecommerce-read-only.js",
     "cases:zeouf:mappings": "node scripts/check-ecommerce-mappings.js",
@@ -50,6 +50,7 @@
     "repair:ecommerce": "node scripts/run-ecommerce-repair.js",
     "test:repair-loop": "node --test scripts/ecommerce-repair/*.test.js",
     "repair:ecommerce:ci": "node scripts/ecommerce-repair/ci.js",
+    "observe:ecommerce": "node scripts/ecommerce-repair/observation.js",
     "repair:ecommerce:publish": "node scripts/ecommerce-repair/publish.js",
     "verify:website-pr": "node scripts/ecommerce-repair/verify-website-pr.js",
     "prepare:website-integration": "node scripts/ecommerce-repair/prepare-website-integration.js",
@@ -59,13 +60,22 @@
     "test:ci-report": "node --test scripts/ci-report.test.js",
     "test:ecommerce:integration": "node scripts/run-ecommerce-integration.js",
     "test:ecommerce:matrix": "playwright test --config=playwright.matrix.config.ts",
+    "test:ecommerce:shuffle": "node scripts/run-ecommerce-read-only.js --retries=0 --shuffle",
+    "browser:dashboard": "playwright cli show",
+    "trace:inspect": "playwright trace",
     "history:ecommerce": "node scripts/record-ecommerce-history.js",
     "test:history": "node --test scripts/ecommerce-history.test.js",
     "test:integration-policy": "node --test scripts/ecommerce-integration/target.test.js",
     "benchmark:ecommerce:offline": "node scripts/run-ecommerce-agent-benchmark.js",
     "workspace:ecommerce": "node scripts/ecommerce-workspace.js",
     "test:workspace": "node --test scripts/ecommerce-workspace.test.js",
-    "verify:workspace": "node scripts/verify-ecommerce-workspace.js"
+    "verify:workspace": "node scripts/verify-ecommerce-workspace.js",
+    "verify:inspection": "node scripts/verify-ecommerce-inspection.js",
+    "verify:search-navigation": "node scripts/verify-ecommerce-search-navigation.js",
+    "test:ecommerce:linux-matrix": "node scripts/run-ecommerce-linux-matrix.js",
+    "rehearse:ecommerce:agents": "node scripts/run-ecommerce-tri-agent-rehearsal.js",
+    "evaluate:ecommerce:real-agent": "node scripts/run-ecommerce-real-agent-evaluation.js",
+    "test:agents": "node --test scripts/ecommerce-agents/*.test.js"
   },
   "keywords": [
     "playwright",
@@ -79,7 +89,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "1.64.1",
     "@types/node": "^26.3.0",
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
@@ -96,6 +106,7 @@
     "node": ">=24 <25"
   },
   "overrides": {
+    "playwright-core": "1.64.1",
     "glob@>=9 <14.0.2": "14.0.2",
     "minimatch@>=7 <11.0.1": "11.0.1"
   }

@@ -93,3 +93,15 @@ test('verification workflows have no supplied secrets and website checks use imm
     'Require a reviewed immutable framework revision',
   );
 });
+
+test('recorded-evidence CI agents explicitly disable the project browser MCP server', () => {
+  const agents = repair.jobs.propose.steps.filter((step) =>
+    step.uses?.startsWith('openai/codex-action@'),
+  );
+  assert.equal(agents.length, 2);
+  for (const step of agents)
+    assert.deepEqual(JSON.parse(step.with['codex-args']), [
+      '-c',
+      'mcp_servers.playwright-test.enabled=false',
+    ]);
+});

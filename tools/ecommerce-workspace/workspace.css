@@ -202,7 +202,8 @@ a:focus-visible {
   padding-top: 20px;
   border-top: 1px solid #dce2e9;
 }
-#run {
+.action button,
+#run-detail > button {
   font: 600 13px system-ui;
   border: 0;
   border-radius: 6px;
@@ -211,7 +212,8 @@ a:focus-visible {
   color: white;
   cursor: pointer;
 }
-#run:disabled {
+.action button:disabled,
+#run-detail > button:disabled {
   background: #dbe2eb;
   color: #5d6d7e;
   cursor: default;
