@@ -79,6 +79,7 @@ jobs:
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           permission-profile: ':read-only'
+          codex-args: '["-c", "mcp_servers.playwright-test.enabled=false"]'
           safety-strategy: drop-sudo
           working-directory: ${{ steps.prepare.outputs.framework }}
           prompt-file: ${{ github.workspace }}/test-results/ecommerce-repair-ci/diagnosis-prompt.txt
@@ -94,6 +95,7 @@ jobs:
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           permission-profile: ':workspace'
+          codex-args: '["-c", "mcp_servers.playwright-test.enabled=false"]'
           safety-strategy: drop-sudo
           working-directory: ${{ steps.route.outputs.target }}
           prompt-file: ${{ github.workspace }}/test-results/ecommerce-repair-ci/repair-prompt.txt

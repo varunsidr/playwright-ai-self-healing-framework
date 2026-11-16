@@ -217,3 +217,5 @@ If you change the framework shape, update this file first or alongside the chang
 ## Related Roadmap
 
 See [roadmap/FUTURE_ENHANCEMENTS.md](roadmap/FUTURE_ENHANCEMENTS.md) for planned improvements, likely next steps, and the rule for deciding whether a new abstraction is worth adding.
+
+The subscription-based [CI observation pilot](docs/ecommerce-ci-observation-pilot.md) freezes trusted pinned-run artifacts in GitHub CI without model secrets. Local Codex requires ChatGPT authentication for diagnosis and guarded proposals; independent model-free verification runs in fresh local checkouts. Reports distinguish local execution from CI runner verification, parse protocol usage independently of agent narrative and bind human review to the observation digest. The pilot has no publication, merge or deployment step.

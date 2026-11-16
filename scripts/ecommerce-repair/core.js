@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { collectChecks, checkOutcome, validateManifest } = require('../build-ecommerce-monitoring');
+const { collectFailureEvidence } = require('./evidence');
 
 const hash = (text) => createHash('sha256').update(text).digest('hex');
 const normalize = (text) => text.replaceAll('\\', '/');
@@ -61,6 +62,7 @@ function packetFromReports(root, files) {
   const failures = new Map();
   const reports = [];
   const blockers = [];
+  const evidenceBudget = { remaining: 96000 };
   for (const file of files) {
     const text = fs.readFileSync(file, 'utf8');
     const report = JSON.parse(text);
@@ -77,6 +79,7 @@ function packetFromReports(root, files) {
       file: normalize(path.relative(root, file)),
       sha256: hash(text),
       codeRevision: metadata.codeRevision || null,
+      playwrightVersion: metadata.playwrightVersion || null,
       websiteRevision: metadata.websiteRevision || null,
       websiteDeploymentId: metadata.websiteDeploymentId || null,
       websiteDeploymentSha256: metadata.websiteDeploymentSha256 || null,
@@ -101,6 +104,7 @@ function packetFromReports(root, files) {
         caseIds: check.caseIds,
         file: check.file,
         title: spec.title,
+        ...collectFailureEvidence(root, file, test.results || [], evidenceBudget),
         errors: (test.results || [])
           .flatMap((result) => result.errors || [])
           .map((error) => (error.message || '').replace(/\u001b\[[0-9;]*m/g, '').slice(0, 16000)),

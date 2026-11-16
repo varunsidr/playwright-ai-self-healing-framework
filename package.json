@@ -65,7 +65,9 @@
     "benchmark:ecommerce:offline": "node scripts/run-ecommerce-agent-benchmark.js",
     "workspace:ecommerce": "node scripts/ecommerce-workspace.js",
     "test:workspace": "node --test scripts/ecommerce-workspace.test.js",
-    "verify:workspace": "node scripts/verify-ecommerce-workspace.js"
+    "verify:workspace": "node scripts/verify-ecommerce-workspace.js",
+    "observe:ecommerce": "node scripts/ecommerce-repair/observation.js",
+    "observe:ecommerce:local": "node scripts/ecommerce-repair/local-observation.js"
   },
   "keywords": [
     "playwright",
@@ -79,7 +81,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "1.64.1",
     "@types/node": "^26.3.0",
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
@@ -96,6 +98,7 @@
     "node": ">=24 <25"
   },
   "overrides": {
+    "playwright-core": "1.64.1",
     "glob@>=9 <14.0.2": "14.0.2",
     "minimatch@>=7 <11.0.1": "11.0.1"
   }
