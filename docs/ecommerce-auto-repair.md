@@ -114,3 +114,5 @@ Rollout order: review and merge the framework implementation through its own PR;
 The older `demo:ecommerce:repair` command is a controlled fault rehearsal with predefined repairs. It is separate from this agent-driven workflow and does not demonstrate autonomous repair accuracy. Stateful cart, checkout, review, and admin repairs remain outside this public read-only workflow until isolated staging accounts, fixtures, and cleanup are available.
 
 Implementation: [workflow](../.github/workflows/ecommerce-auto-repair.yml), [local runner](../scripts/run-ecommerce-repair.js), and [repair gates](../scripts/ecommerce-repair/core.js). Codex integration follows the [official non-interactive CLI documentation](https://developers.openai.com/codex/noninteractive) and the [reviewed Codex Action](https://github.com/openai/codex-action/tree/a8d8be6ee028bea4525bc722d16f36687b408c81).
+
+For a manual report-only trial of real failures, use the [CI observation pilot](ecommerce-ci-observation-pilot.md). It reuses the diagnosis, proposal guards and independent verification without enabling automatic proposals or publication.

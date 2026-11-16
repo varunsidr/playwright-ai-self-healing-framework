@@ -94,7 +94,11 @@ function run(binary, args, cwd, logFile, options = {}) {
 }
 function snapshot(source, destination, overlay = false) {
   const revision = command('git', ['rev-parse', 'HEAD'], source);
-  command('git', ['clone', '--no-hardlinks', '--quiet', source, destination], source);
+  command(
+    'git',
+    ['clone', '--config', 'core.autocrlf=false', '--no-hardlinks', '--quiet', source, destination],
+    source,
+  );
   command('git', ['checkout', '--quiet', '--detach', revision], destination);
   if (overlay) {
     const files = command(
@@ -145,6 +149,10 @@ function sourceEvidence(framework, website, packet) {
       .join('\n\n'),
     requirements: packet.requirements.map((item) => `${item.id}: ${item.acceptance}`).join('\n'),
   };
+  for (const failure of packet.failures)
+    for (const [index, item] of (failure.evidence || []).entries())
+      sources[`browser/${failure.checkId}/${index}-${item.name}`] =
+        `Attempt ${item.attempt}; retry ${item.retry}; artifact SHA256 ${item.sha256}; truncated ${item.truncated}\n${item.content}`;
   for (const file of new Set([
     ...packet.failures.map((item) => item.file),
     'pages/ecommerce-storefront-page.ts',
@@ -165,20 +173,49 @@ function sourceEvidence(framework, website, packet) {
       sources[`website/${file}`] = fs.readFileSync(core.safePath(website, file), 'utf8');
   return sources;
 }
-async function codex(cwd, prompt, schemaFile, resultFile, logFile, readOnly) {
+async function codex(cwd, prompt, schemaFile, resultFile, logFile, readOnly, options = {}) {
   const env = cleanEnvironment();
-  if (process.env.CODEX_API_KEY) env.CODEX_API_KEY = process.env.CODEX_API_KEY;
+  if (!options.chatgpt && process.env.CODEX_API_KEY) env.CODEX_API_KEY = process.env.CODEX_API_KEY;
+  // An empty table merges with project/user configuration; disable resolved servers explicitly.
+  const binary = process.env.REPAIR_CODEX_BIN || 'codex';
+  const authentication = options.chatgpt ? chatgptConfiguration(binary, cwd, env) : [];
+  const servers = JSON.parse(
+    command(binary, [...authentication, 'mcp', 'list', '--json'], cwd, { env }),
+  );
+  const disabledServers = disableMcpServers(servers);
+  const resolved = JSON.parse(
+    command(binary, [...authentication, ...disabledServers, 'mcp', 'list', '--json'], cwd, { env }),
+  );
+  if (resolved.some((server) => server.enabled))
+    throw new Error('Recorded-evidence mode still has an enabled MCP server');
+  fs.writeFileSync(
+    logFile + '.capabilities.json',
+    JSON.stringify(
+      {
+        mode: 'recorded-evidence',
+        authentication: options.chatgpt ? 'chatgpt' : 'inherited',
+        disabledMcpServers: servers.map((server) => server.name),
+        resolvedMcpServers: resolved.map((server) => ({
+          name: server.name,
+          enabled: server.enabled,
+        })),
+      },
+      null,
+      2,
+    ),
+  );
   const result = await run(
-    process.env.REPAIR_CODEX_BIN || 'codex',
+    binary,
     [
       'exec',
+      ...authentication,
+      ...(options.chatgpt ? ['--json'] : []),
       '--sandbox',
       readOnly ? 'read-only' : 'workspace-write',
       '--ephemeral',
       '--color',
       'never',
-      '-c',
-      'mcp_servers={}',
+      ...disabledServers,
       '--output-schema',
       schemaFile,
       '--output-last-message',
@@ -192,6 +229,33 @@ async function codex(cwd, prompt, schemaFile, resultFile, logFile, readOnly) {
   if (result.code !== 0 || !fs.existsSync(resultFile))
     throw new Error(`Agent failed (${result.code}); inspect ${path.basename(logFile)}`);
   return JSON.parse(fs.readFileSync(resultFile, 'utf8'));
+}
+function chatgptConfiguration(binary, cwd, env, execute = spawnSync) {
+  const status = execute(binary, ['login', 'status'], {
+    cwd,
+    env,
+    encoding: 'utf8',
+    timeout: 15000,
+    windowsHide: true,
+  });
+  if (
+    status.error ||
+    status.status !== 0 ||
+    !/Logged in using ChatGPT/i.test((status.stdout || '') + (status.stderr || ''))
+  )
+    throw new Error(
+      'Sign in locally with codex login using ChatGPT; API-key authentication is not accepted by this pilot',
+    );
+  return ['-c', 'forced_login_method="chatgpt"', '-c', 'model_provider="openai"'];
+}
+function disableMcpServers(servers) {
+  const entries = servers.map((server) => {
+    if (typeof server.name !== 'string' || !/^[a-zA-Z0-9_:@/.-]+$/.test(server.name))
+      throw new Error('Unsupported MCP server name; cannot safely address its CLI configuration');
+    // Quote keys inside the TOML value; CLI dotted-key segments are not unquoted.
+    return `${JSON.stringify(server.name)}={enabled=false}`;
+  });
+  return entries.length ? ['-c', `mcp_servers={${entries.join(',')}}`] : [];
 }
 function trackedHashes(root) {
   const files = command('git', ['ls-files', '-z'], root).split('\0').filter(Boolean);
@@ -390,6 +454,8 @@ module.exports = {
   snapshot,
   sourceEvidence,
   codex,
+  disableMcpServers,
+  chatgptConfiguration,
   trackedHashes,
   assertFrozen,
   changedFiles,

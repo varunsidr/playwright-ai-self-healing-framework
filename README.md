@@ -209,6 +209,8 @@ Shared inputs live in `fixtures/test-data.ts` so the same values can be reused a
 
 The healer agent investigates failing storefront tests and can propose or apply a code repair, then verify it. Locator design and page objects keep tests understandable and repairable. This is agent-assisted repair; tests do not rewrite locators or recover autonomously during runtime.
 
+The subscription-based [CI observation pilot](docs/ecommerce-ci-observation-pilot.md) freezes real pinned-run failures in GitHub CI, then uses local Codex signed in with ChatGPT to diagnose failures and propose guarded repairs. Fresh local checkouts verify candidates without a model. No API key, automatic publication, merge or deployment is required. Use `observe:ecommerce:local` for the handoff and `observe:ecommerce` to rebuild reports or aggregate human-reviewed metrics.
+
 ### 5) Agent-Friendly Entry Points
 
 The seed spec and architecture document give automation agents a stable starting point for regeneration, repair, and future expansion.

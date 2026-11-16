@@ -40,6 +40,20 @@ export const test = base.extend<{
             body: JSON.stringify(diagnostics.snapshot(), null, 2),
             contentType: 'application/json',
           });
+          if (!page.isClosed()) {
+            try {
+              await testInfo.attach('aria-snapshot', {
+                body: JSON.stringify(await page.ariaSnapshotJSON({ depth: 8 })),
+                contentType: 'application/json',
+              });
+            } catch (error) {
+              // Evidence capture must preserve the original test outcome, even after a crash.
+              await testInfo.attach('aria-snapshot-unavailable', {
+                body: String(error),
+                contentType: 'text/plain',
+              });
+            }
+          }
         }
       }
     },

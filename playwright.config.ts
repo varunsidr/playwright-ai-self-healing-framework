@@ -31,6 +31,9 @@ export default defineConfig({
           : 'public-read-only',
     repairEvaluationStage: process.env.ECOMMERCE_REPAIR_STAGE || null,
     repairEvaluationSourceSha256: process.env.ECOMMERCE_REPAIR_SOURCE_SHA256 || null,
+    playwrightVersion: JSON.parse(
+      readFileSync(join(__dirname, 'node_modules/@playwright/test/package.json'), 'utf8'),
+    ).version,
     caseCatalogSha256: createHash('sha256')
       .update(readFileSync(join(__dirname, 'specs/ecommerce/requirements/case-catalog.json')))
       .digest('hex'),
@@ -89,7 +92,10 @@ export default defineConfig({
     baseURL: runtimeConfig.baseURL,
 
     /* Collect debugging evidence for failed tests. */
-    trace: 'retain-on-failure',
+    trace: {
+      mode: 'retain-on-failure',
+      snapshots: { dom: true, aria: true, screen: process.env.ECOMMERCE_TRACE_SCREEN === '1' },
+    },
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
